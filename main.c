@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL/SDL_image.h>
 
-int main (int argc, char *argv[])
+int main ()
 {
   int 	     quit = 0;
   SDL_Window *window;
