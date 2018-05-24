@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 int main ()
 {
@@ -9,12 +10,15 @@ int main ()
   SDL_Window   *window;
   SDL_Event     event;
   SDL_Renderer *renderer;
-  SDL_Surface  *img;
-  SDL_Texture  *texture;
+  SDL_Surface  *img, *text;
+  SDL_Texture  *texture, *texture2;
+  SDL_Color    black = {0, 0, 0, 0};
+  TTF_Font     *police;
   
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
   IMG_Init(IMG_INIT_JPG);
+  TTF_Init();
   
   //init the window
   window = SDL_CreateWindow(
@@ -42,10 +46,15 @@ int main ()
     SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), window);
   }
 
+  police = TTF_OpenFont("ASMAN.TTF", 65);
+  text = TTF_RenderText_Blended(police, "Bienvenue sur Bomberman", black);
+  
   texture = SDL_CreateTextureFromSurface(renderer, img);
   if (!texture){
     SDL_ShowSimpleMessageBox(0, "renderer init error", SDL_GetError(), window);
   }
+
+  texture2 = SDL_CreateTextureFromSurface(renderer, text);
   
   while(!quit) {
     SDL_WaitEvent(&event);
@@ -57,13 +66,16 @@ int main ()
     }
     
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderCopy(renderer, texture2, NULL, NULL);
     SDL_RenderPresent(renderer);
   }
 
   SDL_DestroyTexture(texture);
   SDL_FreeSurface(img);
+  TTF_CloseFont(police);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
+  TTF_Quit();
   IMG_Quit();
   SDL_Quit();
   return 0;
