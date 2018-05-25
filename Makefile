@@ -2,7 +2,7 @@ CC 	= gcc
 
 NAME 	= BomberMan
 
-CFLAGS 	= -W -Werror -Wextra -Wall -lSDL2 -lSDL2main -lSDL2_image
+CFLAGS 	= -W -Werror -Wextra -Wall -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf
 
 SRC 	= main.c
 
