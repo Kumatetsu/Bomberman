@@ -9,8 +9,11 @@ int main ()
   SDL_Window   *window;
   SDL_Event     event;
   SDL_Renderer *renderer;
-  SDL_Surface  *img;
-  SDL_Texture  *texture;
+  SDL_Rect     position = {0, 0, 0, 0};
+  SDL_Surface  *img, *text;
+  SDL_Texture  *texture, *texture2;
+  SDL_Color    black = {0, 0, 0, 0};
+  TTF_Font     *police;
   
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
@@ -37,11 +40,14 @@ int main ()
   }
   
   //SDL_IMAGE load an image
-  img = IMG_Load("Bomberman.jpg");
+  img = IMG_Load("ressources/Bomberman.jpg");
   if (!img){
     SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), window);
   }
 
+  police = TTF_OpenFont("ressources/ASMAN.TTF", 65);
+  text = TTF_RenderText_Blended(police, "Bienvenue sur Bomberman", black);
+  
   texture = SDL_CreateTextureFromSurface(renderer, img);
   if (!texture){
     SDL_ShowSimpleMessageBox(0, "renderer init error", SDL_GetError(), window);
@@ -57,6 +63,7 @@ int main ()
     }
     
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderCopy(renderer, texture2, NULL, &position);
     SDL_RenderPresent(renderer);
   }
 
