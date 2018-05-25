@@ -1,3 +1,4 @@
+
 CC 	= gcc
 
 NAME 	= BomberMan
