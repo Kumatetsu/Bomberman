@@ -18,9 +18,9 @@ int main ()
   IMG_Init(IMG_INIT_JPG);
   TTF_Init();
   
-  screen_info = init_view_context();
-  screen_info = create_menu(screen_info);
-  
+  screen_info = init_screen_info();
+  screen_info = init_window(screen_info);
+  screen_info = init_fronts(screen_info);
   
 
   
@@ -33,12 +33,12 @@ int main ()
       break;
     }
     
-    SDL_RenderCopy(screen_info->renderer, screen_info->menu, NULL, NULL);
-    SDL_RenderCopy(screen_info->renderer, screen_info->welcome_text, NULL, &position);
+    SDL_RenderCopy(screen_info->renderer, screen_info->menu_background, NULL, NULL);
+    SDL_RenderCopy(screen_info->renderer, screen_info->join_game, NULL, &position);
     SDL_RenderPresent(screen_info->renderer);
   }
 
-  SDL_DestroyTexture(screen_info->menu);
+  SDL_DestroyTexture(screen_info->menu_background);
   SDL_DestroyRenderer(screen_info->renderer);
   SDL_DestroyWindow(screen_info->window);
   TTF_Quit();
