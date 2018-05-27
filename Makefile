@@ -3,11 +3,12 @@ CC 	= gcc
 
 NAME 	= BomberMan
 
-CFLAGS 	= -W -Werror -Wextra -Wall -g -Iinclude/ -Ilibmy
+CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
 LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -L ./libmy
 
-SRC 	= main.c
+SRC 	= 	main.c \
+	 	layout/screen_layout.c \
 
 OBJ 	= ${SRC:%.c=%.o}
 
