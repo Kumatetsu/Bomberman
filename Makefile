@@ -3,7 +3,9 @@ CC 	= gcc
 
 NAME 	= BomberMan
 
-CFLAGS 	= -W -Werror -Wextra -Wall -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf
+CFLAGS 	= -W -Werror -Wextra -Wall -g -Iinclude/ -Ilibmy
+
+LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -L ./libmy
 
 SRC 	= main.c
 
@@ -16,7 +18,7 @@ all 	: ${NAME}
 re 	: clean all
 
 $(NAME) : $(OBJ)
-	  $(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	  $(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
 
 clean	:
 	  $(RM) $(OBJ)

@@ -10,7 +10,7 @@ int main ()
   SDL_Window   *window;
   SDL_Event     event;
   SDL_Renderer *renderer;
-  SDL_Rect     position = {100, 200, 400, 60};
+  SDL_Rect      position = {100, 200, 400, 60};
   SDL_Surface  *img, *text;
   SDL_Texture  *texture, *texture2;
   SDL_Color    black = {0, 0, 0, 0};
@@ -21,31 +21,11 @@ int main ()
   IMG_Init(IMG_INIT_JPG);
   TTF_Init();
 
-  //init the window
-  window = SDL_CreateWindow(
-			    "Bomberman",
-			    SDL_WINDOWPOS_CENTERED,
-			    SDL_WINDOWPOS_CENTERED,
-			    800,
-			    600,
-			    SDL_WINDOW_SHOWN
-			    );  
-  if (!window) {
-    printf("windows not created");
-    return 1;
-  }
   
-  //where the image will be rendered
-  renderer = SDL_CreateRenderer(window, -1, 0);
-  if (!renderer){
-    SDL_ShowSimpleMessageBox(0, "renderer init error", SDL_GetError(), window);
-  }
   
-  //SDL_IMAGE load an image
-  img = IMG_Load("ressources/Bomberman.jpg");
-  if (!img){
-    SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), window);
-  }
+  
+  
+  
 
   police = TTF_OpenFont("ressources/ASMAN.TTF", 65);
   text = TTF_RenderText_Blended(police, "Bienvenue sur Bomberman", black);
