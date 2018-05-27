@@ -1,10 +1,13 @@
 #ifndef _SCREEN_LAYOUT_
 #define _SCREEN_LAYOUT_
 
-typedef struc 	s_game_info
+typedef struc 	s_screen_info
 {
-  int		game_status;
-  t_chain	*players;
-}		t_game_info;
+  SDL_Window	*window;
+  SDL_Renderer	*renderer;
+  SDL_Texture   *menu, *welcome_text;
+}		t_screen_info;
+
+s_screen_info	*init_view_context();
 
 #endif
