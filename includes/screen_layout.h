@@ -5,9 +5,12 @@ typedef struct 	s_screen_info
 {
   SDL_Window	*window;
   SDL_Renderer	*renderer;
-  SDL_Texture   *menu, *welcome_text;
+  SDL_Texture   *menu_background;
+  SDL_Texture	*join_game;
+  SDL_Texture	*create_game;
 }		t_screen_info;
 
-t_screen_info	*init_view_context();
-t_screen_info   *create_menu(t_screen_info *screen_info);
+t_screen_info	*init_screen_info();
+t_screen_info	*init_window(t_screen_info *screen_info);
+t_screen_info   *init_fronts(t_screen_info *screen_info);
 #endif

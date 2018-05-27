@@ -8,7 +8,7 @@ CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -L ./libmy
 
 SRC 	= 	main.c \
-	 	layout/screen_layout.c \
+	 	views/init.c \
 
 OBJ 	= ${SRC:%.c=%.o}
 
