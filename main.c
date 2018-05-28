@@ -3,15 +3,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include <screen_layout.h>
+#include "views.h"
 
 int main ()
 {
   int 	        quit = 0;
-
   SDL_Event     event;
-
-  SDL_Rect      position = {100, 200, 400, 60};
+  SDL_Rect      join_position = {200, 300, 400, 60};
+  SDL_Rect      create_position = {200, 400, 400, 60};
   t_screen_info *screen_info;
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
@@ -25,16 +24,22 @@ int main ()
 
   
   while(!quit) {
-    SDL_WaitEvent(&event);
-
-    switch(event.type){
-    case SDL_QUIT:
-      quit = 1;
-      break;
+    while(SDL_PollEvent(&event)) {
+      switch(event.type){
+      case SDL_QUIT:
+	quit = 1;
+	break;
+      case SDL_MOUSEBUTTONDOWN:
+	SDL_ShowSimpleMessageBox(0, "Mouse", "Left button was pressed!", screen_info->window);
+	quit = 1;
+	break;
+      }
     }
     
+    SDL_RenderClear(screen_info->renderer);
     SDL_RenderCopy(screen_info->renderer, screen_info->menu_background, NULL, NULL);
-    SDL_RenderCopy(screen_info->renderer, screen_info->join_game, NULL, &position);
+    SDL_RenderCopy(screen_info->renderer, screen_info->join_game, NULL, &join_position);
+    SDL_RenderCopy(screen_info->renderer, screen_info->create_game, NULL, &create_position);
     SDL_RenderPresent(screen_info->renderer);
   }
 
