@@ -7,24 +7,26 @@
 #include "libmy.h"
 
 //On init la structure avec tous ses champs a NULL
-t_screen_info 		*init_screen_info()
+t_views 		*init_views()
 {
-  t_screen_info 	*screen_info;
+  t_views 		*views;
 
-  if ((screen_info = malloc(sizeof(*screen_info))) == NULL)
+  if ((views = malloc(sizeof(*views))) == NULL)
     return NULL;
   
-  screen_info->window = NULL;
-  screen_info->renderer = NULL;
-  screen_info->menu_background = NULL;
-  screen_info->join_game = NULL;
-  screen_info->create_game = NULL;
-  
-  return screen_info;
+  views->window = NULL;
+  views->renderer = NULL;
+  views->menu_background = NULL;
+  views->join_game = NULL;
+  views->create_game = NULL;
+  views->server_welcome = NULL;
+  views->white_back = NULL;
+
+  return views;
 }
 
 //Init de la window et du renderer
-t_screen_info *init_window(t_screen_info *screen_info)
+t_views *init_window(t_views *views)
 {
   SDL_Window *window;
   SDL_Renderer *renderer;
@@ -51,43 +53,50 @@ t_screen_info *init_window(t_screen_info *screen_info)
       return NULL;
     }
   
-  screen_info->window = window;
-  screen_info->renderer = renderer;
+  views->window = window;
+  views->renderer = renderer;
   
-  return screen_info;
+  return views;
 }
 
-t_screen_info *init_fronts(t_screen_info *screen_info)
+t_views *init_fronts(t_views *views)
 {
   
-  SDL_Surface *img, *join_game_text, *create_server_text;
-  SDL_Texture *background_texture, *join_texture, *server_texture;
+  SDL_Surface *img, *join_game_text, *create_server_text, *server_welcome_text, *white;
+  SDL_Texture *background_texture, *join_texture, *server_texture, *server_welcome, *white_back;
   SDL_Color black = {0, 0, 0, 0};
   TTF_Font *police;
   
   //SDL_IMAGE load an image
   img = IMG_Load("ressources/Bomberman.jpg");
-  if (!img)
+  white = IMG_Load("ressources/white.jpg");
+  if (!img || !white)
     {
-      SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), screen_info->window);
+      SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), views->window);
     }
   
   police = TTF_OpenFont("ressources/bm.ttf", 65);
   join_game_text = TTF_RenderText_Blended(police, "join_game", black);
   create_server_text = TTF_RenderText_Blended(police, "create_server", black);
-  
-  background_texture = SDL_CreateTextureFromSurface(screen_info->renderer, img);
-  join_texture = SDL_CreateTextureFromSurface(screen_info->renderer, join_game_text);
-  server_texture = SDL_CreateTextureFromSurface(screen_info->renderer, create_server_text);
-  
+  server_welcome_text = TTF_RenderText_Blended(police, "WELCOME SERVER", black);
+
+  background_texture = SDL_CreateTextureFromSurface(views->renderer, img);
+  white_back = SDL_CreateTextureFromSurface(views->renderer, white);
+
+  join_texture = SDL_CreateTextureFromSurface(views->renderer, join_game_text);
+  server_texture = SDL_CreateTextureFromSurface(views->renderer, create_server_text);
+  server_welcome = SDL_CreateTextureFromSurface(views->renderer, server_welcome_text);
+
   if (!background_texture || !join_texture || !server_texture )
     {
-      SDL_ShowSimpleMessageBox(0, "init texture error", SDL_GetError(), screen_info->window);
+      SDL_ShowSimpleMessageBox(0, "init texture error", SDL_GetError(), views->window);
     }
   
-  screen_info->menu_background = background_texture;
-  screen_info->join_game = join_texture;
-  screen_info->create_game = server_texture;
+  views->menu_background = background_texture;
+  views->white_back = white_back;
+  views->join_game = join_texture;
+  views->create_game = server_texture;
+  views->server_welcome = server_welcome;
 
-  return screen_info;
+  return views;
 }
