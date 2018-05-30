@@ -3,27 +3,27 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "views.h"
-#include "loops.h"
+#include "sdl.h"
+#include "menu.h"
 
 int main ()
 {
-  t_views *views;
+  t_sdl *sdl;
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
   IMG_Init(IMG_INIT_JPG);
   TTF_Init();
-  
-  views = init_views();
-  views = init_window(views);
-  views = init_fronts(views);
-  
 
-  sdl_loop(views);
+  sdl = init_sdl();
+  sdl = init_window(sdl);
+  sdl = init_fronts(sdl);
 
-  SDL_DestroyTexture(views->menu_background);
-  SDL_DestroyRenderer(views->renderer);
-  SDL_DestroyWindow(views->window);
+
+  main_menu(sdl);
+
+  SDL_DestroyTexture(sdl->menu_background);
+  SDL_DestroyRenderer(sdl->renderer);
+  SDL_DestroyWindow(sdl->window);
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();

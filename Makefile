@@ -8,9 +8,10 @@ CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -L ./libmy
 
 SRC 	= 	main.c 			\
-	 	views/init.c 		\
-		loops/client_sdl_loop.c \
-		loops/menu_sdl_loop.c	\
+		menu.c			\
+	 	sdl/init.c 		\
+		client/client.c 	\
+		server/server.c		\
 
 OBJ 	= ${SRC:%.c=%.o}
 
