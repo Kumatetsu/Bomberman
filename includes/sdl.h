@@ -1,7 +1,7 @@
-#ifndef _VIEWS_
-#define _VIEWS_
+#ifndef _SDL_H_
+#define _SDL_H_
 
-typedef struct 	s_views
+typedef struct 	s_sdl
 {
   SDL_Window	*window;
   SDL_Renderer	*renderer;
@@ -10,9 +10,9 @@ typedef struct 	s_views
   SDL_Texture	*create_game;
   SDL_Texture   *server_welcome;
   SDL_Texture   *white_back;
-}		t_views;
+}		t_sdl;
 
-t_views		*init_views();
-t_views		*init_window(t_views *views);
-t_views   	*init_fronts(t_views *views);
+t_sdl		*init_sdl();
+t_sdl		*init_window(t_sdl *sdl);
+t_sdl   	*init_fronts(t_sdl *sdl);
 #endif
