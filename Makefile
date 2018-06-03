@@ -12,6 +12,8 @@ SRC 	= 	main.c 			\
 	 	sdl/init.c 		\
 		client/client.c 	\
 		server/server.c		\
+		server/socket.c		\
+		server/create_server.c	\
 
 OBJ 	= ${SRC:%.c=%.o}
 

@@ -8,5 +8,6 @@ typedef struct 	s_map_element {
   //me voir pour plus d'infos
   SDL_Rect	size; //idee de mat, avoir direct le SDL_Rect a l'init de la struc comme ca plus besoin d'y penser
   enum		type; //pseudo code mais vous voyez l'idee pour savoir quelle struc a generer
-}
+}	t_map_element;
+
 #endif

@@ -2,6 +2,7 @@
 #define _PLAYER_H_
 
 typedef struct	s_player {
+  int	fd;
   char	*identity;
   int	x;
   int	y;
