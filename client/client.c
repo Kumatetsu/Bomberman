@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include "sdl.h"
+#include "client.h"
 
 void		client_loop(t_sdl *sdl) {
   int		quit = 0;
@@ -10,8 +11,7 @@ void		client_loop(t_sdl *sdl) {
   SDL_Event	event_queue;
   SDL_Rect      join_position = {200, 300, 400, 60};
 
-  //init_client_socket()
-  //init_map()
+  my_connect();
 
   while(!quit) {
     while(SDL_PollEvent(&event_queue)) {
