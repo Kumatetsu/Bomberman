@@ -1,4 +1,5 @@
 #include <sys/socket.h>
+ #include <netinet/in.h>
 #include <netdb.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

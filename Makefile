@@ -5,15 +5,17 @@ NAME 	= BomberMan
 
 CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
-LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -L ./libmy
+LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
 
 SRC 	= 	main.c 			\
 		menu.c			\
 	 	sdl/init.c 		\
 		client/client.c 	\
+		client/socket.c		\
 		server/server.c		\
 		server/socket.c		\
 		server/create_server.c	\
+		server/thread.c		\
 
 OBJ 	= ${SRC:%.c=%.o}
 
