@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "server.h"
 
 void add_player(t_server **s, int fd)
@@ -11,16 +15,17 @@ void add_player(t_server **s, int fd)
   new->identity = NULL;
   new->x = 0;
   new->y = 0;
-  new->disabled = FALSE;
-  new->looking = NULL;
+  new->disabled = 1; //a passer en enum
+  new->looking = 0;
 
-  if (*s->players == NULL)
-    *s->players = new;
+  if ((*s)->players == NULL)
+    (*s)->players = new;
   else
     {
-      tmp = *s->players;
+      tmp = (*s)->players;
       while (tmp->next != NULL)
 	tmp = tmp->next;
       tmp->next = new;
     }
+  printf("player added");
 }

@@ -25,4 +25,5 @@ typedef struct 	s_server
 t_server	*create_server();
 void		init_server(t_sdl *sdl);
 void		init_socket(t_server **server);
+void add_player	(t_server **s, int fd);
 #endif
