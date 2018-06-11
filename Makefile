@@ -16,6 +16,7 @@ SRC 	= 	main.c 			\
 		server/socket.c		\
 		server/create_server.c	\
 		server/thread.c		\
+		server/player.c		\
 
 OBJ 	= ${SRC:%.c=%.o}
 

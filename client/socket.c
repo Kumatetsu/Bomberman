@@ -16,14 +16,17 @@
 #include "client.h"
 #include "server.h"
 #include "thread.h"
+#include <errno.h>  
 
 int	my_connect()
 {
   struct protoent	*pe;
-  struct sockaddr_in	sin = { 0 };
+  struct sockaddr_in	sin ;
   int	s;
+  int port;
 
-
+  memset(&sin, 0, sizeof(struct sockaddr_in));
+  port = 4022;
   pe = getprotobyname("TCP");
   if (pe == NULL)
     return (-1);
@@ -31,11 +34,13 @@ int	my_connect()
   if (s == -1)
     return (-1);
   sin.sin_family = AF_INET;
-  sin.sin_port = htons(666);
+  sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr("127.0.0.1");
   if(connect(s, (const struct sockaddr *)&sin, sizeof (sin)) == -1)
     {
       printf("error connection\n");
+      exit(errno);
     }
+  printf("connected\n");
   return (s);
 }
