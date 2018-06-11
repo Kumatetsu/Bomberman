@@ -8,7 +8,7 @@
 # define	CONNECTED 4
 # define	MAX_FD 255
 # define	BUFF_SIZE 1024
-# define	PORT 666
+# define	PORT 4022
 
 #include	"sdl.h"
 #include 	"player.h"

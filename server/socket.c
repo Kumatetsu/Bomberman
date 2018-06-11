@@ -1,3 +1,4 @@
+
 #include <sys/socket.h>
  #include <netinet/in.h>
 #include <netdb.h>
@@ -12,7 +13,7 @@ void 			init_socket(t_server **s) {
   struct protoent	*pe;
   struct sockaddr_in	sin;
   
-  pe = getprotobyname("tcp");
+  pe = getprotobyname("TCP");
   if ((socket_fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
     return;
 
