@@ -17,7 +17,7 @@ typedef struct 	s_server
 {
   int		server_fd;
   int		state;
-  t_player	*players;
+  t_player	*players[4];
 }		t_server;
 
 
@@ -25,5 +25,5 @@ typedef struct 	s_server
 t_server	*create_server();
 void		init_server(t_sdl *sdl);
 void		init_socket(t_server **server);
-void add_player	(t_server **s, int fd);
+void add_player	(t_server **s, int fd, int player_rank);
 #endif

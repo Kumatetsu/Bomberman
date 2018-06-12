@@ -15,6 +15,7 @@
 #include "server.h"
 #include "thread.h"
 
+//Thread du server permettant de faire tourner le server
 void 			*server_thread(void *s_info) {
   t_server 		*s;
   int			cs;
@@ -32,7 +33,7 @@ void 			*server_thread(void *s_info) {
     if (cs == -1)
       pthread_exit(NULL);
     printf("one connected\n");
-    add_player(&s, cs);
+    add_player(&s, cs, i);
   }
   pthread_exit(NULL);
 }

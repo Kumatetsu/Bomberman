@@ -10,7 +10,6 @@ typedef struct	s_player {
   int	y;
   int	disabled;
   int	looking;
-  struct s_player *next;
 }	t_player;
 
 //no need de connaitre le type, pour les player on saura qu'on init les spites players
