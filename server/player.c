@@ -4,10 +4,10 @@
 #include <SDL2/SDL_ttf.h>
 #include "server.h"
 
-void add_player(t_server **s, int fd)
+//Ajoute un player à la structure server
+void add_player(t_server **s, int fd, int player_rank)
 {
   t_player *new;
-  t_player *tmp;
 
   if ((new = malloc(sizeof (*new))) == NULL)
     return ;
@@ -18,14 +18,6 @@ void add_player(t_server **s, int fd)
   new->disabled = 1; //a passer en enum
   new->looking = 0;
 
-  if ((*s)->players == NULL)
-    (*s)->players = new;
-  else
-    {
-      tmp = (*s)->players;
-      while (tmp->next != NULL)
-	tmp = tmp->next;
-      tmp->next = new;
-    }
+  (*s)->players[player_rank] = new;
   printf("player added");
 }

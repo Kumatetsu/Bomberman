@@ -7,12 +7,13 @@
 #include <SDL2/SDL_ttf.h>
 #include "server.h"
 
+// init de la socket server.
 void 			init_socket(t_server **s) {
 
   int			socket_fd;
   struct protoent	*pe;
   struct sockaddr_in	sin;
-  
+
   pe = getprotobyname("TCP");
   if ((socket_fd = socket(AF_INET, SOCK_STREAM, pe->p_proto)) == -1)
     return;

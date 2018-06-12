@@ -4,6 +4,8 @@
 #include "sdl.h"
 #include "client.h"
 
+//loop SDL du client.
+// Pour le moment la socket n'est pas récupérée
 void		client_loop(t_sdl *sdl) {
   int		quit = 0;
   int		x;

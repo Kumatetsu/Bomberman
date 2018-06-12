@@ -16,8 +16,9 @@
 #include "client.h"
 #include "server.h"
 #include "thread.h"
-#include <errno.h>  
+#include <errno.h>
 
+//init de la socket client + connection à une socket server.
 int	my_connect()
 {
   struct protoent	*pe;

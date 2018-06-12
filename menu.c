@@ -5,6 +5,10 @@
 #include "client.h"
 #include "server.h"
 
+/**
+ * Init le menu permettant de choisir de se connecter à un server
+ * ou de créer un server
+**/
 void		main_menu(t_sdl *sdl)
 {
   int		quit = 0;
@@ -23,7 +27,7 @@ void		main_menu(t_sdl *sdl)
       case SDL_MOUSEBUTTONDOWN:
 	x = event_queue.button.x;
 	y = event_queue.button.y;
-	
+
 	if (( x > join_position.x ) && ( x < join_position.x + join_position.w ) && ( y > join_position.y ) && ( y < join_position.y + join_position.h ) ) {
 	  client_loop(sdl);
 	  printf("join button pressed");
@@ -35,13 +39,13 @@ void		main_menu(t_sdl *sdl)
 	break;
       }
     }
-    
+
     SDL_RenderClear(sdl->renderer);
     SDL_RenderCopy(sdl->renderer, sdl->menu_background, NULL, NULL);
     SDL_RenderCopy(sdl->renderer, sdl->join_game, NULL, &join_position);
     SDL_RenderCopy(sdl->renderer, sdl->create_game, NULL, &create_position);
     SDL_RenderPresent(sdl->renderer);
   }
-  
+
   return;
 }

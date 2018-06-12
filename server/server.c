@@ -12,6 +12,7 @@
 #include "server.h"
 #include "thread.h"
 
+//init le thread server et lance un client pour la personne qui host
 void		init_server(t_sdl *sdl) {
   t_server	*s;
   pthread_t	t_server;
