@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "sdl.h"
 #include "libmy.h"
+#include "base_map.h"
 
 //On init la structure avec tous ses champs a NULL
 t_sdl 		*init_sdl()
@@ -35,8 +36,8 @@ t_sdl *init_window(t_sdl *sdl)
 			    "Bomberman ETNA 2019",
 			    SDL_WINDOWPOS_CENTERED,
 			    SDL_WINDOWPOS_CENTERED,
-			    800,
-			    600,
+			    WINDOW_W,
+			    WINDOW_H,
 			    SDL_WINDOW_SHOWN);
 
   if (!window)

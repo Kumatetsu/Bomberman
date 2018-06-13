@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "server.h"
+//#include "server.h"
 
 typedef struct	s_player {
   int	fd;
@@ -10,9 +10,9 @@ typedef struct	s_player {
   int	y;
   int	disabled;
   int	looking;
+  SDL_Rect bomber_sprites[5][3];
 }	t_player;
 
 //no need de connaitre le type, pour les player on saura qu'on init les spites players
-
 
 #endif
