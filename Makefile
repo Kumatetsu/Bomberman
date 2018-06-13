@@ -1,10 +1,22 @@
+
 CC 	= gcc
 
 NAME 	= BomberMan
 
-CFLAGS 	= -W -Werror -Wextra -Wall -lSDL2 -lSDL2main -lSDL2_image
+CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
-SRC 	= main.c
+LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
+
+SRC 	= 	main.c 			\
+		menu.c			\
+	 	sdl/init.c 		\
+		client/client.c 	\
+		client/socket.c		\
+		server/server.c		\
+		server/socket.c		\
+		server/create_server.c	\
+		server/thread.c		\
+		server/player.c		\
 
 OBJ 	= ${SRC:%.c=%.o}
 
@@ -15,7 +27,7 @@ all 	: ${NAME}
 re 	: clean all
 
 $(NAME) : $(OBJ)
-	  $(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	  $(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
 
 clean	:
 	  $(RM) $(OBJ)
