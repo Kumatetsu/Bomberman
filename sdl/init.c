@@ -12,7 +12,7 @@ t_sdl 		*init_sdl()
 {
   t_sdl 		*sdl;
 
-  if ((sdl = malloc(sizeof(*sdl))) == NULL)
+  if ((sdl = malloc(sizeof(t_sdl))) == NULL)
     return NULL;
 
   sdl->window = NULL;
@@ -92,7 +92,13 @@ t_sdl *init_fronts(t_sdl *sdl)
     {
       SDL_ShowSimpleMessageBox(0, "init texture error", SDL_GetError(), sdl->window);
     }
-
+  //we clean surface as we converted them to texture so we don't need them anymore
+  SDL_FreeSurface(img);
+  SDL_FreeSurface(white);
+  SDL_FreeSurface(join_game_text);
+  SDL_FreeSurface(create_server_text);
+  SDL_FreeSurface(server_welcome_text);
+  TTF_CloseFont(police);
   sdl->menu_background = background_texture;
   sdl->white_back = white_back;
   sdl->join_game = join_texture;

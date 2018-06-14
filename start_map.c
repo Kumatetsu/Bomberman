@@ -13,8 +13,8 @@ int		start_map(t_sdl *sdl)
   t_data	*data;
 
   quit = 0;
-  data = NULL;
-  data = malloc(sizeof(t_data));
+  //data = NULL;
+  data = malloc(sizeof(*data));
   data->renderer = sdl->renderer;
   data->window = sdl->window;
   init_sprites_sheet((void*)data);
