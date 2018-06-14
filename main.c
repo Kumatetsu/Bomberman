@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "sdl.h"
 #include "menu.h"
+#include "base_map.h"
 
 int main ()
 {
@@ -18,12 +19,17 @@ int main ()
   sdl = init_window(sdl);
   sdl = init_fronts(sdl);
 
-
-  main_menu(sdl);
-
+  //comment maiemacs n to see start_map working ;)
+  //main_menu(sdl);
+  start_map(sdl);
   SDL_DestroyTexture(sdl->menu_background);
+  SDL_DestroyTexture(sdl->white_back);
+  SDL_DestroyTexture(sdl->join_game);
+  SDL_DestroyTexture(sdl->create_game);
+  SDL_DestroyTexture(sdl->server_welcome);
   SDL_DestroyRenderer(sdl->renderer);
   SDL_DestroyWindow(sdl->window);
+  free(sdl);
   TTF_Quit();
   IMG_Quit();
   SDL_Quit();

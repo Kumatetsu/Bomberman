@@ -5,13 +5,14 @@
 #include <SDL2/SDL_ttf.h>
 #include "sdl.h"
 #include "libmy.h"
+#include "base_map.h"
 
 //On init la structure avec tous ses champs a NULL
 t_sdl 		*init_sdl()
 {
   t_sdl 		*sdl;
 
-  if ((sdl = malloc(sizeof(*sdl))) == NULL)
+  if ((sdl = malloc(sizeof(t_sdl))) == NULL)
     return NULL;
 
   sdl->window = NULL;
@@ -35,8 +36,8 @@ t_sdl *init_window(t_sdl *sdl)
 			    "Bomberman ETNA 2019",
 			    SDL_WINDOWPOS_CENTERED,
 			    SDL_WINDOWPOS_CENTERED,
-			    800,
-			    600,
+			    WINDOW_W,
+			    WINDOW_H,
 			    SDL_WINDOW_SHOWN);
 
   if (!window)
@@ -91,7 +92,13 @@ t_sdl *init_fronts(t_sdl *sdl)
     {
       SDL_ShowSimpleMessageBox(0, "init texture error", SDL_GetError(), sdl->window);
     }
-
+  //we clean surface as we converted them to texture so we don't need them anymore
+  SDL_FreeSurface(img);
+  SDL_FreeSurface(white);
+  SDL_FreeSurface(join_game_text);
+  SDL_FreeSurface(create_server_text);
+  SDL_FreeSurface(server_welcome_text);
+  TTF_CloseFont(police);
   sdl->menu_background = background_texture;
   sdl->white_back = white_back;
   sdl->join_game = join_texture;
