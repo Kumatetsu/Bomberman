@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "socket.h"
 #include "server.h"
 
@@ -15,10 +16,10 @@ int main()
     srv->fd = s;
 
     //n'attend qu'un client pour qu'on puisse tester tranquillement
-    if (accept_clients(&srv) == -1)
-      return 0;
+    //on doit init le server avant d'écouter les connections
+    // if (accept_clients(&srv) == -1)
+    //   return 0;
 
-    // main_loop(&srv);
-
+    while(main_loop(&srv));
     return 0;
 }

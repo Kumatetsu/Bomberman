@@ -18,7 +18,6 @@ int accept_clients(t_srv **srv)
         printf("we fucked up\n");
         return -1;
     }
-
     client = create_srv_client(cs);
     ((t_srv *)srv)->clients[0] = client;
     return 0;
