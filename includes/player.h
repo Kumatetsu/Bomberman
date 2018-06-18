@@ -14,5 +14,13 @@ typedef struct	s_player {
 }	t_player;
 
 //no need de connaitre le type, pour les player on saura qu'on init les spites players
+enum BomberSpriteDir {bomber_d = 0,
+		      bomber_l = 1,
+		      bomber_r = 2,
+		      bomber_u = 3,
+		      not_move = 0,
+		      die = 4};
+
+void *move_player(void *arg);
 
 #endif

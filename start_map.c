@@ -13,7 +13,6 @@ int		start_map(t_sdl *sdl)
   t_data	*data;
 
   quit = 0;
-  //data = NULL;
   data = malloc(sizeof(*data));
   data->renderer = sdl->renderer;
   data->window = sdl->window;
@@ -31,14 +30,24 @@ int		start_map(t_sdl *sdl)
 	  quit = 1;
 	  break;
 	case SDL_KEYDOWN:
-          SDL_RenderClear(data->renderer);
+	  switch (event.key.keysym.sym) {
+	  case SDLK_UP:
+	  case SDLK_LEFT:
+	  case SDLK_RIGHT:
+	  case SDLK_DOWN:
+	  SDL_RenderClear(data->renderer);
 	  rebuild_map((void*)data);
-	  	  SDL_RenderPresent(data->renderer);
-
+	  move_player((void*)data);
+	    break;
+	  }
+          
+	  SDL_RenderPresent(data->renderer);
  	  SDL_SetRenderTarget(data->renderer, NULL);
-	break;
-	} 
-    }
+	  break;
+
+	}
+    } 
+    
   SDL_DestroyTexture(data->texture);
   free(data);
   return 0;

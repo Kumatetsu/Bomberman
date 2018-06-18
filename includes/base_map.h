@@ -35,15 +35,9 @@ static const int WINDOW_H = 768;
 static const int PIXEL_SIZE = 48;
 static const int I_BEGIN = ((1024 - (15 * 48)) / 2 ) / 48;
 static const int J_BEGIN = (768 - (13 * 48)) / 48;
-enum BomberSpriteDir {bomber_d = 0,
-		      bomber_l = 1,
-		      bomber_r = 2,
-		      bomber_u = 3,
-		      not_move = 0,
-		      die = 4};  
 
-void *init_sprites_sheet(void *arg);
 void *draw_player_1(void *arg);
+void *init_sprites_sheet(void *arg);
 void *draw_map_model(void *arg);
 void *draw_pannel(void *arg);
 void *draw_timer(void *arg);

@@ -117,6 +117,8 @@ void	*draw_player_1(void *arg) {
   SDL_Rect bomberman_white = {70, 38, 16, 24};
   SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 24 ,
 			16 * 3, 24 * 3};
+  data->players[0].x = (I_BEGIN + 1) * 48;
+  data->players[0].y = (J_BEGIN + 1) * 48;
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &bomberman_white, &dest_rect);
   if (error < 0)
