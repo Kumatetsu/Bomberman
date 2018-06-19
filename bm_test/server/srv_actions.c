@@ -20,17 +20,24 @@ int accept_clients(t_srv **srv)
         printf("we fucked up\n");
         return -1;
     }
-    if (((t_srv *)srv)->clients[3] != NULL)
+    if ((*srv)->clients[3] != NULL)
         return 0;
-    client = create_srv_client(cs);
 
+    client = create_srv_client(cs);
+    if (NULL == client)
+        return -1;
     for (i = 0; i < 4; i++)
     {
-        if (((t_srv *)srv)->clients[i] != NULL)
-            j++;
+        if ((*srv)->clients[i] != NULL)
+        {
+            j += 1;
+        }
     }
 
-    ((t_srv *)srv)->clients[j] = client;
+
+    (*srv)->clients[j] = client;
+    printf("%d\n", j);
+    printf("%d\n", (*srv)->clients[j]->fd);
     printf("cli accepted\n");
     return 0;
 }

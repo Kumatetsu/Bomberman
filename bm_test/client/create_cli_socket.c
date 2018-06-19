@@ -14,9 +14,7 @@ int create_client_socket()
 
     memset(&sin, 0, sizeof(struct sockaddr_in));
     port = 4022;
-    // pe = getprotobyname("TCP");
-    // if (pe == NULL)
-    //     return (-1);
+
     s = socket(AF_INET, SOCK_STREAM, 0);
     if (s == -1)
         return (-1);
@@ -28,7 +26,7 @@ int create_client_socket()
         printf("Error connect()\n");
         return (-1);
     }
-    printf("connected");
+    printf("connected\n");
 
     return s;
 }

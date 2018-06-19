@@ -5,6 +5,7 @@ CFLAGS 	= -W -Werror -Wextra -Wall -g -Iinclude/
 
 CLI_SRC =	client/client.c				\
 			client/create_cli_socket.c	\
+			client/client_loop.c		\
 
 SRV_SRC =	server/server.c 			\
 			server/create_srv_socket.c 	\

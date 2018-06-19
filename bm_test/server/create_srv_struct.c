@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "server.h"
 
 t_srv *create_struct_srv()
