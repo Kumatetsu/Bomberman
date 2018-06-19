@@ -3,13 +3,15 @@
 
 int accept_clients(t_srv **srv)
 {
-    printf("waiting\n");
     t_srv_client *client;
 
     int			cs;
+    int          i;
+    int          j;
     struct sockaddr_in	client_sin;
     socklen_t		client_sin_len;
 
+    j = 0;
     memset(&client_sin, 0, sizeof (struct sockaddr_in));
     client_sin_len = sizeof (client_sin);
 
@@ -18,7 +20,17 @@ int accept_clients(t_srv **srv)
         printf("we fucked up\n");
         return -1;
     }
+    if (((t_srv *)srv)->clients[3] != NULL)
+        return 0;
     client = create_srv_client(cs);
-    ((t_srv *)srv)->clients[0] = client;
+
+    for (i = 0; i < 4; i++)
+    {
+        if (((t_srv *)srv)->clients[i] != NULL)
+            j++;
+    }
+
+    ((t_srv *)srv)->clients[j] = client;
+    printf("cli accepted\n");
     return 0;
 }
