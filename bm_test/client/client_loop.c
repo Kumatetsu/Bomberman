@@ -13,7 +13,7 @@ void	my_bzero(void *s1, int n)
     }
 }
 
-int         send_request(int s, t_client_request* client_request)
+int         send_request(int s, t_player_request* client_request)
 {
   char*     request_string;
 
@@ -50,7 +50,7 @@ int		get_msg(int s)
     }
 }
 
-int client_loop(int s, t_client_request* client_request)
+int client_loop(int s, t_player_request* client_request)
 {
     fd_set	fd_read;
 

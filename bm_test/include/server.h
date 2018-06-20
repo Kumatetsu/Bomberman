@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include "player.h"
 #include "game_info.h"
+#include "request.h"
 
 typedef struct      s_srv
 {

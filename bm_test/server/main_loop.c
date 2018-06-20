@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include "server.h"
+#include "request.h"
 
-int main_loop(t_srv **srv)
+int                     main_loop(t_srv **srv)
 {
-    int i;
-    int error;
-    socklen_t len;
-    int retval;
+    int                 i;
+    int                 error;
+    socklen_t           len;
+    int                 retval;
+    t_player_request    *player_request;
 
     i = 0;
     FD_ZERO(&(*srv)->fd_read);
@@ -60,6 +62,13 @@ int main_loop(t_srv **srv)
                 if((n = recv((*srv)->clients[i]->fd, buffer, 1024 - 1, 0)) < 0)
                 {
                    perror("recv()");
+                   player_request = request_deserialize(buffer);
+                   if (player_request->checksum != get_request_checksum(player_request))
+                   {
+                       close((*srv)->clients[i]->fd);
+                       (*srv)->clients[i] = NULL;
+
+                   }
                    /* if recv error we disonnect the client */
                    n = 0;
                 }

@@ -1,14 +1,14 @@
 #include "socket.h"
 #include "client.h"
 
-t_client_request*       create_client_request()
+t_player_request*       create_player_request()
 {
-	t_client_request*   client_request;
+	t_player_request*   client_request;
 	unsigned int magic;
 
 	srand(time(NULL));
 	magic = (rand() % INT_MAX);
-	client_request = calloc(1, sizeof(t_client_request));
+	client_request = calloc(1, sizeof(t_player_request));
 	if (client_request == NULL)
 		return NULL;
 
@@ -18,7 +18,7 @@ t_client_request*       create_client_request()
 	return client_request;
 }
 
-int free_client_request(t_client_request* client_request)
+int free_player_request(t_player_request* client_request)
 {
 	free(client_request);
 	if (client_request == NULL)
