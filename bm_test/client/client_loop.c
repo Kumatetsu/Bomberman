@@ -17,7 +17,7 @@ int         send_input(int s, t_client_request* client_request)
 {
   char*     request_string;
 
-  request_string = get_request_string(client_request);
+  request_string = request_serialization(client_request);
   if (strlen(request_string) > 0)
     {
       write(s, request_string, strlen(request_string));

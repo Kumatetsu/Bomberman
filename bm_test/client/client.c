@@ -57,9 +57,21 @@ int get_request_checksum(t_client_request* client_request)
     return checksum;
 }
 
-char* get_request_string(t_client_request* client_request)
+char* request_serialization(t_client_request* client_request)
 {
-    client_request->checksum = get_request_checksum(client_request);
+    char* request_string;
 
-    return (char*) client_request;
+    client_request->checksum = get_request_checksum(client_request);
+    request_string = (char*) client_request;
+
+    return request_string;
 }
+
+t_client_request*   request_deserialize(char* request_serialized)
+{
+    t_client_request* client_request;
+
+    client_request = (t_client_request*)request_serialized;
+
+    return client_request;
+};

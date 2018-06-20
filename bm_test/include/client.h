@@ -35,10 +35,9 @@ enum CLIENT_REQUEST_STATUS
 
 t_client_request* 	init_make_base_request();
 int 	client_loop(int s, t_client_request* client_request);
-char* 	get_request_string(t_client_request* client_request);
+char* 	request_serialization(t_client_request* client_request);
 int 	free_client_request(t_client_request* client_request);
 int		get_request_checksum(t_client_request* client_request);
-char* 	get_request_string(t_client_request* client_request);
 void	my_bzero(void *s1, int n);
 
 
