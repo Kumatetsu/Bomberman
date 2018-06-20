@@ -29,6 +29,13 @@ int		start_map(t_sdl *sdl)
 	case SDL_QUIT:
 	  quit = 1;
 	  break;
+	case SDL_KEYUP:
+	  {
+	    SDL_RenderClear(data->renderer);
+	    rebuild_map((void*)data);
+	    move_player_stop((void*)data);
+	    break;
+	  }
 	case SDL_KEYDOWN:
 	  switch (event.key.keysym.sym) {
 	  case SDLK_UP:
@@ -52,12 +59,9 @@ int		start_map(t_sdl *sdl)
 	    move_player_down((void*)data);
 	    break;
 	  }
-          
-	  SDL_RenderPresent(data->renderer);
- 	  SDL_SetRenderTarget(data->renderer, NULL);
-	  break;
-
 	}
+      	  SDL_RenderPresent(data->renderer);
+ 	  SDL_SetRenderTarget(data->renderer, NULL);
     } 
     
   SDL_DestroyTexture(data->texture);
