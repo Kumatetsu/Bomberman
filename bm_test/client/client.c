@@ -19,7 +19,7 @@ int main()
     printf("The serialization is %s\n", serelialized);
     client_request = request_deserialize(serelialized);
     printf("The checksum is %d and the magic is %d\n", get_request_checksum(client_request), client_request->magic);
-    while(client_loop(s, client_request));
+    while(client_loop(s, client_request) == 1);
     free_client_request(client_request);
     printf("end of client\n");
     return 0;

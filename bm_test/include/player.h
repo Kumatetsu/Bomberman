@@ -3,8 +3,8 @@
 
 typedef struct 	s_player_infos
 {
-  char  		connected;
-  char  		alive;
+  int  			connected;
+  int	  		alive;
   int   		x_pos;
   int   		y_pos;
   int   		current_dir;
@@ -13,6 +13,7 @@ typedef struct 	s_player_infos
   int   		bombs_left;
   int   		bombs_capacity;
   int   		frags;
+  int			fd;
 } 				t_player_infos;
 
 #endif

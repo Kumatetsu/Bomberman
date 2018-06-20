@@ -4,9 +4,11 @@
 int main_loop(t_srv **srv)
 {
     int i;
+    int error;
+    socklen_t len;
+    int retval;
 
     i = 0;
-
     FD_ZERO(&(*srv)->fd_read);
     //int de la socket
     (*srv)->fd_max = (*srv)->fd;
@@ -41,6 +43,15 @@ int main_loop(t_srv **srv)
         {
             printf("client before send request\n");
             printf("%d\n", (*srv)->clients[i]->fd);
+            error = 0;
+            len = sizeof (error);
+            retval = getsockopt ((*srv)->clients[i]->fd, SOL_SOCKET, SO_ERROR, &error, &len);
+
+            if (retval != 0 || error != 0) {
+                (*srv)->clients[i] = NULL;
+                continue;
+            }
+
             if (FD_ISSET((*srv)->clients[i]->fd, &(*srv)->fd_read))
             {
                 //Ça c'est caca copié collé, pour eviter de boucler sale parce que le job est pas rcv

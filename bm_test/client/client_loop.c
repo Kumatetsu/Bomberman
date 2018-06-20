@@ -69,7 +69,8 @@ int client_loop(int s, t_client_request* client_request)
     if (FD_ISSET(s, &fd_read))
     {
         printf("get_msg\n");
-	    get_msg(s);
+	    if (get_msg(s) == BAD_RECEIVE)
+	    	return 0;
     }
     return 1;
 }

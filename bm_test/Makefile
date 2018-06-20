@@ -10,7 +10,6 @@ CLI_SRC =	client/client.c				\
 SRV_SRC =	server/server.c 			\
 			server/create_srv_socket.c 	\
 			server/create_srv_struct.c 	\
-			server/create_srv_client.c	\
 			server/srv_actions.c 		\
 			server/main_loop.c			\
 
