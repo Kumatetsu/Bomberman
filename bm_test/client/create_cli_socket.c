@@ -6,11 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-int create_client_socket()
+int         create_client_socket(int magic)
 {
-    struct sockaddr_in sin;
-    int s;
-    int port;
+    struct  sockaddr_in sin;
+    int     s;
+    int     port;
+    int     magic;
+    char*   identification_string;
+    char    buff[1024];
 
     memset(&sin, 0, sizeof(struct sockaddr_in));
     port = 4022;
@@ -27,6 +30,14 @@ int create_client_socket()
         return (-1);
     }
     printf("connected\n");
+    identification_string = "identification:";
+    identification_string = my_strcat(identification_string, magic+'0');
+
+    my_bzero(buff, 1024);
+    write(s, buff, identification_string);
+    printf("identified as ");
+    printf(identification_string);
+    printf("\n");
 
     return s;
 }

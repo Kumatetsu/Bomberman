@@ -13,23 +13,20 @@ void	my_bzero(void *s1, int n)
     }
 }
 
-int		send_input(int s)
+int         send_input(int s, t_client_request* client_request)
 {
-  char		buff[1024];
-  int		r;
+  char*     request_string;
 
-  my_bzero(buff, 1024);
-  r = read(0, buff, 1024);
-  if (r > 0)
+  request_string = get_request_string(client_request);
+  if (my_strlen(request_string) > 0)
     {
-      buff[r] = '\0';
-      write(s, buff, r);
-      return (1);
+      write(s, request_string, my_strlen(request_string));
+      return SUCCESS_SEND;
     }
   else
     {
       write(1, "exit\n", 5);
-      return (0);
+      return BAD_SEND;
     }
 }
 

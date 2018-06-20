@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int create_client_socket();
+int create_client_socket(int magic);
 int create_server_socket();
 
 #endif
