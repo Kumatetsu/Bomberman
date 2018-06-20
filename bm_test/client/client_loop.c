@@ -13,7 +13,7 @@ void	my_bzero(void *s1, int n)
     }
 }
 
-int         send_input(int s, t_client_request* client_request)
+int         send_request(int s, t_client_request* client_request)
 {
   char*     request_string;
 
@@ -63,8 +63,8 @@ int client_loop(int s, t_client_request* client_request)
 	    return 0;
     if (FD_ISSET(STDIN_FILENO, &fd_read))
 	{
-        printf("Send_input\n");
-	    send_input(s, client_request);
+        printf("Send_request\n");
+        send_request(s, client_request);
 	}
     if (FD_ISSET(s, &fd_read))
     {

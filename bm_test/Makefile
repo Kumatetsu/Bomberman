@@ -1,17 +1,19 @@
 
 CC 	= gcc
 
-CFLAGS 	= -W -Werror -Wextra -Wall -g -Iinclude/
+CFLAGS 	= -W -Werror -Wextra -Wall -pedantic -g -Iinclude/
 
-CLI_SRC =	client/client.c				\
-			client/create_cli_socket.c	\
-			client/client_loop.c		\
+CLI_SRC =	client/client.c				            \
+			client/create_cli_socket.c	            \
+			client/client_loop.c		            \
+			client/client_request.c                 \
+			client/client_request_communication.c   \
 
-SRV_SRC =	server/server.c 			\
-			server/create_srv_socket.c 	\
-			server/create_srv_struct.c 	\
-			server/srv_actions.c 		\
-			server/main_loop.c			\
+SRV_SRC =	server/server.c 			            \
+			server/create_srv_socket.c 	            \
+			server/create_srv_struct.c 	            \
+			server/srv_actions.c 		            \
+			server/main_loop.c			            \
 
 CLI_OBJ = ${CLI_SRC:%.c=%.o}
 

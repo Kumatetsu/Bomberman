@@ -33,7 +33,7 @@ enum CLIENT_REQUEST_STATUS
 	SUCCESS_FREE
 };
 
-t_client_request* 	init_make_base_request();
+t_client_request* 	create_client_request();
 int 	client_loop(int s, t_client_request* client_request);
 char* 	request_serialization(t_client_request* client_request);
 t_client_request* request_deserialize(char* serialized_request);
