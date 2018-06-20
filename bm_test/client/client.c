@@ -8,8 +8,8 @@ int main()
     t_client_request*   client_request;
 
     srand(time(NULL));
-    magic = rand() % INT_MAX;
-    s = create_client_socket(magic);
+    magic = (rand() % INT_MAX);
+    s = create_client_socket();
     client_request = init_make_base_request(magic);
     if (client_request == NULL)
         return 1;
@@ -28,7 +28,7 @@ t_client_request*       init_make_base_request(unsigned int magic)
         return NULL;
 
     client_request->magic = magic;
-    client_request->ckecksum = get_request_checksum(client_request);
+    client_request->checksum = get_request_checksum(client_request);
 
     return client_request;
 }
@@ -41,25 +41,25 @@ int free_client_request(t_client_request* client_request)
     return BAD_FREE;
 }
 
-int get_request_ckecksum(t_client_request* client_request)
+int get_request_checksum(t_client_request* client_request)
 {
-    int ckecksum;
+    int checksum;
 
-    ckecksum = 0;
-    ckecksum = client_request->magic;
-    ckecksum *= client_request->y_pos;
-    ckecksum *= client_request->x_pos;
-    ckecksum *= client_request->dir;
-    ckecksum += client_request->command;
-    ckecksum *= client_request->speed;
-    ckecksum /= rand();
+    checksum = 0;
+    checksum = client_request->magic;
+    checksum *= client_request->y_pos;
+    checksum *= client_request->x_pos;
+    checksum *= client_request->dir;
+    checksum += client_request->command;
+    checksum *= client_request->speed;
+    checksum /= rand();
 
-    return ckecksum;
+    return checksum;
 }
 
 char* get_request_string(t_client_request* client_request)
 {
-    client_request->ckecksum = get_request_ckecksum(client_request);
+    client_request->checksum = get_request_checksum(client_request);
 
     return (char*) client_request;
 }

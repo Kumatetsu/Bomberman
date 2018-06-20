@@ -9,10 +9,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <time.h>
+#include <string.h>
 
 typedef struct  s_client_request
 {
-	int           ckecksum;               /* Un checksum simple */
+	int           checksum;               /* Un checksum simple */
 	unsigned int  magic;                  /* Un magic number commun entre le client et le serveur, ou l'identifiant d'un type de structure */
 	int           y_pos;                  /* La position y souhaitée par le client */
 	int           x_pos;                  /* La position x souhaitée par le client */
@@ -37,6 +39,7 @@ char* 	get_request_string(t_client_request* client_request);
 int 	free_client_request(t_client_request* client_request);
 int		get_request_checksum(t_client_request* client_request);
 char* 	get_request_string(t_client_request* client_request);
+void	my_bzero(void *s1, int n);
 
 
 #endif

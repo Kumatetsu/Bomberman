@@ -5,15 +5,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <client.h>
 
-int         create_client_socket(int magic)
+int         create_client_socket()
 {
     struct  sockaddr_in sin;
     int     s;
     int     port;
-    int     magic;
-    char*   identification_string;
-    char    buff[1024];
 
     memset(&sin, 0, sizeof(struct sockaddr_in));
     port = 4022;
@@ -30,14 +28,6 @@ int         create_client_socket(int magic)
         return (-1);
     }
     printf("connected\n");
-    identification_string = "identification:";
-    identification_string = my_strcat(identification_string, magic+'0');
-
-    my_bzero(buff, 1024);
-    write(s, buff, identification_string);
-    printf("identified as ");
-    printf(identification_string);
-    printf("\n");
 
     return s;
 }

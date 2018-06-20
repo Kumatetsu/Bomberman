@@ -18,9 +18,9 @@ int         send_input(int s, t_client_request* client_request)
   char*     request_string;
 
   request_string = get_request_string(client_request);
-  if (my_strlen(request_string) > 0)
+  if (strlen(request_string) > 0)
     {
-      write(s, request_string, my_strlen(request_string));
+      write(s, request_string, strlen(request_string));
       return SUCCESS_SEND;
     }
   else
@@ -41,16 +41,16 @@ int		get_msg(int s)
     {
       buff[r] = '\0';
       write(1, buff, r);
-      return (1);
+      return SUCCESS_RECEIVE;
     }
   else
     {
       write(1, "Connection closed\n", 18);
-      return (0);
+      return BAD_RECEIVE;
     }
 }
 
-int client_loop(int s)
+int client_loop(int s, t_client_request* client_request)
 {
     fd_set	fd_read;
 
@@ -64,7 +64,7 @@ int client_loop(int s)
     if (FD_ISSET(STDIN_FILENO, &fd_read))
 	{
         printf("Send_input\n");
-	    send_input(s);
+	    send_input(s, client_request);
 	}
     if (FD_ISSET(s, &fd_read))
     {
