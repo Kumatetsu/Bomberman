@@ -9,7 +9,11 @@ typedef enum texture_type
     ground_shadowed,
     firstPlayer,
     pannel,
-    timer
+    timer,
+    bomb = 0,
+    bomb_s = 0,
+    bomb_m = 1,
+    bomb_l = 2
   } texture_type;
 
 typedef struct s_map
@@ -26,6 +30,7 @@ typedef struct s_data
   SDL_Window	*window;
   t_map		array_map[14][15];
   t_player	players[4];
+  t_map		destroyable[3][3];
 } t_data;
 
 // in the picture, the size of the square is 16 for a wall block, so i use 48

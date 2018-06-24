@@ -23,45 +23,49 @@ int		start_map(t_sdl *sdl)
   SDL_RenderClear(data->renderer);
   while(!quit)
     {
-      SDL_WaitEvent(&event);
-      switch(event.type)
-	{
-	case SDL_QUIT:
-	  quit = 1;
-	  break;
-	case SDL_KEYUP:
+      //SDL_WaitEvent(&event);
+      while(SDL_PollEvent(&event)) {
+	switch(event.type)
 	  {
-	    SDL_RenderClear(data->renderer);
-	    rebuild_map((void*)data);
-	    move_player_stop((void*)data);
+	  case SDL_QUIT:
+	    quit = 1;
 	    break;
+	  case SDL_KEYUP:
+	    {
+	      SDL_RenderClear(data->renderer);
+	      rebuild_map((void*)data);
+	      move_player_stop((void*)data);
+	      SDL_RenderPresent(data->renderer);
+	      SDL_SetRenderTarget(data->renderer, NULL);
+	      break;
+	    }
+	  case SDL_KEYDOWN:
+	    switch (event.key.keysym.sym) {
+	    case SDLK_UP:
+	      SDL_RenderClear(data->renderer);
+	      rebuild_map((void*)data);
+	      move_player_up((void*)data);
+	      break;
+	    case SDLK_LEFT:
+	      SDL_RenderClear(data->renderer);
+	      rebuild_map((void*)data);
+	      move_player_left((void*)data);
+	      break;
+	    case SDLK_RIGHT:
+	      SDL_RenderClear(data->renderer);
+	      rebuild_map((void*)data);
+	      move_player_right((void*)data);
+	      break;
+	    case SDLK_DOWN:
+	      SDL_RenderClear(data->renderer);
+	      rebuild_map((void*)data);
+	      move_player_down((void*)data);
+	      break;
+	    }
+	    SDL_RenderPresent(data->renderer);
+	    SDL_SetRenderTarget(data->renderer, NULL);
 	  }
-	case SDL_KEYDOWN:
-	  switch (event.key.keysym.sym) {
-	  case SDLK_UP:
-	    SDL_RenderClear(data->renderer);
-	    rebuild_map((void*)data);
-	    move_player_up((void*)data);
-	    break;
-	  case SDLK_LEFT:
-	    SDL_RenderClear(data->renderer);
-	    rebuild_map((void*)data);
-	    move_player_left((void*)data);
-	    break;
-	  case SDLK_RIGHT:
-	    SDL_RenderClear(data->renderer);
-	    rebuild_map((void*)data);
-	    move_player_right((void*)data);
-	    break;
-	  case SDLK_DOWN:
-	    SDL_RenderClear(data->renderer);
-	    rebuild_map((void*)data);
-	    move_player_down((void*)data);
-	    break;
-	  }
-	}
-      	  SDL_RenderPresent(data->renderer);
- 	  SDL_SetRenderTarget(data->renderer, NULL);
+      }
     } 
     
   SDL_DestroyTexture(data->texture);
