@@ -61,11 +61,7 @@ int client_loop(int s, t_player_request* client_request)
 
     if (select((s + 1), &fd_read, NULL, NULL, NULL) == -1)
 	    return 0;
-    if (FD_ISSET(STDIN_FILENO, &fd_read))
-	{
-        printf("Send_request\n");
-        send_request(s, client_request);
-	}
+    // here call start map
     if (FD_ISSET(s, &fd_read))
     {
         printf("get_msg\n");
