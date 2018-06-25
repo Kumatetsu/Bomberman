@@ -14,7 +14,7 @@
 typedef struct      s_srv
 {
     int             fd;
-    t_player_infos	*clients[4];
+    t_player_info	*clients[4];
     fd_set			fd_read;
     int				fd_max;
 }                   t_srv;
@@ -23,6 +23,6 @@ typedef struct      s_srv
 t_srv           *create_struct_srv();
 int             main_loop(t_srv **srv);
 int             accept_clients(t_srv **srv);
-t_player_infos	*create_player(int fd);
+t_player_info	*create_player(int fd);
 
 #endif

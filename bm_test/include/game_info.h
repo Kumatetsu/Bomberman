@@ -7,7 +7,7 @@ typedef struct  	s_game_info
 {
 	int         	checksum;               /* Un checksum simple */
 	int 			tick_time;
-	t_player_infos	*players[4];
+	t_player_info	*players[4];
 	int 			game_status;
 } 					t_game_info;
 

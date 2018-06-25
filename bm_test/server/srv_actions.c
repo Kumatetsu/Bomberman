@@ -3,7 +3,7 @@
 
 int accept_clients(t_srv **srv)
 {
-    t_player_infos *client;
+    t_player_info *client;
 
     int			cs;
     int          i;
@@ -43,9 +43,9 @@ int accept_clients(t_srv **srv)
     return 0;
 }
 
-t_player_infos        *create_player(int fd)
+t_player_info       *create_player(int fd)
 {
-    t_player_infos  *player;
+    t_player_info   *player;
 
     if ((player = malloc(sizeof (*player))) == 0)
         return NULL;

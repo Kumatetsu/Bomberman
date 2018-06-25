@@ -1,7 +1,7 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-typedef struct 	s_player_infos
+typedef struct 	s_player_info
 {
   int  			connected;
   int	  		alive;
@@ -14,6 +14,6 @@ typedef struct 	s_player_infos
   int   		bombs_capacity;
   int   		frags;
   int			fd;
-} 				t_player_infos;
+} 				t_player_info;
 
 #endif
