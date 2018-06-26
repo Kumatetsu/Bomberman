@@ -24,13 +24,11 @@ t_server 	*create_server(int *ticker) {
 
   s = NULL;
   if ((s = malloc(sizeof (*s))) == NULL)
-      return NULL;
-
+    return NULL;
   if (pthread_create(&ticker_thread, NULL, threaded_ticker, ticker) == -1)
-  {
-    printf("Ticker thread failed");
-    return;
-  }
-
+    {
+      printf("Ticker thread failed");
+      return;
+    }
   return s;
 }
