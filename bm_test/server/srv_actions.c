@@ -3,7 +3,7 @@
 
 int accept_clients(t_srv **srv)
 {
-    t_srv_client *client;
+    t_player_info *client;
 
     int			cs;
     int          i;
@@ -23,7 +23,7 @@ int accept_clients(t_srv **srv)
     if ((*srv)->clients[3] != NULL)
         return 0;
 
-    client = create_srv_client(cs);
+    client = create_player(cs);
     if (NULL == client)
         return -1;
     for (i = 0; i < 4; i++)
@@ -34,10 +34,23 @@ int accept_clients(t_srv **srv)
         }
     }
 
-
+    client->connected = 1;
+    client->alive = 1;
     (*srv)->clients[j] = client;
     printf("%d\n", j);
     printf("%d\n", (*srv)->clients[j]->fd);
     printf("cli accepted\n");
     return 0;
+}
+
+t_player_info       *create_player(int fd)
+{
+    t_player_info   *player;
+
+    if ((player = malloc(sizeof (*player))) == 0)
+        return NULL;
+
+    player->fd = fd;
+
+    return player;
 }
