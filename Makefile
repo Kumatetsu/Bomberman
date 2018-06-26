@@ -10,7 +10,11 @@ LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
 SRC 	= 	main.c 				\
 		menu.c				\
 		start_map.c			\
-		white_bomber.c			\
+		game_map/white_bomber.c		\
+		game_map/blue_bomber.c		\
+		game_map/red_bomber.c		\
+		game_map/black_bomber.c		\
+		game_map/bomb.c			\
 	 	sdl/init.c 			\
 		client/client.c 		\
 		client/socket.c			\
@@ -20,8 +24,10 @@ SRC 	= 	main.c 				\
 		server/thread.c			\
 		server/player.c			\
 		base_map/base_map_manager.c	\
-		base_map/draw_base_map.c		\
+		base_map/draw_base_map.c	\
 		base_map/init_tools.c		\
+		base_map/draw_players.c		\
+		game_event.c			\
 
 OBJ 	= ${SRC:%.c=%.o}
 
