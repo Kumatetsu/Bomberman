@@ -21,8 +21,8 @@ int get_request_checksum(t_player_request* client_request)
 	p = (unsigned char *)&client_request->command;
 	for (int i=0; i<(int)sizeof(client_request->command); i++)
 		checksum += p[i];
-	p = (unsigned char *)&client_request->speed;
-	for (int i=0; i<(int)sizeof(client_request->speed); i++)
+	p = (unsigned char *)&client_request->num_player;
+	for (int i=0; i<(int)sizeof(client_request->num_player); i++)
 		checksum += p[i];
 
 	return checksum;

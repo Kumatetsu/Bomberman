@@ -3,6 +3,14 @@
 
 #include "client.h"
 
+typedef struct 			s_map_destroyable
+{
+	int					bomb;
+	int					bomb_owner;
+	int					start_explode;
+	int					wall_destroyable;
+}						t_map_destroyable;
+
 typedef struct  		s_game_info
 {
 	int         		checksum;               /* Un checksum simple */
@@ -11,13 +19,5 @@ typedef struct  		s_game_info
 	int 				game_status;
 	t_map_destroyable	*map_destroyable[14][15];
 } 						t_game_info;
-
-typedef struct 			s_map_destroyable
-{
-	int					bomb;
-	int					bomb_owner;
-	int					start_explode;
-	int					wall_destroyable;
-}						t_map_destroyable;
 
 #endif
