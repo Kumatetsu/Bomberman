@@ -108,22 +108,3 @@ void	*draw_pannel(void *arg)
 			     SDL_GetError(), data->window);
   return (NULL);
 }
-
-void	*draw_player_1(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect bomberman_white = {70, 38, 16, 24};
-  SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 24 ,
-			16 * 3, 24 * 3};
-  data->players[0].x = (I_BEGIN + 1) * 48;
-  data->players[0].y = ((J_BEGIN + 1) * 48) - 24;
-  data->players[0].index_sprite = not_move;
-  error = SDL_RenderCopy(data->renderer, data->texture,
-			 &bomberman_white, &dest_rect);
-  if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Player1 Failed",
-			     SDL_GetError(), data->window);
-  return (NULL);
-}

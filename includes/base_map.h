@@ -2,19 +2,23 @@
 #define _BASE_MAP_H_
 #include "player.h"
 #include "sdl.h"
+
 typedef enum texture_type
   {
-    wall,
-    ground,
-    ground_shadowed,
-    firstPlayer,
-    pannel,
-    timer,
     bomb = 0,
+    wall = 1,
+    ground = 2,
+    ground_shadowed = 3,
+    pannel = 4,
+    timer = 5,
+  } texture_type;
+
+typedef enum bomb_texture_type
+  {
     bomb_s = 0,
     bomb_m = 1,
     bomb_l = 2
-  } texture_type;
+  } bomb_texture_type;
 
 typedef struct s_map
 {
@@ -30,7 +34,7 @@ typedef struct s_data
   SDL_Window	*window;
   t_map		array_map[14][15];
   t_player	players[4];
-  t_map		destroyable[3][3];
+  SDL_Rect	destroyable[3][3];
 } t_data;
 
 // in the picture, the size of the square is 16 for a wall block, so i use 48
@@ -41,15 +45,44 @@ static const int PIXEL_SIZE = 48;
 static const int I_BEGIN = ((1024 - (15 * 48)) / 2 ) / 48;
 static const int J_BEGIN = (768 - (13 * 48)) / 48;
 
-void *draw_player_1(void *arg);
+
+//start_map.c
+int start_map(t_sdl *sdl);
 void *init_sprites_sheet(void *arg);
-void *draw_map_model(void *arg);
-void *draw_pannel(void *arg);
-void *draw_timer(void *arg);
-void *draw_all(void *arg);
-void *rebuild_map(void *arg);
+
+//game_map/white_bomber.c
 void *white_bomber_sprite(void *arg);
+
+//game_map/black_bomber.c
+void *black_bomber_sprite(void *arg);
+
+//game_map/red_bomber.c
+void *red_bomber_sprite(void *arg);
+
+//game_map/blue_bomber.c
+void *blue_bomber_sprite(void *arg);
+
+//game_map/bomb.c
+void *bomb_sprite(void *arg);
+
+//base_map/init_tools.c
 SDL_Rect init_rect(int x, int y, int w, int z);
 t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type);
-int start_map(t_sdl *sdl);
+
+
+//base_map/base_map_manager.c
+void *draw_all(void *arg);
+void *rebuild_map(void *arg);
+
+//base_map/draw_base_map.c
+void *draw_map_model(void *arg);
+void *draw_timer(void *arg);
+void *draw_pannel(void *arg);
+
+//base_map/draw_players.c
+void *draw_player_1(void *arg);
+void *draw_player_2(void *arg);
+void *draw_player_3(void *arg);
+void *draw_player_4(void *arg);
+
 #endif

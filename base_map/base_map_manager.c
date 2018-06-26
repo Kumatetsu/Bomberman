@@ -11,8 +11,16 @@ void *draw_all(void *arg)
   draw_map_model(arg);
   draw_pannel(arg);
   draw_timer(arg);
-  draw_player_1(arg);
   white_bomber_sprite(arg);
+  red_bomber_sprite(arg);
+  black_bomber_sprite(arg);
+  blue_bomber_sprite(arg);
+
+  draw_player_1(arg);
+  draw_player_2(arg);
+  draw_player_3(arg);
+  draw_player_4(arg);
+
   return (NULL);
 }
 
