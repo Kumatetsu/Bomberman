@@ -5,12 +5,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <client.h>
 
-int create_client_socket()
+int         create_client_socket()
 {
-    struct sockaddr_in sin;
-    int s;
-    int port;
+    struct  sockaddr_in sin;
+    int     s;
+    int     port;
 
     memset(&sin, 0, sizeof(struct sockaddr_in));
     port = 4022;
