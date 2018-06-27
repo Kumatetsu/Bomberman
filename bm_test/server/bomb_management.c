@@ -6,62 +6,56 @@
 void					trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable	*bomb)
 {
 	int					k;
+	int 				i;
+	int 				j;
 	int					is_blocked;
+	int 				x;
+	int 				y;
+	int 				current_pos;
+	int 				pos;
 	t_map_destroyable	*presence;
 
 	is_blocked = 0;
-	// set the 3 case before and after the bomb in fire
-	for (k = bomb->x_pos-3; k < bomb->x_pos+3; ++k) {
-		if (k == 0 || is_blocked == 1)
+	// factorization
+	for (j=0;i<2;++j)
+	{
+		pos = i == 0 ? bomb->x_pos : bomb->y_pos;
+		// the block is 8 steps, so we do it 8 time
+		for (i = pos;i < pos + 8; ++i)
 		{
-			is_blocked = (k == 0 ? 0 : 1);
-			continue;
-		}
-		if (map_pointer[k][bomb->y_pos] == WALL)
-		{
-			is_blocked = 1;
-			continue;
-		}
-		map_pointer[k][bomb->y_pos] = FIRE;
-		presence = get_element_at_pos(game_info, k, bomb->y_pos);
-		if (presence != NULL && presence->bomb == 0)
-		{
-			presence->dying = 1;
-			is_blocked =1;
-		}
-		else if (presence != NULL && presence->bomb == 1 && bomb->start_explode > game_info->tick_time)
-		{
-			bomb->start_explode = game_info->tick_time;
-			trigger_bomb(game_info, map_pointer, presence);
-			is_blocked = 1;
+			current_pos = i == 0 ? bomb->y_pos : bomb->x_pos;
+			// set the 3 case before and after the bomb in fire
+			for (k = current_pos-3; k < current_pos+3; ++k) {
+				if (k == 0 || is_blocked == 1)
+				{
+					is_blocked = (k == 0 ? 0 : 1);
+					continue;
+				}
+				x = i == 0 ? k : pos;
+				y = i == 0 ? pos : k;
+
+				if (map_pointer[x][y] == WALL)
+				{
+					is_blocked = 1;
+					continue;
+				}
+				map_pointer[x][y] = FIRE;
+				presence = get_element_at_pos(game_info, x, y);
+				if (presence != NULL && presence->bomb == 0)
+				{
+					presence->dying = 1;
+					is_blocked =1;
+				}
+				else if (presence != NULL && presence->bomb == 1 && bomb->start_explode > game_info->tick_time)
+				{
+					bomb->start_explode = game_info->tick_time;
+					trigger_bomb(game_info, map_pointer, presence);
+					is_blocked = 1;
+				}
+			}
 		}
 	}
 
-	// set the 3 case before and after the bomb in fire
-	for (k = bomb->y_pos-3; k < bomb->y_pos+3; ++k) {
-		if (k == 0 || is_blocked == 1)
-		{
-			is_blocked = (k == 0 ? 0 : 1);
-			continue;
-		}
-		if (map_pointer[bomb->x_pos][k] == WALL)
-		{
-			is_blocked = 1;
-			continue;
-		}
-		map_pointer[bomb->x_pos][k] = FIRE;
-		presence = get_element_at_pos(game_info, bomb->x_pos, k);
-		if (presence != NULL && presence->bomb == 0)
-		{
-			presence->dying = 1;
-			is_blocked =1;
-		}
-		else if (presence != NULL && presence->bomb == 1 && bomb->start_explode > game_info->tick_time)
-		{
-			bomb->start_explode = game_info->tick_time;
-			trigger_bomb(game_info, map_pointer, presence);
-		}
-	}
 }
 
 void					destroy_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable	*bomb_to_destroy)
