@@ -5,12 +5,12 @@
 #include <SDL2/SDL_ttf.h>
 #include "server.h"
 
-int **get_array_map() {
-	static int map[104][88];
-	int x;
-	int y;
-	int current_x_state;
-	int current_y_state;
+int				**get_array_map() {
+	static int 	map[104][88];
+	int 		x;
+	int 		y;
+	int 		current_x_state;
+	int 		current_y_state;
 
 	current_y_state = 0;
 	for (y = 0; y < 88; y++) {
