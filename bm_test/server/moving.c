@@ -9,9 +9,9 @@ void	move_player(t_game_info *game_info, t_player_request *player_request)
 	int	i;
 
 	map_pointer = get_array_map();
-	// player can not go out of the grid, top-left spawn is (x=0,y=0) and bot-right is (x=98,y=82)
+	// player can not go out of the grid, top-left spawn is (x=0,y=0) and bot-right is (x=104,y=88)
 	if (player_request->x_pos < 0 || player_request->y_pos < 0
-	        || player_request->x_pos > 98 || player_request->y_pos > 82)
+	        || player_request->x_pos > 104 || player_request->y_pos > 88)
 		return;
 
 	// update the static map with the player position
