@@ -12,14 +12,14 @@ int				**get_array_map() {
 	int 		current_x_state;
 	int 		current_y_state;
 
-	current_y_state = 0;
+	current_y_state = FREE_SLOT;
 	for (y = 0; y < 88; y++) {
-		current_x_state = 1;
+		current_x_state = WALL;
 		if (x % 8 == 0)
-			current_y_state = 1;
+			current_y_state = WALL;
 		for (x = 0; x < 104; x++) {
-			if (x % 8 == 0 && current_y_state == 1)
-				current_x_state = current_x_state == 1 ? 0 : 1;
+			if (x % 8 == 0 && current_y_state == WALL)
+				current_x_state = current_x_state == 1 ? FREE_SLOT : WALL;
 			map[x][y] = current_y_state;
 		}
 	}

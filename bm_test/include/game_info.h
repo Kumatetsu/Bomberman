@@ -20,6 +20,11 @@ typedef struct  		s_game_info
 	t_map_destroyable	*map_destroyable[14][15];
 } 						t_game_info;
 
+enum MAP_GRID {
+	FREE_SLOT=0,
+	WALL=1
+};
+
 int**					get_array_map();
 
 #endif

@@ -14,14 +14,6 @@ void	move_player(t_game_info *game_info, t_player_request *player_request)
 	        || player_request->x_pos > 104 || player_request->y_pos > 88)
 		return;
 
-	// update the static map with the player position
-	for (i = 0; i < 4; i++)
-	{
-		if (game_info->players[i] == NULL)
-			continue;
-		map_pointer[player_request->x_pos][player_request->y_pos] = 1;
-	}
-
 	// check all possibles collisions of the player
 	if (check_collision(map_pointer, player_request) == 0)
 		return;
@@ -45,14 +37,14 @@ int		check_collision(int** map_pointer, t_player_request *player_request)
 	for (i = (player_request->x_pos-8); i < (player_request->x_pos+8); ++i) {
 		if (i < 0)
 			continue;
-		if (map_pointer[player_request->x_pos][player_request->y_pos] == 1)
+		if (map_pointer[player_request->x_pos][player_request->y_pos] == WALL)
 			return 0;
 	}
 
 	for (i = (player_request->y_pos-8); i < (player_request->y_pos+8); ++i) {
 		if (i < 0)
 			continue;
-		if (map_pointer[player_request->x_pos][player_request->y_pos] == 1)
+		if (map_pointer[player_request->x_pos][player_request->y_pos] == FREE_SLOT)
 			return 0;
 	}
 
