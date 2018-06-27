@@ -12,18 +12,16 @@ int **get_array_map() {
 	int current_x_state;
 	int current_y_state;
 
-	current_x_state = 1;
-	for (x = 0; x < 104; x++) {
-		current_y_state = 0;
-		if (x % 6 == 0)
-			current_x_state = current_x_state == 1 ? 0 : 1;
-		for (y = 0; y < 88; y++) {
-			if (current_x_state == 1) {
-				if (x % 4 == 0 && current_y_state == 0)
-					current_y_state = 1;
-				if (x % 8 == 0 && current_y_state == 1)
-					current_y_state = 1;
-			}
+	current_y_state = 0;
+	for (y = 0; y < 88; y++) {
+		current_x_state = 1;
+		if (x % 4 == 0 && current_y_state == 0)
+			current_y_state = 1;
+		if (x % 8 == 0 && current_y_state == 1)
+			current_y_state = 1;
+		for (x = 0; x < 104; x++) {
+			if (x % 6 == 0 && current_y_state == 1)
+				current_x_state = current_x_state == 1 ? 0 : 1;
 			map[x][y] = current_y_state;
 		}
 	}
