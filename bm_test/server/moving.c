@@ -14,6 +14,8 @@ void	move_player(t_game_info *game_info, t_player_request *player_request)
 	        || player_request->x_pos > 104 || player_request->y_pos > 88)
 		return;
 
+	add_destructible_elements(game_info, map_pointer);
+	add_bomb_elements(game_info, map_pointer);
 	// check all possibles collisions of the player
 	if (check_collision(map_pointer, player_request) == 0)
 		return;

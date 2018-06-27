@@ -14,7 +14,8 @@ SRV_SRC =	server/server.c 			    \
 			server/create_srv_struct.c 	    \
 			server/srv_actions.c 		    \
 			server/moving.c      		    \
-			server/create_server.c 		    \
+			server/map_management.c 	    \
+			server/bomb_management.c 	    \
 			server/main_loop.c			    \
 			common/request_communication.c  \
 
