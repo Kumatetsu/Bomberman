@@ -18,7 +18,7 @@ void	move_player(t_game_info *game_info, t_player_request *player_request)
 	{
 		if (game_info->players[i] == NULL)
 			continue;
-		map_pointer[player_request->x_pos][player_request->y_pos] == 1;
+		map_pointer[player_request->x_pos][player_request->y_pos] = 1;
 	}
 	
 	if (map_pointer[player_request->x_pos][player_request->y_pos] == 1)
