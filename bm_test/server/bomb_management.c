@@ -25,7 +25,10 @@ void					trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyab
 		map_pointer[k][bomb->y_pos] = FIRE;
 		presence = get_element_at_pos(game_info, k, bomb->y_pos);
 		if (presence != NULL && presence->bomb == 0)
+		{
+			presence->dying = 1;
 			is_blocked =1;
+		}
 		else if (presence != NULL && presence->bomb == 1 && bomb->start_explode > game_info->tick_time)
 		{
 			bomb->start_explode = game_info->tick_time;
@@ -49,7 +52,10 @@ void					trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyab
 		map_pointer[bomb->x_pos][k] = FIRE;
 		presence = get_element_at_pos(game_info, bomb->x_pos, k);
 		if (presence != NULL && presence->bomb == 0)
+		{
+			presence->dying = 1;
 			is_blocked =1;
+		}
 		else if (presence != NULL && presence->bomb == 1 && bomb->start_explode > game_info->tick_time)
 		{
 			bomb->start_explode = game_info->tick_time;
