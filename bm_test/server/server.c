@@ -15,6 +15,8 @@ int main()
 
     srv->fd = s;
 
+    get_array_map();
+
     //n'attend qu'un client pour qu'on puisse tester tranquillement
     //on doit init le server avant d'écouter les connections
     // if (accept_clients(&srv) == -1)

@@ -20,4 +20,6 @@ typedef struct  		s_game_info
 	t_map_destroyable	*map_destroyable[14][15];
 } 						t_game_info;
 
+int**					get_array_map();
+
 #endif
