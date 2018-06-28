@@ -23,7 +23,7 @@ void		init_server(t_sdl *sdl) {
   if (pthread_create(&t_server, NULL, server_thread, s) == -1)
       return;
   sleep(5);
-  client_loop(sdl);
+  client_loop(sdl, s->server_fd);
 
   return;
 }

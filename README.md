@@ -1,2 +1,2 @@
 # Bomberman
-C project
+C project for ETNA

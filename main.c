@@ -1,3 +1,13 @@
+/*
+** main.c for Bomberman in /Users/kumatetsu/projet-etna/DVC4/Bomberman/Bomberman
+** 
+** Made by BILLAUD Jean
+** Login   <billau_j@etna-alternance.net>
+** 
+** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
+** Last update Tue Jun 26 17:36:48 2018 BILLAUD Jean
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>
@@ -20,8 +30,8 @@ int main ()
   sdl = init_fronts(sdl);
 
   //comment maiemacs n to see start_map working ;)
-  //main_menu(sdl);
-  start_map(sdl);
+  main_menu(sdl);
+  //start_map(sdl);
   SDL_DestroyTexture(sdl->menu_background);
   SDL_DestroyTexture(sdl->white_back);
   SDL_DestroyTexture(sdl->join_game);
