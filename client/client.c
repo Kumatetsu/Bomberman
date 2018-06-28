@@ -5,13 +5,18 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Thu Jun 28 16:43:27 2018 BILLAUD Jean
+** Last update Thu Jun 28 18:13:45 2018 BILLAUD Jean
 */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <sys/types.h>
 #include <SDL2/SDL.h>
 #include "sdl.h"
 #include "client.h"
@@ -23,7 +28,7 @@ void		init_client(t_sdl *sdl)
   int		cs;
   char		*addr;
   
-  addr = enter_addr(sdl);//fonction pour avoir un visuel sur l'entree
+  addr = enter_addr(sdl);
   cs = client_connect(addr);
   client_loop(sdl, cs);
   
@@ -82,31 +87,57 @@ char		*enter_addr(t_sdl *sdl)
 
 void		client_loop(t_sdl *sdl, int socket) {
   int		quit = 0;
-  int		x;
-  int   	y;
+  //int		x;
+  //int   	y;
   SDL_Event	event_queue;
   SDL_Rect      join_position = {200, 300, 400, 60};
   SDL_Color	black = {0, 0, 0, 0};
   TTF_Font 	*police;
-  
+  fd_set	fd_read;
+
   police = TTF_OpenFont("ressources/bm.ttf",60);
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, "PATATE", black));
   printf("%d", socket);
   while(!quit) {
+    FD_ZERO(&fd_read);
+    //FD_SET(STDIN_FILENO, &fd_read);
+    FD_SET(socket, &fd_read);
+    printf("toto");
+    if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+	    quit = 1;
+
     while(SDL_PollEvent(&event_queue)) {
       switch(event_queue.type){
       case SDL_QUIT:
 	quit = 1;
 	break;
-      case SDL_MOUSEBUTTONDOWN:
-	x = event_queue.button.x;
-	y = event_queue.button.y;
-
-	if (( x > join_position.x ) && ( x < join_position.x + join_position.w ) && ( y > join_position.y ) && ( y < join_position.y + join_position.h ) )
-	  SDL_ShowSimpleMessageBox(0, "Mouse", "you'll join a game!", sdl->window);
+      case SDL_KEYUP:
 	break;
+      case SDL_KEYDOWN:
+	switch(event_queue.key.keysym.sym){
+	case SDLK_UP:
+	  printf("totototo");
+	  break;
+	case SDLK_DOWN:
+	  printf("totototo");
+	  //do some shit
+	  break;
+	case SDLK_RIGHT:
+	  printf("totototo");
+	  //do some shit
+	  break;
+	case SDLK_LEFT:
+	  printf("totototo");
+	  //do some shit
+	  break;
+	}
       }
     }
+    
+    if (FD_ISSET(socket, &fd_read))
+      {
+	printf("get_msg\n");
+      }
 
     //render updates from server
     SDL_RenderClear(sdl->renderer);
