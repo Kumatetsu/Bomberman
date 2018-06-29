@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Thu Jun 28 18:13:45 2018 BILLAUD Jean
+** Last update Fri Jun 29 17:04:48 2018 BILLAUD Jean
 */
 
 #include <stdlib.h>
@@ -23,14 +23,16 @@
 
 //loop SDL du client.
 // Pour le moment la socket n'est pas récupérée
-void		init_client(t_sdl *sdl)
+void			init_client(t_sdl *sdl)
 {
-  int		cs;
-  char		*addr;
-  
+  int			cs;
+  char			*addr;
+  t_player_request 	*cr;
   addr = enter_addr(sdl);
   cs = client_connect(addr);
-  client_loop(sdl, cs);
+  cr = create_player_request();
+  client_loop(sdl, cs, cr);
+  free_player_request(cr);
   
 }
 
@@ -85,7 +87,7 @@ char		*enter_addr(t_sdl *sdl)
   return addr;
 }
 
-void		client_loop(t_sdl *sdl, int socket) {
+void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
   int		quit = 0;
   //int		x;
   //int   	y;
@@ -98,6 +100,7 @@ void		client_loop(t_sdl *sdl, int socket) {
   police = TTF_OpenFont("ressources/bm.ttf",60);
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, "PATATE", black));
   printf("%d", socket);
+  cr->x_pos = 100;
   while(!quit) {
     FD_ZERO(&fd_read);
     //FD_SET(STDIN_FILENO, &fd_read);
@@ -116,19 +119,26 @@ void		client_loop(t_sdl *sdl, int socket) {
       case SDL_KEYDOWN:
 	switch(event_queue.key.keysym.sym){
 	case SDLK_UP:
-	  printf("totototo");
+	  printf("up\n");
+	  send_request(socket, cr);
+	  fseek(stdin,0,SEEK_END);
 	  break;
 	case SDLK_DOWN:
-	  printf("totototo");
-	  //do some shit
+	  printf("down\n");
+	  send_request(socket, cr);
+	  fseek(stdin,0,SEEK_END);
 	  break;
 	case SDLK_RIGHT:
-	  printf("totototo");
-	  //do some shit
+	  printf("right\n");
+	  send_request(socket, cr);
+
+	  fseek(stdin,0,SEEK_END);
 	  break;
 	case SDLK_LEFT:
-	  printf("totototo");
-	  //do some shit
+	  printf("left\n");
+	  send_request(socket, cr);
+
+	  fseek(stdin,0,SEEK_END);
 	  break;
 	}
       }
