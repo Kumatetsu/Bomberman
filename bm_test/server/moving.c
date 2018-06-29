@@ -3,19 +3,15 @@
 #include "request.h"
 #include "game_info.h"
 
-void	move_player(t_game_info *game_info, t_player_request *player_request)
+void	move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer)
 {
-	int	**map_pointer;
 	int	i;
 
-	map_pointer = get_array_map();
 	// player can not go out of the grid, top-left spawn is (x=0,y=0) and bot-right is (x=104,y=88)
 	if (player_request->x_pos < 0 || player_request->y_pos < 0
 	        || player_request->x_pos > 104 || player_request->y_pos > 88)
 		return;
 
-	add_destructible_elements(game_info, map_pointer);
-	add_bomb_elements(game_info, map_pointer);
 	// check all possibles collisions of the player
 	if (check_collision(map_pointer, player_request) == 0)
 		return;

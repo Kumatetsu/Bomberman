@@ -32,8 +32,9 @@ enum MAP_GRID {
 int**					get_array_map();
 void					add_destructible_elements(t_game_info *game_info, int** map_pointer);
 void					add_bomb_elements(t_game_info *game_info, int** map_pointer);
-void					destroy_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable	*bomb_to_destroy);
+void					destroy_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable *bomb_to_destroy);
 t_map_destroyable		*get_element_at_pos(t_game_info *game_info, int x, int y);
-void					trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable	*bomb);
+void					trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable *bomb);
+void					handle_requests(t_game_info *game_info, t_player_request *player_request);
 
 #endif
