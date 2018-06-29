@@ -17,7 +17,7 @@ void					trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyab
 
 	is_blocked = 0;
 	// factorization
-	for (j=0;i<2;++j)
+	for (j=0;j<2;++j)
 	{
 		pos = i == 0 ? bomb->x_pos : bomb->y_pos;
 		// the block is 8 steps, so we do it 8 time
