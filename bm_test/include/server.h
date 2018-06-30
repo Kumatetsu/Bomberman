@@ -24,5 +24,7 @@ t_srv           *create_struct_srv();
 int             main_loop(t_srv **srv);
 int             accept_clients(t_srv **srv);
 t_player_info	*create_player(int fd);
+int				check_collision(int** map, t_player_request *player_request);
+void			move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer);
 
 #endif
