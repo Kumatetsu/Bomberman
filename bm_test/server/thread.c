@@ -5,7 +5,7 @@
 ** Login   <hochar_n@etna-alternance.net>
 **
 ** Started on  Sun Jul  1 17:46:08 2018 hochar_n
-** Last update Sun Jul  1 23:30:17 2018 hochar_n
+** Last update Sun Jul  1 23:54:04 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -78,15 +78,11 @@ void process_requests(t_srv **server)
 	    }
 	}
       else if ((*server)->game_info == NULL)
-	continue;
+	{
+	  free((*server)->requests[i]);
+	  continue;
+	}
       handle_requests((*server)->game_info, (*server)->requests[i]);
-    }
-    else if ((*server)->game_info == NULL)
-    {
       free((*server)->requests[i]);
-      continue;
     }
-    handle_requests((*server)->game_info, (*server)->requests[i]);
-    free((*server)->requests[i]);
-  }
 }
