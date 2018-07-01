@@ -21,14 +21,8 @@ int		main()
   int		s;
   t_srv		*srv;
   int		tick;
-  int*		fd;
   pthread_t	main_thread;
   pthread_t	tick_thread;
-
-  fd = calloc(1, sizeof(int)*4);
-  fd[0] = 1;
-  create_game_info(fd);
-  printf("game info created");
 
   tick = 0;
   if ((srv = create_struct_srv()) == NULL)

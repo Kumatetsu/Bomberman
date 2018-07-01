@@ -50,15 +50,10 @@ int                     main_loop(t_srv **srv)
         {
             printf("client before send request\n");
             printf("%d\n", (*srv)->clients[i]->fd);
-	    error = 0;
+	        error = 0;
             len = sizeof (error);
-            retval = getsockopt (
-				 (*srv)->clients[i]->fd,
-				 SOL_SOCKET,
-				 SO_ERROR,
-				 &error,
-				 &len
-				 );
+            retval = getsockopt ((*srv)->clients[i]->fd,SOL_SOCKET,
+                    SO_ERROR,&error,&len);
 
             if (retval != 0 || error != 0) {
                 (*srv)->clients[i] = NULL;
@@ -74,7 +69,8 @@ int                     main_loop(t_srv **srv)
                 {
                    perror("recv()");
                    player_request = request_deserialize(buffer);
-		   printf("%s", request_serialization(player_request));
+		            printf("%s", request_serialization(player_request));
+		            add_request_to_server(srv, player_request);
                    if ( player_request->checksum !=
 			get_request_checksum(player_request)
 			)
@@ -101,4 +97,16 @@ void	*threaded_main_loop(void *server)
 
   srv = (t_srv**)server;
   while (1) { main_loop(srv); }
+}
+
+void add_request_to_server(t_srv **srv, t_player_request *player_request)
+{
+    int i;
+
+    for (i = 0; i < 7; ++i)
+    {
+        if ((*srv)->requests[i] != NULL)
+            continue;
+        (*srv)->requests[i] = player_request;
+    }
 }

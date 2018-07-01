@@ -25,6 +25,11 @@ t_srv *create_struct_srv()
     {
         s->clients[i] = NULL;
     }
+    for (i = 0; i < 8; i++)
+    {
+        s->requests[i] = NULL;
+    }
+    s->game_info = NULL;
 
     return s;
 }

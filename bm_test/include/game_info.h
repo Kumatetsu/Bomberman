@@ -43,5 +43,8 @@ void			destroy_bomb(t_game_info *game_info,
 t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y);
 void			trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable *bomb);
 void			handle_requests(t_game_info *game_info, t_player_request *player_request);
+int 			apply_explosion(t_map_destroyable *element, t_map_destroyable *bomb, t_game_info *game_info,
+							   int **map_pointer);
+void    		apply_bomb_to_position(t_map_destroyable *bomb, int **map_pointer, t_game_info *game_info, int i);
 
 #endif
