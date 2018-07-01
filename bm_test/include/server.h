@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include "player.h"
+#include "player_info.h"
 #include "game_info.h"
 #include "request.h"
 

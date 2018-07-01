@@ -5,6 +5,13 @@
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
 #include "base_map.h"
+#include "./bm_test/include/player_info.h"
+#include "./bm_test/include/game_info.h"
+#include "./bm_test/include/game_info_serialization.h"
+
+void	      send_game_info(){
+
+}
 
 int		start_map(t_sdl *sdl)
 {
@@ -44,7 +51,8 @@ int		start_map(t_sdl *sdl)
 	    case SDLK_UP:
 	      SDL_RenderClear(data->renderer);
 	      rebuild_map((void*)data);
-	      move_player_up((void*)data);
+	      /*move_player_up((void*)data);*/
+	      send_game_info();
 	      break;
 	    case SDLK_LEFT:
 	      SDL_RenderClear(data->renderer);

@@ -5,7 +5,7 @@
 ** Login   <hochar_n@etna-alternance.net>
 **
 ** Started on  Sun Jul  1 17:46:08 2018 hochar_n
-** Last update Sun Jul  1 23:30:17 2018 hochar_n
+** Last update Sun Jul  1 23:55:04 2018 MASERA Mathieu
 */
 
 #include <stdio.h>
@@ -37,6 +37,7 @@ void	*threaded_ticker(void *server)
   int	*tk;
   int   socket;
   char	*serialized_game_info;
+  int	i;
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
@@ -51,7 +52,7 @@ void	*threaded_ticker(void *server)
       my_sleep(0, 5000);
       if ((*srv)->game_info == NULL)
         continue;
-      for (int i = 0; i < (*srv)->n_clients; i++)
+      for (i = 0; i < (*srv)->n_clients; i++)
       {
         socket = (*srv)->clients[i]->fd;
         serialized_game_info = serialize_game_info((*srv)->game_info);
@@ -78,15 +79,11 @@ void process_requests(t_srv **server)
 	    }
 	}
       else if ((*server)->game_info == NULL)
-	continue;
+	{
+	  free((*server)->requests[i]);
+	  continue;
+	}
       handle_requests((*server)->game_info, (*server)->requests[i]);
-    }
-    else if ((*server)->game_info == NULL)
-    {
       free((*server)->requests[i]);
-      continue;
     }
-    handle_requests((*server)->game_info, (*server)->requests[i]);
-    free((*server)->requests[i]);
-  }
 }

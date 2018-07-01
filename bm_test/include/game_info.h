@@ -2,7 +2,7 @@
 #define _GAME_INFO_H_
 
 #include <stdlib.h>
-#include "player.h"
+#include "player_info.h"
 #include "client.h"
 
 typedef struct 	s_map_destroyable

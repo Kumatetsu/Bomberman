@@ -4,25 +4,26 @@
 int get_request_checksum(t_player_request* client_request)
 {
 	int checksum = 0;
-
+	int i;
+	
 	unsigned char *p = (unsigned char *)&client_request->magic;
-	for (int i=0; i<(int)sizeof(client_request->magic); i++) {
+	for (i = 0; i<(int)sizeof(client_request->magic); i++) {
 		checksum += p[i];
 	}
 	p = (unsigned char *)&client_request->y_pos;
-	for (int i=0; i<(int)sizeof(client_request->y_pos); i++)
+	for (i = 0; i<(int)sizeof(client_request->y_pos); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->x_pos;
-	for (int i=0; i<(int)sizeof(client_request->x_pos); i++)
+	for (i = 0; i<(int)sizeof(client_request->x_pos); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->dir;
-	for (int i=0; i<(int)sizeof(client_request->dir); i++)
+	for (i = 0; i<(int)sizeof(client_request->dir); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->command;
-	for (int i=0; i<(int)sizeof(client_request->command); i++)
+	for (i = 0; i<(int)sizeof(client_request->command); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->num_player;
-	for (int i=0; i<(int)sizeof(client_request->num_player); i++)
+	for (i = 0; i<(int)sizeof(client_request->num_player); i++)
 		checksum += p[i];
 
 	return checksum;

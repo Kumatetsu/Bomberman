@@ -1,5 +1,5 @@
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef _PLAYER_INFO_H_
+#define _PLAYER_INFO_H_
 
 typedef struct  s_player_info
 {

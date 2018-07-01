@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Sun Jul  1 12:44:22 2018 MASERA Mathieu
+** Last update Sun Jul  1 23:59:07 2018 MASERA Mathieu
 */
 
 #include <stdlib.h>
@@ -102,7 +102,7 @@ void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
   police = TTF_OpenFont("ressources/bm.ttf",60);
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, "PATATE", black));
   printf("%d", socket);
-  cr->x_pos = 100;
+  cr->command = 1;
     FD_ZERO(&fd_read);
     FD_SET(socket, &fd_read);
     start_map(sdl);

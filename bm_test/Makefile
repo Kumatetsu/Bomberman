@@ -1,7 +1,7 @@
 
 CC 	= gcc
 
-CFLAGS 	= -W -Werror -Wextra -Wall -pedantic -g -Iinclude/
+CFLAGS 	= -W -Werror -Wextra -Wall -g -Iinclude/
 
 LDFLAGS = -pthread
 
