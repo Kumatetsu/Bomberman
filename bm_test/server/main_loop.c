@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 **
 ** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
-** Last update Sun Jul  1 18:16:46 2018 hochar_n
+** Last update Sun Jul  1 23:23:07 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -52,8 +52,8 @@ int                     main_loop(t_srv **srv)
             printf("%d\n", (*srv)->clients[i]->fd);
 	        error = 0;
             len = sizeof (error);
-            retval = getsockopt ((*srv)->clients[i]->fd,SOL_SOCKET,
-                    SO_ERROR,&error,&len);
+            retval = getsockopt ((*srv)->clients[i]->fd, SOL_SOCKET,
+                    SO_ERROR, &error, &len);
 
             if (retval != 0 || error != 0) {
                 (*srv)->clients[i] = NULL;
@@ -72,8 +72,7 @@ int                     main_loop(t_srv **srv)
 		            printf("%s", request_serialization(player_request));
 		            add_request_to_server(srv, player_request);
                    if ( player_request->checksum !=
-			get_request_checksum(player_request)
-			)
+			get_request_checksum(player_request))
                    {
                        close((*srv)->clients[i]->fd);
                        (*srv)->clients[i] = NULL;

@@ -5,7 +5,7 @@
 ** Login   <hochar_n@etna-alternance.net>
 **
 ** Started on  Sun Jul  1 17:37:50 2018
-** Last update Sun Jul  1 18:13:42 2018 hochar_n
+** Last update Sun Jul  1 23:23:51 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -73,7 +73,7 @@ void			add_bomb_elements(
 	      && game_info->tick_time < map_destroyable->start_explode)
 	  )
 	continue;
-      if (map_destroyable->start_explode+5 == game_info->tick_time)
+      if (map_destroyable->start_explode + 5 == game_info->tick_time)
 	{
 	  destroy_bomb(game_info, map_pointer, map_destroyable);
 	  continue;

@@ -5,7 +5,7 @@
 ** Login   <hochar_n@etna-alternance.net>
 **
 ** Started on  Sun Jul  1 17:46:08 2018 hochar_n
-** Last update Sun Jul  1 18:05:28 2018 hochar_n
+** Last update Sun Jul  1 23:30:17 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -66,16 +66,20 @@ void process_requests(t_srv **server)
   int i;
 
   for (i = 0; i < 8; ++i)
-  {
-    if ((*server)->requests[i] == NULL)
-      continue;
-    if ((*server)->requests[i]->command == START_GAME)
     {
-      if ((*server)->n_clients >= 2 && (*server)->n_clients <= 4)
-      {
-        create_game_info(server);
-        my_putstr("\n creation of game requested");
-      }
+      if ((*server)->requests[i] == NULL)
+	continue;
+      if ((*server)->requests[i]->command == START_GAME)
+	{
+	  if ((*server)->n_clients >= 2 && (*server)->n_clients <= 4)
+	    {
+	      create_game_info(server);
+	      my_putstr("\n creation of game requested");
+	    }
+	}
+      else if ((*server)->game_info == NULL)
+	continue;
+      handle_requests((*server)->game_info, (*server)->requests[i]);
     }
     else if ((*server)->game_info == NULL)
     {
