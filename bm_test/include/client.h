@@ -13,11 +13,9 @@
 #include <string.h>
 #include "request.h"
 
-
 t_player_request* 	create_player_request();
-int 				free_player_request(t_player_request* client_request);
-int 				client_loop(int s, t_player_request* client_request);
-void				my_bzero(void *s1, int n);
-
+int 			free_player_request(t_player_request* client_request);
+int 			client_loop(int s);
+void			my_bzero(void *s1, int n);
 
 #endif

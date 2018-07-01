@@ -12,7 +12,9 @@
 #include <time.h>
 #include <string.h>
 
-typedef struct		s_player_request
+/* This header file is included in client.h  */
+
+typedef struct  s_player_request
 {
 	int				checksum;               /* Un checksum simple */
 	unsigned int	magic;                  /* Un magic number common entre le client et le serveur, ou l'identifiant d'un type de structure */
