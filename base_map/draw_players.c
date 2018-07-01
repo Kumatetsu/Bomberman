@@ -12,7 +12,7 @@ void	*draw_player_1(void *arg) {
   SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 36 ,
 			16 * 3, 24 * 3};
   data->players[0].x = (I_BEGIN + 1) * 48;
-  data->players[0].y = ((J_BEGIN + 1) * 48) - 24;
+  data->players[0].y = ((J_BEGIN + 1) * 48) - 36;
   data->players[0].index_sprite = not_move;
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &(data->players[0].bomber_sprites[bomber_d][not_move]),
