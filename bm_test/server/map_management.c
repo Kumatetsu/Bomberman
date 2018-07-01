@@ -73,7 +73,7 @@ void			add_bomb_elements(
 	      && game_info->tick_time < map_destroyable->start_explode)
 	  )
 	continue;
-      if (map_destroyable->start_explode+2 == game_info->tick_time)
+      if (map_destroyable->start_explode+5 == game_info->tick_time)
 	{
 	  destroy_bomb(game_info, map_pointer, map_destroyable);
 	  continue;
