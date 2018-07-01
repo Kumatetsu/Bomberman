@@ -31,5 +31,6 @@ int		check_collision(int** map, t_player_request *player_request);
 void		move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer);
 t_game_info *create_game_info(int fd1, int fd2, int fd3, int fd4);
 long        random_at_most(long max);
+void        specify_player_info(int fd1, int fd2, int fd3, int fd4, int i, t_game_info *game_info);
 
 #endif
