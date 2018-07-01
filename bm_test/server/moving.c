@@ -46,14 +46,14 @@ int	check_collision(
 {
   int	i;
 
-  for (i = (player_request->x_pos-8); i < (player_request->x_pos+8); ++i) {
+  for (i = (player_request->x_pos-3); i < (player_request->x_pos+3); ++i) {
     if (i < 0)
       continue;
     if (map_pointer[player_request->x_pos][player_request->y_pos] == WALL)
       return 0;
   }
 
-  for (i = (player_request->y_pos-8); i < (player_request->y_pos+8); ++i) {
+  for (i = (player_request->y_pos-3); i < (player_request->y_pos+3); ++i) {
     if (i < 0)
       continue;
     if (map_pointer[player_request->x_pos][player_request->y_pos] == FREE_SLOT)
