@@ -29,7 +29,9 @@ int			accept_clients(t_srv **srv)
         printf("we fucked up\n");
         return -1;
     }
-    if ((*srv)->clients[3] != NULL)
+    if ((*srv)->clients[3] != NULL
+        || (*srv)->n_clients > 3
+        || (*srv)->game_info != NULL)
         return 0;
 
     client = create_player(cs);
