@@ -1,3 +1,13 @@
+/*
+** thread.c for Project-Master in /home/enach/CLionProjects/Bomberman/bm_test/server
+**
+** Made by hochar_n
+** Login   <hochar_n@etna-alternance.net>
+**
+** Started on  Sun Jul  1 17:46:08 2018 hochar_n
+** Last update Sun Jul  1 18:05:28 2018 hochar_n
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,7 +19,6 @@
 #include "game_info.h"
 #include "game_info_serialization.h"
 
-// 1 sec = 1 nano * 10^9 (1 000 000 000)  
 void			my_sleep(int sec, int milli)
 {
   int			nano;
@@ -32,7 +41,7 @@ void	*threaded_ticker(void *server)
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
-  while(1)
+  while (1)
     {
       sprintf(log, "\nTick: %d", (*tk));
       my_putstr(log);
