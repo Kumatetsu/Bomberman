@@ -15,6 +15,9 @@ int		main()
   pthread_t	main_thread;
   pthread_t	tick_thread;
 
+  create_game_info(2, 3, 4, 5);
+  printf("game info created");
+
   tick = 0;
   if ((srv = create_struct_srv()) == NULL)
     return (0);
@@ -38,6 +41,7 @@ int		main()
       printf("main thread failed");
       return (0);
     }
+
   
   //n'attend qu'un client pour qu'on puisse tester tranquillement
   //on doit init le server avant d'écouter les connections
