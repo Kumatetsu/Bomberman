@@ -1,13 +1,12 @@
 #include "socket.h"
 #include "server.h"
 
-int accept_clients(t_srv **srv)
+int			accept_clients(t_srv **srv)
 {
-    t_player_info *client;
-
+    t_player_info	*client;
     int			cs;
-    int          i;
-    int          j;
+    int			i;
+    int			j;
     struct sockaddr_in	client_sin;
     socklen_t		client_sin_len;
 
@@ -37,6 +36,7 @@ int accept_clients(t_srv **srv)
     client->connected = 1;
     client->alive = 1;
     (*srv)->clients[j] = client;
+    (*srv)->n_clients++;
     printf("%d\n", j);
     printf("%d\n", (*srv)->clients[j]->fd);
     printf("cli accepted\n");
