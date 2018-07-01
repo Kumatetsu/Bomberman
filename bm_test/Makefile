@@ -19,6 +19,7 @@ SRV_SRC =	server/server.c	\
 		server/thread.c \
 		server/game_info.c \
 		server/create_srv_socket.c	\
+		server/create_game.c	\
 		server/create_srv_struct.c	\
 		server/srv_actions.c	\
 		server/main_loop.c	\
