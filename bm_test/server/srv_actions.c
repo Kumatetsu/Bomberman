@@ -1,3 +1,13 @@
+/*
+** srv_actions.c for Project-Master in /home/enach/CLionProjects/Bomberman/bm_test/server
+**
+** Made by hochar_n
+** Login   <hochar_n@etna-alternance.net>
+**
+** Started on  Sun Jul  1 17:45:57 2018 hochar_n
+** Last update Sun Jul  1 17:46:02 2018 hochar_n
+*/
+
 #include "socket.h"
 #include "server.h"
 
