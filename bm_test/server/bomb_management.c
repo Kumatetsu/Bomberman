@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 **
 ** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
-** Last update Sun Jul  1 18:29:55 2018 hochar_n
+** Last update Sun Jul  1 22:10:22 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -45,17 +45,11 @@ void			trigger_bomb(
 	    x = i == 0 ? k : pos;
 	    y = i == 0 ? pos : k;
 	    if (map_pointer[x][y] == WALL)
-	      {
-		is_blocked = 1;
-		continue;
-	      }
+	      is_blocked = 1; continue;
 	    map_pointer[x][y] = FIRE;
 	    presence = get_element_at_pos(game_info, x, y);
 	    if (presence != NULL && presence->bomb == 0)
-	      {
-		presence->dying++;
-		is_blocked =1;
-	      }
+	      presence->dying++; is_blocked =1;
 	    else if (presence != NULL && presence->bomb == 1
 		     && bomb->start_explode > game_info->tick_time)
 	      {
