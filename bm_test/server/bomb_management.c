@@ -35,30 +35,41 @@ void			trigger_bomb(
       pos = (i == 0 ? bomb->x_pos : bomb->y_pos);
       for (i = pos; i < pos + 8; ++i)
 	{
-	  current_pos = i == 0 ? bomb->y_pos : bomb->x_pos;
-	  for (k = (current_pos-3); k < (current_pos+3); ++k) {
-	    if (k == 0 || is_blocked == 1)
-	      {
-		is_blocked = (k == 0 ? 0 : 1);
-		continue;
-	      }
-	    x = i == 0 ? k : pos;
-	    y = i == 0 ? pos : k;
-	    if (map_pointer[x][y] == WALL)
-	      is_blocked = 1; continue;
-	    map_pointer[x][y] = FIRE;
-	    presence = get_element_at_pos(game_info, x, y);
-	    if (presence != NULL && presence->bomb == 0)
-	      presence->dying++; is_blocked =1;
-	    else if (presence != NULL && presence->bomb == 1
-		     && bomb->start_explode > game_info->tick_time)
-	      {
-		bomb->start_explode = game_info->tick_time;
-		trigger_bomb(game_info, map_pointer, presence);
-		is_blocked = 1;
-	      }
-	  }
+        apply_bomb_to_position(bomb, map_pointer, game_info);
 	}
+    }
+}
+
+void    apply_bomb_to_position(t_map_destroyable *bomb,
+                               int **map_pointer,
+                               t_game_info *game_info
+                                )
+{
+    int k;
+    int is_blocked;
+    int x;
+    int y;
+    int current_pos;
+    t_map_destroyable	*presence;
+
+    is_blocked = 0;
+    current_pos = i == 0 ? bomb->y_pos : bomb->x_pos;
+    for (k = (current_pos-3); k < (current_pos+3); ++k) {
+        if (k == 0 || is_blocked == 1)
+        {
+            is_blocked = (k == 0 ? 0 : 1);
+            continue;
+        }
+        x = i == 0 ? k : pos;
+        y = i == 0 ? pos : k;
+        if (map_pointer[x][y] == WALL)
+        {
+            is_blocked = 1;
+            continue;
+        }
+        map_pointer[x][y] = FIRE;
+        presence = get_element_at_pos(game_info, x, y);
+        apply_explosion(presence, bomb, game_info, map_pointer);
     }
 }
 
@@ -147,4 +158,18 @@ t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y)
     }
   }
   return NULL;
+}
+
+int apply_explosion(t_map_destroyable *element, t_map_destroyable *bomb, t_game_info *game_info, int **map_pointer) {
+    if (presence != NULL && presence->bomb == 0)
+        presence->dying++;
+    else if (presence != NULL && presence->bomb == 1
+             && bomb->start_explode > game_info->tick_time)
+    {
+        bomb->start_explode = game_info->tick_time;
+        trigger_bomb(game_info, map_pointer, presence);
+    }
+    else
+        return 0;
+    return 1;
 }
