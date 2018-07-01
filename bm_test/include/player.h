@@ -14,7 +14,6 @@ typedef struct  s_player_info
     int         num_player; //between 0 and 3 because it's easier for my arrays
 }               t_player_info;
 
-//no need de connaitre le type, pour les player on saura qu'on init les spites players
 enum Directions {
     BOMBER_D = 0,
     BOMBER_L = 1,

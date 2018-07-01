@@ -53,7 +53,7 @@ void			trigger_bomb(
 	    presence = get_element_at_pos(game_info, x, y);
 	    if (presence != NULL && presence->bomb == 0)
 	      {
-		presence->dying = 1;
+		presence->dying++;
 		is_blocked =1;
 	      }
 	    else if (presence != NULL && presence->bomb == 1
@@ -146,10 +146,10 @@ t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y)
     for (j = 1; j < 15; ++j) {
       if (game_info->map_destroyable[i][j] == NULL
 	  || game_info->map_destroyable[i][j]->bomb == 1)
-	continue;
+          continue;
       map_destroyable = game_info->map_destroyable[i][j];
       if (map_destroyable->y_pos == y && map_destroyable->x_pos == x)
-	return map_destroyable;
+          return map_destroyable;
     }
   }
   return NULL;
