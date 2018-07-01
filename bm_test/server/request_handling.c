@@ -19,10 +19,9 @@ void	handle_requests(
 			)
 {
 	int	**map_pointer;
-	int	i;
 
 	map_pointer = get_array_map();
 	add_destructible_elements(game_info, map_pointer);
-
 	add_bomb_elements(game_info, map_pointer);
+	move_player(game_info, player_request, map_pointer);
 }

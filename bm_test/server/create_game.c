@@ -17,9 +17,9 @@
 #include "game_info.h"
 #include "my_put.h"
 
-t_game_info *create_game_info(int *fd)
+void create_game_info(t_srv **srv)
 {
-  t_game_info 		*game_info;
+  t_game_info 		  *game_info;
   t_map_destroyable 	*map_destroyable;
   int 			i;
   int 			x;
@@ -28,11 +28,12 @@ t_game_info *create_game_info(int *fd)
   game_info = calloc(1, sizeof(t_game_info));
   for (i = 0; i < 3; ++i)
     {
-      game_info->players[i] = calloc(1, sizeof(t_player_info));
+      game_info->players[i] = (*srv)->clients[i];
+      if (game_info->players[i] == NULL)
+        continue;
       game_info->players[i]->connected = 1;
       game_info->players[i]->bomb_left = 1;
       game_info->players[i]->num_player = i + 1;
-      game_info->players[i]->fd = fd[i];
       specify_player_info(i, game_info);
     }
   for (i = 0; i < 32; ++i)
@@ -46,7 +47,7 @@ t_game_info *create_game_info(int *fd)
       game_info->map_destroyable[y][x] =  map_destroyable;
     }
 
-  return game_info;
+  (*srv)->game_info = game_info;
 }
 
 void    specify_player_info(int i, t_game_info *game_info)

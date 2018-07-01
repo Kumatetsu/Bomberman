@@ -35,6 +35,12 @@ enum CLIENT_REQUEST_STATUS
 	SUCCESS_FREE
 };
 
+enum COMMAND_REQUEST
+{
+	START_GAME=1,
+			PLACE_BOMB=2
+};
+
 char* 				request_serialization(t_player_request* client_request);
 t_player_request* 	request_deserialize(char* serialized_request);
 int					get_request_checksum(t_player_request* client_request);

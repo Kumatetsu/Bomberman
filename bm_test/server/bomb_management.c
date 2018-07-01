@@ -19,30 +19,24 @@ void			trigger_bomb(
 				     t_map_destroyable *bomb
 				     )
 {
-  int			k;
   int			i;
   int			j;
-  int			is_blocked;
-  int 			x;
-  int 			y;
-  int 			current_pos;
   int 			pos;
-  t_map_destroyable	*presence;
 
-  is_blocked = 0;
   for (j=0; j<2; ++j)
     {
       pos = (i == 0 ? bomb->x_pos : bomb->y_pos);
       for (i = pos; i < pos + 8; ++i)
 	{
-	  apply_bomb_to_position(bomb, map_pointer, game_info);
+	  apply_bomb_to_position(bomb, map_pointer, game_info, i);
 	}
     }
 }
 
 void    		apply_bomb_to_position(t_map_destroyable *bomb,
 					       int **map_pointer,
-					       t_game_info *game_info
+					       t_game_info *game_info,
+                           int i
 					       )
 {
   int 			k;
@@ -50,8 +44,10 @@ void    		apply_bomb_to_position(t_map_destroyable *bomb,
   int 			x;
   int 			y;
   int 			current_pos;
+  int 			pos;
   t_map_destroyable	*presence;
 
+  pos = (i == 0 ? bomb->x_pos : bomb->y_pos);
   is_blocked = 0;
   current_pos = i == 0 ? bomb->y_pos : bomb->x_pos;
   for (k = (current_pos-3); k < (current_pos+3); ++k) {
@@ -161,7 +157,7 @@ t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y)
 }
 
 int apply_explosion(
-		    t_map_destroyable *element,
+		    t_map_destroyable *presence,
 		    t_map_destroyable *bomb,
 		    t_game_info *game_info,
 		    int **map_pointer

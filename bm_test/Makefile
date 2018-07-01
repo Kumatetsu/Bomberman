@@ -23,6 +23,7 @@ SRV_SRC =	server/server.c	\
 		server/create_srv_struct.c	\
 		server/srv_actions.c	\
 		server/main_loop.c	\
+		server/request_handling.c \
 		server/moving.c      		    \
 		server/map_management.c 	    \
 		server/bomb_management.c 	    \
