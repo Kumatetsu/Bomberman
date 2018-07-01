@@ -129,7 +129,7 @@ void			destroy_bomb(
     }
   }
   for (i = 0; i < 4; ++i) {
-    if (game_info->players[i] == NULL)
+    if (game_info->players[i] == NULL && bomb_to_destroy->bomb_owner == i + 1)
       continue;
     game_info->players[i]->bomb_left = 1;
   }
