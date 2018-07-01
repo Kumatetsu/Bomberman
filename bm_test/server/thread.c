@@ -48,6 +48,9 @@ void	*threaded_ticker(void *server)
       sprintf(log, "\n number of clients: %d\n", (*srv)->n_clients);
       my_putstr(log);
       process_requests(srv);
+      my_sleep(0, 5000);
+      if ((*srv)->game_info == NULL)
+        continue;
       for (int i = 0; i < (*srv)->n_clients; i++)
       {
         socket = (*srv)->clients[i]->fd;
@@ -55,7 +58,6 @@ void	*threaded_ticker(void *server)
         write(socket, serialized_game_info, 1024);
       }
       ++(*tk);
-      my_sleep(0, 5000);
     }
 }
 
@@ -76,7 +78,11 @@ void process_requests(t_srv **server)
       }
     }
     else if ((*server)->game_info == NULL)
+    {
+      free((*server)->requests[i]);
       continue;
+    }
     handle_requests((*server)->game_info, (*server)->requests[i]);
+    free((*server)->requests[i]);
   }
 }
