@@ -15,6 +15,9 @@
 #include <SDL2/SDL_ttf.h>
 #include "sdl.h"
 #include "menu.h"
+#include "request.h"
+#include "player.h"
+#include "player_info.h"
 #include "base_map.h"
 
 int main ()

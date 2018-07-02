@@ -6,8 +6,9 @@
 #include <pthread.h>
 #include "sdl.h"
 #include "client.h"
-#include "base_map.h"
 #include "player_info.h"
+#include "player.h"
+#include "base_map.h"
 #include "game_info.h"
 #include "thread.h"
 #include "game_info_serialization.h"
