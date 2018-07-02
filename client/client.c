@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Sun Jul  1 23:59:07 2018 MASERA Mathieu
+** Last update Mon Jul  2 18:36:14 2018 BILLAUD Jean
 */
 
 #include <stdlib.h>
@@ -105,7 +105,9 @@ void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
   cr->command = 1;
     FD_ZERO(&fd_read);
     FD_SET(socket, &fd_read);
-    start_map(sdl);
+
+    if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+	    quit = 1;
 
     while(!quit) {
     //FD_SET(STDIN_FILENO, &fd_read);
@@ -150,10 +152,12 @@ void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
     
     if (FD_ISSET(socket, &fd_read))
       {
-	printf("get_msg\n");
+	printf("tata\n");
+	if (get_message(socket) == 0){
+	  quit = 1;
+	}
       }
 
-    //render updates from server
     SDL_RenderClear(sdl->renderer);
     SDL_RenderCopy(sdl->renderer, sdl->white_back, NULL, NULL);
     SDL_RenderCopy(sdl->renderer, sdl->server_welcome, NULL, &join_position);

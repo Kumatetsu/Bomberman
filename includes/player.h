@@ -1,18 +1,31 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+#include "sdl.h"
 //#include "server.h"
 
-typedef struct	s_player {
-  int	fd;
-  char	*identity;
-  int	x;
-  int	y;
-  int	disabled;
-  int	looking;
+//typedef struct	s_player {
+  //int	fd;
+  //char	*identity;
+  //int	x;
+  //int	y;
+  //int	disabled;
+  //int	looking;
+  //}	t_player;
+typedef struct  s_player_info
+{
+  int         connected;
+  int         alive;
+  int         dying;
+  int         x_pos;
+  int         y_pos;
+  int         current_dir;
+  int         bomb_left;
+  int         fd;
+  int         num_player; //between 0 and 3 because it's easier for my arrays
   int	index_sprite;
   SDL_Rect bomber_sprites[5][4];
-}	t_player;
+}               t_player_info;
 
 //no need de connaitre le type, pour les player on saura qu'on init les spites players
 enum BomberSpriteDir {bomber_d = 0,

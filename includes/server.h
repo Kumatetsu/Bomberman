@@ -17,7 +17,7 @@ typedef struct 	s_server
 {
   int		server_fd;
   int		state;
-  t_player	*players[4];
+  t_player_info	*players[4];
 }		t_server;
 
 
