@@ -1,9 +1,9 @@
 /*
 ** game_info_serialization.h for Project-Master in /home/enach/CLionProjects/Bomberman/bm_test/include
-** 
+**
 ** Made by hochar_n
 ** Login   <hochar_n@etna-alternance.net>
-** 
+**
 ** Started on  Mon Jul  2 21:08:29 2018 hochar_n
 ** Last update Mon Jul  2 21:08:30 2018 hochar_n
 */
