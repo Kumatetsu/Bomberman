@@ -32,7 +32,8 @@ void	*threaded_ticker(void *server)
   int	*tk;
   int   socket;
   char	*serialized_game_info;
-
+  int	i;
+  
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
@@ -43,11 +44,11 @@ void	*threaded_ticker(void *server)
       sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
       my_putstr(log);
       my_sleep(0, 5000);
-      for (int i = 0; i < (*srv)->n_players; i++)
+      for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  socket = (*srv)->players[i]->fd;
 	  serialized_game_info = serialize_game_info();
-	  write(socket, serialized_game_info, 1024);
+	  write(socket, serialized_game_info, sizeof(serialized_game_info + 1));
 	}
       ++(*tk);
     }
