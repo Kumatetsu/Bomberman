@@ -1,39 +1,28 @@
-/*
-** client_request_communication.c for Bomberman in /Users/kumatetsu/projet-etna/DVC4/Bomberman/Bomberman
-** 
-** Made by BILLAUD Jean
-** Login   <billau_j@etna-alternance.net>
-** 
-** Started on  Fri Jun 29 16:24:12 2018 BILLAUD Jean
-** Last update Sat Jun 30 14:24:10 2018 MASERA Mathieu
-*/
-
-#include "sdl.h"
+#include "socket.h"
 #include "client.h"
-#include "request.h"
 
 int get_request_checksum(t_player_request* client_request)
 {
 	int checksum = 0;
-	int i;
+
 	unsigned char *p = (unsigned char *)&client_request->magic;
-	for (i = 0; i<(int)sizeof(client_request->magic); i++) {
+	for (int i=0; i<(int)sizeof(client_request->magic); i++) {
 		checksum += p[i];
 	}
 	p = (unsigned char *)&client_request->y_pos;
-	for (i = 0; i<(int)sizeof(client_request->y_pos); i++)
+	for (int i=0; i<(int)sizeof(client_request->y_pos); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->x_pos;
-	for (i = 0; i<(int)sizeof(client_request->x_pos); i++)
+	for (int i=0; i<(int)sizeof(client_request->x_pos); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->dir;
-	for (i = 0; i<(int)sizeof(client_request->dir); i++)
+	for (int i=0; i<(int)sizeof(client_request->dir); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->command;
-	for (i = 0; i<(int)sizeof(client_request->command); i++)
+	for (int i=0; i<(int)sizeof(client_request->command); i++)
 		checksum += p[i];
 	p = (unsigned char *)&client_request->num_player;
-	for (i = 0; i<(int)sizeof(client_request->num_player); i++)
+	for (int i=0; i<(int)sizeof(client_request->num_player); i++)
 		checksum += p[i];
 
 	return checksum;

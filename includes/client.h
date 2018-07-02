@@ -8,4 +8,5 @@ void	init_client(t_sdl *sdl);
 char	*enter_addr(t_sdl *sdl);
 int	host_connect();
 int	client_connect();
+int	get_message(int s);
 #endif

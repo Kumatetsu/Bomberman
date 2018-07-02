@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Fri Jun 29 17:04:48 2018 BILLAUD Jean
+** Last update Mon Jul  2 18:59:24 2018 BILLAUD Jean
 */
 
 #include <stdlib.h>
@@ -20,6 +20,7 @@
 #include <SDL2/SDL.h>
 #include "sdl.h"
 #include "client.h"
+#include "base_map.h"
 
 //loop SDL du client.
 // Pour le moment la socket n'est pas récupérée
@@ -31,7 +32,7 @@ void			init_client(t_sdl *sdl)
   addr = enter_addr(sdl);
   cs = client_connect(addr);
   cr = create_player_request();
-  client_loop(sdl, cs, cr);
+  start_map(sdl, cs, cr);
   free_player_request(cr);
   
 }
@@ -82,32 +83,34 @@ char		*enter_addr(t_sdl *sdl)
     SDL_RenderCopy(sdl->renderer, sdl->server_welcome, NULL, &join_position);
     SDL_RenderCopy(sdl->renderer, sdl->join_game, NULL, &connect);    
     SDL_RenderPresent(sdl->renderer);
+    SDL_SetRenderTarget(sdl->renderer, NULL);
   }
 
   return addr;
 }
 
 void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
-  int		quit = 0;
+  int			quit = 0;
   //int		x;
   //int   	y;
-  SDL_Event	event_queue;
-  SDL_Rect      join_position = {200, 300, 400, 60};
-  SDL_Color	black = {0, 0, 0, 0};
-  TTF_Font 	*police;
-  fd_set	fd_read;
+  SDL_Event		event_queue;
+  SDL_Rect		join_position = {200, 300, 400, 60};
+  SDL_Color		black = {0, 0, 0, 0};
+  TTF_Font		*police;
+  fd_set		fd_read;
 
   police = TTF_OpenFont("ressources/bm.ttf",60);
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, "PATATE", black));
   printf("%d", socket);
-  cr->x_pos = 100;
-  while(!quit) {
-    FD_ZERO(&fd_read);
+  cr->command = 1;
+
+    while(!quit) {
     //FD_SET(STDIN_FILENO, &fd_read);
-    FD_SET(socket, &fd_read);
-    printf("toto");
+    //printf("toto");
     if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	    quit = 1;
+      {
+	quit = 1;
+      }
 
     while(SDL_PollEvent(&event_queue)) {
       switch(event_queue.type){
@@ -131,13 +134,11 @@ void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
 	case SDLK_RIGHT:
 	  printf("right\n");
 	  send_request(socket, cr);
-
 	  fseek(stdin,0,SEEK_END);
 	  break;
 	case SDLK_LEFT:
 	  printf("left\n");
 	  send_request(socket, cr);
-
 	  fseek(stdin,0,SEEK_END);
 	  break;
 	}
@@ -146,14 +147,17 @@ void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
     
     if (FD_ISSET(socket, &fd_read))
       {
-	printf("get_msg\n");
+	printf("tata\n");
+	if (get_message(socket) == 0){
+	  quit = 1;
+	}
       }
 
-    //render updates from server
     SDL_RenderClear(sdl->renderer);
     SDL_RenderCopy(sdl->renderer, sdl->white_back, NULL, NULL);
     SDL_RenderCopy(sdl->renderer, sdl->server_welcome, NULL, &join_position);
     SDL_RenderPresent(sdl->renderer);
+    SDL_SetRenderTarget(sdl->renderer, NULL);
   }
 
   return;
