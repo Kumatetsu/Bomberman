@@ -1,4 +1,4 @@
-#include "player_info.h"
+#include "player.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 
@@ -30,14 +30,14 @@ int		get_game_info_checksum()
   int		checksum;
   unsigned char *p;
   t_game_info	*game_info;
-  int		i;
+
   game_info = get_game_info();
   checksum = game_info->tick_time;
   p = (unsigned char *)&game_info->players;
-  for (i = 0; i < (int)sizeof(game_info->players); i++)
+  for (int i = 0; i < (int)sizeof(game_info->players); i++)
     checksum += p[i];
   p = (unsigned char *)&game_info->game_status;
-  for (i = 0; i < (int)sizeof(game_info->map_destroyable); i++)
+  for (int i = 0; i < (int)sizeof(game_info->map_destroyable); i++)
     checksum += p[i];
   return checksum;
 }

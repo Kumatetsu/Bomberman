@@ -17,6 +17,7 @@ SRC 	= 	main.c 					\
 		client/client_request.c			\
 		client/client_request_communication.c 	\
 		client/client_get_game_info.c		\
+		client/client_socket_thread.c\
 		server/server.c				\
 		server/socket.c				\
 		server/create_server.c			\
@@ -33,7 +34,7 @@ SRC 	= 	main.c 					\
 		game_map/red_bomber.c			\
 		game_map/black_bomber.c			\
 		game_map/bomb.c				\
-		
+
 
 OBJ 	= ${SRC:%.c=%.o}
 

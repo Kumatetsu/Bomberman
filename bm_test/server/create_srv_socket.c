@@ -1,13 +1,3 @@
-/*
-** create_srv_socket.c for Bomberman in /Users/kumatetsu/projet-etna/DVC4/Bomberman/Bomberman
-**
-** Made by BILLAUD Jean
-** Login   <billau_j@etna-alternance.net>
-**
-** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
-** Last update Tue Jun 26 17:36:48 2018 BILLAUD Jean
-*/
-
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/select.h>

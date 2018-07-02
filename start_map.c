@@ -4,131 +4,127 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+#include "sdl.h"
+#include "client.h"
 #include "base_map.h"
 #include "player_info.h"
 #include "game_info.h"
+#include "thread.h"
 #include "game_info_serialization.h"
 
-void	      send_game_info(){
-
+void send_game_info()
+{
 }
 
-int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
+int start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {
-  int		quit;
-  SDL_Event	event;
-  t_data	*data;
-  fd_set	fd_read;
+  int quit;
+  SDL_Event event;
+  t_data *data;
+  pthread_t listen_server;
 
   quit = 0;
   data = malloc(sizeof(*data));
   data->renderer = sdl->renderer;
   data->window = sdl->window;
-  init_sprites_sheet((void*)data);
-  draw_all((void*)data);
+  init_sprites_sheet((void *)data);
+  draw_all((void *)data);
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
-  while(!quit)
+  if (pthread_create(&listen_server, NULL, thread_listen_serv, &socket))
+  {
+    quit = 1;
+  }
+  while (!quit)
+  {
+
+    while (SDL_PollEvent(&event))
     {
-      FD_ZERO(&fd_read);
-      FD_SET(socket, &fd_read);
-
-      if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	quit = 1;
-
-      while(SDL_PollEvent(&event)) {
-	switch(event.type)
-	  {
-	  case SDL_QUIT:
-	    quit = 1;
-	    break;
-	  case SDL_KEYUP:
-	    {
-	      SDL_RenderClear(data->renderer);
-	      rebuild_map((void*)data);
-	      move_player_stop((void*)data);
-	      SDL_RenderPresent(data->renderer);
-	      SDL_SetRenderTarget(data->renderer, NULL);
-	      break;
-	    }
-	  case SDL_KEYDOWN:
-	    switch (event.key.keysym.sym) {
-	    case SDLK_UP:
-	      SDL_RenderClear(data->renderer);
-	      rebuild_map((void*)data);
-	      move_player_up((void*)data);
-	      send_request(socket, cr);
-	      break;
-	    case SDLK_LEFT:
-	      SDL_RenderClear(data->renderer);
-	      rebuild_map((void*)data);
-	      move_player_left((void*)data);
-	      send_request(socket, cr);
-	      break;
-	    case SDLK_RIGHT:
-	      SDL_RenderClear(data->renderer);
-	      rebuild_map((void*)data);
-	      move_player_right((void*)data);
-	      send_request(socket, cr);
-	      break;
-	    case SDLK_DOWN:
-	      SDL_RenderClear(data->renderer);
-	      rebuild_map((void*)data);
-	      move_player_down((void*)data);
-	      send_request(socket, cr);
-	      break;
-	    }
-	  }
+      switch (event.type)
+      {
+      case SDL_QUIT:
+        quit = 1;
+        break;
+      case SDL_KEYUP:
+      {
+        SDL_RenderClear(data->renderer);
+        rebuild_map((void *)data);
+        move_player_stop((void *)data);
+        SDL_RenderPresent(data->renderer);
+        SDL_SetRenderTarget(data->renderer, NULL);
+        break;
       }
-
-      if (FD_ISSET(socket, &fd_read))
-	{
-	  printf("tata\n");
-	  if (get_message(socket) == 0){
-	    quit = 1;
-	  }
-	}
-	    SDL_RenderPresent(data->renderer);
-	    SDL_SetRenderTarget(data->renderer, NULL);
+      case SDL_KEYDOWN:
+        switch (event.key.keysym.sym)
+        {
+        case SDLK_UP:
+          SDL_RenderClear(data->renderer);
+          rebuild_map((void *)data);
+          move_player_up((void *)data);
+          send_request(socket, cr);
+          break;
+        case SDLK_LEFT:
+          SDL_RenderClear(data->renderer);
+          rebuild_map((void *)data);
+          move_player_left((void *)data);
+          send_request(socket, cr);
+          break;
+        case SDLK_RIGHT:
+          SDL_RenderClear(data->renderer);
+          rebuild_map((void *)data);
+          move_player_right((void *)data);
+          send_request(socket, cr);
+          break;
+        case SDLK_DOWN:
+          SDL_RenderClear(data->renderer);
+          rebuild_map((void *)data);
+          move_player_down((void *)data);
+          send_request(socket, cr);
+          break;
+        }
+        SDL_RenderPresent(data->renderer);
+        SDL_SetRenderTarget(data->renderer, NULL);
+      }
     }
-    
+  }
+  pthread_cancel(listen_server);
   SDL_DestroyTexture(data->texture);
   free(data);
   return 0;
 }
 
-void		*init_sprites_sheet(void *arg) {
-  SDL_Texture	*sprite_texture;
-  SDL_Surface	*sprites_img;
+void *init_sprites_sheet(void *arg)
+{
+  SDL_Texture *sprite_texture;
+  SDL_Surface *sprites_img;
 
-  t_data *data = (t_data*)arg;
+  t_data *data = (t_data *)arg;
   sprites_img = NULL;
   sprite_texture = NULL;
   IMG_Init(IMG_INIT_PNG);
-  
- 
+
   sprites_img = IMG_Load("./ressources/bombermanSprite.PNG");
   if (!sprites_img)
-    {
-      SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(),
-			       data->window);
-    }
+  {
+    SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(),
+                             data->window);
+  }
 
   //we create the image as a texture to insert it in renderer
   sprite_texture = SDL_CreateTextureFromSurface(data->renderer,
-						sprites_img);
-  
+                                                sprites_img);
+
   if (!sprite_texture)
-    {
-      SDL_ShowSimpleMessageBox(0, "texture image init error",
-			       SDL_GetError(), data->window);
-    } 
+  {
+    SDL_ShowSimpleMessageBox(0, "texture image init error",
+                             SDL_GetError(), data->window);
+  }
   SDL_FreeSurface(sprites_img);
   SDL_SetRenderDrawColor(data->renderer, 90, 90, 90, 255);
   SDL_RenderClear(data->renderer);
   data->texture = sprite_texture;
-  /* 
+  /*
   ** important, use this to apply modification on last textures
   ** placed on the renderer
   */
@@ -141,7 +137,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
   int i;
   int convert_x;
   int convert_y;
-  
+
   for (i = 0; i < 4; i++) {
     if (game_info->players[i].alive) {
       convert_x = walk_X_into_pixels(game_info->players[i].x_pos);
@@ -161,7 +157,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
 	  move_player_right(base_map, i);
 	}
       }
-      
+
     } else if (game_info->players[i].dying) {
       //what to do here ? anim the dying mother fucker
     }
@@ -171,7 +167,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
 void	update_destroyable_stuffs(t_game_info game_info){
   int	i;
   int	j;
-  
+
   for (i = 0; i < 14; i++) {
     for (j = 0; i < 15; i++) {
       if (game_info->map_destroyable[i][j].wall_destroyable) {
