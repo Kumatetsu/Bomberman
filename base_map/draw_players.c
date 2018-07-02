@@ -2,6 +2,9 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+#include "player.h"
+#include "sdl.h"
+#include "request.h"
 #include "base_map.h"
 
 void	*draw_player_1(void *arg) {

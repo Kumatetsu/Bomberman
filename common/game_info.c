@@ -1,4 +1,7 @@
 #include <stdlib.h>
+#include "player.h"
+#include "request.h"
+#include "sdl.h"
 #include "game_info.h"
 
 static t_game_info *game_info;

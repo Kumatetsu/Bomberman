@@ -20,6 +20,7 @@
 #include <SDL2/SDL.h>
 #include "sdl.h"
 #include "client.h"
+#include "player.h"
 #include "base_map.h"
 
 //loop SDL du client.
