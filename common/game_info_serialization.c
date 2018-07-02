@@ -1,4 +1,6 @@
 #include "player.h"
+#include "request.h"
+#include "sdl.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 

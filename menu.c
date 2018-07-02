@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "sdl.h"
 #include "client.h"
+#include "player_info.h"
 #include "server.h"
 
 /**

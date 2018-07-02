@@ -9,9 +9,9 @@
 */
 
 #include <stdlib.h>
-#include  <stdio.h>
-#include  <string.h>
-#include  <sys/types.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -22,6 +22,7 @@
 #include "bomberman.h"
 #include "sdl.h"
 #include "client.h"
+#include "player_info.h"
 #include "server.h"
 #include "thread.h"
 #include <errno.h>
