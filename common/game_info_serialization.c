@@ -10,7 +10,7 @@ char		*serialize_game_info()
   t_game_info	*game_info;
 
   game_info = get_game_info();
-  if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
+  if ((game_info_str = calloc(1, sizeof(t_game_info) + 1)) == NULL)
     return NULL;
   game_info_str = (char*) game_info;
   if ((game_info_str = realloc(game_info_str, sizeof(t_game_info) + 1)) == NULL)
@@ -32,14 +32,15 @@ int		get_game_info_checksum()
   int		checksum;
   unsigned char *p;
   t_game_info	*game_info;
-
+  int		i;
+  
   game_info = get_game_info();
   checksum = game_info->tick_time;
   p = (unsigned char *)&game_info->players;
-  for (int i = 0; i < (int)sizeof(game_info->players); i++)
+  for (i = 0; i < (int)sizeof(game_info->players); i++)
     checksum += p[i];
   p = (unsigned char *)&game_info->game_status;
-  for (int i = 0; i < (int)sizeof(game_info->map_destroyable); i++)
+  for (i = 0; i < (int)sizeof(game_info->map_destroyable); i++)
     checksum += p[i];
   return checksum;
 }

@@ -16,7 +16,7 @@ int			main_loop(t_srv **srv)
   FD_ZERO(&(*srv)->fd_read);
   (*srv)->fd_max = (*srv)->fd;
   FD_SET((*srv)->fd, &(*srv)->fd_read);
-  while ((*srv)->players[i] != NULL)
+  while (i < 4 && (*srv)->players[i] != NULL)
     {
       FD_SET((*srv)->players[i]->fd, &(*srv)->fd_read);
       if ((*srv)->players[i]->fd > (*srv)->fd_max)
