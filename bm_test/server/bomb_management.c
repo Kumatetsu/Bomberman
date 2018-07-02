@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 **
 ** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
-** Last update Sun Jul  1 22:26:31 2018 hochar_n
+** Last update Mon Jul  2 20:58:04 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -33,10 +33,11 @@ void			trigger_bomb(
     }
 }
 
-void    		apply_bomb_to_position(t_map_destroyable *bomb,
+void			apply_bomb_to_position(
+					       t_map_destroyable *bomb,
 					       int **map_pointer,
 					       t_game_info *game_info,
-                           int i
+					       int i
 					       )
 {
   int 			k;
@@ -101,7 +102,7 @@ void			destroy_bomb(
 	is_blocked = 1;
 	map_destroyable = game_info->map_destroyable[i][j];
 	free(map_destroyable);
-	game_info->map_destroyable[i][j] = NULL;
+	map_destroyable = NULL;
       }
     }
   }
@@ -124,7 +125,7 @@ void			destroy_bomb(
 	  continue;
 	map_destroyable = game_info->map_destroyable[i][j];
 	free(map_destroyable);
-	game_info->map_destroyable[i][j] = NULL;
+	map_destroyable = NULL;
       }
     }
   }
@@ -134,7 +135,7 @@ void			destroy_bomb(
     game_info->players[i]->bomb_left = 1;
   }
   free(bomb_to_destroy);
-  game_info->map_destroyable[i][j] = NULL;
+  bomb_to_destroy = NULL;
 }
 
 t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y)

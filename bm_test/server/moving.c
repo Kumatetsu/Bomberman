@@ -5,7 +5,7 @@
 ** Login   hochar_n@etna-altenance.net
 **
 ** Started on  Sun Jul  1 17:39:23 2018 hochar_n
-** Last update Sun Jul  1 18:07:32 2018 hochar_n
+** Last update Mon Jul  2 21:01:32 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -56,7 +56,7 @@ int	check_collision(
   for (i = (player_request->y_pos-3); i < (player_request->y_pos+3); ++i) {
     if (i < 0)
       continue;
-    if (map_pointer[player_request->x_pos][player_request->y_pos] == FREE_SLOT)
+    if (map_pointer[player_request->x_pos][player_request->y_pos] == WALL)
       return 0;
   }
 

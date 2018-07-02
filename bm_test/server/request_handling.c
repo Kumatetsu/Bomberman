@@ -5,7 +5,7 @@
 ** Login   <hochar_n@etna-alternance.net>
 **
 ** Started on  Sun Jul  1 17:41:06 2018 hochar_n
-** Last update Mon Jul  2 20:35:25 2018 hochar_n
+** Last update Mon Jul  2 21:03:07 2018 hochar_n
 */
 
 #include <stdio.h>
@@ -29,8 +29,8 @@ void	handle_requests(
 }
 
 void	place_bomb(t_game_info *game_info,
-				   t_player_request *player_request
-)
+		   t_player_request *player_request
+		   )
 {
   t_player_info	*player;
   int 			i;
