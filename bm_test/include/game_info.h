@@ -47,4 +47,4 @@ int 			apply_explosion(t_map_destroyable *element, t_map_destroyable *bomb, t_ga
 							   int **map_pointer);
 void    		apply_bomb_to_position(t_map_destroyable *bomb, int **map_pointer, t_game_info *game_info, int i);
 
-#endif
+#endif /* !_GAME_INFO_H_ */

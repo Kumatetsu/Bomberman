@@ -12,4 +12,4 @@
 int create_client_socket();
 int create_server_socket();
 
-#endif
+#endif /* !_SOCKET_H_ */

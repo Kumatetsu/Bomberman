@@ -46,4 +46,4 @@ t_player_request* 	request_deserialize(char* serialized_request);
 int			get_request_checksum(t_player_request* client_request);
 
 
-#endif
+#endif /* !_REQUEST_H_ */

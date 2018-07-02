@@ -21,4 +21,4 @@ enum Directions {
     BOMBER_U = 3,
 };
 
-#endif
+#endif /* !_PLAYER_H_ */
