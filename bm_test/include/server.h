@@ -23,18 +23,18 @@ typedef struct		s_srv
 }			t_srv;
 
 
-t_srv           *create_struct_srv();
-int             main_loop(t_srv **srv);
-void		*threaded_main_loop(void *server);
-int             accept_clients(t_srv **srv);
-t_player_info	*create_player(int fd);
-int		check_collision(int** map, t_player_request *player_request);
-void		move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer);
-void        create_game_info(t_srv **srv);
-long        random_at_most(long max);
-void        specify_player_info(int i, t_game_info *game_info);
-void process_requests(t_srv **server);
-void add_request_to_server(t_srv **srv, t_player_request *player_request);
-void	place_bomb(t_game_info *game_info, t_player_request *player_request);
+t_srv			*create_struct_srv();
+int			main_loop(t_srv **srv);
+void			*threaded_main_loop(void *server);
+int 			accept_clients(t_srv **srv);
+t_player_info		*create_player(int fd);
+int			check_collision(int** map, t_player_request *player_request);
+void			move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer);
+void			create_game_info(t_srv **srv);
+long			random_at_most(long max);
+void			specify_player_info(int i, t_game_info *game_info);
+void			process_requests(t_srv **server);
+void			add_request_to_server(t_srv **srv, t_player_request *player_request);
+void			place_bomb(t_game_info *game_info, t_player_request *player_request);
 
 #endif

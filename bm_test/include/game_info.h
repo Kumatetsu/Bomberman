@@ -5,16 +5,16 @@
 #include "player.h"
 #include "client.h"
 
-typedef struct 	s_map_destroyable
+typedef struct		s_map_destroyable
 {
-	int	y_pos;                  /* La position y de l'element */
-	int	x_pos;                  /* La position x de l'element */
-	int	bomb;
-	int	bomb_owner;
-	int dying;
-	int	start_explode;
-	int	wall_destroyable;
-}		t_map_destroyable;
+  int			y_pos;                  /* La position y de l'element */
+  int			x_pos;                  /* La position x de l'element */
+  int			bomb;
+  int			bomb_owner;
+  int			dying;
+  int			start_explode;
+  int			wall_destroyable;
+}			t_map_destroyable;
 
 typedef struct		s_game_info
 {
@@ -25,13 +25,13 @@ typedef struct		s_game_info
   t_map_destroyable	*map_destroyable[11][13];
 } 			t_game_info;
 
-t_game_info	*get_game_info();
-void		set_game_info(t_game_info *new_game_info);
+t_game_info		*get_game_info();
+void			set_game_info(t_game_info *new_game_info);
 
-enum MAP_GRID {
-	FREE_SLOT = 0,
-	WALL = 1,
-	FIRE = 2,
+enum			MAP_GRID {
+  FREE_SLOT = 0,
+  WALL = 1,
+  FIRE = 2,
 };
 
 int**			get_array_map();
