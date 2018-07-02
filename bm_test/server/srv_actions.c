@@ -1,3 +1,13 @@
+/*
+** srv_actions.c for Project-Master in /home/enach/CLionProjects/Bomberman/bm_test/server
+**
+** Made by hochar_n
+** Login   <hochar_n@etna-alternance.net>
+**
+** Started on  Sun Jul  1 17:45:57 2018 hochar_n
+** Last update Sun Jul  1 17:46:02 2018 hochar_n
+*/
+
 #include "socket.h"
 #include "server.h"
 
@@ -9,17 +19,21 @@ int			accept_clients(t_srv **srv)
     int			j;
     struct sockaddr_in	client_sin;
     socklen_t		client_sin_len;
+    t_game_info *game_info;
 
     j = 0;
     memset(&client_sin, 0, sizeof (struct sockaddr_in));
     client_sin_len = sizeof (client_sin);
+    game_info = get_game_info();
 
     cs = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
     if (cs == -1){
         printf("we fucked up\n");
         return -1;
     }
-    if ((*srv)->clients[3] != NULL)
+    if ((*srv)->clients[3] != NULL
+        || (*srv)->n_clients > 3
+        || game_info->game_status > 0)
         return 0;
 
     client = create_player(cs);

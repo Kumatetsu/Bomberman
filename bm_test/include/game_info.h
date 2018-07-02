@@ -1,3 +1,13 @@
+/*
+** game_info.h for Project-Master in /home/enach/CLionProjects/Bomberman/bm_test/include
+** 
+** Made by hochar_n
+** Login   <hochar_n@etna-alternance.net>
+** 
+** Started on  Mon Jul  2 21:08:21 2018 hochar_n
+** Last update Mon Jul  2 21:08:22 2018 hochar_n
+*/
+
 #ifndef _GAME_INFO_H_
 #define _GAME_INFO_H_
 
@@ -5,16 +15,16 @@
 #include "player.h"
 #include "client.h"
 
-typedef struct 	s_map_destroyable
+typedef struct		s_map_destroyable
 {
-	int	y_pos;                  /* La position y de l'element */
-	int	x_pos;                  /* La position x de l'element */
-	int	bomb;
-	int	bomb_owner;
-	int     dying;
-	int	start_explode;
-	int	wall_destroyable;
-}		t_map_destroyable;
+  int			y_pos;                  /* La position y de l'element */
+  int			x_pos;                  /* La position x de l'element */
+  int			bomb;
+  int			bomb_owner;
+  int			dying;
+  int			start_explode;
+  int			wall_destroyable;
+}			t_map_destroyable;
 
 typedef struct		s_game_info
 {
@@ -22,16 +32,16 @@ typedef struct		s_game_info
   int			tick_time;
   t_player_info		*players[4];
   int 			game_status;
-  t_map_destroyable	*map_destroyable[14][15];
+  t_map_destroyable	*map_destroyable[11][13];
 } 			t_game_info;
 
-t_game_info	*get_game_info();
-void		set_game_info(t_game_info *new_game_info);
+t_game_info		*get_game_info();
+void			set_game_info(t_game_info *new_game_info);
 
-enum MAP_GRID {
-	FREE_SLOT = 0,
-	WALL = 1,
-	FIRE = 2,
+enum			MAP_GRID {
+  FREE_SLOT = 0,
+  WALL = 1,
+  FIRE = 2,
 };
 
 int**			get_array_map();
@@ -43,5 +53,8 @@ void			destroy_bomb(t_game_info *game_info,
 t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y);
 void			trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable *bomb);
 void			handle_requests(t_game_info *game_info, t_player_request *player_request);
+int 			apply_explosion(t_map_destroyable *element, t_map_destroyable *bomb, t_game_info *game_info,
+							   int **map_pointer);
+void    		apply_bomb_to_position(t_map_destroyable *bomb, int **map_pointer, t_game_info *game_info, int i);
 
-#endif
+#endif /* !_GAME_INFO_H_ */
