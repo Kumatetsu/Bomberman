@@ -12,6 +12,5 @@ t_server 	*create_server() {
   s = NULL;
   if ((s = malloc(sizeof (*s))) == NULL)
       return NULL;
-
   return s;
 }

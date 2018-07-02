@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "client.h"
+#include "my_put.h"
+#include "game_info.h"
+#include "game_info_serialization.h"
 
 void	my_bzero(void *s1, int n)
 {
@@ -13,7 +16,7 @@ void	my_bzero(void *s1, int n)
     }
 }
 
-int         send_request(int s, t_player_request* client_request)
+int         send_request(int s, t_player_request *client_request)
 {
   char*     request_string;
 
@@ -33,14 +36,20 @@ int         send_request(int s, t_player_request* client_request)
 int		get_msg(int s)
 {
   char		buff[1024];
+  char		log[50];
   int		r;
-
+  t_game_info	*game_info;
+  
   my_bzero(buff, 1024);
   r = recv(s, buff, 1024, 0);
   if (r > 0)
     {
       buff[r] = '\0';
-      write(1, buff, r);
+      deserialize_game_info(buff);
+      game_info = get_game_info();
+      my_putstr("\nGame_info checksum: ");
+      sprintf(log, "%d", game_info->tick_time);
+      my_putstr(log);
       return SUCCESS_RECEIVE;
     }
   else
@@ -50,30 +59,22 @@ int		get_msg(int s)
     }
 }
 
-int client_loop(int s, t_player_request* client_request)
+int client_loop(int s)
 {
     fd_set	fd_read;
+    //    char	log[50];
 
     FD_ZERO(&fd_read);
 
-    FD_SET(STDIN_FILENO, &fd_read);
     FD_SET(s, &fd_read);
 
     if (select((s + 1), &fd_read, NULL, NULL, NULL) == -1)
-	    return 0;
-    // here call start map
-	// the following if is deprecated!
-	if (FD_ISSET(STDIN_FILENO, &fd_read))
-	{
-		printf("Send_request\n");
-		send_request(s, client_request);
-		fseek(stdin,0,SEEK_END);
-	}
+      return 0;
     if (FD_ISSET(s, &fd_read))
-    {
+      {
         printf("get_msg\n");
-	    if (get_msg(s) == BAD_RECEIVE)
-	    	return 0;
-    }
+	if (get_msg(s) == BAD_RECEIVE)
+	  return 0;
+      }
     return 1;
 }
