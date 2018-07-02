@@ -92,3 +92,11 @@ void process_requests(t_srv **server)
       free((*server)->requests[i]);
     }
 }
+
+void	*threaded_main_loop(void *server)
+{
+  t_srv	**srv;
+
+  srv = (t_srv**)server;
+  while (1) { main_loop(srv); }
+}

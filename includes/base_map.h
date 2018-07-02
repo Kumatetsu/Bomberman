@@ -1,9 +1,7 @@
 #ifndef _BASE_MAP_H_
 #define _BASE_MAP_H_
-#include "player.h"
-#include "sdl.h"
 
-typedef enum texture_type
+typedef enum	texture_type
   {
     bomb = 0,
     wall = 1,
@@ -11,23 +9,23 @@ typedef enum texture_type
     ground_shadowed = 3,
     pannel = 4,
     timer = 5,
-  } texture_type;
+  }		texture_type;
 
-typedef enum bomb_texture_type
+typedef enum	bomb_texture_type
   {
     bomb_s = 0,
     bomb_m = 1,
     bomb_l = 2
-  } bomb_texture_type;
+  }		bomb_texture_type;
 
-typedef struct s_map
+typedef struct	s_map
 {
   SDL_Rect	src_rect;
   SDL_Rect	dest_rect;
   texture_type  texture_type;
-} t_map;
+}		t_map;
 
-typedef struct s_data
+typedef struct	s_data
 {
   SDL_Texture	*texture;
   SDL_Renderer	*renderer;
@@ -35,7 +33,7 @@ typedef struct s_data
   t_map		array_map[14][15];
   t_player	players[4];
   SDL_Rect	destroyable[3][3];
-} t_data;
+}		t_data;
 
 // in the picture, the size of the square is 16 for a wall block, so i use 48
 

@@ -1,8 +1,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "base_map.h"
 #include <stdlib.h>
+#include "sdl.h"
+#include "request.h"
+#include "player.h"
+#include "base_map.h"
 
 
 void *move_player_down(void *arg) {

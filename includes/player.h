@@ -1,20 +1,19 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "sdl.h"
-#include "request.h"
-//#include "server.h"
+#include <SDL2/SDL.h>
 
-typedef struct	s_player {
-  int	fd;
-  char	*identity;
-  int	x;
-  int	y;
-  int	disabled;
-  int	looking;
-  int	index_sprite;
-  SDL_Rect bomber_sprites[5][4];
-  }	t_player;
+typedef struct	s_player
+{
+  int		fd;
+  char		*identity;
+  int		x;
+  int		y;
+  int		disabled;
+  int		looking;
+  int		index_sprite;
+  SDL_Rect	bomber_sprites[5][4];
+}		t_player;
 
 //no need de connaitre le type, pour les player on saura qu'on init les spites players
 enum BomberSpriteDir {bomber_d = 0,
