@@ -5,19 +5,20 @@
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
 #include "base_map.h"
-#include "./bm_test/include/player_info.h"
-#include "./bm_test/include/game_info.h"
-#include "./bm_test/include/game_info_serialization.h"
+#include "player_info.h"
+#include "game_info.h"
+#include "game_info_serialization.h"
 
 void	      send_game_info(){
 
 }
 
-int		start_map(t_sdl *sdl)
+int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {
   int		quit;
   SDL_Event	event;
   t_data	*data;
+  fd_set	fd_read;
 
   quit = 0;
   data = malloc(sizeof(*data));
@@ -30,7 +31,12 @@ int		start_map(t_sdl *sdl)
   SDL_RenderClear(data->renderer);
   while(!quit)
     {
-      //SDL_WaitEvent(&event);
+      FD_ZERO(&fd_read);
+      FD_SET(socket, &fd_read);
+
+      if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+	quit = 1;
+
       while(SDL_PollEvent(&event)) {
 	switch(event.type)
 	  {
@@ -51,30 +57,41 @@ int		start_map(t_sdl *sdl)
 	    case SDLK_UP:
 	      SDL_RenderClear(data->renderer);
 	      rebuild_map((void*)data);
-	      /*move_player_up((void*)data);*/
-	      send_game_info();
+	      move_player_up((void*)data);
+	      send_request(socket, cr);
 	      break;
 	    case SDLK_LEFT:
 	      SDL_RenderClear(data->renderer);
 	      rebuild_map((void*)data);
 	      move_player_left((void*)data);
+	      send_request(socket, cr);
 	      break;
 	    case SDLK_RIGHT:
 	      SDL_RenderClear(data->renderer);
 	      rebuild_map((void*)data);
 	      move_player_right((void*)data);
+	      send_request(socket, cr);
 	      break;
 	    case SDLK_DOWN:
 	      SDL_RenderClear(data->renderer);
 	      rebuild_map((void*)data);
 	      move_player_down((void*)data);
+	      send_request(socket, cr);
 	      break;
 	    }
-	    SDL_RenderPresent(data->renderer);
-	    SDL_SetRenderTarget(data->renderer, NULL);
 	  }
       }
-    } 
+
+      if (FD_ISSET(socket, &fd_read))
+	{
+	  printf("tata\n");
+	  if (get_message(socket) == 0){
+	    quit = 1;
+	  }
+	}
+	    SDL_RenderPresent(data->renderer);
+	    SDL_SetRenderTarget(data->renderer, NULL);
+    }
     
   SDL_DestroyTexture(data->texture);
   free(data);

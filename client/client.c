@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Mon Jul  2 18:36:14 2018 BILLAUD Jean
+** Last update Mon Jul  2 18:59:24 2018 BILLAUD Jean
 */
 
 #include <stdlib.h>
@@ -32,7 +32,7 @@ void			init_client(t_sdl *sdl)
   addr = enter_addr(sdl);
   cs = client_connect(addr);
   cr = create_player_request();
-  client_loop(sdl, cs, cr);
+  start_map(sdl, cs, cr);
   free_player_request(cr);
   
 }
@@ -103,20 +103,15 @@ void		client_loop(t_sdl *sdl, int socket, t_player_request *cr) {
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, "PATATE", black));
   printf("%d", socket);
   cr->command = 1;
-    FD_ZERO(&fd_read);
-    FD_SET(socket, &fd_read);
-
-    if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	    quit = 1;
 
     while(!quit) {
     //FD_SET(STDIN_FILENO, &fd_read);
     //printf("toto");
-    /*if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+    if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
       {
 	quit = 1;
       }
-    */
+
     while(SDL_PollEvent(&event_queue)) {
       switch(event_queue.type){
       case SDL_QUIT:

@@ -32,8 +32,8 @@ void	*draw_player_2(void *arg) {
   t_data *data = (t_data*)arg;
   SDL_Rect dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 11) * 48) - 36 ,
 			16 * 3, 24 * 3};
-  data->players[1].x_pos = (I_BEGIN + 13) * 48;
-  data->players[1].y_pos = ((J_BEGIN + 11) * 48) - 36;
+  data->players[1].x = (I_BEGIN + 13) * 48;
+  data->players[1].y = ((J_BEGIN + 11) * 48) - 36;
   data->players[1].index_sprite = not_move;
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &(data->players[1].bomber_sprites[bomber_u][not_move]),
@@ -52,8 +52,8 @@ void	*draw_player_3(void *arg) {
   t_data *data = (t_data*)arg;
   SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 11) * 48) - 36 ,
 			16 * 3, 24 * 3};
-  data->players[2].x_pos = (I_BEGIN + 1) * 48;
-  data->players[2].y_pos = ((J_BEGIN + 11) * 48) - 36;
+  data->players[2].x = (I_BEGIN + 1) * 48;
+  data->players[2].y = ((J_BEGIN + 11) * 48) - 36;
   data->players[2].index_sprite = not_move;
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &(data->players[2].bomber_sprites[bomber_u][not_move]),
@@ -72,8 +72,8 @@ void	*draw_player_4(void *arg) {
   t_data *data = (t_data*)arg;
   SDL_Rect dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 1) * 48) - 36 ,
 			16 * 3, 24 * 3};
-  data->players[3].x_pos = (I_BEGIN + 13) * 48;
-  data->players[3].y_pos = ((J_BEGIN + 1) * 48) - 36;
+  data->players[3].x = (I_BEGIN + 13) * 48;
+  data->players[3].y = ((J_BEGIN + 1) * 48) - 36;
   data->players[3].index_sprite = not_move;
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &(data->players[3].bomber_sprites[bomber_d][not_move]),

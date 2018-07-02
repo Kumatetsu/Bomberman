@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
-** Last update Mon Jul  2 17:11:42 2018 BILLAUD Jean
+** Last update Mon Jul  2 18:46:25 2018 BILLAUD Jean
 */
 
 #include <stdlib.h>
@@ -31,7 +31,6 @@ int main ()
 
   //comment maiemacs n to see start_map working ;)
   main_menu(sdl);
-  //start_map()
   SDL_DestroyTexture(sdl->menu_background);
   SDL_DestroyTexture(sdl->white_back);
   SDL_DestroyTexture(sdl->join_game);

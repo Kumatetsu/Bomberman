@@ -33,7 +33,7 @@ typedef struct s_data
   SDL_Renderer	*renderer;
   SDL_Window	*window;
   t_map		array_map[14][15];
-  t_player_info	players[4];
+  t_player	players[4];
   SDL_Rect	destroyable[3][3];
 } t_data;
 
@@ -47,7 +47,7 @@ static const int J_BEGIN = (768 - (13 * 48)) / 48;
 
 
 //start_map.c
-int start_map(t_sdl *sdl);
+int start_map(t_sdl *sdl, int socket, t_player_request *cr);
 void *init_sprites_sheet(void *arg);
 
 //game_map/white_bomber.c

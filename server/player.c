@@ -7,7 +7,7 @@
 //Ajoute un player à la structure server
 void add_player(t_server **s, int fd, int player_rank)
 {
-  t_player_info *new;
+  t_player *new;
 
   if ((new = malloc(sizeof (*new))) == NULL)
     return ;
