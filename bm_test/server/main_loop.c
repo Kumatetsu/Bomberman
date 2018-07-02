@@ -85,6 +85,7 @@ int                     main_loop(t_srv **srv)
                 printf("client send request\n");
             }
         }
+        process_requests(srv);
     }
 
     return (1);

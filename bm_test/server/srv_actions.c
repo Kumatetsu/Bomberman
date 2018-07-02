@@ -19,10 +19,12 @@ int			accept_clients(t_srv **srv)
     int			j;
     struct sockaddr_in	client_sin;
     socklen_t		client_sin_len;
+    t_game_info *game_info;
 
     j = 0;
     memset(&client_sin, 0, sizeof (struct sockaddr_in));
     client_sin_len = sizeof (client_sin);
+    game_info = get_game_info();
 
     cs = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
     if (cs == -1){
@@ -31,7 +33,7 @@ int			accept_clients(t_srv **srv)
     }
     if ((*srv)->clients[3] != NULL
         || (*srv)->n_clients > 3
-        || (*srv)->game_info != NULL)
+        || game_info->game_status > 0)
         return 0;
 
     client = create_player(cs);

@@ -17,7 +17,6 @@ typedef struct		s_srv
   int			*tick;
   t_player_info		*clients[4];
   t_player_request	*requests[8];
-  t_game_info   *game_info;
   fd_set		fd_read;
   int			fd_max;
   int			n_clients;

@@ -29,7 +29,6 @@ t_srv *create_struct_srv()
     {
         s->requests[i] = NULL;
     }
-    s->game_info = NULL;
 
     return s;
 }

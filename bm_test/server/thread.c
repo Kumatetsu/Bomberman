@@ -37,7 +37,9 @@ void	*threaded_ticker(void *server)
   int	*tk;
   int   socket;
   char	*serialized_game_info;
+  t_game_info   *game_info;
 
+    game_info = get_game_info();
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
@@ -47,14 +49,16 @@ void	*threaded_ticker(void *server)
       my_putstr(log);
       sprintf(log, "\n number of clients: %d\n", (*srv)->n_clients);
       my_putstr(log);
-      process_requests(srv);
       my_sleep(0, 5000);
-      if ((*srv)->game_info == NULL)
-        continue;
+      if (game_info == NULL || game_info->game_status == 0)
+      {
+          ++(*tk);
+          continue;
+      }
       for (int i = 0; i < (*srv)->n_clients; i++)
       {
         socket = (*srv)->clients[i]->fd;
-        serialized_game_info = serialize_game_info((*srv)->game_info);
+        serialized_game_info = serialize_game_info(game_info);
         write(socket, serialized_game_info, 1024);
       }
       ++(*tk);
@@ -64,7 +68,9 @@ void	*threaded_ticker(void *server)
 void process_requests(t_srv **server)
 {
   int i;
+  t_game_info *game_info;
 
+  game_info = get_game_info();
   for (i = 0; i < 8; ++i)
     {
       if ((*server)->requests[i] == NULL)
@@ -77,12 +83,12 @@ void process_requests(t_srv **server)
 	      my_putstr("\n creation of game requested");
 	    }
 	}
-      else if ((*server)->game_info == NULL)
+      else if (game_info->game_status == 0)
 	{
 	  free((*server)->requests[i]);
 	  continue;
 	}
-      handle_requests((*server)->game_info, (*server)->requests[i]);
+      handle_requests(game_info, (*server)->requests[i]);
       free((*server)->requests[i]);
     }
 }

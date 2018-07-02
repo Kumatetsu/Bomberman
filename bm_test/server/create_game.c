@@ -25,7 +25,7 @@ void create_game_info(t_srv **srv)
   int 			x;
   int			y;
 
-  game_info = calloc(1, sizeof(t_game_info));
+  game_info = get_game_info();
   for (i = 0; i < 3; ++i)
     {
       game_info->players[i] = (*srv)->clients[i];
@@ -46,8 +46,7 @@ void create_game_info(t_srv **srv)
       map_destroyable->x_pos = x * 8;
       game_info->map_destroyable[y][x] =  map_destroyable;
     }
-
-  (*srv)->game_info = game_info;
+    set_game_info(game_info);
 }
 
 void    specify_player_info(int i, t_game_info *game_info)
