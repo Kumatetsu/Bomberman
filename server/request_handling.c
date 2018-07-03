@@ -63,15 +63,12 @@ void	place_bomb(t_game_info *game_info,
 void	add_request_to_server(t_srv **srv, t_player_request *player_request)
 {
  int i;
-  char		log[50];
 
- for (i = 0; i < 7; ++i)
+ for (i = 0; i < 8; ++i)
    {
      if ((*srv)->requests[i] != NULL)
          continue;
 
-     sprintf(log, "\nrequest: %d added", i);
-     my_putstr(log);
      (*srv)->requests[i] = player_request;
    }
 }

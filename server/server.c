@@ -116,9 +116,11 @@ void		process_requests(t_srv **server)
     else if (game_info->game_status == 0)
     {
       free((*server)->requests[i]);
+      (*server)->requests[i] = NULL;
       continue;
     }
     handle_requests(game_info, (*server)->requests[i]);
     free((*server)->requests[i]);
+    (*server)->requests[i] = NULL;
   }
 }
