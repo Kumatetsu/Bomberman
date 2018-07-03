@@ -15,7 +15,7 @@
 
 int get_message(int s)
 {
-  char buff[1024];
+  char buff[sizeof(t_game_info)];
   int r;
   t_game_info *game_info;
 
