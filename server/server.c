@@ -18,7 +18,7 @@ void		*init_server() // sdl provient de old/old_server.c
   int		tick;
   pthread_t	main_thread;
   pthread_t	tick_thread;
-  t_game_info *game_info;
+  t_game_info	*game_info;
 
   tick = 0;
   if ((srv = malloc(sizeof (*srv))) == NULL)

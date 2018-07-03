@@ -5,7 +5,7 @@
 ** Login   <hochar_n@etna-alternance.net>
 **
 ** Started on  Tue Jul  3 22:28:40 2018 hochar_n
-** Last update Tue Jul  3 22:29:22 2018 hochar_n
+** Last update Tue Jul  3 23:42:26 2018 hochar_n
 */
 
 #ifndef	_SERVER_
@@ -36,7 +36,7 @@ typedef struct		s_srv
   int			n_players;
 }			t_srv;
 
-void    *init_server();
+void	*init_server();
 int	accept_players(t_srv **srv);
 int	add_player(t_srv **s, int fd);
 int	create_server_socket();

@@ -25,15 +25,15 @@ void			my_sleep(int sec, int milli)
   nanosleep(&req, NULL);
 }
 
-void	*threaded_ticker(void *server)
+void		*threaded_ticker(void *server)
 {
-  char	log[50];
-  t_srv **srv;
-  int	*tk;
-  int   socket;
-  char	*serialized_game_info;
+  char		log[50];
+  t_srv		**srv;
+  int		*tk;
+  int		socket;
+  char		*serialized_game_info;
   t_game_info	*game_info;
-  int	i;
+  int		i;
   
   srv = (t_srv**)server;
   tk = (*srv)->tick;

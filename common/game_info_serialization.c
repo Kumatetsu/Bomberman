@@ -6,9 +6,9 @@
 
 char		*serialize_game_info()
 {
-  char		    *game_info_str;
+  char		*game_info_str;
   t_game_info	*game_info;
-  t_game_info *tmp;
+  t_game_info	*tmp;
 
   game_info = get_game_info();
   tmp = malloc(sizeof(t_game_info));
