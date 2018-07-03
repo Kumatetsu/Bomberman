@@ -37,7 +37,7 @@ char* request_serialization(t_player_request* client_request)
 		return NULL;
 	client_request->checksum = get_request_checksum(client_request);
 	request_string = (char*) client_request;
-	request_string = realloc(request_string,sizeof(t_player_request)+1);
+	request_string = realloc(request_string, sizeof(t_player_request)+1);
 	if (request_string == NULL)
 		return NULL;
 	request_string[sizeof(t_player_request)] = '\0';

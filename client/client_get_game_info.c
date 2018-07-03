@@ -15,17 +15,23 @@
 
 int get_message(int s)
 {
-  char buff[1024];
+  char buff[sizeof(t_game_info)];
   int r;
   t_game_info *game_info;
 
   game_info = NULL;
-  r = recv(s, buff, 1024 - 1, 0);
+  r = recv(s, buff, sizeof(t_game_info), 0);
   if (r > 0)
   {
+    printf("%d", r);
     deserialize_game_info(buff);
     game_info = get_game_info();
     printf("%d \n", game_info->game_status);
+    printf("%d \n", game_info->tick_time);
+    printf("%ld \n", (long int)game_info->checksum);
+    if (game_info->players[0] != NULL){
+      printf("%d \n", game_info->players[0]->num_player);
+    }
     return 1;
   }
   else
