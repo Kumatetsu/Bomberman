@@ -9,7 +9,7 @@ void add_player(t_server **s, int fd, int player_rank)
 {
   t_player *new_player;
 
-  if ((new_player = malloc(sizeof (*new))) == NULL)
+  if ((new_player = malloc(sizeof (*new_player))) == NULL)
     return ;
 
   s = s;

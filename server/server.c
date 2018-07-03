@@ -48,31 +48,6 @@ void		*init_server() // sdl provient de old/old_server.c
   return (NULL);
 }
 
-int			accept_players(t_srv **srv)
-{
-  int			check;
-  int			player_socket;
-  struct sockaddr_in	client_sin;
-  socklen_t		client_sin_len;
-
-  check = (*srv)->n_players;
-  memset(&client_sin, 0, sizeof (struct sockaddr_in));
-  client_sin_len = sizeof (client_sin);
-  player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
-  if (player_socket == -1)
-    return (-1);
-  if ((*srv)->players[3] != NULL)
-    return (0);
-  if (!add_player(srv, player_socket))
-    return (-1);
-  if (check == ((*srv)->n_players) - 1)
-    my_putstr("\nPlayer successfully added");
-  else
-    my_putstr("\nServer failed to add client");
-  // retourne 1 si joueur ajouté, 0 sinon
-  return ((*srv)->n_players - check);
-}
-
 int		add_player(t_srv **srv, int fd)
 {
   t_player_info	*new_player;
@@ -115,4 +90,32 @@ int			create_server_socket()
   if (listen(s, 42) == -1)
     return (-1);
   return (s);
+}
+
+void		process_requests(t_srv **server)
+{
+  int		i;
+  t_game_info	*game_info;
+
+  game_info = get_game_info();
+  for (i = 0; i < 8; ++i)
+  {
+    if ((*server)->requests[i] == NULL)
+      continue;
+    if ((*server)->requests[i]->command == START_GAME)
+    {
+      if ((*server)->n_players >= 2 && (*server)->n_players <= 4)
+      {
+        create_game_info(server);
+        my_putstr("\n creation of game requested");
+      }
+    }
+    else if (game_info->game_status == 0)
+    {
+      free((*server)->requests[i]);
+      continue;
+    }
+    handle_requests(game_info, (*server)->requests[i]);
+    free((*server)->requests[i]);
+  }
 }

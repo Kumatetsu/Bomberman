@@ -28,11 +28,12 @@ SRC 	= 	main.c 					\
 		client/client_socket_thread.c\
 		server/server.c				\
 		server/thread.c				\
-		server/bomb_management.c				\
-		server/map_management.c				\
+		server/bomb_management.c		\
+		server/map_management.c			\
 		server/moving.c				\
-		server/create_game.c				\
-		server/request_handling.c				\
+		server/create_game.c			\
+		server/request_handling.c		\
+                server/networking.c			\
 		server/main_loop.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
