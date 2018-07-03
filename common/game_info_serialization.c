@@ -10,7 +10,7 @@ char		*serialize_game_info()
   t_game_info	*game_info;
 
   game_info = get_game_info();
-  if ((game_info_str = calloc(1, sizeof(t_game_info) + 1)) == NULL)
+  if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
     return NULL;
   game_info_str = (char*) game_info;
   if ((game_info_str = realloc(game_info_str, sizeof(t_game_info) + 1)) == NULL)
