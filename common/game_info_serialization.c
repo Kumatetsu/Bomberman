@@ -13,7 +13,7 @@ char		*serialize_game_info()
   game_info = get_game_info();
   tmp = malloc(sizeof(t_game_info));
   //maybe not good at all
-  memcpy(tmp, &game_info, sizeof(*tmp) + 1);
+  memcpy(tmp, &game_info, sizeof(t_game_info) + 1);
   if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
     return NULL;
   game_info_str = (char*) tmp;
