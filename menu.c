@@ -35,9 +35,9 @@ void		main_menu(t_sdl *sdl)
 	  printf("join button pressed");
 	}
 	if (( x > create_position.x ) && ( x < create_position.x + create_position.w ) && ( y > create_position.y ) && ( y < create_position.y + create_position.h ) ) {
-	  if (pthread_create(&server_thread, NULL, init_server, NULL))
-	    return;
 	  printf("server button pressed");
+	  if (pthread_create(&server_thread, NULL, init_server, NULL) == -1)
+	    return;
 	}
 	break;
       }

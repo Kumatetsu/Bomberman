@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 ** 
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Mon Jul  2 18:59:24 2018 BILLAUD Jean
+** Last update Tue Jul  3 20:29:30 2018 MASERA Mathieu
 */
 
 #include <stdlib.h>
@@ -64,6 +64,19 @@ char		*enter_addr(t_sdl *sdl)
 	  quit = 1;
 	  addr = NULL;
 	  break;
+      case SDL_KEYDOWN:
+	switch(event_queue.key.keysym.sym ){
+	case SDLK_BACKSPACE:
+	  printf("opopoopopopopopop");
+	  if (addr != NULL) {
+	    free(addr);
+	  }
+	  addr = malloc(sizeof(*addr));
+	  memset(addr, 0, sizeof(*addr));
+	  sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
+	  break;
+	}
+	break;
       case SDL_TEXTINPUT:
 	foo = (char *)realloc(addr, (strlen(addr) + 2));
 	addr = foo;
