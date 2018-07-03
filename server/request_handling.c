@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "server.h"
+#include "my_put.h"
 #include "request.h"
 #include "game_info.h"
 
@@ -57,4 +58,20 @@ void	place_bomb(t_game_info *game_info,
   x = player->x_pos * 8;
   y = player->y_pos * 8;
   game_info->map_destroyable[y][x] =  bomb;
+}
+
+void	add_request_to_server(t_srv **srv, t_player_request *player_request)
+{
+ int i;
+  char		log[50];
+
+ for (i = 0; i < 7; ++i)
+   {
+     if ((*srv)->requests[i] != NULL)
+         continue;
+
+     sprintf(log, "\nrequest: %d added", i);
+     my_putstr(log);
+     (*srv)->requests[i] = player_request;
+   }
 }
