@@ -40,7 +40,7 @@ void		*init_server() // sdl provient de old/old_server.c
 
   // PROVIENT DE OLD_SERVER.c dans le folder old/
   // sdl->server_welcome = NULL;
-  
+
   pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
