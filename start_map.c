@@ -13,9 +13,6 @@
 #include "thread.h"
 #include "game_info_serialization.h"
 
-void send_game_info()
-{
-}
 
 int start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {

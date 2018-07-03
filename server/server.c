@@ -10,7 +10,7 @@
 #include "my_put.h"
 #include "server.h"
 
-int		init_server(/*t_sdl *sdl*/) // sdl provient de old/old_server.c
+void		*init_server() // sdl provient de old/old_server.c
 {
   int		s;
   int		i;
@@ -21,18 +21,18 @@ int		init_server(/*t_sdl *sdl*/) // sdl provient de old/old_server.c
 
   tick = 0;
   if ((srv = malloc(sizeof (*srv))) == NULL)
-    return (0);
+    return (NULL);
   if ((s = create_server_socket()) == -1)
-    return (0);
+    return (NULL);
   srv->fd = s;
   srv->tick = &tick;
   srv->n_players = 0;
   for (i = 0; i < 4; i++)
     srv->players[i] = NULL;
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
-    return (0);
+    return (NULL);
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
-    return (0);
+    return (NULL);
   //n'attend qu'un client pour qu'on puisse tester tranquillement
   //on doit init le server avant d'écouter les connections
   // if (accept_clients(&srv) == -1)
@@ -43,7 +43,7 @@ int		init_server(/*t_sdl *sdl*/) // sdl provient de old/old_server.c
   
   pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
-  return (0);
+  return (NULL);
 }
 
 int			accept_players(t_srv **srv)
