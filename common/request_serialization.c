@@ -4,7 +4,7 @@ int	get_request_checksum(t_player_request* client_request)
 {
   int	checksum = 0;
   int	i;
-  
+
   unsigned char *p = (unsigned char *)&client_request->magic;
   for (i = 0; i<(int)sizeof(client_request->magic); i++) {
     checksum += p[i];

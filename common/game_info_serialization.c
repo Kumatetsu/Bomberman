@@ -6,23 +6,29 @@
 
 char		*serialize_game_info()
 {
-  char		*game_info_str;
+  char		    *game_info_str;
   t_game_info	*game_info;
+  t_game_info *tmp;
 
   game_info = get_game_info();
+  tmp = malloc(sizeof(t_game_info));
+  //maybe not good at all
+  memcpy(tmp, &game_info, sizeof(*tmp) + 1);
   if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
     return NULL;
-  game_info_str = (char*) game_info;
-  if ((game_info_str = realloc(game_info_str, sizeof(t_game_info) + 1)) == NULL)
+  game_info_str = (char*) tmp;
+  printf("before realloc\n");
+  if ((game_info_str = (char*)realloc(game_info_str, 1024 + 1)) == NULL)
     return NULL;
   game_info_str[sizeof(t_game_info)] = '\0';
+  printf("before return\n");
   return game_info_str;
 }
 
 void		deserialize_game_info(char *serialized_game_info)
 {
   t_game_info	*game_info;
-  
+
   game_info = (t_game_info*) serialized_game_info;
   set_game_info(game_info);
 }
@@ -33,7 +39,7 @@ int		get_game_info_checksum()
   unsigned char *p;
   t_game_info	*game_info;
   int		i;
-  
+
   game_info = get_game_info();
   checksum = game_info->tick_time;
   p = (unsigned char *)&game_info->players;
@@ -44,4 +50,3 @@ int		get_game_info_checksum()
     checksum += p[i];
   return checksum;
 }
-
