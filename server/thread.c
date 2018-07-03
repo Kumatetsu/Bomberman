@@ -47,10 +47,10 @@ void	*threaded_ticker(void *server)
       for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  socket = (*srv)->players[i]->fd;
-	  serialized_game_info = serialize_game_info();
-	  write(socket, serialized_game_info, sizeof(serialized_game_info));
+	  serialized_game_info = serialize_game_info(i);
+	  write(socket, serialized_game_info, sizeof(serialized_game_info + 1));
 	}
-      (*tk)++;
+      ++(*tk);
     }
 }
 

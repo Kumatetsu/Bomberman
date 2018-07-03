@@ -22,6 +22,7 @@
 #include <time.h>
 #include <string.h>
 #include "request.h"
+#include "sdl.h"
 
 t_player_request* 	create_player_request();
 int 			free_player_request(t_player_request* client_request);

@@ -33,6 +33,7 @@ typedef struct		s_game_info
   t_player_info		*players[4];
   int 			game_status;
   t_map_destroyable	*map_destroyable[11][13];
+  int			is_me;
 } 			t_game_info;
 
 t_game_info		*get_game_info();

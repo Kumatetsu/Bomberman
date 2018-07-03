@@ -2,12 +2,13 @@
 #include "game_info.h"
 #include "game_info_serialization.h"
 
-char		*serialize_game_info()
+char		*serialize_game_info(int i)
 {
   char		*game_info_str;
   t_game_info	*game_info;
 
   game_info = get_game_info();
+  game_info->is_me = i;
   if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
     return NULL;
   game_info_str = (char*) game_info;

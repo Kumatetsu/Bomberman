@@ -2,6 +2,7 @@
 #include "player_info.h"
 #include "server.h"
 #include "request.h"
+#include "game_info.h"
 #include "main_loop.h"
 
 int			main_loop(t_srv **srv)
@@ -61,5 +62,6 @@ int			main_loop(t_srv **srv)
             }
         }
     }
+    process_requests(srv);
   return (1);
 }

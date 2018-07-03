@@ -2,6 +2,9 @@
 #define _SERVER_
 
 #include "player.h"
+#include "player_info.h"
+#include "request.h"
+
 
 # define FD_FREE 0
 # define FD_CLIENT 1
@@ -18,11 +21,12 @@ typedef struct 	s_srv
   int		*tick;
   t_player_info	*players[4];
   fd_set	fd_read;
+  t_player_request	*requests[8];
   int		fd_max;
   int		n_players;
 }		t_srv;
 
-void	*init_server();
+int	init_server();
 int	accept_players(t_srv **srv);
 int	add_player(t_srv **s, int fd);
 int	create_server_socket();

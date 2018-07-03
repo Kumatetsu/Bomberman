@@ -29,6 +29,8 @@ void		*init_server() // sdl provient de old/old_server.c
   srv->n_players = 0;
   for (i = 0; i < 4; i++)
     srv->players[i] = NULL;
+  for (i = 0; i < 8; i++)
+    srv->requests[i] = NULL;
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
     return (NULL);
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
@@ -73,23 +75,23 @@ int			accept_players(t_srv **srv)
 
 int		add_player(t_srv **srv, int fd)
 {
-  t_player_info	*new;
+  t_player_info	*new_player;
 
-  if ((new = malloc(sizeof (*new))) == NULL)
+  if ((new_player = malloc(sizeof (*new_player))) == NULL)
     return (0);
-  new->connected = 0;
-  new->alive = 1;
-  new->dying = 0;
-  new->x_pos = 0;
-  new->y_pos = 0;
-  new->current_dir = 0;
-  new->bomb_left = 3; // ?
-  new->fd = fd;
-  new->num_player = (*srv)->n_players + 1;
+  new_player->connected = 0;
+  new_player->alive = 1;
+  new_player->dying = 0;
+  new_player->x_pos = 0;
+  new_player->y_pos = 0;
+  new_player->current_dir = 0;
+  new_player->bomb_left = 3; // ?
+  new_player->fd = fd;
+  new_player->num_player = (*srv)->n_players + 1;
   /**
    ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
    */
-  (*srv)->players[(*srv)->n_players] = new;
+  (*srv)->players[(*srv)->n_players] = new_player;
   (*srv)->n_players++;
   printf("player added");
   return (1);

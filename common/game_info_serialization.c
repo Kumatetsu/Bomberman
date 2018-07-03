@@ -4,7 +4,7 @@
 #include "game_info.h"
 #include "game_info_serialization.h"
 
-char		*serialize_game_info()
+char		*serialize_game_info(int i)
 {
   char		    *game_info_str;
   t_game_info	*game_info;
@@ -16,6 +16,7 @@ char		*serialize_game_info()
   memcpy(tmp, &game_info, sizeof(t_game_info) + 1);
   if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
     return NULL;
+  game_info->id_client = i;
   game_info_str = (char*) tmp;
   printf("before realloc\n");
   if ((game_info_str = (char*)realloc(game_info_str, sizeof(t_game_info) + 1)) == NULL)
