@@ -18,7 +18,7 @@ char		*serialize_game_info()
     return NULL;
   game_info_str = (char*) tmp;
   printf("before realloc\n");
-  if ((game_info_str = (char*)realloc(game_info_str, 1024 + 1)) == NULL)
+  if ((game_info_str = (char*)realloc(game_info_str, sizeof(t_game_info) + 1)) == NULL)
     return NULL;
   game_info_str[sizeof(t_game_info)] = '\0';
   printf("before return\n");
