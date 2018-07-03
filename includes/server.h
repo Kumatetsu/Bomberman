@@ -36,7 +36,7 @@ typedef struct		s_srv
   int			n_players;
 }			t_srv;
 
-int	init_server();
+void    *init_server();
 int	accept_players(t_srv **srv);
 int	add_player(t_srv **s, int fd);
 int	create_server_socket();

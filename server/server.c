@@ -18,6 +18,7 @@ void		*init_server() // sdl provient de old/old_server.c
   int		tick;
   pthread_t	main_thread;
   pthread_t	tick_thread;
+  t_game_info *game_info;
 
   tick = 0;
   if ((srv = malloc(sizeof (*srv))) == NULL)
@@ -27,6 +28,8 @@ void		*init_server() // sdl provient de old/old_server.c
   srv->fd = s;
   srv->tick = &tick;
   srv->n_players = 0;
+  game_info = calloc(1, sizeof(t_game_info));
+  set_game_info(game_info);
   for (i = 0; i < 4; i++)
     srv->players[i] = NULL;
   for (i = 0; i < 8; i++)

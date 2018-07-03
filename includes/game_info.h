@@ -24,7 +24,7 @@ typedef struct		s_game_info
   int			tick_time;
   t_player_info		*players[4];
   int 			game_status;
-  int			is_me;
+  int			id_client;
   t_map_destroyable	*map_destroyable[14][15];
 } 			t_game_info;
 
