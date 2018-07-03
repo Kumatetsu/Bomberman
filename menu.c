@@ -4,6 +4,7 @@
 #include "client.h"
 #include "player_info.h"
 #include "server.h"
+#include <pthread.h>
 
 /**
  * Init le menu permettant de choisir de se connecter à un server
@@ -17,6 +18,7 @@ void		main_menu(t_sdl *sdl)
   SDL_Event	event_queue;
   SDL_Rect      join_position = {200, 300, 400, 60};
   SDL_Rect      create_position = {200, 400, 400, 60};
+  pthread_t	server_thread;
 
   while(!quit) {
     while(SDL_PollEvent(&event_queue)) {
@@ -33,8 +35,9 @@ void		main_menu(t_sdl *sdl)
 	  printf("join button pressed");
 	}
 	if (( x > create_position.x ) && ( x < create_position.x + create_position.w ) && ( y > create_position.y ) && ( y < create_position.y + create_position.h ) ) {
-	  init_server(sdl);
-          printf("server button pressed");
+	  printf("server button pressed");
+	  if (pthread_create(&server_thread, NULL, init_server, NULL) == -1)
+	    return;
 	}
 	break;
       }
@@ -46,6 +49,6 @@ void		main_menu(t_sdl *sdl)
     SDL_RenderCopy(sdl->renderer, sdl->create_game, NULL, &create_position);
     SDL_RenderPresent(sdl->renderer);
   }
-
+  pthread_cancel(server_thread);
   return;
 }
