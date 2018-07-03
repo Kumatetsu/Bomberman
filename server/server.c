@@ -1,3 +1,12 @@
+/*
+** server.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 00:14:25 2018 MASERA Mathieu
+** Last update Wed Jul  4 00:25:49 2018 MASERA Mathieu
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -83,7 +92,7 @@ int		add_player(t_srv **srv, int fd)
   new->x_pos = 0;
   new->y_pos = 0;
   new->current_dir = 0;
-  new->bomb_left = 3; // ?
+  new->bomb_left = 1; // ?
   new->fd = fd;
   new->num_player = (*srv)->n_players + 1;
   /**
@@ -104,7 +113,7 @@ int			create_server_socket()
   memset(&sin, 0, sizeof (struct sockaddr_in));
   if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
     return (-1);
-  port = 4022;
+  port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;

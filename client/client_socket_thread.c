@@ -1,3 +1,12 @@
+/*
+** client_socket_thread.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/client
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 00:13:33 2018 MASERA Mathieu
+** Last update Wed Jul  4 00:13:35 2018 MASERA Mathieu
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
