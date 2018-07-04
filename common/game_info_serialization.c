@@ -29,9 +29,9 @@ char		*serialize_game_info()
 
   //maybe not good at all
   memcpy(game_info_str, &game_info->checksum, sizeof(int));
-  memcpy(game_info_str, &game_info->tick_time, sizeof(int));
-  memcpy(game_info_str, &game_info->game_status, sizeof(int));
-  memcpy(game_info_str, &game_info->id_client, sizeof(int));
+  memcpy(game_info_str + sizeof(int), &game_info->tick_time, sizeof(int));
+  memcpy(game_info_str + sizeof(int) * 2, &game_info->game_status, sizeof(int));
+  memcpy(game_info_str + sizeof(int) * 3, &game_info->id_client, sizeof(int));
 
   memcpy(game_info_str + (sizeof(int) * 4), &game_info->players, sizeof(t_player_info) * 4);
   memcpy(game_info_str + sizeof(int) * 4 + sizeof(t_player_info) * 4, &game_info->map_destroyable, sizeof(t_map_destroyable) * 14 * 15);
