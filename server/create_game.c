@@ -26,6 +26,7 @@ void			create_game_info(t_srv **srv)
   int			y;
 
   game_info = get_game_info();
+  game_info->game_status = 1;
   for (i = 0; i < 3; ++i)
     {
       game_info->players[i] = (*srv)->players[i];
