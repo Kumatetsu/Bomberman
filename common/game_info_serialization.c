@@ -18,19 +18,28 @@ char		*serialize_game_info()
 {
   char		*game_info_str;
   t_game_info	*game_info;
-  t_game_info	*tmp;
+  t_player_info		*players[4];
+  t_map_destroyable	*map_destroyable[14][15];
+  char              *tmp;
 
   game_info = get_game_info();
-  tmp = malloc(sizeof(t_game_info));
+  tmp = malloc((sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable));
+
   //maybe not good at all
-  memcpy(tmp, &game_info, sizeof(t_game_info) + 1);
-  if ((game_info_str = calloc(1, sizeof(t_game_info))) == NULL)
+  memcpy(tmp, &game_info, sizeof(int) * 4);
+  memcpy(tmp + (sizeof(int) * 4), &game_info->players, sizeof(players));
+  memcpy(tmp + ((sizeof(int) * 4) + sizeof(players)), &game_info->map_destroyable, sizeof(map_destroyable));
+
+  if ((game_info_str = calloc(1, (sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable) + 1)) == NULL)
     return NULL;
   game_info_str = (char*) tmp;
   printf("before realloc\n");
-  if ((game_info_str = (char*)realloc(game_info_str, sizeof(t_game_info) + 1)) == NULL)
+
+  if ((game_info_str = (char*)realloc(game_info_str, sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable) + 1) == NULL)
     return NULL;
-  game_info_str[sizeof(t_game_info)] = '\0';
+  game_info_str[(sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable) + 1] = '\0';
+
+  free(tmp);
   printf("before return\n");
   return game_info_str;
 }
@@ -39,7 +48,15 @@ void		deserialize_game_info(char *serialized_game_info)
 {
   t_game_info	*game_info;
 
-  game_info = (t_game_info*) serialized_game_info;
+  game_info = calloc(1, sizeof(t_game_info));
+
+  memcpy(game_info, &serialized_game_info, sizeof(int));
+  memcpy(game_info + sizeof(int), &serialized_game_info[sizeof(int)], sizeof(int));
+  memcpy(game_info + (sizeof(int) * 2), &serialized_game_info[sizeof(int) * 2], sizeof(int));
+  memcpy(game_info + (sizeof(int) * 3), &serialized_game_info[sizeof(int) * 3], sizeof(int));
+  memcpy(game_info + (sizeof(int) * 4), &serialized_game_info[sizeof(int) * 4], sizeof(t_player_info));
+  memcpy(game_info + (sizeof(int) * 4 + sizeof(t_player_info)), &serialized_game_info[(sizeof(int) * 4) + sizeof(t_player_info)], sizeof(t_map_destroyable));
+
   set_game_info(game_info);
 }
 
