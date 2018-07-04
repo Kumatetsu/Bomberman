@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 **
 ** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
-** Last update Sun Jul  1 18:28:29 2018 hochar_n
+** Last update Tue Jul  3 22:29:46 2018 hochar_n
 */
 
 #include <stdlib.h>
@@ -17,9 +17,9 @@
 #include "game_info.h"
 #include "my_put.h"
 
-void create_game_info(t_srv **srv)
+void			create_game_info(t_srv **srv)
 {
-  t_game_info 		  *game_info;
+  t_game_info 		*game_info;
   t_map_destroyable 	*map_destroyable;
   int 			i;
   int 			x;
@@ -28,7 +28,7 @@ void create_game_info(t_srv **srv)
   game_info = get_game_info();
   for (i = 0; i < 3; ++i)
     {
-      game_info->players[i] = (*srv)->clients[i];
+      game_info->players[i] = (*srv)->players[i];
       if (game_info->players[i] == NULL)
         continue;
       game_info->players[i]->connected = 1;
