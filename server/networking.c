@@ -26,6 +26,7 @@ int			accept_players(t_srv **srv)
   int			player_socket;
   struct sockaddr_in	client_sin;
   socklen_t		client_sin_len;
+  t_game_info   game_info;
 
   check = (*srv)->n_players;
   memset(&client_sin, 0, sizeof (struct sockaddr_in));
@@ -47,6 +48,12 @@ int			accept_players(t_srv **srv)
     my_putstr("\nCreation of the game");
     create_game_info(srv);
     my_putstr("\nGame created");
+  } else if ((*srv)->n_players > 2)
+  {
+    game_info = get_game_info();
+    game_info->players[i] = (*srv)->players[i];
+    set_game_info(game_info);
+
   }
   return ((*srv)->n_players - check);
 }
