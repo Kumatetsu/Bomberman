@@ -48,6 +48,7 @@ void		*init_server()
   game_info = calloc(1, sizeof(t_game_info));
   if (game_info == NULL)
     return (NULL);
+ 
   set_game_info(game_info);
 
   init_wall_rect();

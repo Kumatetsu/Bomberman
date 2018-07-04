@@ -19,12 +19,13 @@
 #include "game_info_serialization.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 char		*serialize_game_info()
 {
-  char      *game_info_str;
+  char		*game_info_str;
   t_game_info   *game_info;
-  int i;
+  int		i;
 
   game_info = get_game_info();
   //game_info_str = malloc((sizeof(int) * 4) + sizeof(t_player_info) * 4 + sizeof(t_map_destroyable) * 14 * 15);
