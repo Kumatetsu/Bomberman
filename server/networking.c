@@ -34,7 +34,7 @@ int			accept_players(t_srv **srv)
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
   if (player_socket == -1)
     return (-1);
-  if ((*srv)->players[3] != NULL)
+  if ((*srv)->n_players >= 4)
     return (0);
   if (!add_player(srv, player_socket))
     return (-1);

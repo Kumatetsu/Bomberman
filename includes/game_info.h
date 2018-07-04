@@ -9,14 +9,14 @@
 
 typedef struct 	s_map_destroyable
 {
-	int	y_pos;                  /* La position y de l'element */
-	int	x_pos;                  /* La position x de l'element */
-	int	bomb;
-	int	bomb_owner;
-	int     dying;
-	int	start_explode;
-	int	wall_destroyable;
-	int exist;
+  int		y_pos;                  /* La position y de l'element */
+  int		x_pos;                  /* La position x de l'element */
+  int		bomb;
+  int		bomb_owner;
+  int		dying;
+  int		start_explode;
+  int		wall_destroyable;
+  int		exist;
 }		t_map_destroyable;
 
 typedef struct		s_game_info
@@ -24,9 +24,9 @@ typedef struct		s_game_info
   int			checksum;               /* Un checksum simple */
   int			tick_time;
   int 			game_status;
-	int			id_client;
-	t_player_info		players[4];
-	t_map_destroyable	map_destroyable[14][15];
+  int			id_client;
+  t_player_info		players[4];
+  t_map_destroyable	map_destroyable[14][15];
 } 			t_game_info;
 
 t_game_info	*get_game_info();
