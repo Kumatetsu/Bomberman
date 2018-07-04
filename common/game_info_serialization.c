@@ -55,6 +55,7 @@ void		deserialize_game_info(char *serialized_game_info)
   t_game_info	*game_info;
   int i = 0;
   game_info = malloc(sizeof(t_game_info));
+
   memcpy(&game_info->checksum, serialized_game_info, sizeof(int));
   memcpy(&game_info->tick_time, serialized_game_info + sizeof(int), sizeof(int));
   memcpy(&game_info->game_status, serialized_game_info + sizeof(int) * 2, sizeof(int));
