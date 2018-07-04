@@ -5,7 +5,7 @@
 ** Login   <billau_j@etna-alternance.net>
 **
 ** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
-** Last update Tue Jul  3 20:29:30 2018 MASERA Mathieu
+** Last update Tue Jul  3 23:30:31 2018 MASERA Mathieu
 */
 
 #include <stdlib.h>
@@ -67,7 +67,6 @@ char		*enter_addr(t_sdl *sdl)
       case SDL_KEYDOWN:
 	switch(event_queue.key.keysym.sym ){
 	case SDLK_BACKSPACE:
-	  printf("opopoopopopopopop");
 	  if (addr != NULL) {
 	    free(addr);
 	  }

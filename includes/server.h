@@ -29,7 +29,7 @@ typedef struct		s_srv
 {
   int			fd;
   int			*tick;
-  t_player_info		*players[4];
+  t_player_info		players[4];
   fd_set		fd_read;
   t_player_request	*requests[8];
   int			fd_max;

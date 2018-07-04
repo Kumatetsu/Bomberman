@@ -1,3 +1,12 @@
+/*
+** server.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 00:14:25 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:28:54 2018 MASERA Mathieu
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -28,10 +37,14 @@ void		*init_server() // sdl provient de old/old_server.c
   srv->fd = s;
   srv->tick = &tick;
   srv->n_players = 0;
+
   game_info = calloc(1, sizeof(t_game_info));
+  if (game_info == NULL)
+    return (NULL);
   set_game_info(game_info);
+
   for (i = 0; i < 4; i++)
-    srv->players[i] = NULL;
+    srv->players[i].connected = 0;
   for (i = 0; i < 8; i++)
     srv->requests[i] = NULL;
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
@@ -53,19 +66,17 @@ void		*init_server() // sdl provient de old/old_server.c
 
 int		add_player(t_srv **srv, int fd)
 {
-  t_player_info	*new_player;
+  t_player_info	new_player;
 
-  if ((new_player = malloc(sizeof (*new_player))) == NULL)
-    return (0);
-  new_player->connected = 0;
-  new_player->alive = 1;
-  new_player->dying = 0;
-  new_player->x_pos = 0;
-  new_player->y_pos = 0;
-  new_player->current_dir = 0;
-  new_player->bomb_left = 3; // ?
-  new_player->fd = fd;
-  new_player->num_player = (*srv)->n_players + 1;
+  new_player.connected = 0;
+  new_player.alive = 1;
+  new_player.dying = 0;
+  new_player.x_pos = 0;
+  new_player.y_pos = 0;
+  new_player.current_dir = 0;
+  new_player.bomb_left = 1;
+  new_player.fd = fd;
+  new_player.num_player = (*srv)->n_players + 1;
   /**
    ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
    */
@@ -84,7 +95,7 @@ int			create_server_socket()
   memset(&sin, 0, sizeof (struct sockaddr_in));
   if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
     return (-1);
-  port = 4022;
+  port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;

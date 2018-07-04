@@ -1,3 +1,13 @@
+/*
+** thread.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 09:39:24 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,7 +56,7 @@ void		*threaded_ticker(void *server)
       my_putstr(log);
       my_sleep(0, 5000);
       for (i = 0; i < (*srv)->n_players; i++) {
-        socket = (*srv)->players[i]->fd;
+        socket = (*srv)->players[i].fd;
         game_info = get_game_info();
         game_info->id_client = i;
         set_game_info(game_info);

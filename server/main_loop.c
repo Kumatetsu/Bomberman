@@ -1,3 +1,13 @@
+/*
+** main_loop.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 09:37:32 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:37:33 2018 MASERA Mathieu
+*/
+
 #include <stdio.h>
 #include "player_info.h"
 #include "server.h"
@@ -17,11 +27,11 @@ int			main_loop(t_srv **srv)
   FD_ZERO(&(*srv)->fd_read);
   (*srv)->fd_max = (*srv)->fd;
   FD_SET((*srv)->fd, &(*srv)->fd_read);
-  while (i < 4 && (*srv)->players[i] != NULL)
+  while (i < 4 && (*srv)->players[i].connected == 1)
     {
-      FD_SET((*srv)->players[i]->fd, &(*srv)->fd_read);
-      if ((*srv)->players[i]->fd > (*srv)->fd_max)
-	(*srv)->fd_max = (*srv)->players[i]->fd;
+      FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+      if ((*srv)->players[i].fd > (*srv)->fd_max)
+	(*srv)->fd_max = (*srv)->players[i].fd;
       i++;
     }
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
@@ -32,20 +42,20 @@ int			main_loop(t_srv **srv)
   }
   for (i = 0; i < 4; i++)
     {
-      if ((*srv)->players[i] != NULL)
+      if ((*srv)->players[i].connected == 1)
         {
 	  error = 0;
 	  len = sizeof (error);
-	  retval = getsockopt ((*srv)->players[i]->fd, SOL_SOCKET, SO_ERROR, &error, &len);
+	  retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
 	  if (retval != 0 || error != 0) {
-	    (*srv)->players[i] = NULL;
+	    (*srv)->players[i].connected = 0;
 	    continue;
 	  }
-	  if (FD_ISSET((*srv)->players[i]->fd, &(*srv)->fd_read))
+	  if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
             {
 	      int n = 0;
 	      char buffer[sizeof(t_game_info)];
-	      if((n = recv((*srv)->players[i]->fd, buffer, sizeof(t_game_info), 0)) < 0)
+	      if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) < 0)
                 {
 		  perror("recv()");
 		  player_request = request_deserialize(buffer);
@@ -53,8 +63,8 @@ int			main_loop(t_srv **srv)
 		  printf("%s", request_serialization(player_request));
 		  if (player_request->checksum != get_request_checksum(player_request))
 		    {
-		      close((*srv)->players[i]->fd);
-		      (*srv)->players[i] = NULL;
+		      close((*srv)->players[i].fd);
+		      (*srv)->players[i].connected = 0;
 		    }
 		  n = 0;
                 }

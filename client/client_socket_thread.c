@@ -1,16 +1,29 @@
+/*
+** client_socket_thread.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/client
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 00:13:33 2018 MASERA Mathieu
+** Last update Wed Jul  4 10:16:38 2018 MASERA Mathieu
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
 #include "sdl.h"
+#include "my_put.h"
 #include "client.h"
-
+#include "game_info.h"
+#include "game_info_serialization.h"
 #include "thread.h"
 
 void *thread_listen_serv(void *s)
 {
-    int socket = *((int *)s);
-    int quit = 0;
-    fd_set fd_read;
+    int		socket = *((int *)s);
+    int		quit = 0;
+    fd_set	fd_read;
+    t_game_info	*game_info;
+    
     printf("OK %d", socket);
     while (!quit)
     {
@@ -27,8 +40,19 @@ void *thread_listen_serv(void *s)
             {
                 quit = 1;
             }
+	    game_info = get_game_info();
+	     if (game_info->players[0] != NULL){
+             my_putstr("\n\n");
+             printf("I AM PLAYER %d \n", game_info->id_client);
+             my_putstr("\n\n");
+//             printf("waaaaaaaaaaa %d num_player \n", game_info->players[0]->num_player);
+	     }
+            if (game_info->players[1] != NULL){
+                my_putstr("\n\n");
+                printf("I AM PLAYER %d \n", game_info->id_client);
+                my_putstr("\n\n");
+            }
         }
     }
-
     pthread_exit(NULL);
 }

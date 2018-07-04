@@ -1,3 +1,12 @@
+/*
+** draw_players.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/base_map
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 09:30:48 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:30:50 2018 MASERA Mathieu
+*/
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
