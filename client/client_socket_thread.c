@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "sdl.h"
+#include "my_put.h"
 #include "client.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
@@ -41,8 +42,16 @@ void *thread_listen_serv(void *s)
             }
 	    game_info = get_game_info();
 	     if (game_info->players[0] != NULL){
-	       printf("waaaaaaaaaaa %d num_player \n", game_info->players[0]->num_player);
+             my_putstr("\n\n");
+             printf("I AM PLAYER %d \n", game_info->id_client);
+             my_putstr("\n\n");
+//             printf("waaaaaaaaaaa %d num_player \n", game_info->players[0]->num_player);
 	     }
+            if (game_info->players[1] != NULL){
+                my_putstr("\n\n");
+                printf("I AM PLAYER %d \n", game_info->id_client);
+                my_putstr("\n\n");
+            }
         }
     }
     pthread_exit(NULL);
