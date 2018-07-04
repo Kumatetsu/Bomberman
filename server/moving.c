@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "server.h"
+#include "my_put.h"
 #include "request.h"
 #include "game_info.h"
 

@@ -5,21 +5,24 @@
 ** Login   <masera_m@etna-alternance.net>
 ** 
 ** Started on  Wed Jul  4 00:13:33 2018 MASERA Mathieu
-** Last update Wed Jul  4 00:13:35 2018 MASERA Mathieu
+** Last update Wed Jul  4 10:16:38 2018 MASERA Mathieu
 */
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
 #include "sdl.h"
 #include "client.h"
-
+#include "game_info.h"
+#include "game_info_serialization.h"
 #include "thread.h"
 
 void *thread_listen_serv(void *s)
 {
-    int socket = *((int *)s);
-    int quit = 0;
-    fd_set fd_read;
+    int		socket = *((int *)s);
+    int		quit = 0;
+    fd_set	fd_read;
+    t_game_info	*game_info;
+    
     printf("OK %d", socket);
     while (!quit)
     {
@@ -36,8 +39,11 @@ void *thread_listen_serv(void *s)
             {
                 quit = 1;
             }
+	    game_info = get_game_info();
+	     if (game_info->players[0] != NULL){
+	       printf("waaaaaaaaaaa %d num_player \n", game_info->players[0]->num_player);
+	     }
         }
     }
-
     pthread_exit(NULL);
 }

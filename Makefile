@@ -1,3 +1,12 @@
+##
+## Makefile for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman
+## 
+## Made by MASERA Mathieu
+## Login   <masera_m@etna-alternance.net>
+## 
+## Started on  Wed Jul  4 09:36:47 2018 MASERA Mathieu
+## Last update Wed Jul  4 09:36:48 2018 MASERA Mathieu
+##
 
 CC 	= gcc
 
@@ -28,6 +37,12 @@ SRC 	= 	main.c 					\
 		client/client_socket_thread.c\
 		server/server.c				\
 		server/thread.c				\
+		server/bomb_management.c		\
+		server/map_management.c			\
+		server/moving.c				\
+		server/create_game.c			\
+		server/request_handling.c		\
+                server/networking.c			\
 		server/main_loop.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\

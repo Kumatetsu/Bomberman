@@ -1,3 +1,13 @@
+/*
+** thread.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 09:39:24 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,14 +35,15 @@ void			my_sleep(int sec, int milli)
   nanosleep(&req, NULL);
 }
 
-void	*threaded_ticker(void *server)
+void		*threaded_ticker(void *server)
 {
-  char	log[50];
-  t_srv **srv;
-  int	*tk;
-  int   socket;
-  char	*serialized_game_info;
-  int	i;
+  char		log[50];
+  t_srv		**srv;
+  int		*tk;
+  int		socket;
+  char		*serialized_game_info;
+  t_game_info	*game_info;
+  int		i;
   
   srv = (t_srv**)server;
   tk = (*srv)->tick;
@@ -44,13 +55,18 @@ void	*threaded_ticker(void *server)
       sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
       my_putstr(log);
       my_sleep(0, 5000);
-      for (i = 0; i < (*srv)->n_players; i++)
-	{
-	  socket = (*srv)->players[i]->fd;
-	  serialized_game_info = serialize_game_info();
-	  write(socket, serialized_game_info, sizeof(serialized_game_info));
-	}
-      (*tk)++;
+      for (i = 0; i < (*srv)->n_players; i++) {
+        socket = (*srv)->players[i]->fd;
+        game_info = get_game_info();
+        game_info->id_client = i;
+        set_game_info(game_info);
+        serialized_game_info = serialize_game_info();
+        write(socket, serialized_game_info, sizeof(serialized_game_info + 1));
+      }
+      ++(*tk);
+      game_info = get_game_info();
+      game_info->tick_time=(*tk);
+      set_game_info(game_info);
     }
 }
 
