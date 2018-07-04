@@ -43,7 +43,7 @@ void		*init_server() // sdl provient de old/old_server.c
   game_info = calloc(1, sizeof(t_game_info));
   if (game_info == NULL)
     my_putstr("fatality");
-  game_info->id_client = 80;
+  game_info->id_client = 18;
   set_game_info(game_info);
   deserialize_game_info(serialize_game_info());
   game_info = get_game_info();
