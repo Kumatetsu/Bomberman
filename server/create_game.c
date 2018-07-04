@@ -20,7 +20,7 @@
 void			create_game_info(t_srv **srv)
 {
   t_game_info 		*game_info;
-  t_map_destroyable 	*map_destroyable;
+  t_map_destroyable 	map_destroyable;
   int 			i;
   int 			x;
   int			y;
@@ -30,21 +30,21 @@ void			create_game_info(t_srv **srv)
   for (i = 0; i < 3; ++i)
     {
       game_info->players[i] = (*srv)->players[i];
-      if (game_info->players[i] == NULL)
+      if (game_info->players[i].connected == 0)
         continue;
-      game_info->players[i]->connected = 1;
-      game_info->players[i]->bomb_left = 1;
-      game_info->players[i]->num_player = i + 1;
+      game_info->players[i].connected = 1;
+      game_info->players[i].bomb_left = 1;
+      game_info->players[i].num_player = i + 1;
       specify_player_info(i, game_info);
     }
   for (i = 0; i < 32; ++i)
     {
-      map_destroyable = calloc(1, sizeof(t_map_destroyable));
-      map_destroyable->wall_destroyable = 1;
+      map_destroyable.exist = 1;
+      map_destroyable.wall_destroyable = 1;
       x = random_at_most(13);
       y = random_at_most(11);
-      map_destroyable->y_pos = y * 8;
-      map_destroyable->x_pos = x * 8;
+      map_destroyable.y_pos = y * 8;
+      map_destroyable.x_pos = x * 8;
       game_info->map_destroyable[y][x] =  map_destroyable;
     }
     set_game_info(game_info);
@@ -55,24 +55,24 @@ void    specify_player_info(int i, t_game_info *game_info)
   switch (i)
     {
     case 0:
-      game_info->players[i]->x_pos = 2;
-      game_info->players[i]->y_pos = 2;
-      game_info->players[i]->current_dir = BOMBER_L;
+      game_info->players[i].x_pos = 2;
+      game_info->players[i].y_pos = 2;
+      game_info->players[i].current_dir = BOMBER_L;
       break;
     case 1:
-      game_info->players[i]->x_pos = 101;
-      game_info->players[i]->y_pos = 2;
-      game_info->players[i]->current_dir = BOMBER_D;
+      game_info->players[i].x_pos = 101;
+      game_info->players[i].y_pos = 2;
+      game_info->players[i].current_dir = BOMBER_D;
       break;
     case 2:
-      game_info->players[i]->x_pos = 2;
-      game_info->players[i]->y_pos = 85;
-      game_info->players[i]->current_dir = BOMBER_U;
+      game_info->players[i].x_pos = 2;
+      game_info->players[i].y_pos = 85;
+      game_info->players[i].current_dir = BOMBER_U;
       break;
     case 3:
-      game_info->players[i]->x_pos = 101;
-      game_info->players[i]->y_pos = 85;
-      game_info->players[i]->current_dir = BOMBER_R;
+      game_info->players[i].x_pos = 101;
+      game_info->players[i].y_pos = 85;
+      game_info->players[i].current_dir = BOMBER_R;
       break;
     }
 }

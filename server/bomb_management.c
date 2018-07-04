@@ -16,7 +16,7 @@
 void			trigger_bomb(
 				     t_game_info *game_info,
 				     int **map_pointer,
-				     t_map_destroyable *bomb
+				     t_map_destroyable bomb
 				     )
 {
   int			i;
@@ -25,7 +25,7 @@ void			trigger_bomb(
 
   for (j=0; j<2; ++j)
     {
-      pos = (i == 0 ? bomb->x_pos : bomb->y_pos);
+      pos = (i == 0 ? bomb.x_pos : bomb.y_pos);
       for (i = pos; i < pos + 8; ++i)
 	{
 	  apply_bomb_to_position(bomb, map_pointer, game_info, i);
@@ -34,7 +34,7 @@ void			trigger_bomb(
 }
 
 void			apply_bomb_to_position(
-					       t_map_destroyable *bomb,
+					       t_map_destroyable bomb,
 					       int **map_pointer,
 					       t_game_info *game_info,
 					       int i
@@ -46,11 +46,11 @@ void			apply_bomb_to_position(
   int 			y;
   int 			current_pos;
   int 			pos;
-  t_map_destroyable	*presence;
+  t_map_destroyable	presence;
 
-  pos = (i == 0 ? bomb->x_pos : bomb->y_pos);
+  pos = (i == 0 ? bomb.x_pos : bomb.y_pos);
   is_blocked = 0;
-  current_pos = i == 0 ? bomb->y_pos : bomb->x_pos;
+  current_pos = i == 0 ? bomb.y_pos : bomb.x_pos;
   for (k = (current_pos-3); k < (current_pos+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
@@ -73,103 +73,97 @@ void			apply_bomb_to_position(
 void			destroy_bomb(
 				     t_game_info *game_info,
 				     int **map_pointer,
-				     t_map_destroyable *bomb_to_destroy
+				     t_map_destroyable bomb_to_destroy
 				     )
 {
   int			i;
   int			j;
   int			k;
   int 			is_blocked;
-  t_map_destroyable	*map_destroyable;
 
   is_blocked = 0;
-  for (k = (bomb_to_destroy->y_pos-3); k < (bomb_to_destroy->y_pos+3); ++k) {
+  for (k = (bomb_to_destroy.y_pos-3); k < (bomb_to_destroy.y_pos+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
 	is_blocked = (k == 0 ? 0 : 1);
 	continue;
       }
-    if (map_pointer[bomb_to_destroy->x_pos][k] == WALL)
+    if (map_pointer[bomb_to_destroy.x_pos][k] == WALL)
       {
 	is_blocked = 1;
 	continue;
       }
     for (i = 1; i < 14; ++i) {
       for (j = 1; j < 15; ++j) {
-	if (game_info->map_destroyable[i][j] == NULL
-	    || game_info->map_destroyable[i][j]->bomb == 1)
+	if (game_info->map_destroyable[i][j].exist == 0
+	    || game_info->map_destroyable[i][j].bomb == 1)
 	  continue;
 	is_blocked = 1;
-	map_destroyable = game_info->map_destroyable[i][j];
-	free(map_destroyable);
-	map_destroyable = NULL;
+	game_info->map_destroyable[i][j].exist = 0;
       }
     }
   }
   is_blocked = 0;
-  for (k = (bomb_to_destroy->x_pos-3); k < (bomb_to_destroy->x_pos+3); ++k) {
+  for (k = (bomb_to_destroy.x_pos-3); k < (bomb_to_destroy.x_pos+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
 	is_blocked = (k == 0 ? 0 : 1);
 	continue;
       }
-    if (map_pointer[k][bomb_to_destroy->y_pos] == WALL)
+    if (map_pointer[k][bomb_to_destroy.y_pos] == WALL)
       {
 	is_blocked = 1;
 	continue;
       }
     for (i = 1; i < 14; ++i) {
       for (j = 1; j < 15; ++j) {
-	if (game_info->map_destroyable[i][j] == NULL
-	    || game_info->map_destroyable[i][j]->bomb == 1)
+	if (game_info->map_destroyable[i][j].exist == 0
+	    || game_info->map_destroyable[i][j].bomb == 1)
 	  continue;
-	map_destroyable = game_info->map_destroyable[i][j];
-	free(map_destroyable);
-	map_destroyable = NULL;
+	game_info->map_destroyable[i][j].exist = 0;
       }
     }
   }
   for (i = 0; i < 4; ++i) {
-    if (game_info->players[i] == NULL && bomb_to_destroy->bomb_owner == i + 1)
+    if (game_info->players[i].connected == 0 && bomb_to_destroy.bomb_owner == i + 1)
       continue;
-    game_info->players[i]->bomb_left = 1;
+    game_info->players[i].bomb_left = 1;
   }
-  free(bomb_to_destroy);
-  bomb_to_destroy = NULL;
+  bomb_to_destroy.exist = 0;
 }
 
-t_map_destroyable	*get_element_at_pos(t_game_info *game_info, int x, int y)
+t_map_destroyable	get_element_at_pos(t_game_info *game_info, int x, int y)
 {
   int			i;
   int			j;
-  t_map_destroyable	*map_destroyable;
+  t_map_destroyable	map_destroyable;
 
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
-      if (game_info->map_destroyable[i][j] == NULL
-	  || game_info->map_destroyable[i][j]->bomb == 1)
+      if (game_info->map_destroyable[i][j].exist == 0
+	  || game_info->map_destroyable[i][j].bomb == 1)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable->y_pos == y && map_destroyable->x_pos == x)
+      if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
 	return map_destroyable;
     }
   }
-  return NULL;
+  return map_destroyable;
 }
 
 int apply_explosion(
-		    t_map_destroyable *presence,
-		    t_map_destroyable *bomb,
+		    t_map_destroyable presence,
+		    t_map_destroyable bomb,
 		    t_game_info *game_info,
 		    int **map_pointer
 		    )
 {
-  if (presence != NULL && presence->bomb == 0)
-    presence->dying++;
-  else if (presence != NULL && presence->bomb == 1
-	   && bomb->start_explode > game_info->tick_time)
+  if (presence.exist == 1 && presence.bomb == 0)
+    presence.dying++;
+  else if (presence.exist == 1 && presence.bomb == 1
+	   && bomb.start_explode > game_info->tick_time)
     {
-      bomb->start_explode = game_info->tick_time;
+      bomb.start_explode = game_info->tick_time;
       trigger_bomb(game_info, map_pointer, presence);
     }
   else

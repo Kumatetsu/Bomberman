@@ -31,12 +31,12 @@ void	move_player(
 
   for (i = 0; i < 4; i++)
     {
-      if (game_info->players[i] == NULL
-	  || game_info->players[i]->num_player != player_request->num_player)
+      if (game_info->players[i].connected == 0
+	  || game_info->players[i].num_player != player_request->num_player)
 	continue;
 
-      game_info->players[i]->x_pos = player_request->x_pos;
-      game_info->players[i]->y_pos = player_request->y_pos;
+      game_info->players[i].x_pos = player_request->x_pos;
+      game_info->players[i].y_pos = player_request->y_pos;
     }
 }
 
