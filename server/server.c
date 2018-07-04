@@ -18,11 +18,13 @@
 #include "game_info.h"
 #include "my_put.h"
 #include "server.h"
+#include "game_info_serialization.h"
 
 void		*init_server() // sdl provient de old/old_server.c
 {
   int		s;
   int		i;
+  char		log[50];
   t_srv		*srv;
   int		tick;
   pthread_t	main_thread;
@@ -37,8 +39,17 @@ void		*init_server() // sdl provient de old/old_server.c
   srv->fd = s;
   srv->tick = &tick;
   srv->n_players = 0;
+
   game_info = calloc(1, sizeof(t_game_info));
+  if (game_info == NULL)
+    my_putstr("fatality");
+  game_info->id_client = 80;
   set_game_info(game_info);
+  deserialize_game_info(serialize_game_info());
+  game_info = get_game_info();
+  sprintf(log, "\nTest id_client: %d %d %d %d",  game_info->checksum,   game_info->tick_time,  game_info->game_status, game_info->id_client);
+  my_putstr(log);
+
   for (i = 0; i < 4; i++)
     srv->players[i] = NULL;
   for (i = 0; i < 8; i++)

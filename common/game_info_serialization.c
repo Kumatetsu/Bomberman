@@ -10,52 +10,66 @@
 
 #include "player.h"
 #include "request.h"
+#include "my_put.h"
 #include "sdl.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 
 char		*serialize_game_info()
 {
-  char		*game_info_str;
-  t_game_info	*game_info;
-  t_player_info		*players[4];
-  t_map_destroyable	*map_destroyable[14][15];
-  char              *tmp;
+  char      *game_info_str;
+  t_game_info   *game_info;
+  char          log[50];
 
   game_info = get_game_info();
-  tmp = malloc((sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable));
+  game_info_str = malloc((sizeof(int) * 4) + sizeof(t_player_info) * 4 + sizeof(t_map_destroyable) * 14 * 15);
 
+  sprintf(log, "\nSerialization id_client: %d", (int)game_info->id_client);
+  my_putstr(log);
   //maybe not good at all
-  memcpy(tmp, &game_info, sizeof(int) * 4);
-  memcpy(tmp + (sizeof(int) * 4), &game_info->players, sizeof(players));
-  memcpy(tmp + ((sizeof(int) * 4) + sizeof(players)), &game_info->map_destroyable, sizeof(map_destroyable));
+  memcpy(game_info_str, &game_info, sizeof(int) * 4);
+  memcpy(game_info_str + (sizeof(int) * 4), &game_info->players, sizeof(t_player_info) * 4);
+  memcpy(game_info_str + sizeof(int) * 4 + sizeof(t_player_info) * 4, &game_info->map_destroyable, sizeof(t_map_destroyable) * 14 * 15);
 
-  if ((game_info_str = calloc(1, (sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable) + 1)) == NULL)
-    return NULL;
-  game_info_str = (char*) tmp;
-  printf("before realloc\n");
-
-  if ((game_info_str = (char*)realloc(game_info_str, sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable) + 1) == NULL)
-    return NULL;
-  game_info_str[(sizeof(int) * 4) + sizeof(players) + sizeof(map_destroyable) + 1] = '\0';
-
-  free(tmp);
-  printf("before return\n");
   return game_info_str;
 }
 
 void		deserialize_game_info(char *serialized_game_info)
 {
   t_game_info	*game_info;
+  char		    log[50];
+  int i;
+  int j;
 
-  game_info = calloc(1, sizeof(t_game_info));
+  game_info = malloc(sizeof(t_game_info));
+  for (int i = 0; i < 4; ++i)
+  {
+    game_info->players[i] = malloc(sizeof(t_player_info));
+  }
+  for (i = 0; i < 14; ++i)
+  {
+    for (j = 0; j < 15; ++j)
+    {
+      game_info->map_destroyable[i][j] = malloc(sizeof(t_map_destroyable));
+    }
+  }
 
-  memcpy(game_info, &serialized_game_info, sizeof(int));
-  memcpy(game_info + sizeof(int), &serialized_game_info[sizeof(int)], sizeof(int));
-  memcpy(game_info + (sizeof(int) * 2), &serialized_game_info[sizeof(int) * 2], sizeof(int));
-  memcpy(game_info + (sizeof(int) * 3), &serialized_game_info[sizeof(int) * 3], sizeof(int));
-  memcpy(game_info + (sizeof(int) * 4), &serialized_game_info[sizeof(int) * 4], sizeof(t_player_info));
-  memcpy(game_info + (sizeof(int) * 4 + sizeof(t_player_info)), &serialized_game_info[(sizeof(int) * 4) + sizeof(t_player_info)], sizeof(t_map_destroyable));
+  char subbuff[sizeof(int) + 1];
+  memcpy( subbuff, &serialized_game_info[sizeof(int) * 3], sizeof(int) );
+  subbuff[sizeof(int)] = '\0';
+  sprintf(log, "\nDESerialization id_client: %s END\n", subbuff);
+  my_putstr(log);
+
+
+  memcpy( subbuff, &serialized_game_info[sizeof(int)], sizeof(int) );
+  subbuff[sizeof(int)] = '\0';
+  sprintf(log, "\nDESerialization id_client: %s END\n", subbuff);
+  my_putstr(log);
+
+  game_info = malloc(sizeof(t_game_info));
+  memcpy(game_info, &serialized_game_info, sizeof(int) * 4 );
+  memcpy(game_info->players, &serialized_game_info[sizeof(int) * 4], sizeof(t_player_info) * 4);
+  memcpy(game_info->map_destroyable, &serialized_game_info[(sizeof(int) * 4) + sizeof(t_player_info) * 4], sizeof(t_map_destroyable) * 14 * 15);
 
   set_game_info(game_info);
 }
