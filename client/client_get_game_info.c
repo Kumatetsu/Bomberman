@@ -29,9 +29,9 @@ int get_message(int s)
     printf("game_status %d \n", game_info->game_status);
     printf("tick_time %d \n", game_info->tick_time);
     printf("checksum %ld \n", (long)game_info->checksum);
-    if (game_info->players[0] != NULL){
-      printf("x_pos first_player %d x_pos \n", game_info->players[0]->x_pos);
-    }
+//    if (game_info->players[0] != NULL){
+//      printf("x_pos first_player %d x_pos \n", game_info->players[0]->x_pos);
+//    }
     return 1;
   }
   else
