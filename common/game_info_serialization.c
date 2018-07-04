@@ -17,8 +17,6 @@
 #include "map.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
-
-
 #include <stdlib.h>
 #include <string.h>
 
@@ -44,9 +42,6 @@ char		*serialize_game_info()
     else
       memcpy(game_info_str + (sizeof(int) * 4) + sizeof(t_player_info) * i, &game_info->players[i], sizeof(t_player_info));
   }
-
-  //memcpy(game_info_str + sizeof(int) * 4 + sizeof(t_player_info) * 4, &game_info->map_destroyable, sizeof(t_map_destroyable) * 14 * 15);
-
   return game_info_str;
 }
 
