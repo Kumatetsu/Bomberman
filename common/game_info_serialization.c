@@ -28,7 +28,11 @@ char		*serialize_game_info()
   game_info_str = malloc((sizeof(int) * 4) + sizeof(t_player_info) * 4 + sizeof(t_map_destroyable) * 14 * 15);
 
   //maybe not good at all
-  memcpy(game_info_str, &game_info, sizeof(int) * 4);
+  memcpy(game_info_str, &game_info->checksum, sizeof(int));
+  memcpy(game_info_str, &game_info->tick_time, sizeof(int));
+  memcpy(game_info_str, &game_info->game_status, sizeof(int));
+  memcpy(game_info_str, &game_info->id_client, sizeof(int));
+
   memcpy(game_info_str + (sizeof(int) * 4), &game_info->players, sizeof(t_player_info) * 4);
   memcpy(game_info_str + sizeof(int) * 4 + sizeof(t_player_info) * 4, &game_info->map_destroyable, sizeof(t_map_destroyable) * 14 * 15);
 
@@ -40,8 +44,11 @@ void		deserialize_game_info(char *serialized_game_info)
   t_game_info	*game_info;
 
   game_info = (t_game_info*)malloc(sizeof(t_game_info));
-  memcpy(game_info, serialized_game_info, sizeof(int) * 4 );
-  printf("\nTest id_client: %d %d %d %d",  game_info->checksum,   game_info->tick_time,  game_info->game_status, game_info->id_client);
+  memcpy(&game_info->checksum, serialized_game_info, sizeof(int));
+  memcpy(&game_info->tick_time, serialized_game_info + sizeof(int), sizeof(int));
+  memcpy(&game_info->game_status, serialized_game_info + sizeof(int) * 2, sizeof(int));
+  memcpy(&game_info->id_client, serialized_game_info + sizeof(int) * 3, sizeof(int));
+
   memcpy(game_info->players, serialized_game_info + sizeof(int) * 4, sizeof(t_player_info) * 4);
   memcpy(game_info->map_destroyable, serialized_game_info + (sizeof(int) * 4) + sizeof(t_player_info) * 4, sizeof(t_map_destroyable) * 14 * 15);
 
