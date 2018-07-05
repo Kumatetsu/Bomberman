@@ -5,7 +5,6 @@
 ** Login   <masera_m@etna-alternance.net>
 ** 
 ** Started on  Tue Jul  3 23:52:36 2018 MASERA Mathieu
-** Last update Tue Jul  3 23:52:37 2018 MASERA Mathieu
 */
 
 
@@ -39,6 +38,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
     }
   }
 }
+
 void	update_destroyable_stuffs(t_game_info game_info){
   int	i;
   int	j;
@@ -52,13 +52,27 @@ void	update_destroyable_stuffs(t_game_info game_info){
     }
   }
 }
+
 int walk_Y_into_pixels(int value) {
   int first_step_X =  (I_BEGIN + 1) * 48;
   value *= first_step_X;
   return (value);
 }
+
 int walk_X_into_pixels(int value) {
   int first_step_Y = ((J_BEGIN + 1) * 48) - 36;
   value *= first_step_Y;
+  return (value);
+}
+
+int step_X_into_walk(int value) {
+  int first_step_X =  (I_BEGIN + 1) * 48;
+  value /= first_step_Y;
+  return (value);
+}
+
+int step_Y_into_walk(int value) {
+  int first_step_Y = ((J_BEGIN + 1) * 48) - 36;
+  value /= first_step_Y;
   return (value);
 }

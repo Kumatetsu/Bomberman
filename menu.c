@@ -1,3 +1,13 @@
+/*
+** menu.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 00:13:56 2018 MASERA Mathieu
+** Last update Wed Jul  4 00:28:14 2018 MASERA Mathieu
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "sdl.h"
@@ -10,6 +20,7 @@
  * Init le menu permettant de choisir de se connecter à un server
  * ou de créer un server
 **/
+
 void		main_menu(t_sdl *sdl)
 {
   int		quit = 0;

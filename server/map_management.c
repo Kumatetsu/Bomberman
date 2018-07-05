@@ -42,14 +42,15 @@ void			add_destructible_elements(
 {
   int 			i;
   int 			j;
-  t_map_destroyable	*map_destroyable;
+  t_map_destroyable	map_destroyable;
 
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
-      if (game_info->map_destroyable[i][j] == NULL)
+      if (game_info->map_destroyable[i][j].exist == 0)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      map_pointer[map_destroyable->x_pos][map_destroyable->y_pos] = WALL;
+      map_destroyable.exist = 1;
+      map_pointer[map_destroyable.x_pos][map_destroyable.y_pos] = WALL;
     }
   }
 }
@@ -61,19 +62,19 @@ void			add_bomb_elements(
 {
   int			i;
   int			j;
-  t_map_destroyable	*map_destroyable;
+  t_map_destroyable	map_destroyable;
 
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
-      if (game_info->map_destroyable[i][j] == NULL)
+      if (game_info->map_destroyable[i][j].exist == 0)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable->bomb == 0
-	  || (map_destroyable->bomb == 1
-	      && game_info->tick_time < map_destroyable->start_explode)
+      if (map_destroyable.bomb == 0
+	  || (map_destroyable.bomb == 1
+	      && game_info->tick_time < map_destroyable.start_explode)
 	  )
 	continue;
-      if (map_destroyable->start_explode + 5 == game_info->tick_time)
+      if (map_destroyable.start_explode + 5 == game_info->tick_time)
 	{
 	  destroy_bomb(game_info, map_pointer, map_destroyable);
 	  continue;
@@ -92,17 +93,17 @@ int 			is_there_a_wall(
 {
   int			i;
   int			j;
-  t_map_destroyable	*map_destroyable;
+  t_map_destroyable	map_destroyable;
 
   if (map_pointer[x][y] == WALL)
     return 1;
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
-      if (game_info->map_destroyable[i][j] == NULL
-	  || game_info->map_destroyable[i][j]->bomb == 1)
+      if (game_info->map_destroyable[i][j].exist == 0
+	  || game_info->map_destroyable[i][j].bomb == 1)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable->y_pos == y && map_destroyable->x_pos == x)
+      if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
 	return 1;
     }
   }
