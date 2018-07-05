@@ -19,39 +19,33 @@
 
 void		*thread_listen_serv(void *s)
 {
-  int		iterator;
-  int		socket = *((int *)s);
+  t_thread *struct_thread;
   int		quit = 0;
   fd_set	fd_read;
-  t_game_info	*game_info;
 
-  printf("OK %d", socket);
+  struct_thread= (t_thread *)(s);
   while (!quit)
     {
       FD_ZERO(&fd_read);
-      FD_SET(socket, &fd_read);
+      FD_SET(struct_thread->socket, &fd_read);
       printf("\nbefore select\n");
-      if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	quit = 1;
-
-      if (FD_ISSET(socket, &fd_read))
-        {
-	  printf("tata\n");
-	  if (get_message(socket) == 0)
-            {
+      if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
 	      quit = 1;
-            }
-	  game_info = get_game_info();
-	  for (iterator = 0; iterator < 4; iterator++)
-	    {
 
-	      if (game_info->players[iterator].fd != 0)
-		{
-		  printf("Im player: %d \n", game_info->id_client);
-		  //             printf("waaaaaaaaaaa %d num_player \n", game_info->players[0]->num_player);
-		}
+      if (FD_ISSET(struct_thread->socket, &fd_read))
+        {
+	   printf("tata\n");
+	    if (get_message(struct_thread->socket) == 0)
+           {
+	     quit = 1;
+           }
+        SDL_RenderClear(struct_thread->data->renderer);
+        rebuild_map(struct_thread->data);
+        move_player_stop(struct_thread->data);
+        draw_all(struct_thread->data);
+        SDL_RenderPresent(struct_thread->data->renderer);
+        SDL_SetRenderTarget(struct_thread->data->renderer, NULL);
 	    }
         }
-    }
   pthread_exit(NULL);
 }

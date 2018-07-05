@@ -68,6 +68,7 @@ void		*threaded_ticker(void *server)
         memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
         memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
         memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
+        memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
         for (k=0; k<4; k++){
           memcpy(&dumb_static.players[k], &game_info->players[k], sizeof(t_player_info));
         }
