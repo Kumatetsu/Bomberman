@@ -119,11 +119,9 @@ void *init_sprites_sheet(void *arg)
     SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(),
                              data->window);
   }
-
   //we create the image as a texture to insert it in renderer
   sprite_texture = SDL_CreateTextureFromSurface(data->renderer,
                                                 sprites_img);
-
   if (!sprite_texture)
   {
     SDL_ShowSimpleMessageBox(0, "texture image init error",
