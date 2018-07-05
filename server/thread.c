@@ -1,9 +1,9 @@
 /*
 ** thread.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:39:24 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
 */
@@ -23,7 +23,9 @@
 #include "main_loop.h"
 #include "thread.h"
 
-// 1 sec = 1 nano * 10^9 (1 000 000 000)  
+// 1 sec = 1 nano * 10^9 (1 000 000 000)
+static t_game_info dumb_static;
+
 void			my_sleep(int sec, int milli)
 {
   int			nano;
@@ -41,10 +43,12 @@ void		*threaded_ticker(void *server)
   t_srv		**srv;
   int		*tk;
   int		socket;
-  char		*serialized_game_info;
+  //char		*serialized_game_info;
   t_game_info	*game_info;
   int		i;
-  
+  int   j;
+  int   k;
+
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
@@ -60,8 +64,20 @@ void		*threaded_ticker(void *server)
         game_info = get_game_info();
         game_info->id_client = i;
         set_game_info(game_info);
-        serialized_game_info = serialize_game_info();
-        write(socket, serialized_game_info, sizeof(serialized_game_info + 1));
+        memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
+        memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
+        memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
+        memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
+        for (k=0; k<4; k++){
+          memcpy(&dumb_static.players[k], &game_info->players[k], sizeof(t_player_info));
+        }
+        for (k=0; k<14; k++){
+          for (j=0; j<15; j++){
+            memcpy(&dumb_static.map_destroyable[k][j], &game_info->map_destroyable[k][j], sizeof(t_map_destroyable));
+          }
+        }
+        printf("SOCKET SOCKET %d\n", socket);
+        write(socket, &dumb_static, sizeof(t_game_info) + 1);
       }
       ++(*tk);
       game_info = get_game_info();

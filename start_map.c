@@ -1,9 +1,9 @@
 /*
 ** start_map.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:30:11 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:30:12 2018 MASERA Mathieu
 */
@@ -40,13 +40,14 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
+  printf("\nbefore create thread\n");
   if (pthread_create(&listen_server, NULL, thread_listen_serv, &socket))
   {
     quit = 1;
   }
+  printf("\nthread created\n");
   while (!quit)
   {
-
     while (SDL_PollEvent(&event))
     {
       switch (event.type)
