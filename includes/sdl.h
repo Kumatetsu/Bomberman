@@ -1,3 +1,13 @@
+/*
+** sdl.h for Project-Master in /home/enach/CLionProjects/Bomberman
+** 
+** Made by hochar_n
+** Login   <hochar_n@etna-alternance.net>
+** 
+** Started on  Thu Jul  5 21:38:32 2018 hochar_n
+** Last update Thu Jul  5 21:38:33 2018 hochar_n
+*/
+
 #ifndef _SDL_H_
 #define _SDL_H_
 
