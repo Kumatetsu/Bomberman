@@ -47,7 +47,6 @@ void			create_game_info(t_srv **srv)
       map_destroyable.x_pos = x * 8;
       game_info->map_destroyable[y][x] =  map_destroyable;
     }
-    set_game_info(game_info);
 }
 
 void    specify_player_info(int i, t_game_info *game_info)
