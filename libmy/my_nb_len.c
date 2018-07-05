@@ -1,9 +1,9 @@
 /*
 ** my_nb_len.c for libmy_extended in /home/aurelien/Documents/my_slack/depot/castel_a/client_my_slack
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Mon Apr 24 22:07:01 2017 CASTELLARNAU Aurelien
 ** Last update Mon Apr 24 22:08:11 2017 CASTELLARNAU Aurelien
 */

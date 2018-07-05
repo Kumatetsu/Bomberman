@@ -1,9 +1,9 @@
 /*
 ** request_serialization.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/common
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:34:41 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:34:42 2018 MASERA Mathieu
 */

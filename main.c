@@ -1,9 +1,9 @@
 /*
 ** main.c for Bomberman in /Users/kumatetsu/projet-etna/DVC4/Bomberman/Bomberman
-** 
+**
 ** Made by BILLAUD Jean
 ** Login   <billau_j@etna-alternance.net>
-** 
+**
 ** Started on  Tue Jun 26 17:26:19 2018 BILLAUD Jean
 ** Last update Mon Jul  2 18:46:25 2018 BILLAUD Jean
 */

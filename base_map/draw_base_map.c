@@ -1,9 +1,9 @@
 /*
 ** draw_base_map.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/base_map
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:31:13 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:31:14 2018 MASERA Mathieu
 */
@@ -22,7 +22,7 @@
 void	*draw_map_model(void *arg)
 {
   int	i, j, a, b, error;
-  
+
   t_data *data = (t_data*)arg;
   error = 0;
   a = 1;

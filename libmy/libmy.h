@@ -1,9 +1,9 @@
 /*
 ** libmy.h for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended/include
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Wed Feb  1 09:18:46 2017 CASTELLARNAU Aurelien
 ** Last update Sat Jul  1 00:26:42 2017 CASTELLARNAU Aurelien
 */
@@ -137,7 +137,7 @@ void		locate();
 
 /*
 ** begin is the index to begin the parsing process, allow to avoid ./a.out
-*/ 
+*/
 int		parse(int begin, int argc, char *argv[], t_chain **options);
 int		validate_opt(int begin, int argc, char *argv[], t_chain **options);
 t_option	*new_option(int mandatory, int mandatory_arguments, int allowed_arguments, char *opt, void *action);

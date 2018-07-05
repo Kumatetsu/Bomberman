@@ -1,9 +1,9 @@
 /*
 ** readline.c for my_FTL in /home/aurelien/aurelien/ftl/castel_a
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Fri Nov 11 15:36:20 2016 CASTELLARNAU Aurelien
 ** Last update Wed Apr 26 10:27:38 2017 CASTELLARNAU Aurelien
 */

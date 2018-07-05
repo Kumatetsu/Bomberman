@@ -1,10 +1,10 @@
 
 /*
 ** logger.c for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended/libmy
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Tue Feb  7 23:01:39 2017 CASTELLARNAU Aurelien
 ** Last update Mon Apr 24 22:04:13 2017 CASTELLARNAU Aurelien
 */
@@ -101,12 +101,12 @@ int		set_parameters(t_logger **logger, t_chain *parameters, char *opt)
 /*
 ** Duplicate of logger process.
 ** Usefull to make log before the logger is instanciate.
-** Change build_default_logger to change behaviour. 
+** Change build_default_logger to change behaviour.
 */
 t_logger		*build_default_logger()
 {
   t_logger		*logger;
-  
+
   if ((logger = malloc(sizeof(*logger))) == NULL)
     return (NULL);
   if ((logger->level = my_strdup("DEBUG")) == NULL)
@@ -124,7 +124,7 @@ t_logger		*build_default_logger()
 t_logger		*get_default_logger()
 {
   t_logger		*logger;
-  
+
   if ((logger = build_default_logger()) == NULL || logger->level == NULL)
     return (NULL);
   return (logger);
@@ -177,7 +177,7 @@ void		my_log(const char *func, char *str, int lvl)
   t_logger	*logger;
   FILE		*o;
   FILE		*tic_o;
-  
+
   file = 0;
   if ((logger = get_logger()) != NULL)
     {
@@ -248,7 +248,7 @@ t_logger		*build_logger(char *opt, t_chain *parameters)
 t_logger		*get_logger()
 {
   t_logger		*logger;
-  
+
   if ((logger = build_logger(NULL, NULL)) == NULL || logger->level == NULL)
     return (NULL);
   return (logger);

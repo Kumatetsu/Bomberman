@@ -1,9 +1,9 @@
 /*
 ** socket.c<2> for Bomberman in /Users/kumatetsu/projet-etna/DVC4/Bomberman/Bomberman
-** 
+**
 ** Made by BILLAUD Jean
 ** Login   <billau_j@etna-alternance.net>
-** 
+**
 ** Started on  Tue Jun 26 17:52:39 2018 BILLAUD Jean
 ** Last update Tue Jul  3 23:42:48 2018 MASERA Mathieu
 */

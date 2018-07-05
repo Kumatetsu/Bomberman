@@ -1,9 +1,9 @@
 ##
 ## Makefile for libmy in /home/aurelien/repertoire_rendu/piscine_C/libmy01/castel_a
-## 
+##
 ## Made by CASTELLARNAU Aurelien
 ## Login   <castel_a@etna-alternance.net>
-## 
+##
 ## Started on  Sat Oct 22 20:51:03 2016 CASTELLARNAU Aurelien
 ## Last update Mon Apr 24 22:08:28 2017 CASTELLARNAU Aurelien
 ##

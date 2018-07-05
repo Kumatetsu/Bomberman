@@ -1,9 +1,9 @@
 /*
 ** validate_opt.c for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Thu Feb  2 23:56:36 2017 CASTELLARNAU Aurelien
 ** Last update Wed Apr 26 10:15:30 2017 CASTELLARNAU Aurelien
 */
@@ -79,7 +79,7 @@ int		check_mandatories(int argc, char *argv[], t_chain **options)
   t_link	*tmp;
   t_link	*param_tmp;
   char		*parameter;
-  
+
   tmp = (*options)->first;
   while (tmp)
     {
@@ -118,7 +118,7 @@ int             validate_opt(int begin,
   int		index_argv;
   t_link	*tmp;
   t_option	*option;
-  
+
   index_argv = begin;
   while (index_argv < argc)
     {
@@ -138,7 +138,7 @@ int             validate_opt(int begin,
 		    }
 		  if (option->mandatory == 1)
 		      option->mandatory = 0;
-		  option->to_execute = 1;  
+		  option->to_execute = 1;
 		}
 	      tmp = tmp->next;
 	    }

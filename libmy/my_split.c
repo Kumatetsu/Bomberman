@@ -1,9 +1,9 @@
 /*
-** my_split.c for libmy extended in 
-** 
+** my_split.c for libmy extended in
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Fri Jul 14 23:12:59 2017 CASTELLARNAU Aurelien
 ** Last update Fri Jul 14 23:38:01 2017 CASTELLARNAU Aurelien
 */

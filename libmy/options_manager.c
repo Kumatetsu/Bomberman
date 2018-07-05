@@ -1,9 +1,9 @@
 /*
 ** set_opt.c for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended/libs/libParse
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Wed Feb  1 16:32:30 2017 CASTELLARNAU Aurelien
 ** Last update Tue Apr 25 00:50:30 2017 CASTELLARNAU Aurelien
 */
@@ -39,7 +39,7 @@ t_option	*new_option(int mandatory,
 }
 
 /*
-** Allow user to free options contains in a t_chain struct 
+** Allow user to free options contains in a t_chain struct
 */
 void		free_options_in_chain(t_chain **chain)
 {

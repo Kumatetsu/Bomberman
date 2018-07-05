@@ -1,9 +1,9 @@
 /*
 ** make_player_move.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/play
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Tue Jul  3 23:52:36 2018 MASERA Mathieu
 ** Last update Wed Jul  4 00:24:27 2018 MASERA Mathieu
 */
@@ -12,7 +12,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
   int i;
   int convert_x;
   int convert_y;
-  
+
   for (i = 0; i < 4; i++) {
     if (game_info->players[i].alive) {
       convert_x = walk_X_into_pixels(game_info->players[i].x_pos);
@@ -32,7 +32,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
 	  move_player_right(base_map, i);
 	}
       }
-      
+
     } else if (game_info->players[i].dying) {
       //what to do here ? anim the dying mother fucker
     }
@@ -41,7 +41,7 @@ void function_test(t_game_info game_info, t_base_map base_map) {
 void	update_destroyable_stuffs(t_game_info game_info){
   int	i;
   int	j;
-  
+
   for (i = 0; i < 14; i++) {
     for (j = 0; i < 15; i++) {
       if (game_info->map_destroyable[i][j].wall_destroyable) {
