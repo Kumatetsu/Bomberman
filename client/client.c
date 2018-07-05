@@ -32,9 +32,7 @@ void			init_client(t_sdl *sdl)
   t_player_request 	*cr;
   addr = enter_addr(sdl);
   cs = client_connect(addr);
-  printf("\nafterClientConnect\n");
   cr = create_player_request();
-  printf("\nrequestCreated\n");
   start_map(sdl, cs, cr);
   free_player_request(cr);
 

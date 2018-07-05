@@ -49,12 +49,10 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
-  printf("\nbefore create thread\n");
   if (pthread_create(&listen_server, NULL, thread_listen_serv, struct_thread))
   {
     quit = 1;
   }
-  printf("\nthread created\n");
   while (!quit)
   {
     while (SDL_PollEvent(&event))

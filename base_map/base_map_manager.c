@@ -35,7 +35,6 @@ void *draw_all(void *arg)
   black_bomber_sprite(arg);
   blue_bomber_sprite(arg);
    if (gi != NULL) {
-    printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", gi->nb_client);
     if (gi->nb_client >= 1)
      draw_player_1(arg);
     if (gi->nb_client >= 2)

@@ -28,13 +28,11 @@ void		*thread_listen_serv(void *s)
     {
       FD_ZERO(&fd_read);
       FD_SET(struct_thread->socket, &fd_read);
-      printf("\nbefore select\n");
       if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
 	      quit = 1;
 
       if (FD_ISSET(struct_thread->socket, &fd_read))
         {
-	   printf("tata\n");
 	    if (get_message(struct_thread->socket) == 0)
            {
 	     quit = 1;

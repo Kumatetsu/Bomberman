@@ -17,7 +17,6 @@
 #include "thread.h"
 #include "request.h"
 #include "game_info.h"
-#include "my_put.h"
 #include "server.h"
 
 int			accept_players(t_srv **srv)
@@ -38,16 +37,10 @@ int			accept_players(t_srv **srv)
     return (0);
   if (!add_player(srv, player_socket))
     return (-1);
-  if (check == ((*srv)->n_players) - 1)
-    my_putstr("\nPlayer successfully added");
-  else
-    my_putstr("\nServer failed to add client");
   // retourne 1 si joueur ajouté, 0 sinon
   if ((*srv)->n_players == 2 && ((*srv)->n_players - check) == 1)
   {
-    my_putstr("\nCreation of the game");
     create_game_info(srv);
-    my_putstr("\nGame created");
   } else if ((*srv)->n_players > 2 && check > 0)
   {
     game_info = get_game_info();

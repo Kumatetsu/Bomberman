@@ -52,10 +52,7 @@ t_sdl *init_window(t_sdl *sdl)
 			    SDL_WINDOW_SHOWN);
 
   if (!window)
-    {
-      printf("window init error");
-      return NULL;
-    }
+    return NULL;
 
   renderer = SDL_CreateRenderer(window, -1, 0);
 

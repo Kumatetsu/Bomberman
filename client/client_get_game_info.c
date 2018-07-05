@@ -25,22 +25,8 @@ int get_message(int s)
   r = recv(s, buff, sizeof(t_game_info) - 1 , 0);
   if (r > 0)
   {
-    printf("%d", r);
-    //deserialize_game_info(buff);
     game_info = (t_game_info*)buff;
     set_game_info(game_info);
-    //game_info = get_game_info();
-    my_putstr("game_status\n");
-    printf("game_status %d \n", game_info->game_status);
-    my_putstr("tick_time\n");
-    printf("tick_time %d \n", game_info->tick_time);
-    my_putstr("checksum\n");
-    printf("checksum %ld \n", (long)game_info->checksum);
-    printf("nb_client %d \n", game_info->nb_client);
-    for (i=0; i<4; i++) {
-      if (&game_info->players[i])
-        printf("client fd %d\n\n", (int)game_info->players[i].fd);
-    }
     return 1;
   }
   else

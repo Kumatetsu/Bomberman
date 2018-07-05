@@ -52,7 +52,6 @@ int         send_request(int s, t_player_request* client_request)
   request_string = request_serialization(client_request);
   if (strlen(request_string) > 0)
     {
-      printf("SEND REQUEST\n");
       write(s, request_string, strlen(request_string));
       return SUCCESS_SEND;
     }

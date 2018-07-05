@@ -82,7 +82,6 @@ int		add_player(t_srv **srv, int fd)
    */
   (*srv)->players[(*srv)->n_players] = new_player;
   (*srv)->n_players++;
-  printf("player added");
   return (1);
 }
 
@@ -121,7 +120,6 @@ void		process_requests(t_srv **server)
       if ((*server)->n_players >= 2 && (*server)->n_players <= 4)
       {
         create_game_info(server);
-        my_putstr("\n creation of game requested");
       }
     }
     else if (game_info->game_status == 0)

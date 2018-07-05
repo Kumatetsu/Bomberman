@@ -51,14 +51,9 @@ void		*threaded_ticker(void *server)
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
-  my_putstr("\nthreaded tick begin!\n");
   game_info = get_game_info();
   while(1)
     {
-      sprintf(log, "\nTick: %d", (*tk));
-      my_putstr(log);
-      sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
-      my_putstr(log);
       my_sleep(0, 5000);
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
@@ -77,7 +72,6 @@ void		*threaded_ticker(void *server)
             memcpy(&dumb_static.map_destroyable[k][j], &game_info->map_destroyable[k][j], sizeof(t_map_destroyable));
           }
         }
-        printf("SOCKET SOCKET %d\n", socket);
         write(socket, &dumb_static, sizeof(t_game_info) + 1);
       }
       ++(*tk);

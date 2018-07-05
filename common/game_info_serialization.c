@@ -36,7 +36,6 @@ char		*serialize_game_info()
 
   for(i=0; i < 4 ; i ++) {
     game_info->players[i].bomb_left = i;
-    printf("server side bomb %d\n\n", game_info->players[i].bomb_left);
     if (i == 0)
       memcpy(game_info_str + (sizeof(int) * 4), &game_info->players[i], sizeof(t_player_info));
     else

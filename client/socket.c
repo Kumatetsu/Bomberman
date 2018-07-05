@@ -47,11 +47,7 @@ int	host_connect()
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr("127.0.0.1");
   if(connect(s, (const struct sockaddr *)&sin, sizeof (sin)) == -1)
-    {
-      printf("error connection\n");
-      exit(errno);
-    }
-  printf("connected\n");
+    exit(errno);
   return (s);
 }
 
@@ -66,24 +62,16 @@ int	client_connect(char *serv_addr)
   port = PORT;
   pe = getprotobyname("TCP");
   if (pe == NULL)
-    {
-      printf("error protocole for socket client");
-      return (-1);
-    }
+    return (-1);
   s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
   if (s == -1)
     {
-      printf("error socket client");
       return (-1);
     }
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(serv_addr);
   if(connect(s, (const struct sockaddr *)&sin, sizeof (sin)) == -1)
-    {
-      printf("error connection\n");
-      exit(errno);
-    }
-  printf("connected\n");
+    exit(errno);
   return (s);
 }
