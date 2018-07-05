@@ -1,9 +1,9 @@
 /*
 ** client.h for Project-Master in /home/enach/CLionProjects/Bomberman
-** 
+**
 ** Made by hochar_n
 ** Login   <hochar_n@etna-alternance.net>
-** 
+**
 ** Started on  Thu Jul  5 21:37:33 2018 hochar_n
 ** Last update Thu Jul  5 21:37:35 2018 hochar_n
 */

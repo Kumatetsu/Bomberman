@@ -1,9 +1,9 @@
 /*
 ** my_str_to_wordtab.c for libmy_finale in /home/aurelien/repertoire_rendu/piscine_C/Jour07/castel_a
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Mon Oct 24 14:47:39 2016 CASTELLARNAU Aurelien
 ** Last update Mon Apr 24 23:50:39 2017 CASTELLARNAU Aurelien
 */

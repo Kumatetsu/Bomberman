@@ -1,9 +1,9 @@
 /*
 ** init.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/sdl
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:37:04 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:37:07 2018 MASERA Mathieu
 */

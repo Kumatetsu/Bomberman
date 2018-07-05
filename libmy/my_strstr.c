@@ -1,9 +1,9 @@
 /*
 ** my_strstr.c for libmy_finale in /home/aurelien/repertoire_rendu/piscine_C/Jour04/castel_a
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Fri Oct 21 18:15:00 2016 CASTELLARNAU Aurelien
 ** Last update Wed Nov 16 11:04:45 2016 CASTELLARNAU Aurelien
 */

@@ -1,9 +1,9 @@
 /*
 ** indexor.c for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Fri Feb  3 03:21:04 2017 CASTELLARNAU Aurelien
 ** Last update Mon Apr 10 21:19:18 2017 CASTELLARNAU Aurelien
 */
@@ -27,7 +27,7 @@ int		add_to_index(t_chain **chain, t_link **link)
   t_link	**tmp;
   t_link	*ltmp;
   t_option	*otmp;
-  
+
   index = (*chain)->first->index;
   if ((tmp = malloc((1 + (*chain)->index) * sizeof(t_link))) == NULL)
     return (1);

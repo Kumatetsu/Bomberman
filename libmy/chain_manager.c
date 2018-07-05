@@ -1,9 +1,9 @@
 /*
 ** create_list.c for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended/libmy
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Fri Feb  3 02:13:19 2017 CASTELLARNAU Aurelien
 ** Last update Thu Apr 27 22:21:29 2017 CASTELLARNAU Aurelien
 */

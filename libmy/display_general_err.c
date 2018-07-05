@@ -1,9 +1,9 @@
 /*
 ** display_general_err.c for libmy_extended in /home/aurelien/Documents/Lib_etna/castel_a/libmy_extended
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Wed Feb  8 13:27:04 2017 CASTELLARNAU Aurelien
 ** Last update Mon Feb 13 21:52:07 2017 CASTELLARNAU Aurelien
 */

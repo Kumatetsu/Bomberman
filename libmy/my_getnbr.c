@@ -1,9 +1,9 @@
 /*
 ** my_getnbr.c for libmy.a in /home/aurelien/repertoire_rendu/piscine_C/libmy01/castel_a/libmy_02
-** 
+**
 ** Made by CASTELLARNAU Aurelien
 ** Login   <castel_a@etna-alternance.net>
-** 
+**
 ** Started on  Tue Oct 25 13:28:09 2016 CASTELLARNAU Aurelien
 ** Last update Wed Nov 16 10:51:29 2016 CASTELLARNAU Aurelien
 */
@@ -35,7 +35,7 @@ void	get_size_and_sign(char *str,int *i, int *sign, int *nbr_len)
   while (*(str + *i) == 45 || *(str + *i) == 43)
     {
       if (*(str + *i) == 45)
-	*sign *= -1; 
+	*sign *= -1;
       ++*i;
     }
   while (*(str + *i) >= '0' && *(str + *i) <= '9')
