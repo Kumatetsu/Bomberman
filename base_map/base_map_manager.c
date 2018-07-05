@@ -1,9 +1,9 @@
 /*
 ** base_map_manager.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/base_map
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:30:34 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:30:35 2018 MASERA Mathieu
 */
@@ -19,9 +19,14 @@
 #include "player.h"
 #include "sdl.h"
 #include "base_map.h"
+#include "game_info.h"
 
 void *draw_all(void *arg)
 {
+  t_game_info *gi;
+  gi = get_game_info();
+
+  gi = gi;
   draw_map_model(arg);
   draw_pannel(arg);
   draw_timer(arg);
@@ -29,12 +34,17 @@ void *draw_all(void *arg)
   red_bomber_sprite(arg);
   black_bomber_sprite(arg);
   blue_bomber_sprite(arg);
-
-  draw_player_1(arg);
-  draw_player_2(arg);
-  draw_player_3(arg);
-  draw_player_4(arg);
-
+   if (gi != NULL) {
+    printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", gi->nb_client);
+    if (gi->nb_client >= 1)
+     draw_player_1(arg);
+    if (gi->nb_client >= 2)
+     draw_player_2(arg);
+    if (gi->nb_client >= 3)
+     draw_player_3(arg);
+    if (gi->nb_client >= 4)
+     draw_player_4(arg);
+  }
   return (NULL);
 }
 
