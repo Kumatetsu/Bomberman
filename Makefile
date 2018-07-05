@@ -1,3 +1,12 @@
+##
+## Makefile for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman
+## 
+## Made by MASERA Mathieu
+## Login   <masera_m@etna-alternance.net>
+## 
+## Started on  Wed Jul  4 09:36:47 2018 MASERA Mathieu
+## Last update Wed Jul  4 09:36:48 2018 MASERA Mathieu
+##
 
 CC 	= gcc
 

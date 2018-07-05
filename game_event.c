@@ -1,3 +1,13 @@
+/*
+** game_event.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 09:29:38 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:29:40 2018 MASERA Mathieu
+*/
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>

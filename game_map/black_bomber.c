@@ -1,3 +1,13 @@
+/*
+** black_bomber.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/game_map
+** 
+** Made by MASERA Mathieu
+** Login   <masera_m@etna-alternance.net>
+** 
+** Started on  Wed Jul  4 09:35:04 2018 MASERA Mathieu
+** Last update Wed Jul  4 09:35:05 2018 MASERA Mathieu
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <SDL2/SDL.h>

@@ -33,30 +33,30 @@ void	place_bomb(t_game_info *game_info,
 		   t_player_request *player_request
 		   )
 {
-  t_player_info	*player;
+  t_player_info	player;
   int 			i;
   int 			x;
   int 			y;
-  t_map_destroyable	*bomb;
+  t_map_destroyable	bomb;
 
-  player = NULL;
   for (i = 0; i < 4; i++)
     {
-      if (game_info->players[i] == NULL
-	  || game_info->players[i]->num_player != player_request->num_player)
+      if (game_info->players[i].connected == 0
+	  || game_info->players[i].num_player != player_request->num_player)
 	continue;
       player = game_info->players[i];
-      if (player->bomb_left == 0)
+      if (player.bomb_left == 0)
 	return;
     }
-  if (player == NULL)
+  if (player.connected == 0)
     return;
-  bomb = calloc(1, sizeof(t_map_destroyable));
-  bomb->bomb = 1;
-  bomb->start_explode = game_info->tick_time + 5;
-  bomb->bomb_owner = i + 1;
-  x = player->x_pos * 8;
-  y = player->y_pos * 8;
+  bomb.exist = 1;
+  player.bomb_left = 0;
+  bomb.bomb = 1;
+  bomb.start_explode = game_info->tick_time + 5;
+  bomb.bomb_owner = i + 1;
+  x = player.x_pos * 8;
+  y = player.y_pos * 8;
   game_info->map_destroyable[y][x] =  bomb;
 }
 
