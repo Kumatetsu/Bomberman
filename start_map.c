@@ -31,7 +31,7 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_Event event;
   t_data *data;
   t_thread *struct_thread;
-
+  cr = cr;
   pthread_t listen_server;
 
   quit = 0;
@@ -66,12 +66,12 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
         break;
       case SDL_KEYUP:
       {
-        SDL_RenderClear(data->renderer);
-        rebuild_map((void *)data);
-        move_player_stop((void *)data);
-        draw_all(data);
-        SDL_RenderPresent(data->renderer);
-        SDL_SetRenderTarget(data->renderer, NULL);
+        // SDL_RenderClear(data->renderer);
+        // rebuild_map((void *)data);
+        // move_player_stop((void *)data);
+        // draw_all(data);
+        // SDL_RenderPresent(data->renderer);
+        // SDL_SetRenderTarget(data->renderer, NULL);
         break;
       }
       case SDL_KEYDOWN:
@@ -81,7 +81,7 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
           //move_player_up((void *)data);
-          //send_request(socket, cr);
+          send_request(socket, cr);
           break;
         case SDLK_LEFT:
           //SDL_RenderClear(data->renderer);
@@ -99,11 +99,9 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
           //move_player_down((void *)data);
-          //send_request(socket, cr);
+          send_request(socket, cr);
           break;
         }
-        SDL_RenderPresent(data->renderer);
-        SDL_SetRenderTarget(data->renderer, NULL);
       }
     }
   }
