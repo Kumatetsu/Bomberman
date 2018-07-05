@@ -1,4 +1,14 @@
 /*
+** my_string.c for Project-Master in /home/enach/CLionProjects/Bomberman
+** 
+** Made by hochar_n
+** Login   <hochar_n@etna-alternance.net>
+** 
+** Started on  Thu Jul  5 21:39:04 2018 hochar_n
+** Last update Thu Jul  5 21:39:07 2018 hochar_n
+*/
+
+/*
 ** Ce fichier contient les fonctions de bases pour gérer des strings (les chaines de caractères).
 **
 ** my_putchar vous permet d'afficher un caractère sour la sortie standard.
