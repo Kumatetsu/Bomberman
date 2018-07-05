@@ -31,10 +31,12 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_Event event;
   t_data *data;
   t_thread *struct_thread;
+  t_game_info *gi;
   cr = cr;
   pthread_t listen_server;
 
   quit = 0;
+  gi = get_game_info();
   data = malloc(sizeof(*data));
   data->renderer = sdl->renderer;
   data->window = sdl->window;
@@ -78,27 +80,27 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
         switch (event.key.keysym.sym)
         {
         case SDLK_UP:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          //move_player_up((void *)data);
+          cr->num_player = gi->id_client;
+          cr->x_pos = gi->players[gi->id_client].x_pos;
+          cr->y_pos = gi->players[gi->id_client].y_pos - 6;
           send_request(socket, cr);
           break;
         case SDLK_LEFT:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          //move_player_left((void *)data);
+          cr->num_player = gi->id_client;
+          cr->x_pos = gi->players[gi->id_client].x_pos - 6;
+          cr->y_pos = gi->players[gi->id_client].y_pos;
           send_request(socket, cr);
           break;
         case SDLK_RIGHT:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          //move_player_right((void *)data);
+          cr->num_player = gi->id_client;
+          cr->x_pos = gi->players[gi->id_client].x_pos + 6;
+          cr->y_pos = gi->players[gi->id_client].y_pos;
           send_request(socket, cr);
           break;
         case SDLK_DOWN:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          //move_player_down((void *)data);
+          cr->num_player = gi->id_client;
+          cr->x_pos = gi->players[gi->id_client].x_pos;
+          cr->y_pos = gi->players[gi->id_client].y_pos + 6;
           send_request(socket, cr);
           break;
         }

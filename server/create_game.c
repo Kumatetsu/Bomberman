@@ -35,6 +35,7 @@ void			create_game_info(t_srv **srv)
       game_info->players[i].connected = 1;
       game_info->players[i].bomb_left = 1;
       game_info->players[i].num_player = i + 1;
+      set_game_info(game_info);
       specify_player_info(i, game_info);
     }
   for (i = 0; i < 32; ++i)
@@ -46,11 +47,14 @@ void			create_game_info(t_srv **srv)
       map_destroyable.y_pos = y * 8;
       map_destroyable.x_pos = x * 8;
       game_info->map_destroyable[y][x] =  map_destroyable;
+      set_game_info(game_info);
     }
+  set_game_info(game_info);
 }
 
 void    specify_player_info(int i, t_game_info *game_info)
 {
+  game_info = get_game_info();
   switch (i)
     {
     case 0:
@@ -74,6 +78,7 @@ void    specify_player_info(int i, t_game_info *game_info)
       game_info->players[i].current_dir = BOMBER_R;
       break;
     }
+  set_game_info(game_info);
 }
 
 long random_at_most(long max)

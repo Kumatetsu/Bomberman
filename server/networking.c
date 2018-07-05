@@ -1,9 +1,9 @@
 /*
 ** networking.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/server
-** 
+**
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
-** 
+**
 ** Started on  Wed Jul  4 09:39:00 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:39:01 2018 MASERA Mathieu
 */
@@ -43,12 +43,12 @@ int			accept_players(t_srv **srv)
   else
     my_putstr("\nServer failed to add client");
   // retourne 1 si joueur ajouté, 0 sinon
-  if ((*srv)->n_players == 2 && ((*srv)->n_players - check) == 1)
+  if ((*srv)->n_players == 1 && ((*srv)->n_players - check) == 1)
   {
     my_putstr("\nCreation of the game");
     create_game_info(srv);
     my_putstr("\nGame created");
-  } else if ((*srv)->n_players > 2 && check > 0)
+  } else if ((*srv)->n_players > 1 && check > 0)
   {
     game_info = get_game_info();
     game_info->players[check-1] = (*srv)->players[check-1];
