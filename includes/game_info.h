@@ -23,6 +23,7 @@ typedef struct		s_game_info
 {
   int			checksum;               /* Un checksum simple */
   int			tick_time;
+  int     nb_client;
   int 			game_status;
   int			id_client;
   t_player_info		players[4];
