@@ -18,6 +18,7 @@ void		*init_server() // sdl provient de old/old_server.c
   int		tick;
   pthread_t	main_thread;
   pthread_t	tick_thread;
+  t_game_info	*game_info;
 
   tick = 0;
   if ((srv = malloc(sizeof (*srv))) == NULL)
@@ -27,8 +28,12 @@ void		*init_server() // sdl provient de old/old_server.c
   srv->fd = s;
   srv->tick = &tick;
   srv->n_players = 0;
+  game_info = calloc(1, sizeof(t_game_info));
+  set_game_info(game_info);
   for (i = 0; i < 4; i++)
     srv->players[i] = NULL;
+  for (i = 0; i < 8; i++)
+    srv->requests[i] = NULL;
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
     return (NULL);
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
@@ -46,50 +51,25 @@ void		*init_server() // sdl provient de old/old_server.c
   return (NULL);
 }
 
-int			accept_players(t_srv **srv)
-{
-  int			check;
-  int			player_socket;
-  struct sockaddr_in	client_sin;
-  socklen_t		client_sin_len;
-
-  check = (*srv)->n_players;
-  memset(&client_sin, 0, sizeof (struct sockaddr_in));
-  client_sin_len = sizeof (client_sin);
-  player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
-  if (player_socket == -1)
-    return (-1);
-  if ((*srv)->players[3] != NULL)
-    return (0);
-  if (!add_player(srv, player_socket))
-    return (-1);
-  if (check == ((*srv)->n_players) - 1)
-    my_putstr("\nPlayer successfully added");
-  else
-    my_putstr("\nServer failed to add client");
-  // retourne 1 si joueur ajouté, 0 sinon
-  return ((*srv)->n_players - check);
-}
-
 int		add_player(t_srv **srv, int fd)
 {
-  t_player_info	*new;
+  t_player_info	*new_player;
 
-  if ((new = malloc(sizeof (*new))) == NULL)
+  if ((new_player = malloc(sizeof (*new_player))) == NULL)
     return (0);
-  new->connected = 0;
-  new->alive = 1;
-  new->dying = 0;
-  new->x_pos = 0;
-  new->y_pos = 0;
-  new->current_dir = 0;
-  new->bomb_left = 3; // ?
-  new->fd = fd;
-  new->num_player = (*srv)->n_players + 1;
+  new_player->connected = 0;
+  new_player->alive = 1;
+  new_player->dying = 0;
+  new_player->x_pos = 0;
+  new_player->y_pos = 0;
+  new_player->current_dir = 0;
+  new_player->bomb_left = 3; // ?
+  new_player->fd = fd;
+  new_player->num_player = (*srv)->n_players + 1;
   /**
    ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
    */
-  (*srv)->players[(*srv)->n_players] = new;
+  (*srv)->players[(*srv)->n_players] = new_player;
   (*srv)->n_players++;
   printf("player added");
   return (1);
@@ -113,4 +93,34 @@ int			create_server_socket()
   if (listen(s, 42) == -1)
     return (-1);
   return (s);
+}
+
+void		process_requests(t_srv **server)
+{
+  int		i;
+  t_game_info	*game_info;
+
+  game_info = get_game_info();
+  for (i = 0; i < 8; ++i)
+  {
+    if ((*server)->requests[i] == NULL)
+      continue;
+    if ((*server)->requests[i]->command == START_GAME)
+    {
+      if ((*server)->n_players >= 2 && (*server)->n_players <= 4)
+      {
+        create_game_info(server);
+        my_putstr("\n creation of game requested");
+      }
+    }
+    else if (game_info->game_status == 0)
+    {
+      free((*server)->requests[i]);
+      (*server)->requests[i] = NULL;
+      continue;
+    }
+    handle_requests(game_info, (*server)->requests[i]);
+    free((*server)->requests[i]);
+    (*server)->requests[i] = NULL;
+  }
 }

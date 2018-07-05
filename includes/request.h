@@ -33,6 +33,12 @@ enum	CLIENT_REQUEST_STATUS
   SUCCESS_FREE
 };
 
+enum			COMMAND_REQUEST
+{
+    START_GAME=1,
+    PLACE_BOMB=2
+};
+
 void			my_bzero(void *s1, int n);
 int			send_request(int s, t_player_request *client_request);
 int			get_msg(int s);

@@ -2,6 +2,7 @@
 #include "player_info.h"
 #include "server.h"
 #include "request.h"
+#include "game_info.h"
 #include "main_loop.h"
 
 int			main_loop(t_srv **srv)
@@ -43,11 +44,12 @@ int			main_loop(t_srv **srv)
 	  if (FD_ISSET((*srv)->players[i]->fd, &(*srv)->fd_read))
             {
 	      int n = 0;
-	      char buffer[1024];
-	      if((n = recv((*srv)->players[i]->fd, buffer, 1024 - 1, 0)) < 0)
+	      char buffer[sizeof(t_game_info)];
+	      if((n = recv((*srv)->players[i]->fd, buffer, sizeof(t_game_info), 0)) < 0)
                 {
 		  perror("recv()");
 		  player_request = request_deserialize(buffer);
+            add_request_to_server(srv, player_request);
 		  printf("%s", request_serialization(player_request));
 		  if (player_request->checksum != get_request_checksum(player_request))
 		    {
@@ -61,5 +63,6 @@ int			main_loop(t_srv **srv)
             }
         }
     }
+    process_requests(srv);
   return (1);
 }

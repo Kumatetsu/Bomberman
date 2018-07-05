@@ -25,14 +25,15 @@ void			my_sleep(int sec, int milli)
   nanosleep(&req, NULL);
 }
 
-void	*threaded_ticker(void *server)
+void		*threaded_ticker(void *server)
 {
-  char	log[50];
-  t_srv **srv;
-  int	*tk;
-  int   socket;
-  char	*serialized_game_info;
-  int	i;
+  char		log[50];
+  t_srv		**srv;
+  int		*tk;
+  int		socket;
+  char		*serialized_game_info;
+  t_game_info	*game_info;
+  int		i;
   
   srv = (t_srv**)server;
   tk = (*srv)->tick;
@@ -44,13 +45,18 @@ void	*threaded_ticker(void *server)
       sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
       my_putstr(log);
       my_sleep(0, 5000);
-      for (i = 0; i < (*srv)->n_players; i++)
-	{
-	  socket = (*srv)->players[i]->fd;
-	  serialized_game_info = serialize_game_info();
-	  write(socket, serialized_game_info, sizeof(serialized_game_info));
-	}
-      (*tk)++;
+      for (i = 0; i < (*srv)->n_players; i++) {
+        socket = (*srv)->players[i]->fd;
+        game_info = get_game_info();
+        game_info->id_client = i;
+        set_game_info(game_info);
+        serialized_game_info = serialize_game_info();
+        write(socket, serialized_game_info, sizeof(serialized_game_info + 1));
+      }
+      ++(*tk);
+      game_info = get_game_info();
+      game_info->tick_time=(*tk);
+      set_game_info(game_info);
     }
 }
 
