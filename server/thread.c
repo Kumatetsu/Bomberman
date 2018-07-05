@@ -69,11 +69,11 @@ void		*threaded_ticker(void *server)
         memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
         memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
         for (k=0; k<4; k++){
-          memcpy(&dumb_static.players[i], &game_info->players[i], sizeof(t_player_info));
+          memcpy(&dumb_static.players[k], &game_info->players[k], sizeof(t_player_info));
         }
         for (k=0; k<14; k++){
           for (j=0; j<15; j++){
-            memcpy(&dumb_static.map_destroyable[i][j], &game_info->map_destroyable[i][j], sizeof(t_map_destroyable));
+            memcpy(&dumb_static.map_destroyable[k][j], &game_info->map_destroyable[k][j], sizeof(t_map_destroyable));
           }
         }
         printf("SOCKET SOCKET %d\n", socket);
