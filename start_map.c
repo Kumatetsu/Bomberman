@@ -23,25 +23,34 @@
 #include "thread.h"
 #include "game_info_serialization.h"
 
+void recalculate_all(void *data);
 
 int start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {
   int quit;
   SDL_Event event;
   t_data *data;
+  t_thread *struct_thread;
+  cr = cr;
   pthread_t listen_server;
 
   quit = 0;
   data = malloc(sizeof(*data));
   data->renderer = sdl->renderer;
   data->window = sdl->window;
+  if ((struct_thread = malloc(sizeof(t_thread))) == NULL)
+    return 0;
+
+  struct_thread->socket = socket;
+  struct_thread->data = data;
+
   init_sprites_sheet((void *)data);
   draw_all((void *)data);
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
   printf("\nbefore create thread\n");
-  if (pthread_create(&listen_server, NULL, thread_listen_serv, &socket))
+  if (pthread_create(&listen_server, NULL, thread_listen_serv, struct_thread))
   {
     quit = 1;
   }
@@ -57,43 +66,42 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
         break;
       case SDL_KEYUP:
       {
-        SDL_RenderClear(data->renderer);
-        rebuild_map((void *)data);
-        move_player_stop((void *)data);
-        SDL_RenderPresent(data->renderer);
-        SDL_SetRenderTarget(data->renderer, NULL);
+        // SDL_RenderClear(data->renderer);
+        // rebuild_map((void *)data);
+        // move_player_stop((void *)data);
+        // draw_all(data);
+        // SDL_RenderPresent(data->renderer);
+        // SDL_SetRenderTarget(data->renderer, NULL);
         break;
       }
       case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
         case SDLK_UP:
-          SDL_RenderClear(data->renderer);
-          rebuild_map((void *)data);
-          move_player_up((void *)data);
+          //SDL_RenderClear(data->renderer);
+          //rebuild_map((void *)data);
+          //move_player_up((void *)data);
           send_request(socket, cr);
           break;
         case SDLK_LEFT:
-          SDL_RenderClear(data->renderer);
-          rebuild_map((void *)data);
-          move_player_left((void *)data);
+          //SDL_RenderClear(data->renderer);
+          //rebuild_map((void *)data);
+          //move_player_left((void *)data);
           send_request(socket, cr);
           break;
         case SDLK_RIGHT:
-          SDL_RenderClear(data->renderer);
-          rebuild_map((void *)data);
-          move_player_right((void *)data);
+          //SDL_RenderClear(data->renderer);
+          //rebuild_map((void *)data);
+          //move_player_right((void *)data);
           send_request(socket, cr);
           break;
         case SDLK_DOWN:
-          SDL_RenderClear(data->renderer);
-          rebuild_map((void *)data);
-          move_player_down((void *)data);
+          //SDL_RenderClear(data->renderer);
+          //rebuild_map((void *)data);
+          //move_player_down((void *)data);
           send_request(socket, cr);
           break;
         }
-        SDL_RenderPresent(data->renderer);
-        SDL_SetRenderTarget(data->renderer, NULL);
       }
     }
   }
@@ -137,6 +145,10 @@ void *init_sprites_sheet(void *arg)
   */
   SDL_SetRenderTarget(data->renderer, NULL);
   return (NULL);
+}
+
+void recalculate_all(void *data) {
+  draw_all(data);
 }
 
 /*
