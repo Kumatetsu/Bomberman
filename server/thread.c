@@ -52,6 +52,7 @@ void		*threaded_ticker(void *server)
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
+  game_info = get_game_info();
   while(1)
     {
       sprintf(log, "\nTick: %d", (*tk));
@@ -61,7 +62,6 @@ void		*threaded_ticker(void *server)
       my_sleep(0, 5000);
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
-        game_info = get_game_info();
         game_info->id_client = i;
         set_game_info(game_info);
         memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
@@ -80,9 +80,7 @@ void		*threaded_ticker(void *server)
         write(socket, &dumb_static, sizeof(t_game_info) + 1);
       }
       ++(*tk);
-      game_info = get_game_info();
       game_info->tick_time=(*tk);
-      set_game_info(game_info);
     }
 }
 

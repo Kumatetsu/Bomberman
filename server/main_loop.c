@@ -23,8 +23,10 @@ int			main_loop(t_srv **srv)
   socklen_t		len;
   int			retval;
   t_player_request	*player_request;
+  t_game_info		*game_info;
 
   i = 0;
+  game_info = get_game_info();
   FD_ZERO(&(*srv)->fd_read);
   (*srv)->fd_max = (*srv)->fd;
   FD_SET((*srv)->fd, &(*srv)->fd_read);
@@ -60,7 +62,7 @@ int			main_loop(t_srv **srv)
                 {
 		  perror("recv()");
 		  player_request = request_deserialize(buffer);
-            add_request_to_server(srv, player_request);
+		  handle_requests(game_info, player_request);
 		  printf("%s", request_serialization(player_request));
       my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
 		  if (player_request->checksum != get_request_checksum(player_request))
@@ -75,6 +77,6 @@ int			main_loop(t_srv **srv)
             }
         }
     }
-    process_requests(srv);
+  // process_requests(srv);
   return (1);
 }
