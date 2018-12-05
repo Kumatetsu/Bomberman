@@ -25,31 +25,22 @@
 // Initialise le server apres un click sur 'create server' dans menu.c
 void *init_server()
 {
-<<<<<<< 30d60ccef5824e01880a16b3f81af418212149a5
   int s;
   int i;
   t_srv *srv;
   pthread_t main_thread;
   // pthread_t	tick_thread;
   t_game_info *game_info;
-=======
-  int		s;
-  int		i;
-  t_srv		*srv;
-  int		tick;
-  pthread_t	main_thread;
-  pthread_t	tick_thread;
-  t_game_info	*game_info;
->>>>>>> Update map_management.c, moving.c, and 3 more files...
 
   // initialisation de la structure server et de la socket du server
-  if ((srv = malloc(sizeof(*srv))) == NULL)
+  if ((srv = malloc(sizeof (*srv))) == NULL)
     return (NULL);
   if ((s = create_server_socket()) == -1)
     return (NULL);
   srv->fd = s;
   srv->fd_max = s;
   printf("\nInitial server fd and fd_max: %d\n", s);
+  srv->tick = &tick;
   srv->n_players = 0;
   srv->game_status = WAITING;
 
@@ -81,9 +72,12 @@ void *init_server()
   // on lance les 2 threads: la main loop du serveur et le ticker
   // if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
   //   return (NULL);
+  // pthread_join(tick_thread, NULL);
+  if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
+    return (NULL);
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
     return (NULL);
-  // pthread_join(tick_thread, NULL);
+  pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
 }
