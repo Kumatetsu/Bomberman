@@ -32,14 +32,14 @@ int		draw_players(void *arg, t_game_info *client_game_info)
   if (client_game_info != NULL)
     {
       for (i = 0; i < 4; i++)
-	{
-	  player = client_game_info->players[i];
-	  if (player.connected && (player.alive || player.dying))
-	    {
-	      if (!draw_player(arg, player))
-		return (0);
-	    }
-	}
+		{
+		player = client_game_info->players[i];
+		if (player.connected && (player.alive || player.dying))
+			{
+				if (!draw_player(arg, player))
+					return (0);
+			}
+		}
     }
   else
     {
