@@ -5,7 +5,7 @@
 ** Login   <masera_m@etna-alternance.net>
 **
 ** Started on  Wed Jul  4 09:30:11 2018 MASERA Mathieu
-** Last update Wed Jul  4 09:30:12 2018 MASERA Mathieu
+** Last update Thu Dec  6 14:25:41 2018 MASERA Mathieu
 */
 
 #include <stdlib.h>
@@ -24,6 +24,12 @@
 #include "game_info_serialization.h"
 
 void recalculate_all(void *data);
+
+/**
+ ** Everything which is commented was to move without the server.
+ ** It initialiaze the data structure and get the renderder and the window
+ ** to operate on it from everywhere.
+ **/
 
 int start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {

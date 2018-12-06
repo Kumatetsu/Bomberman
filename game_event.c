@@ -5,7 +5,7 @@
 ** Login   <masera_m@etna-alternance.net>
 **
 ** Started on  Wed Jul  4 09:29:38 2018 MASERA Mathieu
-** Last update Wed Jul  4 09:29:40 2018 MASERA Mathieu
+** Last update Thu Dec  6 14:25:39 2018 MASERA Mathieu
 */
 
 #include <SDL2/SDL.h>
@@ -17,6 +17,14 @@
 #include "player.h"
 #include "base_map.h"
 
+/**
+ ** Those functions are used to move the player on the screen
+ ** It is actually made to move only the first player
+ ** (the number specified in the data->players array)
+ ** A movement mean to move the sprite from 6 pixels
+ ** We verify the index of the sprite to know which one we have to apply for the
+ ** next movement or increase it. It's then applied to the sprite's array.
+**/
 
 void *move_player_down(void *arg) {
   t_data *data = (t_data*)arg;

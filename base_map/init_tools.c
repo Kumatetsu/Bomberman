@@ -5,7 +5,7 @@
 ** Login   <masera_m@etna-alternance.net>
 **
 ** Started on  Wed Jul  4 09:31:00 2018 MASERA Mathieu
-** Last update Wed Jul  4 09:31:01 2018 MASERA Mathieu
+** Last update Thu Dec  6 14:20:59 2018 MASERA Mathieu
 */
 
 #include <stdlib.h>
@@ -19,11 +19,21 @@
 #include "request.h"
 #include "base_map.h"
 
+
+/**
+ ** This function is to fill easily an SDL_Rect struct
+ **/
+
 SDL_Rect init_rect(int x, int y, int w, int z) {
   SDL_Rect temp = {x, y, w, z};
   return (temp);
 }
 
+
+/**
+ ** This function is to fill easily a map struct (it saves lines in code)
+ **
+ **/
 t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
 {
   t_map map;

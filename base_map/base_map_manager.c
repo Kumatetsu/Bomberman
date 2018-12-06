@@ -5,7 +5,7 @@
 ** Login   <masera_m@etna-alternance.net>
 **
 ** Started on  Wed Jul  4 09:30:34 2018 MASERA Mathieu
-** Last update Wed Jul  4 09:30:35 2018 MASERA Mathieu
+** Last update Thu Dec  6 13:46:16 2018 MASERA Mathieu
 */
 
 
@@ -48,6 +48,11 @@ void *draw_all(void *arg)
   return (NULL);
 }
 
+
+/**
+ ** This function iterate on the array_map contained in the data
+ ** to draw all the square of the map only (not destructable)
+ **/
 void *rebuild_map(void *arg) {
   t_data *data = (t_data*)arg;
   int i, j;

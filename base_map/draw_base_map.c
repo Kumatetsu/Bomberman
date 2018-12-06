@@ -5,7 +5,7 @@
 ** Login   <masera_m@etna-alternance.net>
 **
 ** Started on  Wed Jul  4 09:31:13 2018 MASERA Mathieu
-** Last update Wed Jul  4 09:31:14 2018 MASERA Mathieu
+** Last update Thu Dec  6 14:17:53 2018 MASERA Mathieu
 */
 
 #include <stdlib.h>
@@ -19,6 +19,13 @@
 #include "sdl.h"
 #include "base_map.h"
 
+/**
+ ** Init and draw the map with the grass and the wall.
+ ** It stores the dest Rect src Rect and type of 
+ ** sprite in a map structure and store the structure in the array_map
+ ** of t_data struct;
+ **
+ **/
 void	*draw_map_model(void *arg)
 {
   int	i, j, a, b, error;
@@ -80,6 +87,11 @@ void	*draw_map_model(void *arg)
   return ((void*)data);
 }
 
+/**
+ ** Init, store, and draw the time (in fact we should also care about
+ ** to store the other numbers next to the [0][1] index
+ **/
+
 void	*draw_timer(void *arg)
 {
   int	error;
@@ -103,7 +115,11 @@ void	*draw_timer(void *arg)
   return (NULL);
 }
 
-
+/**
+ ** Init, store and draw the pannel (where is displayed the timer
+ ** the score and the participants, that's the orange stuff
+ ** on the top of the playing screen)
+ **/
 void	*draw_pannel(void *arg)
 {
   int	error;
