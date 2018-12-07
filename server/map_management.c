@@ -21,6 +21,7 @@
 #include "map_management.h"
 
 int		**get_array_map() {
+  // TODO: Change 88 and 104 into pixel based values
   static int	map[104][88];
   int 		x;
   int 		y;
@@ -28,6 +29,7 @@ int		**get_array_map() {
   int 		current_y_state;
 
   current_y_state = FREE_SLOT;
+  // TODO: Change 88 and 104 into pixel based values
   for (y = 0; y < 88; ++y) {
     current_x_state = WALL;
     if (x % 8 == 0)
@@ -51,6 +53,7 @@ void			add_destructible_elements(
   int 			j;
   t_map_destroyable	map_destroyable;
 
+  //TODO: check the meaning of 14 and 15 to be sure that works with pixels
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
       printf("\nIn add_destructible_elements with i: %d, j: %d\n", i, j);
@@ -79,6 +82,7 @@ void		        manage_bombs(
   t_map_destroyable	map_destroyable;
 
   printf("\nAdd_bomb_element iterate through map_destroyable\n");
+  //TODO: check the meaning of 14 and 15 to be sure that works with pixels
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
       // On vérifie que l'élément peut supporter l'ajout d'une bomb
@@ -126,9 +130,10 @@ int 			is_there_a_wall(
   int			i;
   int			j;
   t_map_destroyable	map_destroyable;
-  
+
   if (map_pointer[x][y] == WALL)
     return 1;
+  //TODO: check the meaning of 14 and 15 to be sure that works with pixels
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
       if (game_info->map_destroyable[i][j].exist == 0

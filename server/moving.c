@@ -25,9 +25,15 @@ void	move_player(
 		    int num_player
 		    )
 {
+  int	i;
+
+  //TODO: change 104 and 88 into pixel based values
   printf("\nmoveplayer, check if player is in map\n");
   if (player_request->x < 0 || player_request->y < 0
       || player_request->x > 104 || player_request->y > 88)
+
+  if (player_request->x_pos < 0 || player_request->y_pos < 0
+      || player_request->x_pos > 104 || player_request->y_pos > 88)
     return;
 
   /*
@@ -77,6 +83,8 @@ void	move_player(
 // 			)
 // {
 //   int	i;
+
+//TODO:Check the diameter around a player cause a collision
 
 //   printf("\ncheck_collision first iteration throught players\n");
 //   for (i = (player_request->x_pos-3); i < (player_request->x_pos+3); ++i) {
