@@ -7,9 +7,8 @@
 ** Started on  Wed Jul  4 00:13:33 2018 MASERA Mathieu
 ** Last update Wed Jul  4 10:16:38 2018 MASERA Mathieu
 */
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+
+#include "system.h"
 #include "sdl.h"
 #include "my_put.h"
 #include "client.h"
@@ -17,7 +16,7 @@
 #include "game_info_serialization.h"
 #include "thread.h"
 
-void		*thread_listen_serv(void *s)
+void *thread_listen_serv(void *s)
 {
   t_thread *struct_thread;
   int		quit = 0;
@@ -25,6 +24,14 @@ void		*thread_listen_serv(void *s)
 
   struct_thread= (t_thread *)(s);
   while (!quit)
+  {
+    FD_ZERO(&fd_read);
+    FD_SET(socket, &fd_read);
+    printf("\nbefore select\n");
+    if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+      quit = 1;
+
+    if (FD_ISSET(socket, &fd_read))
     {
       FD_ZERO(&fd_read);
       FD_SET(struct_thread->socket, &fd_read);
@@ -48,4 +55,5 @@ void		*thread_listen_serv(void *s)
 	    }
         }
   pthread_exit(NULL);
+  return NULL;
 }

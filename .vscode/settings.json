@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "server.h": "c",
+        "system.h": "c",
+        "bomberman.h": "c",
+        "sdl.h": "c"
+    }
+}

@@ -8,11 +8,7 @@
 ** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <pthread.h>
-#include <time.h>
+#include "system.h"
 #include "my_put.h"
 #include "request.h"
 #include "player_info.h"

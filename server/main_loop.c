@@ -8,7 +8,7 @@
 ** Last update Wed Jul  4 09:37:33 2018 MASERA Mathieu
 */
 
-#include <stdio.h>
+#include "system.h"
 #include "player_info.h"
 #include "server.h"
 #include "request.h"
@@ -49,8 +49,12 @@ int			main_loop(t_srv **srv)
         {
 	  error = 0;
 	  len = sizeof (error);
-	  retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
-	  if (retval != 0 || error != 0) {
+    #ifdef OS_Windows
+	    retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
+    #else
+	    retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+    #endif
+   if (retval != 0 || error != 0) {
 	    (*srv)->players[i].connected = 0;
 	    continue;
 	  }

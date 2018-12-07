@@ -8,17 +8,7 @@
 ** Last update Tue Jul  3 23:42:48 2018 MASERA Mathieu
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <sys/select.h>
-#include <netdb.h>
-#include <pthread.h>
+#include "system.h"
 #include "bomberman.h"
 #include "sdl.h"
 #include "client.h"

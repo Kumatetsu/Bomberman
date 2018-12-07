@@ -7,9 +7,8 @@
 ** Started on  Wed Jul  4 00:14:25 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:28:54 2018 MASERA Mathieu
 */
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+
+#include "system.h"
 #include "sdl.h"
 #include "player.h"
 #include "socket.h"

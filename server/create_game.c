@@ -8,9 +8,7 @@
 ** Last update Tue Jul  3 22:29:46 2018 hochar_n
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+#include "system.h"
 #include "socket.h"
 #include "server.h"
 #include "thread.h"
@@ -83,9 +81,9 @@ long random_at_most(long max)
   unsigned long bin_size = num_rand / num_bins;
   unsigned long defect = num_rand % num_bins;
 
-  long x;
+  int x;
   do {
-    x = random();
+    x = rand();
   } while (num_rand - defect <= (unsigned long) x);
 
   return x / bin_size;

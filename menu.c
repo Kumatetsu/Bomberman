@@ -8,13 +8,11 @@
 ** Last update Wed Jul  4 00:28:14 2018 MASERA Mathieu
 */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "system.h"
 #include "sdl.h"
 #include "client.h"
 #include "player_info.h"
 #include "server.h"
-#include <pthread.h>
 
 /**
  * Init le menu permettant de choisir de se connecter à un server

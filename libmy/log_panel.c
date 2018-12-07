@@ -9,7 +9,7 @@
 */
 
 #include <stdio.h>
-#include <time.h>
+#include "system.h"
 #include "libmy.h"
 #define NRM  "\x1B[0m"
 #define RED  "\x1B[31m"

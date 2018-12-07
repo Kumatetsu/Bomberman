@@ -11,15 +11,16 @@
 #ifndef _REQUEST_H_
 #define _REQUEST_H_
 
-#include <sys/select.h>
+/*
+ Je suis pour:
+  - renommer request.h en network.h ou networking.h
+*/
+#include "system.h"
 #include <sys/time.h>
 #include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <time.h>
 #include <string.h>
 
 typedef struct	s_player_request

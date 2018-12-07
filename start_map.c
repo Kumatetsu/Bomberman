@@ -8,12 +8,7 @@
 ** Last update Wed Jul  4 09:30:12 2018 MASERA Mathieu
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <pthread.h>
+#include "system.h"
 #include "sdl.h"
 #include "client.h"
 #include "player_info.h"

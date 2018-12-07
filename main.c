@@ -8,11 +8,7 @@
 ** Last update Mon Jul  2 18:46:25 2018 BILLAUD Jean
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include "system.h"
 #include "sdl.h"
 #include "menu.h"
 #include "request.h"
@@ -20,9 +16,16 @@
 #include "player_info.h"
 #include "base_map.h"
 
-int main ()
+int main (int argc, char *argv[])
 {
   t_sdl *sdl;
+
+  printf("\n Nombre d'arguments: %d", argc);
+  int iterator = 0;
+  while (iterator < argc) {
+    printf("\n - n°%d: %s", iterator, argv[iterator]);
+    ++iterator;
+  }
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
   IMG_Init(IMG_INIT_JPG);
