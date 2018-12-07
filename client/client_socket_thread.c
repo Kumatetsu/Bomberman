@@ -19,10 +19,12 @@
 void *thread_listen_serv(void *s)
 {
   t_thread *struct_thread;
-  int		quit = 0;
-  fd_set	fd_read;
+  int quit = 0;
+  fd_set fd_read;
+  int socket;
 
-  struct_thread= (t_thread *)(s);
+  struct_thread = (t_thread *)(s);
+  socket = struct_thread->socket;
   while (!quit)
   {
     FD_ZERO(&fd_read);
@@ -37,23 +39,24 @@ void *thread_listen_serv(void *s)
       FD_SET(struct_thread->socket, &fd_read);
       printf("\nbefore select\n");
       if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	      quit = 1;
+        quit = 1;
 
       if (FD_ISSET(struct_thread->socket, &fd_read))
+      {
+        printf("tata\n");
+        if (get_message(struct_thread->socket) == 0)
         {
-	   printf("tata\n");
-	    if (get_message(struct_thread->socket) == 0)
-           {
-	     quit = 1;
-           }
+          quit = 1;
+        }
         SDL_RenderClear(struct_thread->data->renderer);
         rebuild_map(struct_thread->data);
         move_player_stop(struct_thread->data);
         draw_all(struct_thread->data);
         SDL_RenderPresent(struct_thread->data->renderer);
         SDL_SetRenderTarget(struct_thread->data->renderer, NULL);
-	    }
-        }
-  pthread_exit(NULL);
+      }
+    }
+    pthread_exit(NULL);
+  }
   return NULL;
 }
