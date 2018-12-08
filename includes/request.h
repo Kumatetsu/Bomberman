@@ -22,6 +22,11 @@
 #include <time.h>
 #include <string.h>
 
+/*
+ **
+ ** Struct send to the server
+ ** to update player actions/state
+*/
 typedef struct	s_player_request
 {
   int		         checksum;        /* Un checksum simple */
@@ -30,6 +35,10 @@ typedef struct	s_player_request
   int		         num_player;      /* num_player between 0 and 3 */
 }		t_player_request;
 
+/*
+ ** Enum to define
+ ** Request status
+*/
 enum	CLIENT_REQUEST_STATUS
 {
   BAD_SEND,
@@ -40,6 +49,10 @@ enum	CLIENT_REQUEST_STATUS
   SUCCESS_FREE
 };
 
+/*
+ ** Enum to define
+ ** client commands
+*/
 enum			COMMAND_REQUEST
 {
     START_GAME=1,
