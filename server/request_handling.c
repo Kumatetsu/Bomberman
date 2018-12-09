@@ -69,7 +69,8 @@ void			detail_game_info()
 // le map_pointer segfault
 void	handle_requests(
 			t_game_info *game_info,
-			t_player_request *player_request
+			t_player_request *player_request,
+      int num_player
 			)
 {
   int	**map_pointer;
@@ -77,13 +78,8 @@ void	handle_requests(
   detail_game_info();
   printf("\nget_array_map\n");
   map_pointer = get_array_map();
-  printf("\nmap_pointer ok\n");
-  // Cette fonction segfault
-  //  add_destructible_elements(game_info, map_pointer);
-  printf("\ndestructible element added\n");
-  // segfault aussi
-  // move_player(game_info, player_request, map_pointer);
-  printf("\nplayer moved\n");
+  add_destructible_elements(game_info, map_pointer);
+  move_player(game_info, player_request, map_pointer);
   add_bomb_elements(game_info, map_pointer);
   printf("\nbomb element added\n");
   if (player_request->command == PLACE_BOMB)

@@ -116,13 +116,19 @@ int			main_loop(t_srv **srv)
 		continue;
 	      }
 	      // Si la socket du player est set on traite...
-	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
-		{
-		  int n = 0;
-		  char buffer[sizeof(t_game_info)];
-		  printf("\nHandling request for player %d\n", i);
-		  // On extrait le contenu
-		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) > 0)
+	  if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+            {
+	      int n = 0;
+	      char buffer[sizeof(t_game_info)];
+	      if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) < 0)
+                {
+		  perror("recv()");
+		  player_request = request_deserialize(buffer);
+      num_player  = (*srv)->players[i].num_player;
+		  handle_requests(game_info, player_request, num_player);
+		  printf("%s", request_serialization(player_request));
+      my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
+		  if (player_request->checksum != get_request_checksum(player_request))
 		    {
 		      // on désérialize
 		      player_request = request_deserialize(buffer);

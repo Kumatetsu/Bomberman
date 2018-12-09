@@ -85,64 +85,33 @@ int			create_server_socket()
   return (s);
 }
 
-// retourne 1 si il y a plus de 4 joueurs
-int     server_is_full(t_srv **srv)
-{
-  if ((*srv)->n_players >= 4)
-    return 1;
-  return 0;
-}
+// TODO: fonction non utilisée?
+// void		process_requests(t_srv **server)
+// {
+//   int		i;
+//   t_game_info	*game_info;
 
-// défini si le serveur peut lancer la partie
-int     is_enought_players(t_srv **srv)
-{
-  if ((*srv)->n_players >= 2 && (*srv)->n_players < 5)
-    return 1;
-  return 0;
-}
-
-// set_fd_max définis le srv->fd_max par référence
-void    set_fd_max(t_srv **srv)
-{
-  int   i;
-
-  for (i = 0; i < 4; i++)
-    {
-      if ((*srv)->players[i].connected == 1)
-        {
-          FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
-          if ((*srv)->players[i].fd > (*srv)->fd_max)
-            (*srv)->fd_max = (*srv)->players[i].fd;
-        }
-    }
-}
-
-void		process_requests(t_srv **server)
-{
-  int		i;
-  t_game_info	*game_info;
-
-  game_info = get_game_info();
-  for (i = 0; i < 8; ++i)
-  {
-    if ((*server)->requests[i] == NULL)
-      continue;
-    if ((*server)->requests[i]->command == START_GAME)
-    {
-      if ((*server)->n_players >= 2 && (*server)->n_players <= 4)
-      {
-        create_game_info(server);
-        my_putstr("\n creation of game requested");
-      }
-    }
-    else if (game_info->game_status == 0)
-    {
-      free((*server)->requests[i]);
-      (*server)->requests[i] = NULL;
-      continue;
-    }
-    handle_requests(game_info, (*server)->requests[i]);
-    free((*server)->requests[i]);
-    (*server)->requests[i] = NULL;
-  }
-}
+//   game_info = get_game_info();
+//   for (i = 0; i < 8; ++i)
+//   {
+//     if ((*server)->requests[i] == NULL)
+//       continue;
+//     if ((*server)->requests[i]->command == START_GAME)
+//     {
+//       if ((*server)->n_players >= 2 && (*server)->n_players <= 4)
+//       {
+//         create_game_info(server);
+//         my_putstr("\n creation of game requested");
+//       }
+//     }
+//     else if (game_info->game_status == 0)
+//     {
+//       free((*server)->requests[i]);
+//       (*server)->requests[i] = NULL;
+//       continue;
+//     }
+//     handle_requests(game_info, (*server)->requests[i]);
+//     free((*server)->requests[i]);
+//     (*server)->requests[i] = NULL;
+//   }
+// }
