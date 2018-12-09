@@ -21,6 +21,9 @@ void	move_player(
 		    int **map_pointer
 		    )
 {
+      //TODO: use map_pointer to check pos
+      map_pointer = NULL;
+
       if (game_info->players[num_player].connected == 0)
 	      return;
 
@@ -28,7 +31,7 @@ void	move_player(
       // if (check_collision(map_pointer, player_request) == 0)
       // return;
 
-      switch(player_request->commande) {
+      switch(player_request->command) {
         case MOVE_UP:
           game_info->players[num_player].y_pos -= 6;
           break;
@@ -42,7 +45,7 @@ void	move_player(
           game_info->players[num_player].x_pos -= 6;
           break;
         default:
-          return
+          return;
       }
     }
 
