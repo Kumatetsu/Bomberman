@@ -20,15 +20,6 @@ int	get_request_checksum(t_player_request* client_request)
   for (i = 0; i<(int)sizeof(client_request->magic); i++) {
     checksum += p[i];
   }
-  p = (unsigned char *)&client_request->y_pos;
-  for (i = 0; i<(int)sizeof(client_request->y_pos); i++)
-    checksum += p[i];
-  p = (unsigned char *)&client_request->x_pos;
-  for (i = 0; i<(int)sizeof(client_request->x_pos); i++)
-    checksum += p[i];
-  p = (unsigned char *)&client_request->dir;
-  for (i = 0; i<(int)sizeof(client_request->dir); i++)
-    checksum += p[i];
   p = (unsigned char *)&client_request->command;
   for (i = 0; i<(int)sizeof(client_request->command); i++)
     checksum += p[i];
