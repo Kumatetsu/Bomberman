@@ -66,7 +66,7 @@ t_map_destroyable	get_element_at_pos(t_game_info *game_info, int x, int y);
 void			trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable bomb);
 void			handle_requests(t_game_info *game_info, t_player_request *player_request, int num_player);
 int			check_collision(int** map, t_player_request *player_request);
-void			move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer);
+void			move_player(t_game_info *game_info, t_player_request *player_request, int num_player);
 void			create_game_info(t_srv **srv);
 long			random_at_most(long max);
 void			specify_player_info(int i, t_game_info *game_info);
