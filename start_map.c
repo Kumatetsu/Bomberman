@@ -101,6 +101,12 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
           //move_player_down((void *)data);
           send_request(socket, cr);
           break;
+        case SDLK_SPACE:
+	  printf("\nI WANT A BOMB\n");
+	  cr->command = PLACE_BOMB;
+	  printf("\nplayer request: %d\n", cr->command);
+	  send_request(socket, cr);
+          break;
         }
       }
     }

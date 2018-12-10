@@ -39,6 +39,7 @@ void	place_bomb(t_game_info *game_info,
   int 			y;
   t_map_destroyable	bomb;
 
+  printf("\nPLACING BOMB\n");
   for (i = 0; i < 4; i++)
     {
       if (game_info->players[i].connected == 0

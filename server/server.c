@@ -7,6 +7,7 @@
 ** Started on  Wed Jul  4 00:14:25 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:28:54 2018 MASERA Mathieu
 */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -19,7 +20,8 @@
 #include "my_put.h"
 #include "server.h"
 
-void		*init_server() // sdl provient de old/old_server.c
+// Initialise le server apres un click sur 'create server' dans menu.c
+void		*init_server()
 {
   int		s;
   int		i;
@@ -30,6 +32,7 @@ void		*init_server() // sdl provient de old/old_server.c
   t_game_info	*game_info;
 
   tick = 0;
+  // initialisation de la structure server et de la socket du server
   if ((srv = malloc(sizeof (*srv))) == NULL)
     return (NULL);
   if ((s = create_server_socket()) == -1)
@@ -43,22 +46,17 @@ void		*init_server() // sdl provient de old/old_server.c
     return (NULL);
   set_game_info(game_info);
 
+  // on set tout les player a 'non connecté'
   for (i = 0; i < 4; i++)
     srv->players[i].connected = 0;
+  // on initialise le bench de request à NULL
   for (i = 0; i < 8; i++)
     srv->requests[i] = NULL;
+  // on lance les 2 threads: la main loop du serveur et le ticker
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
     return (NULL);
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
     return (NULL);
-  //n'attend qu'un client pour qu'on puisse tester tranquillement
-  //on doit init le server avant d'écouter les connections
-  // if (accept_clients(&srv) == -1)
-  //   return 0;
-
-  // PROVIENT DE OLD_SERVER.c dans le folder old/
-  // sdl->server_welcome = NULL;
-
   pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
