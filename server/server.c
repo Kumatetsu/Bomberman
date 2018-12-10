@@ -22,13 +22,13 @@
 // Initialise le server apres un click sur 'create server' dans menu.c
 void		*init_server()
 {
-  int		s;
-  int		i;
-  t_srv		*srv;
-  int		tick;
-  pthread_t	main_thread;
-  pthread_t	tick_thread;
-  t_game_info	*game_info;
+  int s;
+  int i;
+  t_srv *srv;
+  int tick;
+  pthread_t main_thread;
+  pthread_t tick_thread;
+  t_game_info *game_info;
 
   tick = 0;
   // initialisation de la structure server et de la socket du server
@@ -65,20 +65,42 @@ void		*init_server()
   return (NULL);
 }
 
-int			create_server_socket()
+int add_player(t_srv **srv, int fd)
 {
-  int			s;
-  struct sockaddr_in	sin;
-  int			port;
+  t_player_info new_player;
 
-  memset(&sin, 0, sizeof (struct sockaddr_in));
+  new_player.connected = 1;
+  new_player.alive = 1;
+  new_player.dying = 0;
+  new_player.x_pos = 0;
+  new_player.y_pos = 0;
+  new_player.current_dir = 0;
+  new_player.bomb_left = 1;
+  new_player.fd = fd;
+  new_player.num_player = (*srv)->n_players + 1;
+  /**
+   ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
+   */
+  (*srv)->players[(*srv)->n_players] = new_player;
+  (*srv)->n_players++;
+  printf("player added");
+  return (1);
+}
+
+int create_server_socket()
+{
+  int s;
+  struct sockaddr_in sin;
+  int port;
+
+  memset(&sin, 0, sizeof(struct sockaddr_in));
   if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
     return (-1);
   port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s, (struct sockaddr *)&sin, sizeof (sin)) == -1)
+  if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
     return (-1);
   if (listen(s, 42) == -1)
     return (-1);

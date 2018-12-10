@@ -16,15 +16,15 @@
 #include "my_put.h"
 #include "main_loop.h"
 
-int			main_loop(t_srv **srv)
+int main_loop(t_srv **srv)
 {
-  int			i;
-  int			error;
-  socklen_t		len;
-  int			retval;
-  t_player_request	*player_request;
-  t_game_info		*game_info;
-  int           num_player;
+  int i;
+  int error;
+  socklen_t len;
+  int retval;
+  t_player_request *player_request;
+  t_game_info *game_info;
+  int num_player;
 
   printf("\n\nMain_loop entry\n");
   i = 0;
