@@ -97,8 +97,7 @@ void	place_bomb(t_game_info *game_info,
   printf("\nPLACING BOMB\n");
   for (i = 0; i < 4; i++)
     {
-      if (game_info->players[i].connected == 0
-	  || game_info->players[i].num_player != player_request->num_player)
+      if (game_info->players[i].connected == 0)
 	continue;
       player = game_info->players[i];
       if (player.bomb_left == 0)
