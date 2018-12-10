@@ -34,7 +34,6 @@ void		*thread_listen_serv(void *s)
 
       if (FD_ISSET(struct_thread->socket, &fd_read))
         {
-	   printf("tata\n");
 	    if (get_message(struct_thread->socket) == 0)
            {
 	     quit = 1;
