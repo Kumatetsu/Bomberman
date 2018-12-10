@@ -18,10 +18,24 @@
 #include "game_info_serialization.h"
 #include "main_loop.h"
 #include "thread.h"
+#ifdef OS_Windows
+    #include "windows_nanosleep.h"
+#endif
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
 
+void            my_windows_sleep(int milli)
+{
+    int			nano;
+
+    nano = milli * 1000000;
+    nanosleep(nano);
+}
+
+
+
+#ifndef OS_Windows
 void			my_sleep(int sec, int milli)
 {
   int			nano;
@@ -32,6 +46,7 @@ void			my_sleep(int sec, int milli)
   req.tv_nsec = nano;
   nanosleep(&req, NULL);
 }
+#endif
 
 void		*threaded_ticker(void *server)
 {
@@ -55,7 +70,11 @@ void		*threaded_ticker(void *server)
       my_putstr(log);
       sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
       my_putstr(log);
-      my_sleep(0, 5000);
+      #ifdef OS_Windows
+        my_windows_sleep(5000);
+      #else
+        my_sleep(0, 5000);
+      #endif
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
         game_info->id_client = i;

@@ -29,20 +29,31 @@ int			main_loop(t_srv **srv)
   game_info = get_game_info();
   FD_ZERO(&(*srv)->fd_read);
   (*srv)->fd_max = (*srv)->fd;
-  FD_SET((*srv)->fd, &(*srv)->fd_read);
+  #ifdef OS_Windows
+    FD_SET((unsigned int)(*srv)->fd, &(*srv)->fd_read);
+  #else
+    FD_SET((*srv)->fd, &(*srv)->fd_read);
+  #endif
+
   while (i < 4 && (*srv)->players[i].connected == 1)
     {
-      FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+      #ifdef OS_Windows
+          FD_SET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read);
+      #else
+          FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+      #endif
       if ((*srv)->players[i].fd > (*srv)->fd_max)
 	(*srv)->fd_max = (*srv)->players[i].fd;
       i++;
     }
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
     return (0);
-  if (FD_ISSET((*srv)->fd, &(*srv)->fd_read)){
-    if (accept_players(srv) == -1)
-      return 0;
-  }
+
+      if (FD_ISSET((*srv)->fd, &(*srv)->fd_read)){
+        if (accept_players(srv) == -1)
+            return 0;
+      }
+
   for (i = 0; i < 4; i++)
     {
       if ((*srv)->players[i].connected == 1)
@@ -68,7 +79,7 @@ int			main_loop(t_srv **srv)
 		  player_request = request_deserialize(buffer);
 		  handle_requests(game_info, player_request);
 		  printf("%s", request_serialization(player_request));
-      my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
+          my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
 		  if (player_request->checksum != get_request_checksum(player_request))
 		    {
 		      close((*srv)->players[i].fd);

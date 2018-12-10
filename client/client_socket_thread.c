@@ -28,7 +28,13 @@ void *thread_listen_serv(void *s)
   while (!quit)
   {
     FD_ZERO(&fd_read);
-    FD_SET(socket, &fd_read);
+
+    #ifdef OS_Windows
+        FD_SET((unsigned int)socket, &fd_read);
+    #else
+        FD_SET(socket, &fd_read);
+    #endif
+
     printf("\nbefore select\n");
     if (select((socket + 1), &fd_read, NULL, NULL, NULL) == -1)
       quit = 1;
@@ -36,7 +42,11 @@ void *thread_listen_serv(void *s)
     if (FD_ISSET(socket, &fd_read))
     {
       FD_ZERO(&fd_read);
-      FD_SET(struct_thread->socket, &fd_read);
+      #ifdef OS_Windows
+        FD_SET((unsigned int)struct_thread->socket, &fd_read);
+      #else
+        FD_SET(struct_thread->socket, &fd_read);
+      #endif
       printf("\nbefore select\n");
       if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
         quit = 1;

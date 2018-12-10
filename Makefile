@@ -14,7 +14,7 @@ NAME 	= BomberMan
 
 CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
-LDFLAGS = -lmingw32 -mwindows -pthread -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lws2_32 -L ./libmy -L/opt/local/i686-w64-mingw32/lib
+LDFLAGS = -lmingw32 -mwindows -lpthread -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lws2_32 -L ./libmy -L/opt/local/i686-w64-mingw32/lib
 
 SRC 	= 	main.c 					\
 		menu.c					\
@@ -49,6 +49,7 @@ SRC 	= 	main.c 					\
 		base_map/init_tools.c			\
 		base_map/draw_players.c			\
 		game_event.c				\
+		windows/windows_nanosleep.c	\
 
 OBJ 	= ${SRC:%.c=%.o}
 
