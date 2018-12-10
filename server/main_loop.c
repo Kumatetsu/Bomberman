@@ -19,12 +19,12 @@
 int main_loop(t_srv **srv)
 {
   int i;
-  // int error;
-  // socklen_t len;
-  // int retval;
-  // t_player_request *player_request;
-  // t_game_info *game_info;
-  // int num_player;
+  int error;
+  socklen_t len;
+  int retval;
+  t_player_request *player_request;
+  t_game_info *game_info;
+  int num_player;
 
   printf("\n\nMain_loop entry\n");
   i = 0;
@@ -68,16 +68,36 @@ int main_loop(t_srv **srv)
   // on accepte des joueurs, si y'a la place et si y'a requete
   if (!server_is_full(srv))
     {
-      printf("\nWaiting for new client\n");
-      // ici on accepte les connections clientes
-      if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
-	{
-	  // player.h
-	  if ((i = accept_players(srv)) == -1)
-	    return 0;
-	  // on a bougé les players du srv, on refresh ceux de la game_info
-	  game_info->players[i] = (*srv)->players[i];
-	}
+      error = 0;
+      len = sizeof(error);
+      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+      if (retval != 0 || error != 0)
+      {
+        (*srv)->players[i].connected = 0;
+        continue;
+      }
+      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+      {
+        int n = 0;
+        char buffer[sizeof(t_game_info)];
+        if ((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) < 0)
+        {
+          printf("in client sent_request\n");
+          player_request = request_deserialize(buffer);
+          num_player = (*srv)->players[i].num_player;
+          handle_requests(game_info, player_request, num_player);
+          printf("%s", request_serialization(player_request));
+          my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
+          if (player_request->checksum != get_request_checksum(player_request))
+          {
+            close((*srv)->players[i].fd);
+            (*srv)->players[i].connected = 0;
+          }
+          n = 0;
+        }
+        buffer[n] = 0;
+        printf("client sent request\n");
+      }
     }
   if ((!is_running() && is_enought_players(srv))
       // FOR DEV

@@ -19,7 +19,7 @@
 typedef struct		s_thread
 {
   int			socket;
-  t_data       *data;
+  t_data  *data;
 }			t_thread;
 
 void *thread_listen_serv(void *s_info);

@@ -13,37 +13,39 @@
 #include "server.h"
 #include "request.h"
 #include "game_info.h"
+#include "base_map.h"
 
-int		**get_array_map() {
-  static int	map[104][88];
-  int 		x;
-  int 		y;
-  int 		current_x_state;
-  int 		current_y_state;
+int **get_array_map()
+{
+    static int map[14][15];
+    int height, width, i, j, type;
 
-  current_y_state = FREE_SLOT;
-  for (y = 0; y < 88; ++y) {
-    current_x_state = WALL;
-    if (x % 8 == 0)
-      current_y_state = WALL;
-    for (x = 0; x < 104; ++x) {
-      if (x % 8 == 0 && current_y_state == WALL)
-	current_x_state = current_x_state == 1 ? FREE_SLOT : WALL;
-      map[x][y] = current_y_state;
+    height = 1;
+    for (j = J_BEGIN; j < J_BEGIN + 13; j++) {
+        width = 0;
+        // largeur
+        for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
+            type = draw_map_loop(i, j);
+            if (type == FREE_SLOT_SHADOW)
+                type = FREE_SLOT;
+
+            map[height][width] = type;
+            width++;
+        }
+        height++;
     }
-  }
 
-  return (int **) map;
+    return (int **) map;
 }
 
-void			add_destructible_elements(
-						  t_game_info *game_info,
-						  int **map_pointer
-						  )
+void add_destructible_elements(
+    t_game_info *game_info,
+    int **map_pointer
+)
 {
-  int 			i;
-  int 			j;
-  t_map_destroyable	map_destroyable;
+    int i;
+    int j;
+    t_map_destroyable map_destroyable;
 
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
@@ -59,7 +61,6 @@ void			add_destructible_elements(
       map_pointer[map_destroyable.x_pos][map_destroyable.y_pos] = WALL;
       printf("\nIteration done\n");
     }
-  }
 }
 
 
@@ -70,9 +71,9 @@ void			add_bomb_elements(
 					  int **map_pointer
 					  )
 {
-  int			i;
-  int			j;
-  t_map_destroyable	map_destroyable;
+    int i;
+    int j;
+    t_map_destroyable map_destroyable;
 
   printf("\nAdd_bomb_element iterate through map_destroyable\n");
   for (i = 1; i < 14; ++i) {
@@ -112,29 +113,30 @@ void			add_bomb_elements(
   printf("\nadd_bomb_elements done\n");
 }
 
-int 			is_there_a_wall(
-					t_game_info *game_info,
-					int** map_pointer,
-					int x,
-					int y
-					)
+// code mort
+int is_there_a_wall(
+    t_game_info *game_info,
+    int **map_pointer,
+    int x,
+    int y
+)
 {
-  int			i;
-  int			j;
-  t_map_destroyable	map_destroyable;
+    int i;
+    int j;
+    t_map_destroyable map_destroyable;
 
-  if (map_pointer[x][y] == WALL)
-    return 1;
-  for (i = 1; i < 14; ++i) {
-    for (j = 1; j < 15; ++j) {
-      if (game_info->map_destroyable[i][j].exist == 0
-	  || game_info->map_destroyable[i][j].bomb == 1)
-	continue;
-      map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
-	return 1;
+    if (map_pointer[x][y] == WALL)
+        return 1;
+    for (i = 1; i < 14; ++i) {
+        for (j = 1; j < 15; ++j) {
+            if (game_info->map_destroyable[i][j].exist == 0
+                || game_info->map_destroyable[i][j].bomb == 1)
+                continue;
+            map_destroyable = game_info->map_destroyable[i][j];
+            if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
+                return 1;
+        }
     }
-  }
 
-  return 0;
+    return 0;
 }

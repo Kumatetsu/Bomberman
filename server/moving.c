@@ -14,45 +14,39 @@
 #include "request.h"
 #include "game_info.h"
 
-// TODO:version with map_pointer
-// void	move_player(
-// 		    t_game_info *game_info,
-// 		    t_player_request *player_request,
-//         int num_player,
-// 		    int **map_pointer
-// 		    )
-
-void	move_player(
-		    t_game_info *game_info,
-		    t_player_request *player_request,
-        int num_player
-		    )
+void move_player(
+    t_game_info *game_info,
+    t_player_request *player_request,
+    int num_player)
 {
 
-      if (game_info->players[num_player].connected == 0)
-	      return;
+  if (game_info->players[num_player - 1].connected == 0)
+    return;
 
-      // TODO: Check les collisions
-      // if (check_collision(map_pointer, player_request) == 0)
-      // return;
+  // TODO: Check les collisions
+  // if (check_collision(map_pointer, player_request) == 0)
+  // return;
 
-      switch(player_request->command) {
-        case MOVE_UP:
-          game_info->players[num_player].y_pos -= 6;
-          break;
-        case MOVE_DOWN:
-          game_info->players[num_player].y_pos += 6;
-          break;
-        case MOVE_RIGHT:
-          game_info->players[num_player].x_pos += 6;
-          break;
-        case MOVE_LEFT:
-          game_info->players[num_player].x_pos -= 6;
-          break;
-        default:
-          return;
-      }
-    }
+  switch (player_request->command)
+  {
+  case MOVE_UP:
+    game_info->players[num_player - 1].y_pos -= 6;
+    break;
+  case MOVE_DOWN:
+    game_info->players[num_player - 1].y_pos += 6;
+    break;
+  case MOVE_RIGHT:
+    game_info->players[num_player - 1].x_pos += 6;
+    break;
+  case MOVE_LEFT:
+    game_info->players[num_player - 1].x_pos -= 6;
+    break;
+  default:
+    return;
+  }
+
+  printf("pos_updated\n\n");
+}
 
 /*
   TODO: check les collisions

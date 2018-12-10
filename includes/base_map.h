@@ -93,4 +93,7 @@ void *draw_player_2(void *arg);
 void *draw_player_3(void *arg);
 void *draw_player_4(void *arg);
 
+//common/utils_map.c
+int draw_map_loop(int i, int j);
+
 #endif
