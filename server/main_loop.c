@@ -153,6 +153,7 @@ int main_loop(t_srv **srv)
 	    printf("\nnot connected\n");
 	}
     }
+		
   // à réviser le process request
   // process_requests(srv);
   return (1);
