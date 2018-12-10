@@ -84,8 +84,7 @@ void	handle_requests(
   //   place_bomb(game_info, player_request);
 }
 
-void	place_bomb(t_game_info *game_info,
-		   t_player_request *player_request
+void	place_bomb(t_game_info *game_info
 		   )
 {
   t_player_info	player;
