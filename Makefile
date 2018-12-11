@@ -40,9 +40,8 @@ SRC 	= 	main.c 					\
 		server/bomb_management.c		\
 		server/map_management.c			\
 		server/moving.c				\
-		server/create_game.c			\
 		server/request_handling.c		\
-                server/networking.c			\
+                server/player.c			\
 		server/main_loop.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\

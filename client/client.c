@@ -17,6 +17,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <SDL2/SDL.h>
+#include "server.h"
 #include "sdl.h"
 #include "client.h"
 #include "player.h"

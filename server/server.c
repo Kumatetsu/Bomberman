@@ -11,14 +11,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include "server.h"
 #include "sdl.h"
-#include "player.h"
 #include "socket.h"
 #include "thread.h"
 #include "request.h"
 #include "game_info.h"
 #include "my_put.h"
-#include "server.h"
 
 // Initialise le server apres un click sur 'create server' dans menu.c
 void		*init_server()
@@ -38,6 +37,7 @@ void		*init_server()
   if ((s = create_server_socket()) == -1)
     return (NULL);
   srv->fd = s;
+  srv->fd_max = s;
   srv->tick = &tick;
   srv->n_players = 0;
 
@@ -48,7 +48,9 @@ void		*init_server()
 
   // on set tout les player a 'non connecté'
   for (i = 0; i < 4; i++)
-    srv->players[i].connected = 0;
+    {
+      srv->players[i].connected = 0;
+    }
   // on initialise le bench de request à NULL
   for (i = 0; i < 8; i++)
     srv->requests[i] = NULL;
@@ -60,28 +62,6 @@ void		*init_server()
   pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
-}
-
-int		add_player(t_srv **srv, int fd)
-{
-  t_player_info	new_player;
-
-  new_player.connected = 0;
-  new_player.alive = 1;
-  new_player.dying = 0;
-  new_player.x_pos = 0;
-  new_player.y_pos = 0;
-  new_player.current_dir = 0;
-  new_player.bomb_left = 1;
-  new_player.fd = fd;
-  new_player.num_player = (*srv)->n_players + 1;
-  /**
-   ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
-   */
-  (*srv)->players[(*srv)->n_players] = new_player;
-  (*srv)->n_players++;
-  printf("player added");
-  return (1);
 }
 
 int			create_server_socket()
@@ -102,6 +82,38 @@ int			create_server_socket()
   if (listen(s, 42) == -1)
     return (-1);
   return (s);
+}
+
+// retourne 1 si il y a plus de 4 joueurs
+int     server_is_full(t_srv **srv)
+{
+  if ((*srv)->n_players >= 4)
+    return 1;
+  return 0;
+}
+
+// défini si le serveur peut lancer la partie
+int     is_enought_players(t_srv **srv)
+{
+  if ((*srv)->n_players >= 2 && (*srv)->n_players < 5)
+    return 1;
+  return 0;
+}
+
+// set_fd_max définis le srv->fd_max par référence
+void    set_fd_max(t_srv **srv)
+{
+  int   i;
+
+  for (i = 0; i < 4; i++)
+    {
+      if ((*srv)->players[i].connected == 1)
+        {
+          FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+          if ((*srv)->players[i].fd > (*srv)->fd_max)
+            (*srv)->fd_max = (*srv)->players[i].fd;
+        }
+    }
 }
 
 void		process_requests(t_srv **server)

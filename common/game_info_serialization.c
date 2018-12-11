@@ -8,6 +8,7 @@
 ** Last update Wed Jul  4 09:33:55 2018 MASERA Mathieu
 */
 
+#include "server.h"
 #include "player.h"
 #include "request.h"
 #include "my_put.h"

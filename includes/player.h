@@ -11,6 +11,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
+/*
+ DEPRECATED PART
+*/
 #include <SDL2/SDL.h>
 
 typedef struct	s_player
@@ -41,5 +44,9 @@ void *move_player_up(void *arg);
 void *move_player_right(void *arg);
 void *move_player_left(void *arg);
 void *move_player_stop(void *arg);
-
+/*
+  END OF DEPRECATED PART
+ */
+int add_player(t_srv **srv, int fd);
+int accept_players(t_srv **srv);
 #endif

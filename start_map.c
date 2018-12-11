@@ -14,6 +14,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+#include "server.h"
 #include "sdl.h"
 #include "client.h"
 #include "player_info.h"
