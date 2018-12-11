@@ -86,13 +86,14 @@ int main_loop(t_srv **srv)
         printf("serv: client fd: %d with n:%d\n\n", (*srv)->players[i].fd, n);
         if (n > 0)
         {
-          sprintf(log, "in client sent request");
+          sprintf(log, "in client sent request\n\n\n\n\n");
           my_putstr(log);
-          // player_request = request_deserialize(buffer);
-          // num_player = (*srv)->players[i].num_player;
-          // handle_requests(game_info, player_request, num_player);
-          // printf("%s", request_serialization(player_request));
-          // my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
+          player_request = (t_player_request*)(buffer);
+          num_player = (*srv)->players[i].num_player;
+          handle_requests(&game_info, player_request, num_player);
+          sprintf(log, "%d\n\n\n\n\n\n", game_info->players[num_player - 1].y_pos);
+          my_putstr(log);
+          my_putstr("GET REQUEST DUMB DUMB\n\n\n\n\n");
           // if (player_request->checksum != get_request_checksum(player_request))
           // {
           //   close((*srv)->players[i].fd);

@@ -47,20 +47,15 @@ int free_player_request(t_player_request* client_request)
 
 int         send_request(int s, t_player_request* client_request)
 {
-  char*     request_string;
+  // char*     request_string;
+  t_player_request dum_static;
+  // request_string = request_serialization(client_request);
+  memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
+  memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));
+  memcpy(&dumb_static.command, &client_request->client_request, sizeof(int));
 
-  request_string = request_serialization(client_request);
-  if (strlen(request_string) > 0)
-    {
-      printf("SEND REQUEST\n");
-      write(s, request_string, strlen(request_string));
-      return SUCCESS_SEND;
-    }
-  else
-    {
-      write(1, "exit\n", 5);
-      return BAD_SEND;
-    }
+  write(s, &dumb_static, sizeof(t_player_request));
+  return SUCCESS_SEND;
 }
 
 int		get_msg(int s)
