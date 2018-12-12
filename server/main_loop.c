@@ -32,18 +32,42 @@ int			main_loop(t_srv **srv)
   create_game_info();
   // puis on récupère la static remplie
   game_info = get_game_info();
-
+  
+  printf("\nFDZERO\n");
   FD_ZERO(&(*srv)->fd_read);
+  printf("\nFDSET\n");
   FD_SET((*srv)->fd, &(*srv)->fd_read);
   // server.h définition du fd max pour le select, defaut dans init_server
-  set_fd_max(srv);
+  printf("\nset_fd_max\n");
+  printf("\nfd max before: %d\n", (*srv)->fd_max);
+  for (i = 0; i < 4; i++)
+    {
+      printf("\nplayer connected = %d\n", (*srv)->players[i].connected);
+      printf("\nfd player = %d\n", (*srv)->players[i].fd);
+      if ((*srv)->players[i].connected == 1)
+	{
+	  FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+	  printf("\nfd player = %d\n", (*srv)->players[i].fd);
+	  if ((*srv)->players[i].fd > (*srv)->fd_max)
+	    { 
+	      (*srv)->fd_max = (*srv)->players[i].fd;
+	      printf("\nfd_max = %d\n", (*srv)->fd_max);
+	    }
+	}
+    }
+  
+  // set_fd_max(srv);
+  printf("\nfd_max after: %d\n", (*srv)->fd_max);
+  
   // select sur la socket server
+  printf("\nselect\n");
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
     return (0);
   // server.h
   // on accepte des joueurs, si y'a la place et si y'a requete
   if (!server_is_full(srv))
     {
+      printf("\nWaiting for new client\n");
       // ici on accepte les connections clientes
       if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
 	{
@@ -54,20 +78,31 @@ int			main_loop(t_srv **srv)
 	  game_info->players[i] = (*srv)->players[i];
 	}
     }
-  if (!is_running() && is_enought_players(srv))
-    // server.h
-    // set le game_status à 1
-    // copie les joueurs dans la game_info
-    // passe le connected à 1 pour tous
-    // définis le placement
-    start_game(srv);
-  // 
-  if (is_running())
+  if ((!is_running() && is_enought_players(srv))
+      // FOR DEV
+      || (*srv)->n_players
+      )
     {
+      // server.h
+      // set le game_status à 1
+      // copie les joueurs dans la game_info
+      // passe le connected à 1 pour tous
+      // définis le placement
+      printf("\nStart Game\n");
+      start_game(srv);
+      //
+    }
+  if (is_running()
+      // FOR DEV
+      || (*srv)->n_players)
+    {
+ 
+      printf("\nITERATE THROUGHT PLAYERS\n");
       // pour les joueurs... 
       for (i = 0; i < 4; i++)
 	{
 	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
+    	  printf("\nPlayer %d\n", i);
 	  if ((*srv)->players[i].connected == 1)
 	    {
 	      error = 0;

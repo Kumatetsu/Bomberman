@@ -29,7 +29,7 @@ int             add_player(t_srv **srv, int fd)
   // du coup à la fin, players[(*srv)->n_players] = new_player
   // fait pointer sur un espace mémoire qui sera détruit
   // à la fin de l'appel de add_player non?
-  new_player.connected = 0;
+  new_player.connected = 1;
   new_player.alive = 1;
   new_player.dying = 0;
   new_player.x_pos = 0;
@@ -60,9 +60,11 @@ int			accept_players(t_srv **srv)
   socklen_t		client_sin_len;
 
   index = (*srv)->n_players;
+  printf("\naccept_player, index: %d\n", index);
   memset(&client_sin, 0, sizeof (struct sockaddr_in));
   client_sin_len = sizeof (client_sin);
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
+  printf("\naccept_player, player_socket: %d\n", player_socket);
   if (player_socket == -1)
     return (-1);
   if (!add_player(srv, player_socket))

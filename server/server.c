@@ -38,6 +38,7 @@ void		*init_server()
     return (NULL);
   srv->fd = s;
   srv->fd_max = s;
+  printf("\nInitial server fd and fd_max: %d\n", s);
   srv->tick = &tick;
   srv->n_players = 0;
 
