@@ -50,16 +50,20 @@ void                    create_game_info()
   int                   i;
   int                   x;
   int                   y;
-
+  
   game_info->game_status = 0;
   for (i = 0; i < 32; ++i)
     {
-      map_destroyable.exist = 1;
-      map_destroyable.wall_destroyable = 1;
       x = random_at_most(13);
       y = random_at_most(11);
       map_destroyable.y_pos = y * 8;
       map_destroyable.x_pos = x * 8;
+      map_destroyable.bomb = 0;
+      map_destroyable.bomb_owner = -1;
+      map_destroyable.dying = 0;
+      map_destroyable.start_explode = 0;
+      map_destroyable.wall_destroyable = 1;
+      map_destroyable.exist = 1;
       game_info->map_destroyable[y][x] =  map_destroyable;
     }
 }

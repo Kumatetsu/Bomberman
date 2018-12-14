@@ -102,9 +102,10 @@ int			main_loop(t_srv **srv)
       for (i = 0; i < 4; i++)
 	{
 	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
-    	  printf("\nPlayer %d\n", i);
+    	  printf("\nPlayer %d connected?\n", i);
 	  if ((*srv)->players[i].connected == 1)
 	    {
+	      printf("\nYes\n");
 	      error = 0;
 	      len = sizeof (error);
 	      // interroge les options de la socket (player->fd) pour détecter une erreur
@@ -119,12 +120,13 @@ int			main_loop(t_srv **srv)
 		{
 		  int n = 0;
 		  char buffer[sizeof(t_game_info)];
-		  
+		  printf("\nHandling request for player %d\n", i);
 		  // On extrait le contenu
-		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) < 0)
+		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) > 0)
 		    {
 		      // on désérialize
 		      player_request = request_deserialize(buffer);
+		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
 		      // on modifie la game_info
 		      handle_requests(game_info, player_request);
 		      printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
@@ -140,6 +142,8 @@ int			main_loop(t_srv **srv)
 		  printf("client send request\n");
 		}
 	    }
+	  else
+	    printf("\nnot connected\n");
 	}
     }
   // à réviser le process request
