@@ -17,7 +17,8 @@
 #include "server.h"
 #include "player.h"
 #include "sdl.h"
-#include "base_map.h"
+#include "base_map_manager.h"
+#include "draw_base_map.h"
 
 void	*draw_map_model(void *arg)
 {

@@ -19,7 +19,7 @@
 #include "request.h"
 #include "player.h"
 #include "player_info.h"
-#include "base_map.h"
+#include "base_map_manager.h"
 
 int main ()
 {

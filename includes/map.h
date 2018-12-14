@@ -10,6 +10,7 @@
 
 #ifndef _MAP_H_
 #define _MAP_H_
+
 typedef struct 	s_map_element {
   int	       	destructible; //TEMPORAIRE: Si on fait une t_chain de tous les elem, faut connaitre ceux qui sont destructibles ou pas
   int          	destoyed; //savoir si on doit l'afficher ou non

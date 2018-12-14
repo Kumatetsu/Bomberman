@@ -19,10 +19,11 @@
 #include "client.h"
 #include "player_info.h"
 #include "player.h"
-#include "base_map.h"
+#include "base_map_manager.h"
 #include "game_info.h"
 #include "thread.h"
 #include "game_info_serialization.h"
+#include "start_map.h"
 
 void recalculate_all(void *data);
 

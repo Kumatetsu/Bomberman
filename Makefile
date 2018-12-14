@@ -34,18 +34,17 @@ SRC 	= 	main.c 					\
 		client/socket.c				\
 		client/client_request.c			\
 		client/client_get_game_info.c		\
-		client/client_socket_thread.c\
+		client/client_socket_thread.c		\
 		server/server.c				\
 		server/thread.c				\
 		server/bomb_management.c		\
 		server/map_management.c			\
 		server/moving.c				\
 		server/request_handling.c		\
-                server/player.c			\
+                server/player.c				\
 		server/main_loop.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
-		base_map/init_tools.c			\
 		base_map/draw_players.c			\
 		game_event.c				\
 
