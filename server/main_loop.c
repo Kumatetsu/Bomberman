@@ -129,7 +129,7 @@ int			main_loop(t_srv **srv)
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
 		      // on modifie la game_info
 		      handle_requests(game_info, player_request);
-		      printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
+		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
 		      // On assure au serveur l'origine de la requête
 		      if (player_request->checksum != get_request_checksum(player_request))
 			{
