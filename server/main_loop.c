@@ -32,7 +32,7 @@ int			main_loop(t_srv **srv)
   create_game_info();
   // puis on récupère la static remplie
   game_info = get_game_info();
-  
+
   printf("\nFDZERO\n");
   FD_ZERO(&(*srv)->fd_read);
   printf("\nFDSET\n");
@@ -49,16 +49,16 @@ int			main_loop(t_srv **srv)
 	  FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
 	  printf("\nfd player = %d\n", (*srv)->players[i].fd);
 	  if ((*srv)->players[i].fd > (*srv)->fd_max)
-	    { 
+	    {
 	      (*srv)->fd_max = (*srv)->players[i].fd;
 	      printf("\nfd_max = %d\n", (*srv)->fd_max);
 	    }
 	}
     }
-  
+
   // set_fd_max(srv);
   printf("\nfd_max after: %d\n", (*srv)->fd_max);
-  
+
   // select sur la socket server
   printf("\nselect\n");
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
@@ -96,9 +96,9 @@ int			main_loop(t_srv **srv)
       // FOR DEV
       || (*srv)->n_players)
     {
- 
+
       printf("\nITERATE THROUGHT PLAYERS\n");
-      // pour les joueurs... 
+      // pour les joueurs...
       for (i = 0; i < 4; i++)
 	{
 	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
@@ -128,7 +128,7 @@ int			main_loop(t_srv **srv)
 		      player_request = request_deserialize(buffer);
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
 		      // on modifie la game_info
-		      handle_requests(game_info, player_request);
+		      handle_requests(game_info, i, player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
 		      // On assure au serveur l'origine de la requête
 		      if (player_request->checksum != get_request_checksum(player_request))

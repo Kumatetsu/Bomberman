@@ -28,7 +28,7 @@ void			detail_game_info()
   t_player_info		p;
   t_map_destroyable	m;
   char			total_detail[72 + 500 + 23960];
-  
+
   gi = get_game_info();
   snprintf(details, sizeof details, "\nchecksum: %d\ntick_time: %d\nnb_client: %d\ngame_status: %d\nid_client: %d", gi->checksum, gi->tick_time, gi->nb_client, gi->game_status, gi->id_client);
   for (i = 0; i < 4; i++)
@@ -60,7 +60,7 @@ void			detail_game_info()
   printf("\nfile successfully opened\n");
   //  printf("\nserialized game_info: %s\n", gi);
   fprintf(f, total_detail);
-  
+
   printf("\nwritten in file done\n");
   fclose(f);
   printf("\nfile closed\n");
@@ -69,6 +69,7 @@ void			detail_game_info()
 // le map_pointer segfault
 void	handle_requests(
 			t_game_info *game_info,
+      int num_player,
 			t_player_request *player_request
 			)
 {
@@ -81,8 +82,10 @@ void	handle_requests(
   // Cette fonction segfault
   //  add_destructible_elements(game_info, map_pointer);
   printf("\ndestructible element added\n");
-  // segfault aussi
-  // move_player(game_info, player_request, map_pointer);
+  // Les commandes de mouvement étant assimilées à un int plus grand
+  // On a juste à check si la commande est supérieur aà PLACE_BOMB
+  if (player_request->command > PLACE_BOMB )
+    move_player(game_info, player_request, num_player);
   printf("\nplayer moved\n");
   add_bomb_elements(game_info, map_pointer);
   printf("\nbomb element added\n");

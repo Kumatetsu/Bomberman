@@ -17,14 +17,14 @@
 void	move_player(
 		    t_game_info *game_info,
 		    t_player_request *player_request,
-		    int **map_pointer
+		    int num_player
 		    )
 {
   int	i;
 
   printf("\nmoveplayer, check if player is in map\n");
   if (player_request->x_pos < 0 || player_request->y_pos < 0
-      || player_request->x_pos > 104 || player_request->y_pos > 88)
+      || player_request->x_pos > 720 || player_request->y_pos > 624)
     return;
 
   printf("\nmoveplayer check_collision call\n");
