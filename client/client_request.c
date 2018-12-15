@@ -52,7 +52,7 @@ int         send_request(int s, t_player_request* client_request)
   memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
   memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));
   memcpy(&dumb_static.command, &client_request->command, sizeof(int));
-  write(s, dumb_static, sizeof(t_player_request));
+  write(s, &dumb_static, sizeof(t_player_request));
   return SUCCESS_SEND;
 }
 

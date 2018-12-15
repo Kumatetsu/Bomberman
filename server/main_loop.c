@@ -102,7 +102,7 @@ int			main_loop(t_srv **srv)
       for (i = 0; i < 4; i++)
 	{
 	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
-    	  printf("\nPlayer %d connected?\n", i);
+    printf("\nPlayer %d connected?\n", i);
 	  if ((*srv)->players[i].connected == 1)
 	    {
 	      printf("\nYes\n");
@@ -145,8 +145,6 @@ int			main_loop(t_srv **srv)
 	  else
 	    printf("\nnot connected\n");
 	}
-    }
-  // à réviser le process request
-  // process_requests(srv);
-  return (1);
+  }
+		return (1);
 }

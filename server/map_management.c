@@ -64,7 +64,7 @@ void			add_destructible_elements(
 
 
 // détermine si l'on peut placer une bombe,
-// si une bombe est à l'emplacement, détermine si 
+// si une bombe est à l'emplacement, détermine si
 void			add_bomb_elements(
 					  t_game_info *game_info,
 					  int **map_pointer
