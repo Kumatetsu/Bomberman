@@ -131,11 +131,11 @@ int			main_loop(t_srv **srv)
 		      handle_requests(game_info, i, player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
 		      // On assure au serveur l'origine de la requête
-		      if (player_request->checksum != get_request_checksum(player_request))
+		     /* if (player_request->checksum != get_request_checksum(player_request))
 			{
 			  close((*srv)->players[i].fd);
 			  (*srv)->players[i].connected = 0;
-			}
+			}*/
 		      n = 0;
 		    }
 		  buffer[n] = 0;
