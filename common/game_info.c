@@ -9,10 +9,10 @@
 */
 
 #include <stdlib.h>
-#include "server.h"
-#include "player.h"
-#include "request.h"
 #include "sdl.h"
+#include "player_info.h"
+#include "request.h"
+#include "server.h"
 #include "game_info.h"
 
 static t_game_info *game_info = NULL;
@@ -56,8 +56,8 @@ void                    create_game_info()
     {
       x = random_at_most(13);
       y = random_at_most(11);
-      map_destroyable.y_pos = y * 8;
-      map_destroyable.x_pos = x * 8;
+      map_destroyable.y = y * 8;
+      map_destroyable.x = x * 8;
       map_destroyable.bomb = 0;
       map_destroyable.bomb_owner = -1;
       map_destroyable.dying = 0;
@@ -81,23 +81,23 @@ void    active_player(t_player_info *player)
   switch (player->num_player)
     {
     case 0:
-      player->x_pos = 72;
-      player->y_pos = 72;
+      player->x = 72;
+      player->y = 72;
       player->current_dir = BOMBER_L;
       break;
     case 1:
-      player->x_pos = 648;
-      player->y_pos = 72;
+      player->x = 648;
+      player->y = 72;
       player->current_dir = BOMBER_D;
       break;
     case 2:
-      player->x_pos = 72;
-      player->y_pos = 552;
+      player->x = 72;
+      player->y = 552;
       player->current_dir = BOMBER_U;
       break;
     case 3:
-      player->x_pos = 648;
-      player->y_pos = 552;
+      player->x = 648;
+      player->y = 552;
       player->current_dir = BOMBER_R;
       break;
     }

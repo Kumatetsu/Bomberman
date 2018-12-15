@@ -10,8 +10,11 @@
 */
 
 #include <stdio.h>
-#include "server.h"
+#include "sdl.h"
+#include "enum.h"
+#include "player_info.h"
 #include "request.h"
+#include "server.h"
 #include "game_info.h"
 
 int		**get_array_map() {
@@ -56,7 +59,7 @@ void			add_destructible_elements(
       map_destroyable.exist = 1;
       printf("\nset map_pointer with map_destroyable x_pos et y_pos = WALL\n");
       // segfault ici
-      map_pointer[map_destroyable.x_pos][map_destroyable.y_pos] = WALL;
+      map_pointer[map_destroyable.x][map_destroyable.y] = WALL;
       printf("\nIteration done\n");
     }
   }
@@ -131,7 +134,7 @@ int 			is_there_a_wall(
 	  || game_info->map_destroyable[i][j].bomb == 1)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
+      if (map_destroyable.y == y && map_destroyable.x == x)
 	return 1;
     }
   }

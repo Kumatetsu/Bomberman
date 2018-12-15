@@ -12,4 +12,4 @@ typedef struct	s_data
   SDL_Rect	destroyable[3][3];
 }		t_data;
 
-#endif _DATA_H_
+#endif /* !_DATA_H_ */

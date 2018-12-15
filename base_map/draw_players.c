@@ -7,21 +7,22 @@
 ** Started on  Wed Jul  4 09:30:48 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:30:50 2018 MASERA Mathieu
 */
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
-#include "server.h"
-#include "player.h"
-#include "sdl.h"
-#include "base_map.h"
+#include "constant.h"
+#include "enum.h"
+#include "player_info.h"
+#include "map.h"
+#include "data.h"
+#include "draw_players.h"
 
-void	*draw_player_1(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 36 ,
+void		*draw_player_1(void *arg) {
+  int		error;
+  t_data	*data = (t_data*)arg;
+  SDL_Rect	dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 36 ,
 			16 * 3, 24 * 3};
 
   data->players[0].x = (I_BEGIN + 1) * 48;
@@ -37,13 +38,13 @@ void	*draw_player_1(void *arg) {
 }
 
 //blue bomber
-void	*draw_player_2(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 11) * 48) - 36 ,
+void		*draw_player_2(void *arg)
+{
+  int		error;
+  t_data	*data = (t_data*)arg;
+  SDL_Rect	dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 11) * 48) - 36 ,
 			16 * 3, 24 * 3};
+
   data->players[1].x = (I_BEGIN + 13) * 48;
   data->players[1].y = ((J_BEGIN + 11) * 48) - 36;
   data->players[1].index_sprite = not_move;
@@ -57,13 +58,13 @@ void	*draw_player_2(void *arg) {
 }
 
 //black bomber
-void	*draw_player_3(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 11) * 48) - 36 ,
+void		*draw_player_3(void *arg)
+{
+  int		error;
+  t_data	*data = (t_data*)arg;
+  SDL_Rect	dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 11) * 48) - 36 ,
 			16 * 3, 24 * 3};
+  
   data->players[2].x = (I_BEGIN + 1) * 48;
   data->players[2].y = ((J_BEGIN + 11) * 48) - 36;
   data->players[2].index_sprite = not_move;
@@ -77,13 +78,13 @@ void	*draw_player_3(void *arg) {
 }
 
 //red bomber
-void	*draw_player_4(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 1) * 48) - 36 ,
+void		*draw_player_4(void *arg)
+{
+  int		error;
+  t_data	*data = (t_data*)arg;
+  SDL_Rect	dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 1) * 48) - 36 ,
 			16 * 3, 24 * 3};
+
   data->players[3].x = (I_BEGIN + 13) * 48;
   data->players[3].y = ((J_BEGIN + 1) * 48) - 36;
   data->players[3].index_sprite = not_move;
@@ -95,5 +96,3 @@ void	*draw_player_4(void *arg) {
 			     SDL_GetError(), data->window);
   return (NULL);
 }
-
-

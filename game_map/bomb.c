@@ -10,13 +10,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include "server.h"
-#include "player.h"
+#include "enum.h"
 #include "sdl.h"
-#include "base_map.h"
+#include "map.h"
+#include "player_info.h"
+#include "data.h"
+#include "base_map_manager.h"
 
 void *bomb_sprite(void *arg)
 {

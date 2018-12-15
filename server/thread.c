@@ -14,10 +14,13 @@
 #include <pthread.h>
 #include <time.h>
 #include "my_put.h"
+#include "sdl.h"
+#include "enum.h"
+#include "map.h"
 #include "request.h"
 #include "player_info.h"
+#include "data.h"
 #include "server.h"
-#include "sdl.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 #include "main_loop.h"

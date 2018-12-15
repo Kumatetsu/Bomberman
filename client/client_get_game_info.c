@@ -10,6 +10,9 @@
 
 #include "sdl.h"
 #include "client.h"
+#include "player_info.h"
+#include "request.h"
+#include "server.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 #include "my_put.h"

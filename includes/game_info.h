@@ -11,16 +11,10 @@
 #ifndef _GAME_INFO_H_
 #define _GAME_INFO_H_
 
-#include <stdlib.h>
-#include "server.h"
-#include "player.h"
-#include "player_info.h"
-#include "client.h"
-
 typedef struct 	s_map_destroyable
 {
-  int		y_pos;                  /* La position y de l'element */
-  int		x_pos;                  /* La position x de l'element */
+  int		y;                  /* La position y de l'element */
+  int		x;                  /* La position x de l'element */
   int		bomb;
   int		bomb_owner;
   int		dying;
@@ -39,12 +33,6 @@ typedef struct		s_game_info
   t_player_info		players[4];
   t_map_destroyable	map_destroyable[14][15];
 } 			t_game_info;
-
-enum MAP_GRID {
-  FREE_SLOT = 0,
-  WALL = 1,
-  FIRE = 2,
-};
 
 // server/game_info.c
 t_game_info		*get_game_info();
@@ -74,4 +62,4 @@ int 			apply_explosion(t_map_destroyable element, t_map_destroyable bomb, t_game
 void    		apply_bomb_to_position(t_map_destroyable bomb, int **map_pointer, t_game_info *game_info, int i);
 void			add_request_to_server(t_srv **srv, t_player_request *player_request);
 
-#endif
+#endif /* !_GAME_INFO_H_ */

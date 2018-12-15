@@ -10,11 +10,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include "enum.h"
 #include "sdl.h"
+#include "player_info.h"
+#include "request.h"
+#include "map.h"
+#include "data.h"
 #include "my_put.h"
 #include "client.h"
+#include "server.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
+#include "base_map_manager.h"
+#include "move_player.h"
 #include "thread.h"
 
 void		*thread_listen_serv(void *s)

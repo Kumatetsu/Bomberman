@@ -9,9 +9,11 @@
 */
 
 #include <stdio.h>
+#include "sdl.h"
+#include "request.h"
 #include "player_info.h"
 #include "server.h"
-#include "request.h"
+#include "player.h"
 #include "game_info.h"
 #include "my_put.h"
 #include "main_loop.h"

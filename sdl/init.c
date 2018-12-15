@@ -9,15 +9,15 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include "server.h"
+#include "constant.h"
 #include "sdl.h"
-#include "libmy.h"
+#include "enum.h"
+#include "map.h"
+#include "player_info.h"
 #include "request.h"
-#include "player.h"
-#include "base_map.h"
+#include "server.h"
+#include "libmy.h"
+#include "base_map_manager.h"
 
 //On init la structure avec tous ses champs a NULL
 t_sdl 		*init_sdl()

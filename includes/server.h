@@ -11,8 +11,8 @@
 #ifndef	_SERVER_
 #define _SERVER_
 
-#include "player_info.h"
-#include "request.h"
+// exceptional include
+#include <sys/select.h>
 
 
 # define FD_FREE 0

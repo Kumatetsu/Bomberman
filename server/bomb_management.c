@@ -9,8 +9,11 @@
 */
 
 #include <stdio.h>
-#include "server.h"
+#include "sdl.h"
+#include "enum.h"
+#include "player_info.h"
 #include "request.h"
+#include "server.h"
 #include "game_info.h"
 
 // utilité de wrapper la boucle?
@@ -26,7 +29,7 @@ void			trigger_bomb(
 
   for (j=0; j<2; ++j)
     {
-      pos = (i == 0 ? bomb.x_pos : bomb.y_pos);
+      pos = (i == 0 ? bomb.x : bomb.y);
       for (i = pos; i < pos + 8; ++i)
 	{
 	  apply_bomb_to_position(bomb, map_pointer, game_info, i);
@@ -50,14 +53,9 @@ void			apply_bomb_to_position(
   int 			pos;
   t_map_destroyable	presence;
 
-  pos = (i == 0 ? bomb.x_pos : bomb.y_pos);
+  pos = (i == 0 ? bomb.x : bomb.y);
   is_blocked = 0;
-  // c'est quoi i?
-  // en tout cas, d'un point de vue ensembliste, pos <> current_pos, sémantique fausse
-  current_pos = i == 0 ? bomb.y_pos : bomb.x_pos;
-  // current_pos - 3?
-  // on itère de 3 en dessous de current_pos jusqu'a 3 au dessus,
-  // on semble définir une ligne de 6 sur l'axe x ou y et le traverser
+  current_pos = i == 0 ? bomb.y : bomb.x;
   for (k = (current_pos-3); k < (current_pos+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
@@ -92,13 +90,13 @@ void			destroy_bomb(
   int 			is_blocked;
 
   is_blocked = 0;
-  for (k = (bomb_to_destroy.y_pos-3); k < (bomb_to_destroy.y_pos+3); ++k) {
+  for (k = (bomb_to_destroy.y-3); k < (bomb_to_destroy.y+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
 	is_blocked = (k == 0 ? 0 : 1);
 	continue;
       }
-    if (map_pointer[bomb_to_destroy.x_pos][k] == WALL)
+    if (map_pointer[bomb_to_destroy.x][k] == WALL)
       {
 	is_blocked = 1;
 	continue;
@@ -114,13 +112,13 @@ void			destroy_bomb(
     }
   }
   is_blocked = 0;
-  for (k = (bomb_to_destroy.x_pos-3); k < (bomb_to_destroy.x_pos+3); ++k) {
+  for (k = (bomb_to_destroy.x-3); k < (bomb_to_destroy.x+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
 	is_blocked = (k == 0 ? 0 : 1);
 	continue;
       }
-    if (map_pointer[k][bomb_to_destroy.y_pos] == WALL)
+    if (map_pointer[k][bomb_to_destroy.y] == WALL)
       {
 	is_blocked = 1;
 	continue;
@@ -154,7 +152,7 @@ t_map_destroyable	get_element_at_pos(t_game_info *game_info, int x, int y)
 	  || game_info->map_destroyable[i][j].bomb == 1)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
+      if (map_destroyable.y == y && map_destroyable.x == x)
 	return map_destroyable;
     }
   }

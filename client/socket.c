@@ -19,13 +19,16 @@
 #include <sys/select.h>
 #include <netdb.h>
 #include <pthread.h>
-#include "bomberman.h"
+#include <errno.h>
+#include "enum.h"
 #include "sdl.h"
-#include "client.h"
+#include "map.h"
 #include "player_info.h"
+#include "request.h"
+#include "data.h"
+#include "client.h"
 #include "server.h"
 #include "thread.h"
-#include <errno.h>
 
 //init de la socket client + connection à une socket server.
 int	host_connect()

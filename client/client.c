@@ -16,12 +16,15 @@
 #include <sys/select.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <SDL2/SDL.h>
-#include "server.h"
+#include "enum.h"
 #include "sdl.h"
+#include "player_info.h"
+#include "request.h"
+#include "map.h"
+#include "server.h"
 #include "client.h"
-#include "player.h"
-#include "base_map.h"
+#include "start_map.h"
+#include "base_map_manager.h"
 
 // loop SDL du client.
 // Pour le moment la socket n'est pas récupérée

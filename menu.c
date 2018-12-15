@@ -13,6 +13,7 @@
 #include "sdl.h"
 #include "client.h"
 #include "player_info.h"
+#include "request.h"
 #include "server.h"
 #include <pthread.h>
 

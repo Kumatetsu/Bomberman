@@ -8,11 +8,11 @@
 ** Last update Wed Jul  4 09:33:55 2018 MASERA Mathieu
 */
 
-#include "server.h"
-#include "player.h"
-#include "request.h"
-#include "my_put.h"
 #include "sdl.h"
+#include "player_info.h"
+#include "request.h"
+#include "server.h"
+#include "my_put.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 

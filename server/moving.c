@@ -9,9 +9,12 @@
 */
 
 #include <stdio.h>
-#include "server.h"
 #include "my_put.h"
+#include "enum.h"
+#include "sdl.h"
+#include "player_info.h"
 #include "request.h"
+#include "server.h"
 #include "game_info.h"
 
 void	move_player(
@@ -21,8 +24,8 @@ void	move_player(
 		    )
 {
   printf("\nmoveplayer, check if player is in map\n");
-  if (game_info->players[num_player].x_pos < 0 || game_info->players[num_player].y_pos < 0
-      || game_info->players[num_player].x_pos > 720 || game_info->players[num_player].y_pos > 624)
+  if (player_request->x < 0 || player_request->y < 0
+      || player_request->x > 104 || player_request->y > 88)
     return;
 
   /*

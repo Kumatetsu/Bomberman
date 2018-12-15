@@ -7,7 +7,10 @@
 ** Started on  Fri Jun 29 16:23:26 2018 BILLAUD Jean
 ** Last update Sat Jun 30 16:09:05 2018 MASERA Mathieu
 */
+
 #include "sdl.h"
+#include "enum.h"
+#include "request.h"
 #include "client.h"
 
 void	my_bzero(void *s1, int n)

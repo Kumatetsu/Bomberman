@@ -15,11 +15,17 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+#include "enum.h"
+#include "sdl.h"
+#include "player_info.h"
+#include "request.h"
 #include "server.h"
 #include "player.h"
-#include "sdl.h"
+#include "map.h"
 #include "data.h"
-#include "base_map.h"
+#include "base_map_manager.h"
+#include "draw_base_map.h"
+#include "draw_players.h"
 #include "game_info.h"
 
 // wrapper to init an SDL_Rect
