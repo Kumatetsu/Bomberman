@@ -11,7 +11,6 @@
 #ifndef	_SERVER_
 #define _SERVER_
 
-#include "player.h"
 #include "player_info.h"
 #include "request.h"
 
@@ -34,11 +33,14 @@ typedef struct		s_srv
   t_player_request	*requests[8];
   int			fd_max;
   int			n_players;
+  int			running;
 }			t_srv;
 
 void	*init_server();
-int	accept_players(t_srv **srv);
-int	add_player(t_srv **s, int fd);
 int	create_server_socket();
+int	server_is_full(t_srv **srv);
+int	is_enought_players(t_srv **srv);
+void	set_fd_max(t_srv **srv);
+void	process_requests(t_srv **srv);
 
 #endif

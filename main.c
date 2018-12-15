@@ -13,6 +13,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include "server.h"
 #include "sdl.h"
 #include "menu.h"
 #include "request.h"

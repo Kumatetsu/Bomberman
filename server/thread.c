@@ -37,6 +37,7 @@ void			my_sleep(int sec, int milli)
   nanosleep(&req, NULL);
 }
 
+// ticker
 void		*threaded_ticker(void *server)
 {
   char		log[50];
@@ -57,8 +58,6 @@ void		*threaded_ticker(void *server)
     {
       sprintf(log, "\nTick: %d", (*tk));
       my_putstr(log);
-      sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
-      my_putstr(log);
       my_sleep(0, 5000);
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
@@ -77,7 +76,6 @@ void		*threaded_ticker(void *server)
             memcpy(&dumb_static.map_destroyable[k][j], &game_info->map_destroyable[k][j], sizeof(t_map_destroyable));
           }
         }
-        printf("SOCKET SOCKET %d\n", socket);
         write(socket, &dumb_static, sizeof(t_game_info) + 1);
       }
       ++(*tk);
@@ -85,10 +83,20 @@ void		*threaded_ticker(void *server)
     }
 }
 
+// la main_loop du server tourne sur un thread
+// en l'état, on boucle indéfiniment sur la fonction main_loop
+// main_loop retourne 
 void	*threaded_main_loop(void *server)
 {
   t_srv **srv;
-
+  int	check;
+  
   srv = (t_srv **)server;
-  while (1) { main_loop(srv); }
+  while (1) {
+    // retourne 0 si erreur sur select ou accept_player
+    // retourne 1 si la boucle va au bout, traitement ou non
+    check = main_loop(srv);
+    printf("\n\nMain loop exit with code: %d\n", check);
+  }
 }
+

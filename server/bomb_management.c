@@ -13,6 +13,7 @@
 #include "request.h"
 #include "game_info.h"
 
+// utilité de wrapper la boucle?
 void			trigger_bomb(
 				     t_game_info *game_info,
 				     int **map_pointer,
@@ -33,6 +34,7 @@ void			trigger_bomb(
     }
 }
 
+// logique pas comprise
 void			apply_bomb_to_position(
 					       t_map_destroyable bomb,
 					       int **map_pointer,
@@ -50,13 +52,21 @@ void			apply_bomb_to_position(
 
   pos = (i == 0 ? bomb.x_pos : bomb.y_pos);
   is_blocked = 0;
+  // c'est quoi i?
+  // en tout cas, d'un point de vue ensembliste, pos <> current_pos, sémantique fausse
   current_pos = i == 0 ? bomb.y_pos : bomb.x_pos;
+  // current_pos - 3?
+  // on itère de 3 en dessous de current_pos jusqu'a 3 au dessus,
+  // on semble définir une ligne de 6 sur l'axe x ou y et le traverser
   for (k = (current_pos-3); k < (current_pos+3); ++k) {
     if (k == 0 || is_blocked == 1)
       {
 	is_blocked = (k == 0 ? 0 : 1);
 	continue;
       }
+    // ??????
+    // x = -3 < current_pos < +3
+    // OU x = i == 0 ? x : y
     x = i == 0 ? k : pos;
     y = i == 0 ? pos : k;
     if (map_pointer[x][y] == WALL)

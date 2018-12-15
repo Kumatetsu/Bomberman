@@ -12,8 +12,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdlib.h>
+#include "server.h"
 #include "sdl.h"
-#include "request.h"
 #include "player.h"
 #include "base_map.h"
 

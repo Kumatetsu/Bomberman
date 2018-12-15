@@ -14,6 +14,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+#include "server.h"
 #include "sdl.h"
 #include "client.h"
 #include "player_info.h"
@@ -100,6 +101,12 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
           //rebuild_map((void *)data);
           //move_player_down((void *)data);
           send_request(socket, cr);
+          break;
+        case SDLK_SPACE:
+	  printf("\nI WANT A BOMB\n");
+	  cr->command = PLACE_BOMB;
+	  printf("\nplayer request: %d\n", cr->command);
+	  send_request(socket, cr);
           break;
         }
       }

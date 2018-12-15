@@ -3,8 +3,7 @@
 **
 ** Made by BILLAUD Jean
 ** Login   <billau_j@etna-alternance.net>
-**
-** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
+**** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
 ** Last update Tue Jul  3 23:30:31 2018 MASERA Mathieu
 */
 
@@ -18,28 +17,34 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <SDL2/SDL.h>
+#include "server.h"
 #include "sdl.h"
 #include "client.h"
 #include "player.h"
 #include "base_map.h"
 
-//loop SDL du client.
+// loop SDL du client.
 // Pour le moment la socket n'est pas récupérée
 void			init_client(t_sdl *sdl)
 {
   int			cs;
   char			*addr;
   t_player_request 	*cr;
+
+  // on attend que l'adresse soit écrite par le user (ce fichier, client/client.c)
   addr = enter_addr(sdl);
+  // une fois l'adresse ip écrite, on tente de connecter (client/socket.c)
   cs = client_connect(addr);
-  printf("\nafterClientConnect\n");
+  // on crée l'objet player_request qui permettra de transporter les requetes du user (client/client_request.c)
   cr = create_player_request();
-  printf("\nrequestCreated\n");
+  printf("\nClient connected, player request created\nCALL START MAP FOR NEW CLIENT");
+  // on démarre la boucle cliente (start_map.c)
   start_map(sdl, cs, cr);
   free_player_request(cr);
 
 }
 
+// Fonction gérant l'écriture de l'ip dans le menu après un click sur 'join server'
 char		*enter_addr(t_sdl *sdl)
 {
   int		quit = 0;
