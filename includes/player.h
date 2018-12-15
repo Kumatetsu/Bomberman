@@ -15,6 +15,7 @@
  DEPRECATED PART
 */
 #include <SDL2/SDL.h>
+#include "server.h"
 
 typedef struct	s_player
 {

@@ -61,27 +61,31 @@ void add_destructible_elements(
       map_pointer[map_destroyable.x_pos][map_destroyable.y_pos] = WALL;
       printf("\nIteration done\n");
     }
+  }
 }
 
 
 // détermine si l'on peut placer une bombe,
 // si une bombe est à l'emplacement, détermine si 
 void			add_bomb_elements(
-					  t_game_info *game_info,
-					  int **map_pointer
-					  )
+    t_game_info *game_info,
+    int **map_pointer
+    )
 {
     int i;
     int j;
     t_map_destroyable map_destroyable;
 
   printf("\nAdd_bomb_element iterate through map_destroyable\n");
-  for (i = 1; i < 14; ++i) {
-    for (j = 1; j < 15; ++j) {
+  for (i = 1; i < 14; ++i) 
+  {
+    for (j = 1; j < 15; ++j) 
+    {
       // On vérifie que l'élément peut supporter l'ajout d'une bomb
       printf("\ncheck if map_destroyable %d/%d exist\n", i, j);
       if (game_info->map_destroyable[i][j].exist == 0)
-	continue;
+	    continue;
+
       printf("\nset a variable with this gqme_info->map_destroyable\n");
       map_destroyable = game_info->map_destroyable[i][j];
       // si l'emplacement n'est pas une bomb
@@ -91,27 +95,28 @@ void			add_bomb_elements(
 	  || (map_destroyable.bomb == 1
 	      && game_info->tick_time < map_destroyable.start_explode)
 	  )
-	{
-	  printf("\nc'est une bombe, déjà placée, qui n'explose pas\n");
-	  continue;
-	}
+        {
+            printf("\nc'est une bombe, déjà placée, qui n'explose pas\n");
+            continue;
+        }
       printf("\ncheck if start_explode + 5 == tick_time (?)\n");
       if (map_destroyable.start_explode + 5 == game_info->tick_time)
-	{
-	  // c'est une bombe, il est temps qu'elle pète
-	  printf("\ncall destroy bomb\n");
-	  destroy_bomb(game_info, map_pointer, map_destroyable);
-	  continue;
-	}
+        {
+            // c'est une bombe, il est temps qu'elle pète
+            printf("\ncall destroy bomb\n");
+            destroy_bomb(game_info, map_pointer, map_destroyable);
+            continue;
+        }
       printf("\ncall trigger_bomb\n");
       // libre, c'est un dépot de bomb, on l'a trigger
       trigger_bomb(game_info, map_pointer, map_destroyable);
-      printf("\ntrigger_bomb done\n");
+      //printf("\ntrigger_bomb done\n");
     }
-    printf("\nnext column\n");
+    //printf("\nnext column\n");
   }
-  printf("\nadd_bomb_elements done\n");
+  //printf("\nadd_bomb_elements done\n");
 }
+
 
 // code mort
 int is_there_a_wall(

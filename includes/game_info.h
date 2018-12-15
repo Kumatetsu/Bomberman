@@ -51,6 +51,14 @@ enum MAP_GRID
   FREE_SLOT_SHADOW = 3,
 };
 
+t_game_info		*get_game_info();
+void			set_game_info(t_game_info *new_game_info);
+void			create_game_info();
+long			random_at_most(long max);
+void		        active_player(t_player_info *player);
+int			is_running();
+void			start_game(t_srv **srv);
+
 int **get_array_map();
 void add_destructible_elements(t_game_info *game_info, int **map_pointer);
 void add_bomb_elements(t_game_info *game_info, int **map_pointer);
@@ -59,10 +67,10 @@ void destroy_bomb(t_game_info *game_info,
                   t_map_destroyable bomb_to_destroy);
 t_map_destroyable get_element_at_pos(t_game_info *game_info, int x, int y);
 void trigger_bomb(t_game_info *game_info, int **map_pointer, t_map_destroyable bomb);
-void handle_requests(t_game_info **game_info, t_player_request *player_request, int num_player);
+void			handle_requests(t_game_info *game_info, t_player_request *player_request);
 int check_collision(int **map, t_player_request *player_request);
-void move_player(t_game_info **game_info, t_player_request *player_request, int num_player);
-void create_game_info(t_srv **srv);
+void move_player(t_game_info **game_info, t_player_request *player_request);
+void create_game_info();
 long random_at_most(long max);
 void specify_player_info(int i, t_game_info *game_info);
 void process_requests(t_srv **server);

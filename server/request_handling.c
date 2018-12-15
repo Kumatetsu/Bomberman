@@ -68,9 +68,8 @@ void			detail_game_info()
 
 // le map_pointer segfault
 void	handle_requests(
-			t_game_info **game_info,
-			t_player_request *player_request,
-      int num_player
+			t_game_info *game_info,
+			t_player_request *player_request
 			)
 {
   // int	**map_pointer;
@@ -78,7 +77,7 @@ void	handle_requests(
   // map_pointer = get_array_map();
   // add_destructible_elements(game_info, map_pointer);
   printf("HANDLE_REQUESTS\n\n");
-  move_player(game_info, player_request, num_player);
+  move_player(&game_info, player_request);
   // add_bomb_elements(game_info, map_pointer);
   // if (player_request->command == PLACE_BOMB)
   //   place_bomb(game_info, player_request);

@@ -64,7 +64,7 @@ void		*init_server()
   pthread_join(main_thread, NULL);
   return (NULL);
 }
-
+/*
 int add_player(t_srv **srv, int fd)
 {
   t_player_info new_player;
@@ -81,12 +81,13 @@ int add_player(t_srv **srv, int fd)
   /**
    ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
    */
+  /*
   (*srv)->players[(*srv)->n_players] = new_player;
   (*srv)->n_players++;
   printf("player added");
   return (1);
 }
-
+*/
 int create_server_socket()
 {
   int s;
@@ -105,6 +106,22 @@ int create_server_socket()
   if (listen(s, 42) == -1)
     return (-1);
   return (s);
+}
+
+// retourne 1 si il y a plus de 4 joueurs
+int     server_is_full(t_srv **srv)
+{
+  if ((*srv)->n_players >= 4)
+    return 1;
+  return 0;
+}
+
+// défini si le serveur peut lancer la partie
+int     is_enought_players(t_srv **srv)
+{
+  if ((*srv)->n_players >= 2 && (*srv)->n_players < 5)
+    return 1;
+  return 0;
 }
 
 // TODO: fonction non utilisée?

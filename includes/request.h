@@ -32,6 +32,7 @@ typedef struct	s_player_request
   int		         checksum;        /* Un checksum simple */
   unsigned int	 magic;           /* Un magic number common entre le client et le serveur, ou l'identifiant d'un type de structure */
   int            command;
+  int		         num_player;
 }		t_player_request;
 
 /*
