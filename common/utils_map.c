@@ -1,5 +1,5 @@
 /*
-** draw_base_map.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/base_map
+** utils_map.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/utils_map
 **
 ** Made by MASERA Mathieu
 ** Login   <masera_m@etna-alternance.net>
@@ -15,12 +15,13 @@
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
 #include "request.h"
+#include "server.h"
 #include "player.h"
 #include "sdl.h"
 #include "base_map.h"
 #include "game_info.h"
 
-void *draw_map_loop(int i, int j) {
+int draw_map_loop(int i, int j) {
     int code;
 
     if (j == J_BEGIN || j == J_BEGIN + 12 || i == I_BEGIN || i == I_BEGIN + 14) {
@@ -36,8 +37,4 @@ void *draw_map_loop(int i, int j) {
     }
 
     return code;
-}
-
-void *render_error(char *title, char *message) {
-    SDL_ShowSimpleMessageBox(0, title, message, data->window);
 }

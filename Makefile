@@ -24,7 +24,7 @@ SRC 	= 	main.c 					\
 		common/game_info_serialization.c	\
 		common/request_serialization.c		\
 		common/my_putchar.c			\
-		common/map_utils.c			\
+		common/utils_map.c			\
 		common/my_putstr.c			\
 		common/game_info.c			\
 		game_map/white_bomber.c			\
