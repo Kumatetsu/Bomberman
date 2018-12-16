@@ -62,6 +62,7 @@ void		*threaded_ticker(void *server)
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
         game_info->id_client = i;
+        // set_game_info(game_info);
         memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
         memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
         memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
