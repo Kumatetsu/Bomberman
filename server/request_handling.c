@@ -39,7 +39,7 @@ void			detail_game_info()
       p = gi->players[i];
       if (p.connected)
         printf("PLAYER CONNECTED:\nnum_player: %d\nx_pos: %d\ny_pos: %d\n", i, p.x_pos, p.y_pos);
-      snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx_pos: %d\ny_pos: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x_pos, p.y_pos, p.current_dir, p.bomb_left, p.fd, p.num_player);
+      snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx: %d\ny: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x, p.y, p.current_dir, p.bomb_left, p.fd, p.num_player);
     }
   for (j = 0; j < 14; j++)
     {
@@ -48,7 +48,7 @@ void			detail_game_info()
 	  m = gi->map_destroyable[0][0];
 	  if (m.exist == 1)
 	    {
-	      snprintf(map_detail, sizeof map_detail, "\nMap detail for [%d][%d]:\ny_pos: %d\nx_pos: %d\nbomb: %d\nbomb_owner: %d\nstart_explode:%d\nwall_destroyable: %d\nexist: %d\n", j, i, m.y_pos, m.x_pos, m.bomb, m.bomb_owner, m.start_explode, m.wall_destroyable, m.exist);
+	      snprintf(map_detail, sizeof map_detail, "\nMap detail for [%d][%d]:\ny: %d\nx: %d\nbomb: %d\nbomb_owner: %d\nstart_explode:%d\nwall_destroyable: %d\nexist: %d\n", j, i, m.y, m.x, m.bomb, m.bomb_owner, m.start_explode, m.wall_destroyable, m.exist);
 	    }
 
 	}
