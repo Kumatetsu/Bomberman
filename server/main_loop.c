@@ -81,9 +81,7 @@ int			main_loop(t_srv **srv)
     }
 		//(!is_running() && is_enought_players(srv))
       // FOR DEV
-      //||
-  if (((*srv)->n_players && !is_running())
-      )
+  if (((*srv)->n_players && !is_running()))
     {
       // server.h
       // set le game_status à 1
