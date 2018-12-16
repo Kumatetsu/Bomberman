@@ -64,9 +64,9 @@ void			destroy_bomb(t_game_info *game_info,
 				     t_map_destroyable bomb_to_destroy);
 t_map_destroyable	get_element_at_pos(t_game_info *game_info, int x, int y);
 void			trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable bomb);
-void			handle_requests(t_game_info *game_info, t_player_request *player_request);
+void			handle_requests(t_game_info *game_info, int num_player, t_player_request *player_request);
 int			check_collision(int** map, t_player_request *player_request);
-void			move_player(t_game_info *game_info, t_player_request *player_request, int **map_pointer);
+void			move_player(t_game_info *game_info, t_player_request *player_request, int num_player);
 void			add_request_to_server(t_srv **srv, t_player_request *player_request);
 void			place_bomb(t_game_info *game_info, t_player_request *player_request);
 int 			apply_explosion(t_map_destroyable element, t_map_destroyable bomb, t_game_info *game_info,

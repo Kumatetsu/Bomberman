@@ -62,7 +62,6 @@ void		*threaded_ticker(void *server)
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
         game_info->id_client = i;
-        set_game_info(game_info);
         memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
         memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
         memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
@@ -85,12 +84,12 @@ void		*threaded_ticker(void *server)
 
 // la main_loop du server tourne sur un thread
 // en l'état, on boucle indéfiniment sur la fonction main_loop
-// main_loop retourne 
+// main_loop retourne
 void	*threaded_main_loop(void *server)
 {
   t_srv **srv;
   int	check;
-  
+
   srv = (t_srv **)server;
   while (1) {
     // retourne 0 si erreur sur select ou accept_player
@@ -99,4 +98,3 @@ void	*threaded_main_loop(void *server)
     printf("\n\nMain loop exit with code: %d\n", check);
   }
 }
-

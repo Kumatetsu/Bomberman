@@ -15,7 +15,7 @@
 #include "sdl.h"
 #include "game_info.h"
 
-static t_game_info *game_info;
+static t_game_info *game_info = NULL;
 
 t_game_info	*get_game_info()
 {
@@ -50,7 +50,7 @@ void                    create_game_info()
   int                   i;
   int                   x;
   int                   y;
-  
+
   game_info->game_status = 0;
   for (i = 0; i < 32; ++i)
     {
@@ -71,26 +71,33 @@ void                    create_game_info()
 void    active_player(t_player_info *player)
 {
   player->connected = 1;
+  /*
+  * un bloc fait 48px
+  * ordonnée: 13 blocks
+  * abscice: 15 blocks
+  * par défaut on place un joueur au milieux d'un case
+  * exemple placement joueur 1 : 48 + 24 = 72 pour la case x = y = 2
+  */
   switch (player->num_player)
     {
     case 0:
-      player->x_pos = 2;
-      player->y_pos = 2;
+      player->x_pos = 72;
+      player->y_pos = 72;
       player->current_dir = BOMBER_L;
       break;
     case 1:
-      player->x_pos = 101;
-      player->y_pos = 2;
+      player->x_pos = 648;
+      player->y_pos = 72;
       player->current_dir = BOMBER_D;
       break;
     case 2:
-      player->x_pos = 2;
-      player->y_pos = 85;
+      player->x_pos = 72;
+      player->y_pos = 552;
       player->current_dir = BOMBER_U;
       break;
     case 3:
-      player->x_pos = 101;
-      player->y_pos = 85;
+      player->x_pos = 648;
+      player->y_pos = 552;
       player->current_dir = BOMBER_R;
       break;
     }
