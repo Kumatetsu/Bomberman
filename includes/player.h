@@ -11,25 +11,6 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-/*
- DEPRECATED PART
-*/
-
-typedef struct	s_player
-{
-  int		fd;
-  char		*identity;
-  int		x;
-  int		y;
-  int		disabled;
-  int		looking;
-  int		index_sprite;
-  SDL_Rect	bomber_sprites[5][4];
-}		t_player;
-
-/*
-  END OF DEPRECATED PART
- */
 int add_player(t_srv **srv, int fd);
 int accept_players(t_srv **srv);
 

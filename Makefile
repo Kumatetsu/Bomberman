@@ -18,23 +18,22 @@ LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
 
 SRC 	= 	main.c 					\
 		menu.c					\
+	 	start_map.c				\
+		sdl.c	 				\
+		move_player.c				\
 		common/game_info_serialization.c	\
 		common/request_serialization.c		\
 		common/my_putchar.c			\
 		common/my_putstr.c			\
 		common/game_info.c			\
-		start_map.c				\
 		game_map/white_bomber.c			\
 		game_map/blue_bomber.c			\
 		game_map/red_bomber.c			\
 		game_map/black_bomber.c			\
 		game_map/bomb.c				\
-	 	sdl/init.c 				\
 		client/client.c 			\
-		client/socket.c				\
 		client/client_request.c			\
-		client/client_get_game_info.c		\
-		client/client_socket_thread.c		\
+		client/client_receive.c			\
 		server/server.c				\
 		server/thread.c				\
 		server/bomb_management.c		\
@@ -46,7 +45,6 @@ SRC 	= 	main.c 					\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\
-		move_player.c				\
 
 OBJ 	= ${SRC:%.c=%.o}
 

@@ -11,7 +11,20 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-typedef struct	s_map {
+typedef struct	s_map_destroyable
+{
+  int		x;
+  int		y;
+  int		bomb;
+  int		bomb_owner;
+  int		dying;
+  int		start_explode;
+  int		wall_destroyable;
+  int		exist;
+}		t_map_destroyable;
+
+typedef struct	s_map
+{
   SDL_Rect	src_rect;
   SDL_Rect	dest_rect;
   texture_type	texture_type;

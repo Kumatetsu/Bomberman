@@ -9,13 +9,18 @@
 */
 
 #include <stdio.h>
+#include "enum.h"
 #include "sdl.h"
-#include "request.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "request_serialization.h"
 #include "player_info.h"
 #include "server.h"
 #include "player.h"
+#include "map.h"
 #include "game_info.h"
 #include "my_put.h"
+#include "request_handling.h"
 #include "main_loop.h"
 
 int			main_loop(t_srv **srv)
@@ -26,7 +31,7 @@ int			main_loop(t_srv **srv)
   int			retval;
   t_player_request	*player_request;
   t_game_info		*game_info;
-
+  
   printf("\n\nMain_loop entry\n");
   i = 0;
   // On initialise direct la game_info
@@ -35,7 +40,7 @@ int			main_loop(t_srv **srv)
   	create_game_info();
   // puis on récupère la static remplie
   game_info = get_game_info();
-
+  
   printf("\nFDZERO\n");
   FD_ZERO(&(*srv)->fd_read);
   printf("\nFDSET\n");
@@ -58,10 +63,10 @@ int			main_loop(t_srv **srv)
 	    }
 	}
     }
-
+  
   // set_fd_max(srv);
   printf("\nfd_max after: %d\n", (*srv)->fd_max);
-
+  
   // select sur la socket server
   printf("\nselect\n");
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
@@ -98,13 +103,12 @@ int			main_loop(t_srv **srv)
       // FOR DEV
       || (*srv)->n_players)
     {
-
       printf("\nITERATE THROUGHT PLAYERS\n");
       // pour les joueurs...
       for (i = 0; i < 4; i++)
 	{
 	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
-    printf("\nPlayer %d connected?\n", i);
+	  printf("\nPlayer %d connected?\n", i);
 	  if ((*srv)->players[i].connected == 1)
 	    {
 	      printf("\nYes\n");
@@ -129,16 +133,16 @@ int			main_loop(t_srv **srv)
 		      // on désérialize
 		      player_request = request_deserialize(buffer);
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
-					printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);
+		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);
 		      // on modifie la game_info
 		      handle_requests(game_info, i, player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
 		      // On assure au serveur l'origine de la requête
-		     /* if (player_request->checksum != get_request_checksum(player_request))
-			{
-			  close((*srv)->players[i].fd);
-			  (*srv)->players[i].connected = 0;
-			}*/
+		      /* if (player_request->checksum != get_request_checksum(player_request))
+			 {
+			 close((*srv)->players[i].fd);
+			 (*srv)->players[i].connected = 0;
+			 }*/
 		      n = 0;
 		    }
 		  buffer[n] = 0;
@@ -148,6 +152,6 @@ int			main_loop(t_srv **srv)
 	  else
 	    printf("\nnot connected\n");
 	}
-  }
-		return (1);
+    }
+  return (1);
 }

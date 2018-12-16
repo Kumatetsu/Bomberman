@@ -10,27 +10,18 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <pthread.h>
 // sur!
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
 #include "map.h"
-#include "request.h"
+#include "client_receive.h"
+#include "client_request.h"
 #include "player_info.h"
 #include "data.h"
 #include "thread.h"
 #include "base_map_manager.h"
-// pas sur!
-/*
-#include "server.h"
-#include "client.h"
-#include "game_info.h"
-#include "game_info_serialization.h"
-*/ 
 #include "start_map.h"
 
 int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
@@ -39,7 +30,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_Event	event;
   t_data	*data;
   t_thread	*struct_thread;
-  pthread_t	listen_server;
+  pthread_t	listen_server_thread;
 
   quit = 0;
   data = malloc(sizeof(*data));
@@ -55,7 +46,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
   printf("\nbefore create thread\n");
-  if (pthread_create(&listen_server, NULL, thread_listen_serv, struct_thread))
+  if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
   {
     quit = 1;
   }
@@ -120,7 +111,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
       }
     }
   }
-  pthread_cancel(listen_server);
+  pthread_cancel(listen_server_thread);
   SDL_DestroyTexture(data->texture);
   free(data);
   return 0;

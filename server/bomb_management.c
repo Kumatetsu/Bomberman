@@ -12,9 +12,11 @@
 #include "sdl.h"
 #include "enum.h"
 #include "player_info.h"
-#include "request.h"
+#include "client_request.h"
 #include "server.h"
+#include "map.h"
 #include "game_info.h"
+#include "bomb_management.h"
 
 // utilité de wrapper la boucle?
 void			trigger_bomb(

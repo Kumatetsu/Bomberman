@@ -8,8 +8,8 @@
 ** Last update Thu Jul  5 21:38:07 2018 hochar_n
 */
 
-#ifndef _REQUEST_H_
-#define _REQUEST_H_
+#ifndef _CLIENT_REQUEST_H_
+#define _CLIENT_REQUEST_H_
 
 #include <sys/select.h>
 #include <sys/time.h>
@@ -34,12 +34,9 @@ typedef struct s_player_request
 }		t_player_request;
 
 void			my_bzero(void *s1, int n);
-int			send_request(int s, t_player_request *client_request);
-int			get_msg(int s);
 t_player_request* 	create_player_request();
 int 			free_player_request(t_player_request* client_request);
-char* 			request_serialization(t_player_request* client_request);
-t_player_request* 	request_deserialize(char* serialized_request);
+int			send_request(int s, t_player_request *client_request);
 int			get_request_checksum(t_player_request* client_request);
 
-#endif
+#endif /* !_CLIENT_REQUEST_H_ */

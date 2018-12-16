@@ -11,18 +11,6 @@
 #ifndef _GAME_INFO_H_
 #define _GAME_INFO_H_
 
-typedef struct 	s_map_destroyable
-{
-  int		y;                  /* La position y de l'element */
-  int		x;                  /* La position x de l'element */
-  int		bomb;
-  int		bomb_owner;
-  int		dying;
-  int		start_explode;
-  int		wall_destroyable;
-  int		exist;
-}		t_map_destroyable;
-
 typedef struct		s_game_info
 {
   int			checksum;               /* Un checksum simple */
@@ -34,7 +22,6 @@ typedef struct		s_game_info
   t_map_destroyable	map_destroyable[14][15];
 } 			t_game_info;
 
-// server/game_info.c
 t_game_info		*get_game_info();
 void			set_game_info(t_game_info *new_game_info);
 void			create_game_info();
@@ -42,24 +29,5 @@ long			random_at_most(long max);
 void		        active_player(t_player_info *player);
 int			is_running();
 void			start_game(t_srv **srv);
-//
-//
-int**			get_array_map();
-void			add_destructible_elements(t_game_info *game_info, int** map_pointer);
-void			add_bomb_elements(t_game_info *game_info, int** map_pointer);
-void			destroy_bomb(t_game_info *game_info,
-				     int** map_pointer,
-				     t_map_destroyable bomb_to_destroy);
-t_map_destroyable	get_element_at_pos(t_game_info *game_info, int x, int y);
-void			trigger_bomb(t_game_info *game_info, int** map_pointer, t_map_destroyable bomb);
-void			handle_requests(t_game_info *game_info, int num_player, t_player_request *player_request);
-int			check_collision(int** map, t_player_request *player_request);
-void			move_player(t_game_info *game_info, t_player_request *player_request, int num_player);
-void			add_request_to_server(t_srv **srv, t_player_request *player_request);
-void			place_bomb(t_game_info *game_info, t_player_request *player_request);
-int 			apply_explosion(t_map_destroyable element, t_map_destroyable bomb, t_game_info *game_info,
-							   int **map_pointer);
-void    		apply_bomb_to_position(t_map_destroyable bomb, int **map_pointer, t_game_info *game_info, int i);
-void			add_request_to_server(t_srv **srv, t_player_request *player_request);
 
 #endif /* !_GAME_INFO_H_ */

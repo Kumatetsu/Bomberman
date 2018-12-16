@@ -9,10 +9,12 @@
 */
 
 #include <stdlib.h>
+#include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
-#include "request.h"
+#include "client_request.h"
 #include "server.h"
+#include "map.h"
 #include "game_info.h"
 
 static t_game_info *game_info = NULL;

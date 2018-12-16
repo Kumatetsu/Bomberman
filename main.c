@@ -14,7 +14,7 @@
 #include "sdl.h"
 #include "map.h"
 #include "player_info.h"
-#include "request.h"
+#include "client_request.h"
 #include "server.h"
 #include "menu.h"
 #include "player.h"

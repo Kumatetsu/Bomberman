@@ -12,11 +12,13 @@
 #include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
-#include "request.h"
+#include "client_request.h"
 #include "server.h"
 #include "my_put.h"
+#include "map.h"
 #include "game_info.h"
-
+#include "moving.h"
+#include "request_handling.h"
 // for trace
 #include "game_info_serialization.h"
 
@@ -92,12 +94,14 @@ void	handle_requests(
   if (player_request->command > PLACE_BOMB )
     move_player(game_info, player_request, num_player);
   printf("\nplayer moved\n");
-  // add_bomb_elements(game_info, map_pointer);
-  // printf("\nbomb element added\n");
+  // dans server/map_management.c
+  // manage_bombs(game_info, map_pointer);
+  // printf("\nbomb element managed\n");
   if (player_request->command == PLACE_BOMB)
     {
       printf("\nplace bomb\n");
       /*En standby*/
+      // dans ce fichier
       // place_bomb(game_info, player_request);
       printf("\nbomb placed\n");
     }

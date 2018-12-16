@@ -16,10 +16,12 @@
 #include <sys/select.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <netdb.h>
+#include <errno.h>
 #include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
-#include "request.h"
+#include "client_request.h"
 #include "map.h"
 #include "server.h"
 #include "client.h"
@@ -108,6 +110,39 @@ char		*enter_addr(t_sdl *sdl)
     SDL_RenderPresent(sdl->renderer);
     SDL_SetRenderTarget(sdl->renderer, NULL);
   }
-
   return addr;
+}
+
+//init de la socket client + connection à une socket server.
+int			client_connect(char *serv_addr)
+{
+  struct protoent       *pe;
+  struct sockaddr_in    sin;
+  int			s;
+  int			port;
+
+  memset(&sin, 0, sizeof(struct sockaddr_in));
+  port = PORT;
+  pe = getprotobyname("TCP");
+  if (pe == NULL)
+    {
+      printf("error protocole for socket client");
+      return (-1);
+    }
+  s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
+  if (s == -1)
+    {
+      printf("error socket client");
+      return (-1);
+    }
+  sin.sin_family = AF_INET;
+  sin.sin_port = htons(port);
+  sin.sin_addr.s_addr = inet_addr(serv_addr);
+  if(connect(s, (const struct sockaddr *)&sin, sizeof (sin)) == -1)
+    {
+      printf("error connection\n");
+      exit(errno);
+    }
+  printf("connected\n");
+  return (s);
 }

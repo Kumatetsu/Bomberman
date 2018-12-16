@@ -8,8 +8,8 @@
 ** Last update Tue Jul  3 23:42:26 2018 hochar_n
 */
 
-#ifndef	_SERVER_
-#define _SERVER_
+#ifndef	_SERVER_H_
+#define _SERVER_H_
 
 // exceptional include
 #include <sys/select.h>
@@ -43,4 +43,4 @@ int	is_enought_players(t_srv **srv);
 void	set_fd_max(t_srv **srv);
 void	process_requests(t_srv **srv);
 
-#endif
+#endif /* !_SERVER_H_ */

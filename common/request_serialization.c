@@ -9,22 +9,8 @@
 */
 
 #include <stdio.h>
-#include "request.h"
-
-int	get_request_checksum(t_player_request* client_request)
-{
-  int	checksum = 0;
-  int	i;
-
-  unsigned char *p = (unsigned char *)&client_request->magic;
-  for (i = 0; i<(int)sizeof(client_request->magic); i++) {
-    checksum += p[i];
-  }
-  p = (unsigned char *)&client_request->command;
-  for (i = 0; i<(int)sizeof(client_request->command); i++)
-    checksum += p[i];
-  return checksum;
-}
+#include "client_request.h"
+#include "request_serialization.h"
 
 char*	request_serialization(t_player_request* client_request)
 {

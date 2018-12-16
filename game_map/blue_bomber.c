@@ -16,6 +16,7 @@
 #include "player_info.h"
 #include "data.h"
 #include "base_map_manager.h"
+#include "game_map.h"
 
 void *blue_bomber_sprite(void *arg)
 {

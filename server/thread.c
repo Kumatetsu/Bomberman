@@ -17,7 +17,7 @@
 #include "sdl.h"
 #include "enum.h"
 #include "map.h"
-#include "request.h"
+#include "client_request.h"
 #include "player_info.h"
 #include "data.h"
 #include "server.h"

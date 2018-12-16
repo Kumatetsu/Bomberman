@@ -10,15 +10,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <pthread.h>
 #include "constant.h"
 #include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
-#include "request.h"
+#include "client_request.h"
 #include "server.h"
 #include "map.h"
 #include "base_map_manager.h"
