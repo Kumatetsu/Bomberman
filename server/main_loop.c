@@ -29,7 +29,8 @@ int			main_loop(t_srv **srv)
   i = 0;
   // On initialise direct la game_info
   // on utilise ensuite is_running() pour savoir si ca tourne
-  create_game_info();
+	if (NULL == get_game_info())
+  	create_game_info();
   // puis on récupère la static remplie
   game_info = get_game_info();
 
@@ -78,9 +79,10 @@ int			main_loop(t_srv **srv)
 	  game_info->players[i] = (*srv)->players[i];
 	}
     }
-  if ((!is_running() && is_enought_players(srv))
+		//(!is_running() && is_enought_players(srv))
       // FOR DEV
-      || (*srv)->n_players
+      //||
+  if (((*srv)->n_players && !is_running())
       )
     {
       // server.h
@@ -127,6 +129,7 @@ int			main_loop(t_srv **srv)
 		      // on désérialize
 		      player_request = request_deserialize(buffer);
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
+					printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);
 		      // on modifie la game_info
 		      handle_requests(game_info, i, player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));

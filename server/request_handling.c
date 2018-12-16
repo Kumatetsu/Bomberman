@@ -34,6 +34,8 @@ void			detail_game_info()
   for (i = 0; i < 4; i++)
     {
       p = gi->players[i];
+      if (p.connected)
+        printf("PLAYER CONNECTED:\nnum_player: %d\nx_pos: %d\ny_pos: %d\n", i, p.x_pos, p.y_pos);
       snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx_pos: %d\ny_pos: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x_pos, p.y_pos, p.current_dir, p.bomb_left, p.fd, p.num_player);
     }
   for (j = 0; j < 14; j++)

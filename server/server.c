@@ -51,6 +51,7 @@ void		*init_server()
   for (i = 0; i < 4; i++)
     {
       srv->players[i].connected = 0;
+      srv->players[i].num_player = i;
     }
   // on initialise le bench de request à NULL
   for (i = 0; i < 8; i++)

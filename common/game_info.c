@@ -15,7 +15,7 @@
 #include "sdl.h"
 #include "game_info.h"
 
-static t_game_info *game_info;
+static t_game_info *game_info = NULL;
 
 t_game_info	*get_game_info()
 {

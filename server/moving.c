@@ -41,22 +41,26 @@ void	move_player(
   {
     case MOVE_UP:
       game_info->players[num_player].y_pos -= 6;
+      printf("\nPLAYER MOVED UP, playe_num:%d, command:%d, y_pos: %d", num_player, player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_DOWN:
       game_info->players[num_player].y_pos += 6;
+      printf("\nPLAYER MOVED DOWN, playe_num:%d, command:%d, y_pos: %d", num_player, player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_RIGHT:
       game_info->players[num_player].x_pos += 6;
+      printf("\nPLAYER MOVED RIGHT, playe_num:%d, command:%d, x_pos: %d", num_player, player_request->command, game_info->players[num_player].x_pos);
       break;
 
     case MOVE_LEFT:
       game_info->players[num_player].x_pos -= 6;
+      printf("\nPLAYER MOVED LEFT, playe_num:%d, command:%d, x_pos: %d", num_player, player_request->command, game_info->players[num_player].x_pos);
       break;
 
     default:
-      return;
+      break;
   }
 
   set_game_info(game_info);
