@@ -16,5 +16,6 @@ SDL_Rect init_rect(int x, int y, int w, int z);
 t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type);
 void *draw_all(void *arg);
 void *rebuild_map(void *arg);
+int draw_map_loop(int i, int j);
 
 #endif /* !_BASE_MAP_MANAGER_H_ */

@@ -20,26 +20,25 @@
 #include "bomb_management.h"
 #include "map_management.h"
 
-int		**get_array_map() {
-  static int	map[104][88];
-  int 		x;
-  int 		y;
-  int 		current_x_state;
-  int 		current_y_state;
+int **get_array_map()
+{
+    static int map[14][15];
+    int x;
+    int y;
 
-  current_y_state = FREE_SLOT;
-  for (y = 0; y < 88; ++y) {
-    current_x_state = WALL;
-    if (x % 8 == 0)
-      current_y_state = WALL;
-    for (x = 0; x < 104; ++x) {
-      if (x % 8 == 0 && current_y_state == WALL)
-	current_x_state = current_x_state == 1 ? FREE_SLOT : WALL;
-      map[x][y] = current_y_state;
+    for (j = J_BEGIN; j < J_BEGIN + 13; j++) {
+        b = 0;
+        // largeur
+        for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
+            SDL_Rect dest_rect = {i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
+
+            map[a][b] = draw_map_loop(i, j);
+            b++;
+        }
+        a++;
     }
-  }
 
-  return (int **) map;
+    return (int **) map;
 }
 
 void			add_destructible_elements(
