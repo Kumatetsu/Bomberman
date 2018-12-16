@@ -42,22 +42,18 @@ void *draw_map_model(void *arg)
         for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
             SDL_Rect dest_rect = {i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
 
-            element_type = get_element_type(i, j);
+            element_type = draw_map_loop(i, j);
             if (element_type == WALL) {
                 ground_value = wall_src_rect;
                 texture_value = wall;
             }
-            else if (element_type == FREE_SLOT_SHADOW) {
+            else if (element_type == FREE) {
                 ground_value = ground_shadowed_rect;
-                texture_value = ground_shadowed;
-            }
-            else if (element_type == FREE_SLOT) {
-                ground_value = ground_src_rect;
                 texture_value = ground_shadowed;
             }
             else {
                 error = 1;
-                SDL_ShowSimpleMessageBox(0, "adding texture in renderer error", SDL_GetError(), data->window);
+                render_error("adding texture in renderer error", SDL_GetError());
                 break;
             }
 
