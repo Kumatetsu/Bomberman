@@ -40,7 +40,7 @@ void			detail_game_info()
     {
       p = gi->players[i];
       if (p.connected)
-        printf("PLAYER CONNECTED:\nnum_player: %d\nx_pos: %d\ny_pos: %d\n", i, p.x_pos, p.y_pos);
+        printf("PLAYER CONNECTED:\nnum_player: %d\nx_pos: %d\ny_pos: %d\n", i, p.x, p.y);
       snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx: %d\ny: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x, p.y, p.current_dir, p.bomb_left, p.fd, p.num_player);
     }
   for (j = 0; j < 14; j++)
