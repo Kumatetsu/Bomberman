@@ -118,8 +118,8 @@ int			main_loop(t_srv **srv)
 	      retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
 	      // Si erreur on déco le player, ca évite de réitérer dessus
 	      if (retval != 0 || error != 0) {
-		(*srv)->players[i].connected = 0;
-		continue;
+            (*srv)->players[i].connected = 0;
+            continue;
 	      }
 	      // Si la socket du player est set on traite...
 	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))

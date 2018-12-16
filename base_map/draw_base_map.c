@@ -22,65 +22,58 @@
 #include "data.h"
 #include "draw_base_map.h"
 
-void	*draw_map_model(void *arg)
+void *draw_map_model(void *arg)
 {
-  int	i, j, a, b, error;
-  t_data *data = (t_data*)arg;
-  SDL_Rect wall_src_rect = {71, 175, 16, 16};
-  SDL_Rect ground_src_rect = {122, 175, 16, 16};
-  SDL_Rect ground_shadowed_rect = {105, 175, 16 ,16};
+    int i, j, a, b, error, element_type;
 
-  error = 0;
-  a = 1;
-  for (j = J_BEGIN; j < J_BEGIN + 13; j++) {
-    b = 0;
-    for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
-      SDL_Rect dest_rect = {i * PIXEL_SIZE, j * PIXEL_SIZE,
-			    PIXEL_SIZE, PIXEL_SIZE};
-      if (j == J_BEGIN || j == J_BEGIN + 12 ||
-	  i == I_BEGIN || i == I_BEGIN + 14)
-	{
-	  error = SDL_RenderCopy(data->renderer, data->texture ,
-				 &wall_src_rect, &dest_rect);
-	  data->array_map[a][b] = init_t_map(wall_src_rect, dest_rect, wall);
-	}
-      else if (j == J_BEGIN + 1 ||
-	       ( j % 2 != J_BEGIN % 2 && i % 2 == I_BEGIN % 2))
-	{
-	  error = SDL_RenderCopy(data->renderer, data->texture,
-				 &ground_shadowed_rect, &dest_rect);
-	  data->array_map[a][b] =
-	    init_t_map(ground_shadowed_rect, dest_rect, ground_shadowed);
-	}
-      else if (i % 2 != I_BEGIN % 2)
-	{
-	  error = SDL_RenderCopy(data->renderer, data->texture,
-				 &ground_src_rect, &dest_rect);
-	  data->array_map[a][b] =
-	    init_t_map(ground_src_rect, dest_rect, ground);
-	}
-      else if (i % 2 == I_BEGIN % 2)
-	{
-	  error = SDL_RenderCopy(data->renderer, data->texture,
-				 &wall_src_rect, &dest_rect);
-	  data->array_map[a][b] =
-	    init_t_map(wall_src_rect, dest_rect, wall);
-	}
-      if (error < 0)
-	{
-	  SDL_ShowSimpleMessageBox(0, "adding texture in renderer error",
-				   SDL_GetError(), data->window);
-	  break;
-	}
-      b++;
+    t_data *data = (t_data *) arg;
+    error = 0;
+    a = 1;
+    SDL_Rect ground_value;
+    texture_type texture_value;
+    SDL_Rect wall_src_rect = {71, 175, 16, 16};
+    SDL_Rect ground_src_rect = {122, 175, 16, 16};
+    SDL_Rect ground_shadowed_rect = {105, 175, 16, 16};
+
+    // hauteur
+    for (j = J_BEGIN; j < J_BEGIN + 13; j++) {
+        b = 0;
+        // largeur
+        for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
+            SDL_Rect dest_rect = {i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
+
+            element_type = draw_map_loop(i, j);
+            if (element_type == WALL) {
+                ground_value = wall_src_rect;
+                texture_value = wall;
+            }
+            else if (element_type == FREE) {
+                ground_value = ground_shadowed_rect;
+                texture_value = ground_shadowed;
+            }
+            else {
+                error = 1;
+                render_error("adding texture in renderer error", SDL_GetError());
+                break;
+            }
+
+            error = SDL_RenderCopy(data->renderer, data->texture, &ground_value, &dest_rect);
+            data->array_map[a][b] = init_t_map(ground_value, dest_rect, texture_value);
+
+            if (error < 0) {
+                SDL_ShowSimpleMessageBox(0, "adding texture in renderer error",
+                                         SDL_GetError(), data->window);
+                break;
+            }
+            b++;
+        }
+        if (error < 0)
+            break;
+        a++;
     }
     if (error < 0)
-      break;
-    a++;
-  }
-  if (error < 0)
-    return (NULL);
-  return ((void*)data);
+        return (NULL);
+    return ((void *) data);
 }
 
 void	*draw_timer(void *arg)
