@@ -47,13 +47,17 @@ void *draw_map_model(void *arg)
                 ground_value = wall_src_rect;
                 texture_value = wall;
             }
-            else if (element_type == FREE) {
+            else if (element_type == FREE_SLOT_SHADOW) {
                 ground_value = ground_shadowed_rect;
+                texture_value = ground_shadowed;
+            }
+            else if (element_type == FREE_SLOT) {
+                ground_value = ground_src_rect;
                 texture_value = ground_shadowed;
             }
             else {
                 error = 1;
-                render_error("adding texture in renderer error", SDL_GetError());
+                SDL_ShowSimpleMessageBox(0, "adding texture in renderer error", SDL_GetError(), data->window);
                 break;
             }
 
