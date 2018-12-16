@@ -43,22 +43,22 @@ void	move_player(
   switch (player_request->command)
   {
     case MOVE_UP:
-      game_info->players[num_player].y_pos -= 6;
+      game_info->players[num_player].y -= 6;
       // printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_DOWN:
-      game_info->players[num_player].y_pos += 6;
+      game_info->players[num_player].y += 6;
       // printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_RIGHT:
-      game_info->players[num_player].x_pos += 6;
+      game_info->players[num_player].x += 6;
       // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
       break;
 
     case MOVE_LEFT:
-      game_info->players[num_player].x_pos -= 6;
+      game_info->players[num_player].x -= 6;
       // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
       break;
 

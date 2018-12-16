@@ -52,6 +52,10 @@ enum	COMMAND_REQUEST
   {
     START_GAME = 1,
     PLACE_BOMB = 2,
+    MOVE_UP = 3,
+    MOVE_DOWN = 4,
+    MOVE_LEFT = 5,
+    MOVE_RIGHT = 6
   };
 
 #endif /* !_ENUM_H_ */
