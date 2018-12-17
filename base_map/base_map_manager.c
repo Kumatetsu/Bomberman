@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "enum.h"
+#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"

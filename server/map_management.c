@@ -12,13 +12,14 @@
 #include <stdio.h>
 #include "sdl.h"
 #include "enum.h"
+#include "constant.h"
 #include "player_info.h"
 #include "client_request.h"
 #include "server.h"
 #include "map.h"
 #include "game_info.h"
 #include "bomb_management.h"
-#include "map_management.h"
+#include "base_map_manager.h"
 
 int **get_array_map()
 {
