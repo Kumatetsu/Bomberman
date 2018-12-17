@@ -8,6 +8,28 @@ const  SDL_Rect	red_sprites[5][4]   = initRedBomberSprites();
 const  SDL_Rect white_sprites[5][4] = initWhiteBomberSprites();
 const  SDL_Rect bomb_sprites[3][3]  = initBombSprites();
 
+SDL_Rect getBomberSprites(int num_player)
+{
+    switch (num_player)
+    {
+        case 0:
+            return white_sprites;
+            break;
+        case 1:
+            return black_sprites;
+            break;
+        case 2:
+            return blue_sprite;
+            break;
+        case 3:
+            return red_sprites;
+            break;
+        default:
+            return NULL;
+            break;
+    }
+}
+
 SDL_Rect getBlueSprites()
 {
     return blue_sprites;
