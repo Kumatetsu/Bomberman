@@ -45,6 +45,7 @@ SRC 	= 	main.c 					\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\
+		devtools/detail_game_info.c		\
 
 OBJ 	= ${SRC:%.c=%.o}
 

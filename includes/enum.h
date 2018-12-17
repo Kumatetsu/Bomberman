@@ -58,4 +58,11 @@ enum	COMMAND_REQUEST
     MOVE_RIGHT = 6
   };
 
+enum Directions {
+    BOMBER_D = 0,
+    BOMBER_L = 1,
+    BOMBER_R = 2,
+    BOMBER_U = 3,
+};
+
 #endif /* !_ENUM_H_ */
