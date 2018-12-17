@@ -29,7 +29,7 @@ int **get_array_map()
         b = 0;
         // largeur
         for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
-            map[a][b] = draw_map_loop(i, j);
+            map[a][b] = get_element_type(i, j);
             b++;
         }
         a++;

@@ -42,7 +42,7 @@ void *draw_map_model(void *arg)
         for (i = I_BEGIN; i < I_BEGIN + 15; i++) {
             SDL_Rect dest_rect = {i * PIXEL_SIZE, j * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
 
-            element_type = draw_map_loop(i, j);
+            element_type = get_element_type(i, j);
             if (element_type == WALL) {
                 ground_value = wall_src_rect;
                 texture_value = wall;
