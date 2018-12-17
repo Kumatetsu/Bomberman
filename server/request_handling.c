@@ -9,11 +9,16 @@
 */
 
 #include <stdio.h>
+#include "enum.h"
+#include "sdl.h"
+#include "player_info.h"
+#include "client_request.h"
 #include "server.h"
 #include "my_put.h"
-#include "request.h"
+#include "map.h"
 #include "game_info.h"
-
+#include "moving.h"
+#include "request_handling.h"
 // for trace
 #include "game_info_serialization.h"
 
@@ -35,8 +40,8 @@ void			detail_game_info()
     {
       p = gi->players[i];
       if (p.connected)
-        printf("PLAYER CONNECTED:\nnum_player: %d\nx_pos: %d\ny_pos: %d\n", i, p.x_pos, p.y_pos);
-      snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx_pos: %d\ny_pos: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x_pos, p.y_pos, p.current_dir, p.bomb_left, p.fd, p.num_player);
+        printf("PLAYER CONNECTED:\nnum_player: %d\nx_pos: %d\ny_pos: %d\n", i, p.x, p.y);
+      snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx: %d\ny: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x, p.y, p.current_dir, p.bomb_left, p.fd, p.num_player);
     }
   for (j = 0; j < 14; j++)
     {
@@ -45,7 +50,7 @@ void			detail_game_info()
 	  m = gi->map_destroyable[0][0];
 	  if (m.exist == 1)
 	    {
-	      snprintf(map_detail, sizeof map_detail, "\nMap detail for [%d][%d]:\ny_pos: %d\nx_pos: %d\nbomb: %d\nbomb_owner: %d\nstart_explode:%d\nwall_destroyable: %d\nexist: %d\n", j, i, m.y_pos, m.x_pos, m.bomb, m.bomb_owner, m.start_explode, m.wall_destroyable, m.exist);
+	      snprintf(map_detail, sizeof map_detail, "\nMap detail for [%d][%d]:\ny: %d\nx: %d\nbomb: %d\nbomb_owner: %d\nstart_explode:%d\nwall_destroyable: %d\nexist: %d\n", j, i, m.y, m.x, m.bomb, m.bomb_owner, m.start_explode, m.wall_destroyable, m.exist);
 	    }
 
 	}
@@ -89,12 +94,14 @@ void	handle_requests(
   if (player_request->command > PLACE_BOMB )
     move_player(game_info, player_request, num_player);
   printf("\nplayer moved\n");
-  // add_bomb_elements(game_info, map_pointer);
-  // printf("\nbomb element added\n");
+  // dans server/map_management.c
+  // manage_bombs(game_info, map_pointer);
+  // printf("\nbomb element managed\n");
   if (player_request->command == PLACE_BOMB)
     {
       printf("\nplace bomb\n");
       /*En standby*/
+      // dans ce fichier
       // place_bomb(game_info, player_request);
       printf("\nbomb placed\n");
     }
@@ -105,37 +112,37 @@ void	handle_requests(
 /**
  * Ne correspond pas du tout aux nouvelles structures
 **/
-// void	place_bomb(t_game_info *game_info,
-// 		   t_player_request *player_request
-// 		   )
-// {
-//   t_player_info	player;
-//   int 			i;
-//   int 			x;
-//   int 			y;
-//   t_map_destroyable	bomb;
-
-//   printf("\nPLACING BOMB\n");
-//   for (i = 0; i < 4; i++)
-//     {
-//       if (game_info->players[i].connected == 0
-// 	  || game_info->players[i].num_player != player_request->num_player)
-// 	continue;
-//       player = game_info->players[i];
-//       if (player.bomb_left == 0)
-// 	return;
-//     }
-//   if (player.connected == 0)
-//     return;
-//   bomb.exist = 1;
-//   player.bomb_left = 0;
-//   bomb.bomb = 1;
-//   bomb.start_explode = game_info->tick_time + 5;
-//   bomb.bomb_owner = i + 1;
-//   x = player.x_pos * 8;
-//   y = player.y_pos * 8;
-//   game_info->map_destroyable[y][x] =  bomb;
-// }
+void	place_bomb(t_game_info *game_info,
+ 		   t_player_request *player_request
+ 		   )
+{
+  t_player_info	player;
+  int 			i;
+  int 			x;
+  int 			y;
+  t_map_destroyable	bomb;
+  
+  printf("\nPLACING BOMB\n");
+  for (i = 0; i < 4; i++)
+    {
+      if (game_info->players[i].connected == 0
+	  || game_info->players[i].num_player != player_request->num_player)
+	continue;
+      player = game_info->players[i];
+      if (player.bomb_left == 0)
+	return;
+    }
+  if (player.connected == 0)
+    return;
+  bomb.exist = 1;
+  player.bomb_left = 0;
+  bomb.bomb = 1;
+  bomb.start_explode = game_info->tick_time + 5;
+  bomb.bomb_owner = i + 1;
+  x = player.x * 8;
+  y = player.y * 8;
+  game_info->map_destroyable[y][x] =  bomb;
+}
 
 void	add_request_to_server(t_srv **srv, t_player_request *player_request)
 {

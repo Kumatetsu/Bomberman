@@ -11,11 +11,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
-#include "server.h"
+#include "enum.h"
 #include "sdl.h"
-#include "socket.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "map.h"
+#include "data.h"
+#include "server.h"
 #include "thread.h"
-#include "request.h"
 #include "game_info.h"
 #include "my_put.h"
 

@@ -11,11 +11,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
-#include "server.h"
+#include "enum.h"
 #include "sdl.h"
-#include "socket.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "server.h"
+#include "map.h"
+#include "data.h"
 #include "thread.h"
-#include "request.h"
 #include "game_info.h"
 #include "my_put.h"
 #include "player.h"
@@ -32,8 +35,8 @@ int             add_player(t_srv **srv, int fd)
   new_player.connected = 1;
   new_player.alive = 1;
   new_player.dying = 0;
-  new_player.x_pos = 0;
-  new_player.y_pos = 0;
+  new_player.x = 0;
+  new_player.y = 0;
   new_player.current_dir = 0;
   new_player.bomb_left = 1;
   new_player.fd = fd; 

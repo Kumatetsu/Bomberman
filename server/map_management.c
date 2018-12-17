@@ -10,9 +10,15 @@
 */
 
 #include <stdio.h>
+#include "sdl.h"
+#include "enum.h"
+#include "player_info.h"
+#include "client_request.h"
 #include "server.h"
-#include "request.h"
+#include "map.h"
 #include "game_info.h"
+#include "bomb_management.h"
+#include "map_management.h"
 
 int		**get_array_map() {
   static int	map[104][88];
@@ -56,19 +62,17 @@ void			add_destructible_elements(
       map_destroyable.exist = 1;
       printf("\nset map_pointer with map_destroyable x_pos et y_pos = WALL\n");
       // segfault ici
-      map_pointer[map_destroyable.x_pos][map_destroyable.y_pos] = WALL;
+      map_pointer[map_destroyable.x][map_destroyable.y] = WALL;
       printf("\nIteration done\n");
     }
   }
 }
 
 
-// détermine si l'on peut placer une bombe,
-// si une bombe est à l'emplacement, détermine si
-void			add_bomb_elements(
-					  t_game_info *game_info,
-					  int **map_pointer
-					  )
+void		        manage_bombs(
+				    t_game_info *game_info,
+				    int **map_pointer
+				    )
 {
   int			i;
   int			j;
@@ -122,7 +126,7 @@ int 			is_there_a_wall(
   int			i;
   int			j;
   t_map_destroyable	map_destroyable;
-
+  
   if (map_pointer[x][y] == WALL)
     return 1;
   for (i = 1; i < 14; ++i) {
@@ -131,10 +135,9 @@ int 			is_there_a_wall(
 	  || game_info->map_destroyable[i][j].bomb == 1)
 	continue;
       map_destroyable = game_info->map_destroyable[i][j];
-      if (map_destroyable.y_pos == y && map_destroyable.x_pos == x)
+      if (map_destroyable.y == y && map_destroyable.x == x)
 	return 1;
     }
   }
-
   return 0;
 }

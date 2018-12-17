@@ -14,10 +14,13 @@
 #include <pthread.h>
 #include <time.h>
 #include "my_put.h"
-#include "request.h"
-#include "player_info.h"
-#include "server.h"
 #include "sdl.h"
+#include "enum.h"
+#include "map.h"
+#include "client_request.h"
+#include "player_info.h"
+#include "data.h"
+#include "server.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 #include "main_loop.h"
@@ -62,6 +65,7 @@ void		*threaded_ticker(void *server)
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
         game_info->id_client = i;
+        // set_game_info(game_info);
         memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
         memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
         memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));

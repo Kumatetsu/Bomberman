@@ -11,15 +11,38 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+#include "enum.h"
+#include "sdl.h"
+#include "player_info.h"
+#include "client_request.h"
 #include "server.h"
 #include "player.h"
-#include "sdl.h"
-#include "base_map.h"
+#include "map.h"
+#include "data.h"
+#include "draw_base_map.h"
+#include "draw_players.h"
 #include "game_info.h"
+#include "game_map.h"
+#include "base_map_manager.h"
+
+// wrapper to init an SDL_Rect
+SDL_Rect init_rect(int x, int y, int w, int z)
+{
+  SDL_Rect temp = {x, y, w, z};
+
+  return (temp);
+}
+
+t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
+{
+  t_map map;
+
+  map.src_rect = src;
+  map.dest_rect = dest;
+  map.texture_type = type;
+  return (map);
+}
 
 void *draw_all(void *arg)
 {

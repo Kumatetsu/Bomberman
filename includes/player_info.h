@@ -13,15 +13,17 @@
 
 typedef struct  s_player_info
 {
-    int         connected;
-    int         alive;
-    int         dying;
-    int         x_pos;
-    int         y_pos;
-    int         current_dir;
-    int         bomb_left;
-    int         fd;
-    int         num_player; //between 0 and 3 because it's easier for my arrays
+  int		connected;
+  int		alive;
+  int		dying;
+  int		x;
+  int		y;
+  int		current_dir;
+  int		bomb_left;
+  int		fd;
+  int		num_player; //between 0 and 3 for array indexation
+  SDL_Rect	bomber_sprites[5][4];
+  int		index_sprite;
 }               t_player_info;
 
 enum Directions {

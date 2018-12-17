@@ -7,7 +7,10 @@
 ** Started on  Fri Jun 29 16:23:26 2018 BILLAUD Jean
 ** Last update Sat Jun 30 16:09:05 2018 MASERA Mathieu
 */
+
 #include "sdl.h"
+#include "enum.h"
+#include "client_request.h"
 #include "client.h"
 
 void	my_bzero(void *s1, int n)
@@ -56,22 +59,19 @@ int         send_request(int s, t_player_request* client_request)
   return SUCCESS_SEND;
 }
 
-int		get_msg(int s)
+// return a unique int corresponding to request values
+int     get_request_checksum(t_player_request* client_request)
 {
-  char		buff[1024];
-  int		r;
+  int   checksum = 0;
+  int   i;
+  unsigned char *p = (unsigned char *)&client_request->magic;
 
-  my_bzero(buff, 1024);
-  r = recv(s, buff, 1024, 0);
-  if (r > 0)
+  for (i = 0; i<(int)sizeof(client_request->magic); i++)
     {
-      buff[r] = '\0';
-      write(1, buff, r);
-      return SUCCESS_RECEIVE;
+      checksum += p[i];                 
     }
-  else
-    {
-      write(1, "Connection closed\n", 18);
-      return BAD_RECEIVE;
-    }
+  p = (unsigned char *)&client_request->command;
+  for (i = 0; i<(int)sizeof(client_request->command); i++)
+    checksum += p[i];  
+  return checksum;                   
 }

@@ -9,10 +9,15 @@
 */
 
 #include <stdio.h>
-#include "server.h"
 #include "my_put.h"
-#include "request.h"
+#include "enum.h"
+#include "sdl.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "server.h"
+#include "map.h"
 #include "game_info.h"
+#include "moving.h"
 
 void	move_player(
 		    t_game_info *game_info,
@@ -21,8 +26,8 @@ void	move_player(
 		    )
 {
   printf("\nmoveplayer, check if player is in map\n");
-  if (game_info->players[num_player].x_pos < 0 || game_info->players[num_player].y_pos < 0
-      || game_info->players[num_player].x_pos > 720 || game_info->players[num_player].y_pos > 624)
+  if (player_request->x < 0 || player_request->y < 0
+      || player_request->x > 104 || player_request->y > 88)
     return;
 
   /*
@@ -40,23 +45,23 @@ void	move_player(
   switch (player_request->command)
   {
     case MOVE_UP:
-      game_info->players[num_player].y_pos -= 6;
-      printf("\nPLAYER MOVED UP, playe_num:%d, command:%d, y_pos: %d", num_player, player_request->command, game_info->players[num_player].y_pos);
+      game_info->players[num_player].y -= 6;
+      // printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_DOWN:
-      game_info->players[num_player].y_pos += 6;
-      printf("\nPLAYER MOVED DOWN, playe_num:%d, command:%d, y_pos: %d", num_player, player_request->command, game_info->players[num_player].y_pos);
+      game_info->players[num_player].y += 6;
+      // printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_RIGHT:
-      game_info->players[num_player].x_pos += 6;
-      printf("\nPLAYER MOVED RIGHT, playe_num:%d, command:%d, x_pos: %d", num_player, player_request->command, game_info->players[num_player].x_pos);
+      game_info->players[num_player].x += 6;
+      // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
       break;
 
     case MOVE_LEFT:
-      game_info->players[num_player].x_pos -= 6;
-      printf("\nPLAYER MOVED LEFT, playe_num:%d, command:%d, x_pos: %d", num_player, player_request->command, game_info->players[num_player].x_pos);
+      game_info->players[num_player].x -= 6;
+      // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
       break;
 
     default:
