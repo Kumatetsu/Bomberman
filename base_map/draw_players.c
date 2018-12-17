@@ -21,6 +21,7 @@
 
 void		*draw_player_1(void *arg) {
   int		error;
+  printf("\n\n\n\n\n\n\n\nDRAWING PLAYER 1\n\n\n\n\n\n");
   t_data	*data = (t_data*)arg;
   SDL_Rect	dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 36 ,
 			16 * 3, 24 * 3};
@@ -64,7 +65,7 @@ void		*draw_player_3(void *arg)
   t_data	*data = (t_data*)arg;
   SDL_Rect	dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 11) * 48) - 36 ,
 			16 * 3, 24 * 3};
-  
+
   data->players[2].x = (I_BEGIN + 1) * 48;
   data->players[2].y = ((J_BEGIN + 11) * 48) - 36;
   data->players[2].index_sprite = not_move;

@@ -23,6 +23,7 @@
 #include "thread.h"
 #include "base_map_manager.h"
 #include "start_map.h"
+#include "bomber_sprites.h"
 
 int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {
@@ -41,6 +42,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   struct_thread->socket = socket;
   struct_thread->data = data;
   init_sprites_sheet((void *)data);
+  initSprites();
   draw_all((void *)data);
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);

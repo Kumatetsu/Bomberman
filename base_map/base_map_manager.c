@@ -59,6 +59,11 @@ void *draw_all(void *arg)
   blue_bomber_sprite(arg);
    if (gi != NULL) {
     printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", gi->nb_client);
+    // for (i = 0; i < 4; i++)
+    // {
+    //   if (gi->players[i].connected && gi->players[i].alive)
+    //     draw_player(arg, gi->players[i]);
+    // }
     if (gi->nb_client >= 1)
      draw_player_1(arg);
     if (gi->nb_client >= 2)

@@ -5,20 +5,22 @@
 /**
  * GETTERS
 **/
-SDL_Rect getBlueSprites();
-SDL_Rect getBlackSprites();
-SDL_Rect getRedSprites();
-SDL_Rect getWhiteSprites();
-SDL_Rect getBombSprites();
+SDL_Rect getBomberSprites(int num_player);
+SDL_Rect getBlueSprites(int dir, int action);
+SDL_Rect getBlackSprites(int dir, int action);
+SDL_Rect getRedSprites(int dir, int action);
+SDL_Rect getWhiteSprites(int dir, int action);
+SDL_Rect getBombSprites(int type);
 
 /**
  * INIT
 **/
-SDL_Rect initBlueBomberSprites();
-SDL_Rect initBlackBomberSprites();
-SDL_Rect initRedBomberSprites();
-SDL_Rect initWhiteBomberSprites();
-SDL_Rect initBombSprites();
+void initSprites();
+void initBlueBomberSprites();
+void initBlackBomberSprites();
+void initRedBomberSprites();
+void initWhiteBomberSprites();
+void initBombSprites();
 
 
 #endif /* !_BOMBER_SPRITES_H_ */
