@@ -83,23 +83,23 @@ void    active_player(t_player_info *player)
   switch (player->num_player)
     {
     case 0:
-      player->x = 72;
-      player->y = 72;
+      player->x = 200;
+      player->y = 156;
       player->current_dir = BOMBER_L;
       break;
     case 1:
-      player->x = 648;
-      player->y = 72;
+      player->x = 776;
+      player->y = 636;
       player->current_dir = BOMBER_D;
       break;
     case 2:
-      player->x = 72;
-      player->y = 552;
+      player->x = 200;
+      player->y = 636;
       player->current_dir = BOMBER_U;
       break;
     case 3:
-      player->x = 648;
-      player->y = 552;
+      player->x = 776;
+      player->y = 156;
       player->current_dir = BOMBER_R;
       break;
     }

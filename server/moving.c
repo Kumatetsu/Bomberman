@@ -26,9 +26,9 @@ void	move_player(
 		    )
 {
   printf("\nmoveplayer, check if player is in map\n");
-  if (player_request->x < 0 || player_request->y < 0
-      || player_request->x > 104 || player_request->y > 88)
-    return;
+  // if (player_request->x < 0 || player_request->y < 0
+  //     || player_request->x > 104 || player_request->y > 88)
+  //   return;
 
   /*
   * Pour le moment on check pas les collisions on veut juste bouger
