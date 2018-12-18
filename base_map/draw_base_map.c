@@ -22,13 +22,16 @@
 #include "data.h"
 #include "draw_base_map.h"
 
-void	*draw_map_model(void *arg)
+// place dans data->renderer les sprites qui composent la map de base
+// data->renderer sera display dans start_map à l'initialisation du client
+// puis dans client_receive.c::listen_server avec la fonction SDL_RenderPresent
+void		*draw_map_model(void *arg)
 {
-  int	i, j, a, b, error;
-  t_data *data = (t_data*)arg;
-  SDL_Rect wall_src_rect = {71, 175, 16, 16};
-  SDL_Rect ground_src_rect = {122, 175, 16, 16};
-  SDL_Rect ground_shadowed_rect = {105, 175, 16 ,16};
+  int		i, j, a, b, error;
+  t_data	*data = (t_data*)arg;
+  SDL_Rect	wall_src_rect = {71, 175, 16, 16};
+  SDL_Rect	ground_src_rect = {122, 175, 16, 16};
+  SDL_Rect	ground_shadowed_rect = {105, 175, 16 ,16};
 
   error = 0;
   a = 1;

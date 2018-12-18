@@ -13,7 +13,10 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <math.h>
+#include "constant.h"
 #include "my_put.h"
+#include "time_tick.h"
 #include "sdl.h"
 #include "enum.h"
 #include "map.h"
@@ -34,10 +37,21 @@ void			my_sleep(int sec, int milli)
   int			nano;
   struct timespec	req = {0};
 
-  nano = milli * 1000000;
+  // Set les constantes dans time_tick.h
+  // permet d'appeler les fonctions
+  // nano_sleep, sec_to_milli et sec_in_tick
+  sleep_ms(sec, milli);
+  // if unix
+  nano = nano_sleep();
   req.tv_sec = sec;
   req.tv_nsec = nano;
   nanosleep(&req, NULL);
+  // if windows
+  // TODO: windows n'a pas de fonctions ayant la précision
+  // de nano_sleep, à voir si on y tient, on à tout les outils
+  // pour gérer les deux.
+  // int milli = sleep_ms(0, 0); // car déjà définies
+  // sleep(milli);
 }
 
 // ticker
@@ -61,7 +75,8 @@ void		*threaded_ticker(void *server)
     {
       sprintf(log, "\nTick: %d", (*tk));
       my_putstr(log);
-      my_sleep(0, 5000);
+      // les millisecondes sont harcodées dans time_tick.c
+      my_sleep(0, 0);
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
         game_info->id_client = i;

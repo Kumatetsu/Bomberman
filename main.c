@@ -33,7 +33,9 @@ int main ()
   sdl = init_fronts(sdl);
 
   //comment maiemacs n to see start_map working ;)
+  printf("\nMain menu\n");
   main_menu(sdl);
+  printf("\nPost Main menu\n");
   SDL_DestroyTexture(sdl->menu_background);
   SDL_DestroyTexture(sdl->white_back);
   SDL_DestroyTexture(sdl->join_game);

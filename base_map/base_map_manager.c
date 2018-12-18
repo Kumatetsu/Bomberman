@@ -34,6 +34,7 @@ SDL_Rect init_rect(int x, int y, int w, int z)
   return (temp);
 }
 
+// t_map inliner
 t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
 {
   t_map map;
@@ -44,20 +45,32 @@ t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
   return (map);
 }
 
+// draw_all render_copy les éléments fixe
+// les players sont render_copy à leur position initiale
+// on ne peut pas se servir de cette fonction en l'état
+// pour render_copy les élément mouvant
+// voir les fonctions de mouvement et add_destructible_elements
 void *draw_all(void *arg)
 {
   t_game_info *gi;
+
   gi = get_game_info();
 
-  gi = gi;
+  // rendercopy le fond de la map
   draw_map_model(arg);
+  // rendercopy le pannel
   draw_pannel(arg);
+  // rendercopy le timer
   draw_timer(arg);
+  // ajoute les sprite s, m et l d'un bombe à data->destroyable[0][s,m,l]
+  bomb_sprite(arg);
+  // ajoute les sprites des bomber à la t_data
   white_bomber_sprite(arg);
   red_bomber_sprite(arg);
   black_bomber_sprite(arg);
   blue_bomber_sprite(arg);
-   if (gi != NULL) {
+  if (gi != NULL)
+    {
     printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", gi->nb_client);
     if (gi->nb_client >= 1)
      draw_player_1(arg);
@@ -71,6 +84,8 @@ void *draw_all(void *arg)
   return (NULL);
 }
 
+// render copy les t_map contenus dans t_data->array_map
+// array_map est remplie avec 
 void *rebuild_map(void *arg) {
   t_data *data = (t_data*)arg;
   int i, j;

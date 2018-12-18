@@ -36,6 +36,7 @@ enum		MAP_GRID
     FREE_SLOT = 0,
     WALL = 1,
     FIRE = 2,
+    BOMB = 3,
   };
 
 enum	CLIENT_REQUEST_STATUS

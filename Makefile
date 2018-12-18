@@ -14,7 +14,7 @@ NAME 	= BomberMan
 
 CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
-LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
+LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -lm -pthread -L ./libmy
 
 SRC 	= 	main.c 					\
 		menu.c					\
@@ -42,6 +42,7 @@ SRC 	= 	main.c 					\
 		server/request_handling.c		\
                 server/player.c				\
 		server/main_loop.c			\
+		server/time_tick.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\

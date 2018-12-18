@@ -62,7 +62,17 @@ void			add_destructible_elements(
       map_destroyable.exist = 1;
       printf("\nset map_pointer with map_destroyable x_pos et y_pos = WALL\n");
       // segfault ici
-      map_pointer[map_destroyable.x][map_destroyable.y] = WALL;
+      // Pas sur de cette logique, je suis l'existant mais j'ai un doute...
+      if (map_destroyable.bomb)
+	{
+	  printf("\nplacement d'une bombe à la case %d:%d\n", i, j);
+	  map_pointer[map_destroyable.x][map_destroyable.y] = BOMB;
+	}
+      else
+	{
+	  printf("\nplacement d'une bombe à la case %d:%d\n", i, j);
+	  map_pointer[map_destroyable.x][map_destroyable.y] = WALL;
+	}
       printf("\nIteration done\n");
     }
   }

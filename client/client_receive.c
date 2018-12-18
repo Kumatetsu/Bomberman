@@ -38,22 +38,32 @@ void            *listen_server(void *s)
       FD_SET(struct_thread->socket, &fd_read);
       printf("\nbefore select\n");
       if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-              quit = 1;
+	quit = 1;
       if (FD_ISSET(struct_thread->socket, &fd_read))
         {
-           printf("tata\n");
-            if (get_message(struct_thread->socket) == 0)
-           {
-             quit = 1;
-           }
-        SDL_RenderClear(struct_thread->data->renderer);
-        rebuild_map(struct_thread->data);
-        move_player_stop(struct_thread->data);
-        draw_all(struct_thread->data);
-        SDL_RenderPresent(struct_thread->data->renderer);
-        SDL_SetRenderTarget(struct_thread->data->renderer, NULL);
-            }
-        }
+	  printf("tata\n");
+	  if (get_message(struct_thread->socket) == 0)
+	    {
+	      quit = 1;
+	    }
+	  SDL_RenderClear(struct_thread->data->renderer);
+	  // render_copy le contenu de array_map (fixed elements)
+	  rebuild_map(struct_thread->data);
+	  // render_copy le bomberman 0 uniquement, à l'arrêt
+	  // et à la position où il est
+	  move_player_stop(struct_thread->data);
+	  // render_copy le fond de la map, le pannel, le timer
+	  // reset les sprites dans t_data (useless, c'est déjà fait au départ de start_map)
+	  // render_copy les bombermen à leur position initiale, donc annule move_player_stop
+	  draw_all(struct_thread->data);
+	  // display le renderer qui a recu les render_copy
+	  SDL_RenderPresent(struct_thread->data->renderer);
+	  // doc sdl: https://wiki.libsdl.org/SDL_SetRenderTarget
+	  // desc: Use this function to set a texture as the current rendering target
+	  // Ca définit dans quelle window on doit render
+	  SDL_SetRenderTarget(struct_thread->data->renderer, NULL);
+	}
+    }
   pthread_exit(NULL);
 }
 
