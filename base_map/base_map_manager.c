@@ -66,14 +66,6 @@ void *draw_all(void *arg)
       if (gi->players[i].connected && gi->players[i].alive)
         draw_player(arg, gi->players[i]);
     }
-    // if (gi->nb_client >= 1)
-    //  draw_player_1(arg);
-    // if (gi->nb_client >= 2)
-    //  draw_player_2(arg);
-    // if (gi->nb_client >= 3)
-    //  draw_player_3(arg);
-    // if (gi->nb_client >= 4)
-    //  draw_player_4(arg);
   }
   return (NULL);
 }

@@ -26,6 +26,7 @@ void	move_player(
 		    )
 {
   printf("\nmoveplayer, check if player is in map\n");
+  // Commenté sinon on empêche le déplacement.
   // if (player_request->x < 0 || player_request->y < 0
   //     || player_request->x > 104 || player_request->y > 88)
   //   return;

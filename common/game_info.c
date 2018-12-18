@@ -16,6 +16,7 @@
 #include "server.h"
 #include "map.h"
 #include "game_info.h"
+#include "constant.h"
 
 static t_game_info *game_info = NULL;
 
@@ -83,23 +84,23 @@ void    active_player(t_player_info *player)
   switch (player->num_player)
     {
     case 0:
-      player->x = 200;
-      player->y = 156;
+      player->x = (I_BEGIN + 1) * 48; // = 200px
+      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156 px
       player->current_dir = BOMBER_L;
       break;
     case 1:
-      player->x = 776;
-      player->y = 636;
+      player->x = (I_BEGIN + 13) * 48; // = 776px
+      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
       player->current_dir = BOMBER_D;
       break;
     case 2:
-      player->x = 200;
-      player->y = 636;
+      player->x = (I_BEGIN + 1) * 48; // = 200px
+      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
       player->current_dir = BOMBER_U;
       break;
     case 3:
-      player->x = 776;
-      player->y = 156;
+      player->x = (I_BEGIN + 13) * 48; // = 776px
+      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156px
       player->current_dir = BOMBER_R;
       break;
     }
