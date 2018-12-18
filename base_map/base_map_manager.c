@@ -47,6 +47,8 @@ t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
 void *draw_all(void *arg)
 {
   t_game_info *gi;
+  int i;
+
   gi = get_game_info();
 
   gi = gi;
@@ -59,19 +61,19 @@ void *draw_all(void *arg)
   blue_bomber_sprite(arg);
    if (gi != NULL) {
     printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", gi->nb_client);
-    // for (i = 0; i < 4; i++)
-    // {
-    //   if (gi->players[i].connected && gi->players[i].alive)
-    //     draw_player(arg, gi->players[i]);
-    // }
-    if (gi->nb_client >= 1)
-     draw_player_1(arg);
-    if (gi->nb_client >= 2)
-     draw_player_2(arg);
-    if (gi->nb_client >= 3)
-     draw_player_3(arg);
-    if (gi->nb_client >= 4)
-     draw_player_4(arg);
+    for (i = 0; i < 4; i++)
+    {
+      if (gi->players[i].connected && gi->players[i].alive)
+        draw_player(arg, gi->players[i]);
+    }
+    // if (gi->nb_client >= 1)
+    //  draw_player_1(arg);
+    // if (gi->nb_client >= 2)
+    //  draw_player_2(arg);
+    // if (gi->nb_client >= 3)
+    //  draw_player_3(arg);
+    // if (gi->nb_client >= 4)
+    //  draw_player_4(arg);
   }
   return (NULL);
 }

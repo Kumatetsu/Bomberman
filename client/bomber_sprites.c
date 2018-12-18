@@ -28,7 +28,7 @@ void initSprites()
 /**
  * Get your bomber sprites (depend on num_player [0 -> 3])
 **/
-SDL_Rect getBomberSprites(int num_player)
+SDL_Rect getBomberSprites(int num_player, int dir, int action)
 {
     SDL_Rect default_rect;
     /**
@@ -37,16 +37,16 @@ SDL_Rect getBomberSprites(int num_player)
     switch (num_player)
     {
         case 0:
-            return getWhiteSprites(1, 1);
+            return getWhiteSprites(dir, action);
             break;
         case 1:
-            return getBlackSprites(1, 1);
+            return getBlackSprites(dir, action);
             break;
         case 2:
-            return getBlueSprites(1, 1);
+            return getBlueSprites(dir, action);
             break;
         case 3:
-            return getRedSprites(1, 1);
+            return getRedSprites(dir, action);
             break;
         default:
             return default_rect;

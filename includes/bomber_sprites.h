@@ -5,7 +5,7 @@
 /**
  * GETTERS
 **/
-SDL_Rect getBomberSprites(int num_player);
+SDL_Rect getBomberSprites(int num_player, int dir, int action);
 SDL_Rect getBlueSprites(int dir, int action);
 SDL_Rect getBlackSprites(int dir, int action);
 SDL_Rect getRedSprites(int dir, int action);
