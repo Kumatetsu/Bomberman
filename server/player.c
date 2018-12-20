@@ -39,15 +39,15 @@ int             add_player(t_srv **srv, int fd)
   new_player.y = 0;
   new_player.current_dir = 0;
   new_player.bomb_left = 1;
-  new_player.fd = fd; 
-  // index entre 0 et 3 pour indexation array                                        
+  new_player.fd = fd;
+  // index entre 0 et 3 pour indexation array
   new_player.num_player = (*srv)->n_players;
   /**
    ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
    */
   (*srv)->players[(*srv)->n_players] = new_player;
   (*srv)->n_players++;
-  printf("player added");
+  printf("player added number %d\n\n", (*srv)->n_players);
   return (1);
 }
 

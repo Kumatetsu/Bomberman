@@ -34,7 +34,7 @@ void *draw_player(void *arg, t_player_info player_info)
 			 &dest_rect);
 
   if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Player1 Failed",
+    SDL_ShowSimpleMessageBox(0, "drawing Player Failed",
 			     SDL_GetError(), data->window);
   return (NULL);
 }

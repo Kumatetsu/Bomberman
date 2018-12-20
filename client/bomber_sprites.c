@@ -79,7 +79,6 @@ SDL_Rect getBombSprites(int type)
     return bomb_sprites[bomb][type];
 }
 
-
 void initBlueBomberSprites()
 {
     blue_sprites[bomber_d][not_move] = init_rect(70, 92, 16, 24);
