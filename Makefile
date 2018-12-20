@@ -34,6 +34,7 @@ SRC 	= 	main.c 					\
 		client/client.c 			\
 		client/client_request.c			\
 		client/client_receive.c			\
+		client/bomber_sprites.c			\
 		server/server.c				\
 		server/thread.c				\
 		server/bomb_management.c		\
