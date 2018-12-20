@@ -26,11 +26,4 @@ typedef struct  s_player_info
   int		index_sprite;
 }               t_player_info;
 
-enum Directions {
-    BOMBER_D = 0,
-    BOMBER_L = 1,
-    BOMBER_R = 2,
-    BOMBER_U = 3,
-};
-
 #endif
