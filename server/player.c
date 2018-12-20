@@ -22,6 +22,7 @@
 #include "game_info.h"
 #include "my_put.h"
 #include "player.h"
+#include "constant.h"
 
 // instanciation d'un player avec sa socket
 int             add_player(t_srv **srv, int fd)
@@ -33,15 +34,15 @@ int             add_player(t_srv **srv, int fd)
   // fait pointer sur un espace mémoire qui sera détruit
   // à la fin de l'appel de add_player non?
   new_player.connected = 1;
+  // index entre 0 et 3 pour indexation array
+  new_player.num_player = (*srv)->n_players;
   new_player.alive = 1;
   new_player.dying = 0;
-  new_player.x = 0;
-  new_player.y = 0;
   new_player.current_dir = 0;
   new_player.bomb_left = 1;
   new_player.fd = fd;
-  // index entre 0 et 3 pour indexation array
-  new_player.num_player = (*srv)->n_players;
+  define_player_init_pos(&new_player);
+
   /**
    ** IL MANQUE SDL_Rect bomber_sprites[5][4]; à instancier dans le t_player
    */
@@ -81,4 +82,39 @@ int			accept_players(t_srv **srv)
     my_putstr("\nServer failed to add client");
   // retourne 1 si joueur ajouté, 0 sinon
   return (index);
+}
+
+
+void define_player_init_pos(t_player_info *player)
+{
+  /*
+  * un bloc fait 48px
+  * ordonnée: 13 blocks
+  * abscice: 15 blocks
+  * par défaut on place un joueur au milieux d'un case
+  * exemple placement joueur 1 : 48 + 24 = 72 pour la case x = y = 2
+  */
+  switch (player->num_player)
+    {
+    case 0:
+      player->x = (I_BEGIN + 1) * 48; // = 200px
+      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156 px
+      player->current_dir = BOMBER_L;
+      break;
+    case 1:
+      player->x = (I_BEGIN + 13) * 48; // = 776px
+      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
+      player->current_dir = BOMBER_D;
+      break;
+    case 2:
+      player->x = (I_BEGIN + 1) * 48; // = 200px
+      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
+      player->current_dir = BOMBER_U;
+      break;
+    case 3:
+      player->x = (I_BEGIN + 13) * 48; // = 776px
+      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156px
+      player->current_dir = BOMBER_R;
+      break;
+    }
 }

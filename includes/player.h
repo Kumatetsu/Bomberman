@@ -13,5 +13,6 @@
 
 int add_player(t_srv **srv, int fd);
 int accept_players(t_srv **srv);
+void define_player_init_pos(t_player_info *player);
 
 #endif /* !_PLAYER_H_ */

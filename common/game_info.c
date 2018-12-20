@@ -16,7 +16,6 @@
 #include "server.h"
 #include "map.h"
 #include "game_info.h"
-#include "constant.h"
 
 static t_game_info *game_info = NULL;
 
@@ -43,7 +42,6 @@ void    start_game(t_srv **srv)
   for (i = 0; i < 4; ++i)
     {
       game_info->players[i] = (*srv)->players[i];
-      active_player(&(game_info->players[i]));
     }
 }
 
@@ -68,41 +66,6 @@ void                    create_game_info()
       map_destroyable.wall_destroyable = 1;
       map_destroyable.exist = 1;
       game_info->map_destroyable[y][x] =  map_destroyable;
-    }
-}
-
-void    active_player(t_player_info *player)
-{
-  player->connected = 1;
-  /*
-  * un bloc fait 48px
-  * ordonnée: 13 blocks
-  * abscice: 15 blocks
-  * par défaut on place un joueur au milieux d'un case
-  * exemple placement joueur 1 : 48 + 24 = 72 pour la case x = y = 2
-  */
-  switch (player->num_player)
-    {
-    case 0:
-      player->x = (I_BEGIN + 1) * 48; // = 200px
-      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156 px
-      player->current_dir = BOMBER_L;
-      break;
-    case 1:
-      player->x = (I_BEGIN + 13) * 48; // = 776px
-      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
-      player->current_dir = BOMBER_D;
-      break;
-    case 2:
-      player->x = (I_BEGIN + 1) * 48; // = 200px
-      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
-      player->current_dir = BOMBER_U;
-      break;
-    case 3:
-      player->x = (I_BEGIN + 13) * 48; // = 776px
-      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156px
-      player->current_dir = BOMBER_R;
-      break;
     }
 }
 
