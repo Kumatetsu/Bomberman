@@ -13,6 +13,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include "constant.h"
 #include "my_put.h"
 #include "sdl.h"
 #include "enum.h"
@@ -34,7 +35,7 @@ void			my_sleep(int sec, int milli)
   int			nano;
   struct timespec	req = {0};
 
-  nano = milli * 1000000;
+  nano = milli * 10000000;
   req.tv_sec = sec;
   req.tv_nsec = nano;
   nanosleep(&req, NULL);
@@ -47,11 +48,9 @@ void		*threaded_ticker(void *server)
   t_srv		**srv;
   int		*tk;
   int		socket;
-  //char		*serialized_game_info;
   t_game_info	*game_info;
   int		i;
-  int   j;
-  int   k;
+  int		j;
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
@@ -71,14 +70,17 @@ void		*threaded_ticker(void *server)
         memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
         memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
         memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-        for (k=0; k<4; k++){
-          memcpy(&dumb_static.players[k], &game_info->players[k], sizeof(t_player_info));
+        for (j=0; j<4; j++){
+          memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
         }
-        for (k=0; k<14; k++){
-          for (j=0; j<15; j++){
-            memcpy(&dumb_static.map_destroyable[k][j], &game_info->map_destroyable[k][j], sizeof(t_map_destroyable));
-          }
-        }
+	for (j=0; j<INLINE_MATRIX; j++){
+	  {
+	    t_map_destroyable m = game_info->map_destroyable[j];
+	    if (m.exist && m.bomb)
+	      printf("\nMEMCPY a bomb at index %d/%d\n", j, INLINE_MATRIX);
+	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j], sizeof(t_map_destroyable));
+	  }
+	}
         write(socket, &dumb_static, sizeof(t_game_info) + 1);
       }
       ++(*tk);

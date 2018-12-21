@@ -8,13 +8,13 @@
 ** Last update Wed Jul  4 09:30:35 2018 MASERA Mathieu
 */
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
+#include "bomber_sprites.h"
 #include "player_info.h"
 #include "client_request.h"
 #include "server.h"
@@ -28,6 +28,12 @@
 #include "base_map_manager.h"
 
 // wrapper to init an SDL_Rect
+SDL_Rect	pixel_rect(int x, int y)
+{
+  SDL_Rect	tmp = {x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
+  return (tmp);
+}
+
 SDL_Rect init_rect(int x, int y, int w, int z)
 {
   SDL_Rect temp = {x, y, w, z};
@@ -60,7 +66,6 @@ void *draw_all(void *arg)
   black_bomber_sprite(arg);
   blue_bomber_sprite(arg);
    if (game_info != NULL) {
-    printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", game_info->nb_client);
     for (i = 0; i < 4; i++)
     {
       if (game_info->players[i].connected && game_info->players[i].alive)
@@ -70,9 +75,9 @@ void *draw_all(void *arg)
   return (NULL);
 }
 
-void *rebuild_map(void *arg) {
-  t_data *data = (t_data*)arg;
-  int i, j;
+void		*rebuild_map(void *arg) {
+  t_data	*data = (t_data*)arg;
+  int		i, j;
 
   for (i = 0; i < 14; i++)
     {
@@ -89,6 +94,26 @@ void *rebuild_map(void *arg) {
   return (NULL);
 }
 
+void		build_destroyables(void *arg)
+{
+  int		i, error;
+  t_data	*data = (t_data*)arg;
+
+  error = 0;
+  for (i = 0; i < INLINE_MATRIX; i++)
+    {
+      if (data->map_destroyable[i].exist)
+	{
+	  error = SDL_RenderCopy(data->renderer, data->texture,
+				 &(data->destroyable_drawer[i].src_rect),
+				 &(data->destroyable_drawer[i].dest_rect));
+	  printf("\nDestroyable place at %d:%d, texture: %d\n", data->map_destroyable[i].x, data->map_destroyable[i].y, data->destroyable_drawer[i].texture_type);
+	}
+    }
+  if (error > 0)
+    SDL_ShowSimpleMessageBox(0, "drawing destroyable failed", SDL_GetError(), data->window);
+}
+
 int get_element_type(int i, int j) {
     int code;
 
@@ -103,6 +128,5 @@ int get_element_type(int i, int j) {
     } else {
         code = 500;
     }
-
     return code;
 }

@@ -20,6 +20,8 @@
 #include "map.h"
 #include "base_map_manager.h"
 #include "data.h"
+#include "base_map_manager.h"
+#include "bomber_sprites.h"
 #include "draw_base_map.h"
 
 void *draw_map_model(void *arg)
@@ -62,6 +64,7 @@ void *draw_map_model(void *arg)
             }
 
             error = SDL_RenderCopy(data->renderer, data->texture, &ground_value, &dest_rect);
+	    // on range le carré dans array map en commençant à a == 1 pour laisser la première ligne libre
             data->array_map[a][b] = init_t_map(ground_value, dest_rect, texture_value);
 
             if (error < 0) {
@@ -117,4 +120,32 @@ void	*draw_pannel(void *arg)
     SDL_ShowSimpleMessageBox(0, "drawing Score Tab Failed",
 			     SDL_GetError(), data->window);
   return (NULL);
+}
+
+void			draw_destroyable_model(void *arg)
+{
+  int			i;
+  t_data		*data = (t_data*) arg;
+  t_map_destroyable	destroyable;
+  SDL_Rect		bomb_sprite;
+
+  bomb_sprite = getBombSprites(2);
+  for (i = 0; i < INLINE_MATRIX; i++)
+    {
+      destroyable = data->map_destroyable[i];
+      if (destroyable.exist)
+	{
+	  SDL_Rect dest_rect = {destroyable.x * PIXEL_SIZE,
+				destroyable.y * PIXEL_SIZE,
+				PIXEL_SIZE,
+				PIXEL_SIZE};
+	  if (destroyable.bomb)
+	    {
+	      printf("\ndestroyable building from index: %d at position %d:%d\n", i, destroyable.x, destroyable.y);
+	      SDL_RenderCopy(data->renderer, data->texture,
+			     &bomb_sprite,
+			     &dest_rect);
+	    }
+	}
+    }
 }

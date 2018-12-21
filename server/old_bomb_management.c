@@ -21,7 +21,6 @@
 // utilité de wrapper la boucle?
 void			trigger_bomb(
 				     t_game_info *game_info,
-				     int **map_pointer,
 				     t_map_destroyable bomb
 				     )
 {
@@ -34,7 +33,7 @@ void			trigger_bomb(
       pos = (i == 0 ? bomb.x : bomb.y);
       for (i = pos; i < pos + 8; ++i)
 	{
-	  apply_bomb_to_position(bomb, map_pointer, game_info, i);
+	  apply_bomb_to_position(bomb, game_info, i);
 	}
     }
 }
@@ -42,7 +41,6 @@ void			trigger_bomb(
 // logique pas comprise
 void			apply_bomb_to_position(
 					       t_map_destroyable bomb,
-					       int **map_pointer,
 					       t_game_info *game_info,
 					       int i
 					       )
