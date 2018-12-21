@@ -16,10 +16,7 @@ SDL_Rect getBombSprites(int type);
  * INIT
 **/
 void initSprites();
-void initBlueBomberSprites();
-void initBlackBomberSprites();
-void initRedBomberSprites();
-void initWhiteBomberSprites();
+void initBomberSprites(int y);
 void initBombSprites();
 
 
