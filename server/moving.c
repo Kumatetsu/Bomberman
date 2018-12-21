@@ -107,7 +107,10 @@ void	move_player(
  {
    int            y,x;
   //  int            **map_pointer;
-   const SDL_Rect player = {requested_x, requested_y, 16 * 3, 24 * 3};
+  
+  // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
+  // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
+   const SDL_Rect player = {requested_x - 1, requested_y - 6, 42, 42};
 
    printf("\ncheck_collision first iteration throught players\n");
      
@@ -118,7 +121,7 @@ void	move_player(
     //         printf("\n%d : %d\n", x, y);
     //       if (map_pointer[x][y] == WALL)
     //       {
-    //         const SDL_Rect element = {x, y, 16 * 3, 24 * 3};
+    //         const SDL_Rect element = {x, y, 16 * 3, 16 * 3};
     //         if (SDL_HasIntersection(&player, &element))
     //           return 0;
     //       }
@@ -131,7 +134,7 @@ void	move_player(
           if (game_info->map_destroyable[x][y].exist || game_info->map_destroyable[x][y].bomb)
           {
             printf("\nin destructible stuff\n");
-            const SDL_Rect element = {x, y, 16 * 3, 24 * 3};
+            const SDL_Rect element = {x, y, 16 * 3, 16 * 3};
             if (SDL_HasIntersection(&player, &element))
               return 0;
           }
@@ -143,7 +146,7 @@ void	move_player(
         if (game_info->players->num_player != num_player && &game_info->players[y] != NULL)
         {
           printf("\nin players stuff\n");
-          const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, 16 * 3, 24 * 3};
+          const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, 16 * 3, 16 * 3};
           if (SDL_HasIntersection(&player, &other_player))
             return 0;
         }
