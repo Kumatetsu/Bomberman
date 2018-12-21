@@ -51,7 +51,7 @@ void	move_player(
 
   printf("\nmoveplayer, check if player is in map\n");
   if (player_request->x < 0 || player_request->y < 0
-      || player_request->x > 104 || player_request->y > 88)
+      || player_request->x > 15 * PIXEL_SIZE || player_request->y > 13 * PIXEL_SIZE)
     return;
 
   switch (player_request->command)
@@ -92,8 +92,12 @@ void	move_player(
   if (check_collision(game_info, new_x, new_y, num_player) == 0)
      return;
 
-  game_info->players[num_player].x = new_x;
-  game_info->players[num_player].y = new_y;
+  if (game_info->players[num_player].alive) 
+  {
+    game_info->players[num_player].x = new_x;
+    game_info->players[num_player].y = new_y;
+  }
+
   change_sprite(&game_info->players[num_player], sprite_direction, player_request->command);
 
   set_game_info(game_info);
@@ -101,10 +105,36 @@ void	move_player(
 
 void change_sprite(t_player_info *player, int sprite_direction, int player_command)
 {
+  int next_action_sprite, next_direction_sprite;
+
+  // Death management
+  if (player->alive == 0)
+  {
+    next_direction_sprite = die;
+    switch (player->action_sprite) 
+    {
+      case 0:
+        next_action_sprite = 1;
+        break;
+      case 1:
+        next_action_sprite = 2;
+        break;
+      case 2:
+        break;
+      default:
+        next_action_sprite = 0;
+        break;
+    }
+    player->direction_sprite = next_direction_sprite;
+    player->action_sprite = next_action_sprite;
+    return;
+  }
+
   // Well there are no many ways to don't move...
   if (player_command == not_move)
   {
-    player->action_sprite = not_move;
+    next_action_sprite = not_move;
+    player->action_sprite = next_action_sprite;
     return;
   }
   
@@ -114,15 +144,17 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
     switch (player->action_sprite)
     {
       case move_l:
-        player->action_sprite = move_r;
+        next_action_sprite = move_r;
         break;
 
       case move_r:
-        player->action_sprite = move_l;
+        next_action_sprite = move_l;
 
       default:
         break;
     }
+
+    player->action_sprite = next_action_sprite;
     return;
   }
 
@@ -143,10 +175,13 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
   // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
   // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
    const SDL_Rect player = {requested_x - 1, requested_y - 6, PIXEL_SIZE - 6, PIXEL_SIZE - 6};
+   
    y_player_block = (int) (requested_y / PIXEL_SIZE);
    x_player_block = (int) (requested_x / PIXEL_SIZE);
+   
    max_y = y_player_block + 3;
-   min_y = (y_player_block - 3) > 0 ? y_player_block - 3 : 0;
+   // min_y should always be greater than 1 because 0 is not playable
+   min_y = (y_player_block - 3) > 1 ? y_player_block - 3 : 1;
 
    max_x = x_player_block + 3;
    min_x = (x_player_block - 3) > 0 ? x_player_block - 3 : 0;
