@@ -43,6 +43,8 @@ void	move_player(
 
 
   int new_x, new_y;
+  // x = width, y = height, sprite = visual to apply in the front
+  int new_x, new_y, sprite;
 
   printf("\ncheck if player is connected\n");
   if (game_info->players[num_player].connected == 0)
@@ -57,21 +59,25 @@ void	move_player(
   {
     case MOVE_UP:
       new_y = game_info->players[num_player].y - 6;
+      sprite = bomber_u;
       // printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_DOWN:
       new_y = game_info->players[num_player].y + 6;
+      sprite = bomber_d;
       // printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
       break;
 
     case MOVE_RIGHT:
       new_x = game_info->players[num_player].x + 6;
+      sprite = bomber_r;
       // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
       break;
 
     case MOVE_LEFT:
       new_x = game_info->players[num_player].x - 6;
+      sprite = bomber_l;
       // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
       break;
 
@@ -88,6 +94,7 @@ void	move_player(
 
   game_info->players[num_player].x = new_x;
   game_info->players[num_player].y = new_y;
+  game_info->players[num_player].bomber_sprites = sprite;
 
   set_game_info(game_info);
 }
