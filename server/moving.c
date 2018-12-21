@@ -19,6 +19,7 @@
 #include "game_info.h"
 #include "moving.h"
 #include "map_management.h"
+#include "constant.h"
 
 void	move_player(
 		    t_game_info *game_info,
@@ -41,10 +42,8 @@ void	move_player(
   // if (check_collision(map_pointer, player_request) == 0)
   //   return;
 
-
-  int new_x, new_y;
   // x = width, y = height, sprite = visual to apply in the front
-  int new_x, new_y, sprite_index;
+  int new_x, new_y, sprite_direction;
 
   printf("\ncheck if player is connected\n");
   if (game_info->players[num_player].connected == 0)
@@ -59,29 +58,30 @@ void	move_player(
   {
     case MOVE_UP:
       new_y = game_info->players[num_player].y - 6;
-      sprite_index = bomber_u;
-      // printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
+      sprite_direction = bomber_u;
+      printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, new_y);
       break;
 
     case MOVE_DOWN:
       new_y = game_info->players[num_player].y + 6;
-      sprite_index = bomber_d;
-      // printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, game_info->players[num_player].y_pos);
+      sprite_direction = bomber_d;
+      printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, new_y);
       break;
 
     case MOVE_RIGHT:
       new_x = game_info->players[num_player].x + 6;
-      sprite_index = bomber_r;
-      // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
+      sprite_direction = bomber_r;
+      printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, new_x);
       break;
 
     case MOVE_LEFT:
       new_x = game_info->players[num_player].x - 6;
-      sprite_index = bomber_l;
-      // printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, game_info->players[num_player].x_pos);
+      sprite_direction = bomber_l;
+      printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, new_x);
       break;
 
     default:
+      player_request->command = not_move;
       break;
   }
 
@@ -94,9 +94,40 @@ void	move_player(
 
   game_info->players[num_player].x = new_x;
   game_info->players[num_player].y = new_y;
-  game_info->players[num_player].index_sprite = sprite_index;
+  change_sprite(&game_info->players[num_player], sprite_direction, player_request->command);
 
   set_game_info(game_info);
+}
+
+void change_sprite(t_player_info *player, int sprite_direction, int player_command)
+{
+  // Well there are no many ways to don't move...
+  if (player_command == not_move)
+  {
+    player->action_sprite = not_move;
+    return;
+  }
+  
+  // Here we manage the fluidity of the move
+  if (player->direction_sprite == sprite_direction)
+  {
+    switch (player->action_sprite)
+    {
+      case move_l:
+        player->action_sprite = move_r;
+        break;
+
+      case move_r:
+        player->action_sprite = move_l;
+
+      default:
+        break;
+    }
+    return;
+  }
+
+  // It's like a turn arround, so we only change the direction (by using the direction calculated before), not the action
+  player->direction_sprite = sprite_direction;
 }
 
  int	check_collision(
@@ -106,12 +137,19 @@ void	move_player(
       int num_player
  			)
  {
-   int            y,x;
+   int            y,x, y_player_block, x_player_block, max_x, max_y, min_x, min_y;
   //  int            **map_pointer;
   
   // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
   // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
-   const SDL_Rect player = {requested_x - 1, requested_y - 6, 42, 42};
+   const SDL_Rect player = {requested_x - 1, requested_y - 6, PIXEL_SIZE - 6, PIXEL_SIZE - 6};
+   y_player_block = (int) (requested_y / PIXEL_SIZE);
+   x_player_block = (int) (requested_x / PIXEL_SIZE);
+   max_y = y_player_block + 3;
+   min_y = (y_player_block - 3) > 0 ? y_player_block - 3 : 0;
+
+   max_x = x_player_block + 3;
+   min_x = (x_player_block - 3) > 0 ? x_player_block - 3 : 0;
 
    printf("\ncheck_collision first iteration throught players\n");
 
@@ -122,32 +160,34 @@ void	move_player(
     //         printf("\n%d : %d\n", x, y);
     //       if (map_pointer[x][y] == WALL)
     //       {
-    //         const SDL_Rect element = {x, y, 16 * 3, 16 * 3};
+    //         const SDL_Rect element = {x, y, PIXEL_SIZE, PIXEL_SIZE};
     //         if (SDL_HasIntersection(&player, &element))
     //           return 0;
     //       }
     //     }
     //   }
 
-     // Loop over map_desctructible
-     for (y = 0; y < (int)(sizeof(game_info->map_destroyable)/sizeof(game_info->map_destroyable[0])); ++y) {
-        for (x = 0; x < (int)(sizeof(game_info->map_destroyable[y])/sizeof(game_info->map_destroyable[y][0])); ++x) {
-          if (game_info->map_destroyable[x][y].exist || game_info->map_destroyable[x][y].bomb)
-          {
-            printf("\nin destructible stuff\n");
-            const SDL_Rect element = {x, y, 16 * 3, 16 * 3};
-            if (SDL_HasIntersection(&player, &element))
-              return 0;
-          }
-        }
-      }
+    // Loop over map_desctructible
+    for (y = min_y; y < max_y; ++y)
+    {
+       for (x = min_x; x < max_x; ++x)
+       {
+         if (game_info->map_destroyable[x][y].exist || game_info->map_destroyable[x][y].bomb)
+         {
+           //printf("\nin destructible stuff\n");
+           const SDL_Rect element = {game_info->map_destroyable[x][y].x, game_info->map_destroyable[x][y].y, PIXEL_SIZE, PIXEL_SIZE};
+           if (SDL_HasIntersection(&player, &element))
+            return 0;
+         }
+       }
+    }
 
      // Loop over players
      for (y = 0; y < (int)(sizeof(game_info->players)/sizeof(game_info->players[0])); ++y) {
         if (game_info->players->num_player != num_player && &game_info->players[y] != NULL)
         {
-          printf("\nin players stuff\n");
-          const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, 16 * 3, 16 * 3};
+          //printf("\nin players stuff\n");
+          const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, PIXEL_SIZE, PIXEL_SIZE};
           if (SDL_HasIntersection(&player, &other_player))
             return 0;
         }
