@@ -16,6 +16,7 @@
 #include "player_info.h"
 #include "data.h"
 #include "move_player.h"
+#include "constant.h"
 
 void *move_player_down(void *arg) {
   t_data *data = (t_data*)arg;
