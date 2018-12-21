@@ -11,7 +11,6 @@ static const int SLEEP = 500; // en millisecond
 static const int TICK_IN_SEC = 1000 / 500;
 
 // full map
-ender, je n'arrive pas à les rendre à l'écran...
 static const int WINDOW_W = 1024;
 static const int WINDOW_H = 768;
 static const int PIXEL_SIZE = 48;
