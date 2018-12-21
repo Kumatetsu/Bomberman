@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "enum.h"
+#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"
@@ -86,4 +87,22 @@ void *rebuild_map(void *arg) {
 	}
     }
   return (NULL);
+}
+
+int get_element_type(int i, int j) {
+    int code;
+
+    if (j == J_BEGIN || j == J_BEGIN + 12 || i == I_BEGIN || i == I_BEGIN + 14) {
+        code = WALL;
+    } else if (j == J_BEGIN + 1 || (j % 2 != J_BEGIN % 2 && i % 2 == I_BEGIN % 2)) {
+        code = FREE_SLOT;
+    } else if (i % 2 != I_BEGIN % 2) {
+        code = FREE_SLOT;
+    } else if (i % 2 == I_BEGIN % 2) {
+        code = WALL;
+    } else {
+        code = 500;
+    }
+
+    return code;
 }

@@ -61,7 +61,7 @@ void		*threaded_ticker(void *server)
     {
       sprintf(log, "\nTick: %d", (*tk));
       my_putstr(log);
-      my_sleep(0, 5000);
+      my_sleep(0, 500);
       for (i = 0; i < (*srv)->n_players; i++) {
         socket = (*srv)->players[i].fd;
         game_info->id_client = i;
