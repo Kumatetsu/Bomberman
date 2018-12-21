@@ -83,11 +83,11 @@ void initBlueBomberSprites()
 {
     blue_sprites[bomber_d][not_move] = init_rect(70, 92, 16, 24);
     blue_sprites[bomber_d][move_l] = init_rect(52, 92, 16, 24);
-    blue_sprites[bomber_d][transit_move] = init_rect(70, 38, 16, 24);
+    blue_sprites[bomber_d][transit_move] = init_rect(70, 92, 16, 24);
     blue_sprites[bomber_d][move_r] = init_rect(88, 92, 16, 24);
     blue_sprites[bomber_l][not_move] = init_rect(124, 38, 16, 24);
     blue_sprites[bomber_l][move_l] = init_rect(106, 92, 16, 24);
-    blue_sprites[bomber_l][transit_move] = init_rect(124, 38, 16, 24);
+    blue_sprites[bomber_l][transit_move] = init_rect(124, 92, 16, 24);
     blue_sprites[bomber_l][move_r] = init_rect(143, 92, 16, 24);
     blue_sprites[bomber_r][not_move] = init_rect(179, 92, 16, 24);
     blue_sprites[bomber_r][move_l] = init_rect(160, 92, 16, 24);
@@ -104,11 +104,11 @@ void initBlueBomberSprites()
 
 void initBlackBomberSprites()
 {
-    black_sprites[bomber_d][not_move] = init_rect(70, 38, 16, 24);
+    black_sprites[bomber_d][not_move] = init_rect(70, 66, 16, 24);
     black_sprites[bomber_d][move_l] = init_rect(52, 66, 16, 24);
-    black_sprites[bomber_d][transit_move] = init_rect(70, 38, 16, 24);
+    black_sprites[bomber_d][transit_move] = init_rect(70, 66, 16, 24);
     black_sprites[bomber_d][move_r] = init_rect(88, 66, 16, 24);
-    black_sprites[bomber_l][not_move] = init_rect(124, 38, 16, 24);
+    black_sprites[bomber_l][not_move] = init_rect(124, 66, 16, 24);
     black_sprites[bomber_l][move_l] = init_rect(106, 66, 16, 24);
     black_sprites[bomber_l][transit_move] = init_rect(124, 66, 16, 24);
     black_sprites[bomber_l][move_r] = init_rect(143, 66, 16, 24);

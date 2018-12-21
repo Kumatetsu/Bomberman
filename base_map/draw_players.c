@@ -27,7 +27,7 @@ void *draw_player(void *arg, t_player_info player_info)
   t_data	*data = (t_data*)arg;
   SDL_Rect sprite_container;
 
-  sprite_container = getBomberSprites(player_info.num_player, bomber_d, move_l);
+  sprite_container = getBomberSprites(player_info.num_player, bomber_d, not_move);
   SDL_Rect	dest_rect = {player_info.x, player_info.y, 16 * 3, 24 * 3};
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &sprite_container,
