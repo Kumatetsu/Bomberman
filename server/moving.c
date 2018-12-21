@@ -57,24 +57,28 @@ void	move_player(
   {
     case MOVE_UP:
       new_y = game_info->players[num_player].y - 6;
+      new_x = game_info->players[num_player].x;
       sprite_direction = bomber_u;
       printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, new_y);
       break;
 
     case MOVE_DOWN:
       new_y = game_info->players[num_player].y + 6;
+      new_x = game_info->players[num_player].x;
       sprite_direction = bomber_d;
       printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, new_y);
       break;
 
     case MOVE_RIGHT:
       new_x = game_info->players[num_player].x + 6;
+      new_y = game_info->players[num_player].y;
       sprite_direction = bomber_r;
       printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, new_x);
       break;
 
     case MOVE_LEFT:
       new_x = game_info->players[num_player].x - 6;
+      new_y = game_info->players[num_player].y;
       sprite_direction = bomber_l;
       printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, new_x);
       break;
