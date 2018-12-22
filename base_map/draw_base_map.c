@@ -135,17 +135,8 @@ void			draw_destroyable_model(void *arg)
       destroyable = data->map_destroyable[i];
       if (destroyable.exist)
 	{
-	  SDL_Rect dest_rect = {destroyable.x * PIXEL_SIZE,
-				destroyable.y * PIXEL_SIZE,
-				PIXEL_SIZE,
-				PIXEL_SIZE};
-	  if (destroyable.bomb)
-	    {
-	      printf("\ndestroyable building from index: %d at position %d:%d\n", i, destroyable.x, destroyable.y);
-	      SDL_RenderCopy(data->renderer, data->texture,
-			     &bomb_sprite,
-			     &dest_rect);
-	    }
+	  SDL_Rect dest_rect = pixel_rect(destroyable.x, destroyable.y);
+	  data->destroyable_drawer[i] = init_t_map(bomb_sprite, dest_rect, bomb);
 	}
     }
 }

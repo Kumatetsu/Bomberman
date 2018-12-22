@@ -32,7 +32,7 @@ int			main_loop(t_srv **srv)
   t_player_request	*player_request;
   t_game_info		*game_info;
   
-  printf("\n\nMAIN_LOOP\n");
+  printf("\nMAIN_LOOP\n");
   i = 0;
   // On initialise direct la game_info
   // on utilise ensuite is_running() pour savoir si ca tourne
@@ -52,7 +52,6 @@ int			main_loop(t_srv **srv)
 	    (*srv)->fd_max = (*srv)->players[i].fd;
 	}
     }
-  // set_fd_max(srv);
   printf("\nselect\n");
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
     return (0);
@@ -68,7 +67,8 @@ int			main_loop(t_srv **srv)
 	  game_info->players[i] = (*srv)->players[i];
 	}
     }
-  //(!is_running() && is_enought_players(srv))
+  // FOR PROD
+  //if (!is_running() && is_enought_players(srv))
   // FOR DEV
   if (((*srv)->n_players && !is_running()))
     {

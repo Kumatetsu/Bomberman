@@ -36,7 +36,7 @@ void            *listen_server(void *s)
   fd_set        fd_read;
   t_game_info	*game_info;
   t_data	*data;
-  
+
   struct_thread= (t_thread *)(s);
   data = struct_thread->data;
   while (!quit)
@@ -52,15 +52,22 @@ void            *listen_server(void *s)
 	    quit = 1;
 	  game_info = get_game_info();
 	  for (i = 0; i < INLINE_MATRIX; i++)
-	    {
-	      data->map_destroyable[i] = game_info->map_destroyable[i];
-	    }
+	    data->map_destroyable[i] = game_info->map_destroyable[i];
 	  SDL_RenderClear(data->renderer);
-	  rebuild_map(data);
-	  move_player_stop(data);
+	  // redéfini le model de la map fixe dans array_map
 	  draw_all(data);
+	  // rebuild le model dans array_map
+	  rebuild_map(data);
+
+	  // fonction cheloue:
+	  // move_player_stop(data);
+
+	  // dessine les 'destroyables' pour l'instant les bombs
+	  // rempli le model dans map_destroyable
 	  draw_destroyable_model(data);
-	  //	  build_destroyables(data);
+	  // appel SDL_RenderCopy sur map_destroyable
+	  build_destroyables(data);
+	  // dessine le contenu du renderer dans la window
 	  SDL_RenderPresent(data->renderer);
 	  SDL_SetRenderTarget(data->renderer, NULL);
 	}
@@ -70,24 +77,22 @@ void            *listen_server(void *s)
 
 int		get_message(int s)
 {
-  char		buff[sizeof(t_game_info) + 1];
   int		r;
+  char		buff[sizeof(t_game_info) + 1];
   t_game_info	*game_info;
-  int		i;
 
   game_info = NULL;
   r = recv(s, buff, sizeof(t_game_info) + 1, 0);
-  if (r > 0)
+  // une t_game_info fait plus de 7000 bytes
+  // si l'ensemble n'est pas consommé, il peut rester
+  // quelques bytes qui seront traités et provoqueront une erreur
+  // ici, un système permettant de checké l'intégrité de la
+  // game_info serait le bienvenu, c'était la cause du bug de sérialisation
+  if (r > 3000)
   {
-    //deserialize_game_info(buff);
     game_info = (t_game_info*)buff;
     set_game_info(game_info);
-    //game_info = get_game_info();
     printf("tick_time %d received %d bytes\n", game_info->tick_time, r);
-    for (i=0; i<4; i++) {
-      //      if (&game_info->players[i])
-	//      printf("client fd %d\n\n", (int)game_info->players[i].fd);
-    }
     return 1;
   }
   else

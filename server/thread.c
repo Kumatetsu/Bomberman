@@ -44,48 +44,43 @@ void			my_sleep(int sec, int milli)
 // ticker
 void		*threaded_ticker(void *server)
 {
-  char		log[50];
-  t_srv		**srv;
-  int		*tk;
-  int		socket;
-  t_game_info	*game_info;
   int		i;
   int		j;
+  int		*tk;
+  int		socket;
+  t_srv		**srv;
+  t_game_info	*game_info;
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
   game_info = get_game_info();
-  while(1)
+  while(1 && game_info != NULL)
     {
-      sprintf(log, "\nTick: %d", (*tk));
-      my_putstr(log);
+      printf("\nTick: %d", (*tk));
       my_sleep(0, 500);
-      for (i = 0; i < (*srv)->n_players; i++) {
-        socket = (*srv)->players[i].fd;
-        game_info->id_client = i;
-        // set_game_info(game_info);
-        memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
-        memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
-        memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
-        memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
-        memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-        for (j=0; j<4; j++){
-          memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
-        }
-	for (j=0; j<INLINE_MATRIX; j++){
-	  {
-	    t_map_destroyable m = game_info->map_destroyable[j];
-	    if (m.exist && m.bomb)
-	      printf("\nMEMCPY a bomb at index %d/%d\n", j, INLINE_MATRIX);
-	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j], sizeof(t_map_destroyable));
-	  }
+      for (i = 0; i < (*srv)->n_players; i++)
+	{
+	  socket = (*srv)->players[i].fd;
+	  game_info->id_client = i;
+	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
+	  memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
+	  memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
+	  memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
+	  memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
+	  for (j=0; j<4; j++)
+	    memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
+	  for (j=0; j<INLINE_MATRIX; j++)
+	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
+		   sizeof(t_map_destroyable));
+	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
 	}
-        write(socket, &dumb_static, sizeof(t_game_info) + 1);
-      }
       ++(*tk);
-      game_info->tick_time=(*tk);
+      game_info->tick_time = (*tk);
     }
+  printf("\nServer stopped to send game informations\n");
+  // probablement pas suffisant comme retour
+  return NULL;
 }
 
 // la main_loop du server tourne sur un thread
@@ -101,6 +96,6 @@ void	*threaded_main_loop(void *server)
     // retourne 0 si erreur sur select ou accept_player
     // retourne 1 si la boucle va au bout, traitement ou non
     check = main_loop(srv);
-    printf("\n\nMain loop exit with code: %d\n", check);
+    printf("\nMain loop exit with code: %d", check);
   }
 }

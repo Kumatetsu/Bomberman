@@ -5,7 +5,7 @@
 #define Y_RED_B 120
 #define Y_WHITE_B 38
 #define Y_BLACK_B 66
-
+#define Y_BOMB 255
 // general
 static const int SLEEP = 500; // en millisecond
 static const int TICK_IN_SEC = 1000 / 500;

@@ -30,18 +30,19 @@
 // wrapper to init an SDL_Rect
 SDL_Rect	pixel_rect(int x, int y)
 {
-  SDL_Rect	tmp = {x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
+  SDL_Rect	tmp = {x, y, PIXEL_SIZE, PIXEL_SIZE};
+
   return (tmp);
 }
 
-SDL_Rect init_rect(int x, int y, int w, int z)
+SDL_Rect	init_rect(int x, int y, int w, int z)
 {
-  SDL_Rect temp = {x, y, w, z};
+  SDL_Rect	temp = {x, y, w, z};
 
   return (temp);
 }
 
-t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
+t_map	init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
 {
   t_map map;
 
@@ -51,27 +52,23 @@ t_map init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
   return (map);
 }
 
-void *draw_all(void *arg)
+void		*draw_all(void *arg)
 {
-  t_game_info *game_info;
-  int i;
-
+  int		i;
+  t_game_info	*game_info;
+  
   game_info = get_game_info();
-
   draw_map_model(arg);
   draw_pannel(arg);
   draw_timer(arg);
-  white_bomber_sprite(arg);
-  red_bomber_sprite(arg);
-  black_bomber_sprite(arg);
-  blue_bomber_sprite(arg);
-   if (game_info != NULL) {
-    for (i = 0; i < 4; i++)
+  if (game_info != NULL)
     {
-      if (game_info->players[i].connected && game_info->players[i].alive)
-        draw_player(arg, game_info->players[i]);
+      for (i = 0; i < 4; i++)
+	{
+	  if (game_info->players[i].connected && game_info->players[i].alive)
+	    draw_player(arg, game_info->players[i]);
+	}
     }
-  }
   return (NULL);
 }
 
