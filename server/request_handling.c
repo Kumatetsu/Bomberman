@@ -10,7 +10,6 @@
 
 #include <stdio.h>
 #include "enum.h"
-#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"
@@ -24,76 +23,75 @@
 // dev
 #include "detail_game_info.h"
 
-void	detail_player(t_player_info p)
-{
-  printf("\nPlayer:");
-  printf("\nnum_player: %d", p.num_player);
-  printf("\nx: %d", p.x);
-  printf("\ny: %d", p.y);
-  printf("\ncurrent_dir: %d", p.current_dir);
-  printf("\nbomb_left:%d", p.bomb_left);
-  printf("\nalive: %d", p.alive);
-  printf("\ndying: %d", p.dying);
-  printf("\nconnected: %d", p.connected);
-  printf("\nsocket number: %d", p.fd);
-}
-
 // le map_pointer segfault
-void	handle_requests(t_game_info *game_info,	t_player_request *player_request)
+void	handle_requests(
+			t_game_info *game_info,
+      int num_player,
+			t_player_request *player_request
+			)
 {
-  int	num_player;
+  // int	**map_pointer;
 
-  num_player = player_request->num_player;
-  detail_player(game_info->players[player_request->num_player]);
+  detail_game_info();
+  // printf("\nget_array_map\n");
+  // map_pointer = get_array_map();
+  printf("\nmap_pointer ok\n");
+  // Cette fonction segfault
+  //  add_destructible_elements(game_info, map_pointer);
+  printf("\ndestructible element added\n");
   // Les commandes de mouvement étant assimilées à un int plus grand
   // On a juste à check si la commande est supérieur aà PLACE_BOMB
   if (player_request->command > PLACE_BOMB )
-    {
-      move_player(game_info, player_request, num_player);
-      printf("\nplayer moved\n");
-    }
+    move_player(game_info, player_request, num_player);
+  printf("\nplayer moved\n");
+  // dans server/map_management.c
+  // manage_bombs(game_info, map_pointer);
+  // printf("\nbomb element managed\n");
   if (player_request->command == PLACE_BOMB)
     {
-      place_bomb(game_info, player_request);
+      printf("\nplace bomb\n");
+      /*En standby*/
+      // dans ce fichier
+      // place_bomb(game_info, player_request);
       printf("\nbomb placed\n");
     }
+  printf("\nopen file\n");
+  detail_game_info();
 }
 
 /**
- * @params (*)t_game_info
- * @params (*)t_player_request
- * @return 1 -> success 0 -> fail
+ * Ne correspond pas du tout aux nouvelles structures
 **/
-int			place_bomb(t_game_info *game_info, t_player_request *player_request)
+void	place_bomb(t_game_info *game_info,
+ 		   t_player_request *player_request
+ 		   )
 {
-  t_player_info		player;
-  int 			index;
+  t_player_info	player;
+  int 			i;
+  int 			x;
+  int 			y;
   t_map_destroyable	bomb;
 
   printf("\nPLACING BOMB\n");
-  player = game_info->players[player_request->num_player];
+  for (i = 0; i < 4; i++)
+    {
+      if (game_info->players[i].connected == 0
+	  || game_info->players[i].num_player != player_request->num_player)
+	continue;
+      player = game_info->players[i];
+      if (player.bomb_left == 0)
+	return;
+    }
   if (player.connected == 0)
-    return (0);
+    return;
   bomb.exist = 1;
-  player.bomb_left--;
+  player.bomb_left = 0;
   bomb.bomb = 1;
-  bomb.start_explode = game_info->tick_time + TICK_IN_SEC; // TICK_IN_SEC == 1000 / SLEEP
-  bomb.bomb_owner = player_request->num_player;
-  // cohabitation principe de cases et principe pixels
-  bomb.x = player.x;
-  bomb.y = player.y;
-  index = (bomb.x + bomb.y * COLUMNS) / PIXEL_SIZE;
-    if (game_info->map_destroyable[index].exist)
-      {
-	printf("\nYou can't place a bomb here, already one in that case\n");
-	return (0);
-      }
-    else
-      {
-	printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
-	game_info->map_destroyable[index] = bomb;
-	return (1);
-      }
+  bomb.start_explode = game_info->tick_time + 5;
+  bomb.bomb_owner = i + 1;
+  x = player.x * 8;
+  y = player.y * 8;
+  game_info->map_destroyable[y][x] =  bomb;
 }
 
 void	add_request_to_server(t_srv **srv, t_player_request *player_request)

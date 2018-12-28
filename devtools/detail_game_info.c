@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "enum.h"
-#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "map.h"
@@ -12,6 +11,7 @@
 void			detail_game_info()
 {
   int			i;
+  int			j;
   t_game_info		*gi;
   char			details[72];
   char			players_detail[500];
@@ -29,12 +29,16 @@ void			detail_game_info()
         printf("PLAYER CONNECTED:\nnum_player: %d\nx: %d\ny: %d\n", i, p.x, p.y);
       snprintf(players_detail, sizeof players_detail, "\nPlayers:\nconnected: %d\nalive: %d\ndying: %d\nx: %d\ny: %d\ncurrent_dir: %d\nbomb_left: %d\nfd: %d\nnum_player: %d", p.connected, p.alive, p.dying, p.x, p.y, p.current_dir, p.bomb_left, p.fd, p.num_player);
     }
-  for (i = 0; i < INLINE_MATRIX; i++)
+  for (j = 0; j < 14; j++)
     {
-      m = gi->map_destroyable[i];
-      if (m.exist == 1)
+      for (i = 0; i < 15; i++)
 	{
-	  snprintf(map_detail, sizeof map_detail, "\nMap detail for [%d]:\ny: %d\nx: %d\nbomb: %d\nbomb_owner: %d\nstart_explode:%d\nwall_destroyable: %d\nexist: %d\n", i, m.y, m.x, m.bomb, m.bomb_owner, m.start_explode, m.wall_destroyable, m.exist);
+	  m = gi->map_destroyable[0][0];
+	  if (m.exist == 1)
+	    {
+	      snprintf(map_detail, sizeof map_detail, "\nMap detail for [%d][%d]:\ny: %d\nx: %d\nbomb: %d\nbomb_owner: %d\nstart_explode:%d\nwall_destroyable: %d\nexist: %d\n", j, i, m.y, m.x, m.bomb, m.bomb_owner, m.start_explode, m.wall_destroyable, m.exist);
+	    }
+
 	}
     }
   snprintf(total_detail, sizeof total_detail, "\nGAME INFO:\n%s\nPLAYERS:\n%s\nMAP:\n%s\n", details, players_detail, map_detail);
