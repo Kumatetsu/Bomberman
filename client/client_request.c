@@ -48,9 +48,9 @@ int free_player_request(t_player_request* client_request)
   return BAD_FREE;
 }
 
-int         send_request(int s, t_player_request* client_request)
+int			send_request(int s, t_player_request* client_request)
 {
-  t_player_request dumb_static;
+  t_player_request	dumb_static;
   // request_string = request_serialization(client_request);
   memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
   memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));
@@ -60,10 +60,10 @@ int         send_request(int s, t_player_request* client_request)
 }
 
 // return a unique int corresponding to request values
-int     get_request_checksum(t_player_request* client_request)
+int		get_request_checksum(t_player_request* client_request)
 {
-  int   checksum = 0;
-  int   i;
+  int		checksum = 0;
+  int		i;
   unsigned char *p = (unsigned char *)&client_request->magic;
 
   for (i = 0; i<(int)sizeof(client_request->magic); i++)

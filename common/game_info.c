@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include "enum.h"
+#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"
@@ -17,7 +18,7 @@
 #include "map.h"
 #include "game_info.h"
 
-static t_game_info *game_info = NULL;
+static t_game_info *game_info;
 
 t_game_info	*get_game_info()
 {
@@ -49,23 +50,19 @@ void                    create_game_info()
 {
   t_map_destroyable     map_destroyable;
   int                   i;
-  int                   x;
-  int                   y;
 
   game_info->game_status = 0;
-  for (i = 0; i < 32; ++i)
+  for (i = 0; i < INLINE_MATRIX; ++i)
     {
-      x = random_at_most(13);
-      y = random_at_most(11);
-      map_destroyable.y = y * 8;
-      map_destroyable.x = x * 8;
+      map_destroyable.y = 0;
+      map_destroyable.x = 0;
       map_destroyable.bomb = 0;
       map_destroyable.bomb_owner = -1;
       map_destroyable.dying = 0;
       map_destroyable.start_explode = 0;
-      map_destroyable.wall_destroyable = 1;
-      map_destroyable.exist = 1;
-      game_info->map_destroyable[y][x] =  map_destroyable;
+      map_destroyable.wall_destroyable = 0;
+      map_destroyable.exist = 0;
+      game_info->map_destroyable[i] =  map_destroyable;
     }
 }
 

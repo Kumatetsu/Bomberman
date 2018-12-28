@@ -123,7 +123,7 @@ void initBomberSprites(int y)
 
 void initBombSprites()
 {
-    bomb_sprites[bomb][bomb_s] = init_rect(17, 255, 16, 17);
-    bomb_sprites[bomb][bomb_m] = init_rect(33, 255, 16, 17);
-    bomb_sprites[bomb][bomb_l] = init_rect(50, 38, 16, 17);
+    bomb_sprites[bomb][bomb_s] = init_rect(17, Y_BOMB, 16, 17);
+    bomb_sprites[bomb][bomb_m] = init_rect(33, Y_BOMB, 16, 17);
+    bomb_sprites[bomb][bomb_l] = init_rect(50, Y_BOMB, 16, 17);
 }
