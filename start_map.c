@@ -34,8 +34,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   pthread_t	listen_server_thread;
 
   quit = 0;
-  if ((data = malloc(sizeof(*data))) == NULL)
-    return 0;
+  data = malloc(sizeof(*data));
   data->renderer = sdl->renderer;
   data->window = sdl->window;
   if ((struct_thread = malloc(sizeof(t_thread))) == NULL)
@@ -50,7 +49,9 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_RenderClear(data->renderer);
   printf("\nbefore create thread\n");
   if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
+  {
     quit = 1;
+  }
   printf("\nthread created\n");
   while (!quit)
   {

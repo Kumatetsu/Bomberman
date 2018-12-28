@@ -15,10 +15,10 @@ typedef struct	s_map_destroyable
 {
   int		x;
   int		y;
+  int		bomb;
   int		bomb_owner;
   int		dying;
   int		start_explode;
-  int		bomb;
   int		wall_destroyable;
   int		exist;
 }		t_map_destroyable;
