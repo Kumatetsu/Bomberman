@@ -93,7 +93,7 @@ int		get_message(int s)
   if (r > 3000)
   {
     game_info = (t_game_info*)buff;
-    set_game_info(game_info);
+    // set_game_info(game_info);
     printf("tick_time %d received %d bytes\n", game_info->tick_time, r);
     return 1;
   }
