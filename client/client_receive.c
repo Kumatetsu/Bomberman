@@ -25,7 +25,6 @@
 #include "thread.h"
 #include "draw_base_map.h"
 #include "base_map_manager.h"
-#include "move_player.h"
 #include "client_receive.h"
 
 void            *listen_server(void *s)
