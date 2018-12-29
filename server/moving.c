@@ -25,6 +25,7 @@ void	move_player(
 		    int num_player
 		    )
 {
+  num_player = player_request->num_player;
   printf("\nmoveplayer, check if player is in map\n");
   // Commenté sinon on empêche le déplacement.
   // if (player_request->x < 0 || player_request->y < 0
@@ -38,7 +39,7 @@ void	move_player(
   // if (check_collision(map_pointer, player_request) == 0)
   //   return;
 
-  printf("\ncheck if player is connected\n");
+  printf("\ncheck if player %d is connected\n", num_player);
   if (game_info->players[num_player].connected == 0)
 	  return;
 

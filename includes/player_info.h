@@ -13,15 +13,15 @@
 
 typedef struct  s_player_info
 {
-  int		connected;
-  int		alive;
-  int		dying;
+  int		num_player; //between 0 and 3 for array indexation
   int		x;
   int		y;
   int		current_dir;
   int		bomb_left;
+  int		alive;
+  int		dying;
+  int		connected;
   int		fd;
-  int		num_player; //between 0 and 3 for array indexation
   SDL_Rect	bomber_sprites[5][4];
   int		index_sprite;
 }               t_player_info;
