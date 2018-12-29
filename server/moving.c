@@ -43,7 +43,8 @@ void	move_player(
   //   return;
 
   // x = width, y = height, sprite = visual to apply in the front
-  int new_x, new_y, sprite_direction;
+  int new_x, new_y;
+  int sprite_direction;
 
   printf("\ncheck if player is connected\n");
   if (game_info->players[num_player].connected == 0)
@@ -109,28 +110,12 @@ void	move_player(
 
 void change_sprite(t_player_info *player, int sprite_direction, int player_command)
 {
-  int next_action_sprite, next_direction_sprite;
+  int next_action_sprite;
 
   // Death management
   if (player->alive == 0)
   {
-    next_direction_sprite = die;
-    switch (player->action_sprite)
-    {
-      case 0:
-        next_action_sprite = 1;
-        break;
-      case 1:
-        next_action_sprite = 2;
-        break;
-      case 2:
-        break;
-      default:
-        next_action_sprite = 0;
-        break;
-    }
-    player->direction_sprite = next_direction_sprite;
-    player->action_sprite = next_action_sprite;
+    player->action_sprite = 0;
     return;
   }
 
@@ -142,28 +127,20 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
     return;
   }
 
-  // Here we manage the fluidity of the move
-  if (player->direction_sprite == sprite_direction)
+  switch (player->action_sprite)
   {
-    switch (player->action_sprite)
-    {
-      case move_l:
-        next_action_sprite = move_r;
-        break;
-
-      case move_r:
-        next_action_sprite = move_l;
-
-      default:
-        break;
-    }
-
-    player->action_sprite = next_action_sprite;
-    return;
+    case move_l:
+      next_action_sprite = move_r;
+      break;
+    case move_r:
+      next_action_sprite = move_l;
+    default:
+      next_action_sprite = move_l;
+      break;
   }
-
-  // It's like a turn arround, so we only change the direction (by using the direction calculated before), not the action
   player->direction_sprite = sprite_direction;
+  player->action_sprite = next_action_sprite;
+  return;
 }
 
  int	check_collision(

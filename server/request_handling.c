@@ -80,8 +80,33 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   bomb.start_explode = game_info->tick_time + TICK_IN_SEC; // TICK_IN_SEC == 1000 / SLEEP
   bomb.bomb_owner = player_request->num_player;
   // cohabitation principe de cases et principe pixels
-  bomb.x = player.x;
-  bomb.y = player.y;
+
+  switch (player.direction_sprite)
+  {
+    case bomber_d:
+      bomb.x = player.x;
+      bomb.y = player.y + PIXEL_SIZE;
+      break;
+
+    case bomber_l:
+      bomb.x = player.x - PIXEL_SIZE;
+      bomb.y = player.y;
+      break;
+
+    case bomber_r:
+      bomb.x = player.x + PIXEL_SIZE;
+      bomb.y = player.y;
+      break;
+
+    case bomber_u:
+      bomb.x = player.x;
+      bomb.y = player.y - PIXEL_SIZE;
+      break;
+
+    default:
+      break;
+  }
+
   index = (bomb.x + bomb.y * COLUMNS) / PIXEL_SIZE;
     if (game_info->map_destroyable[index].exist)
       {
