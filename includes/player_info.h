@@ -23,7 +23,8 @@ typedef struct  s_player_info
   int		connected;
   int		fd;
   SDL_Rect	bomber_sprites[5][4];
-  int		index_sprite;
+  int		direction_sprite;
+  int   action_sprite;
 }               t_player_info;
 
 #endif
