@@ -59,6 +59,8 @@ void            *listen_server(void *s)
 	  // rebuild le model dans array_map
 	  rebuild_map(data);
 
+    // redéfini le model de la map fixe dans array_map
+	  draw_all(data);
 	  // fonction cheloue:
 	  // move_player_stop(data);
 
