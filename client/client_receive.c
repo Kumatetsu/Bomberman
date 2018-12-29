@@ -41,19 +41,38 @@ void            *listen_server(void *s)
               quit = 1;
       if (FD_ISSET(struct_thread->socket, &fd_read))
         {
-           printf("tata\n");
-            if (get_message(struct_thread->socket) == 0)
-           {
-             quit = 1;
-           }
-        SDL_RenderClear(struct_thread->data->renderer);
-        rebuild_map(struct_thread->data);
-        move_player_stop(struct_thread->data);
-        draw_all(struct_thread->data);
-        SDL_RenderPresent(struct_thread->data->renderer);
-        SDL_SetRenderTarget(struct_thread->data->renderer, NULL);
-            }
-        }
+	  if (get_message(struct_thread->socket) == 0)
+	    quit = 1;
+	  game_info = get_game_info();
+	  for (i = 0; i < INLINE_MATRIX; i++)
+	    data->map_destroyable[i] = game_info->map_destroyable[i];
+	  SDL_RenderClear(data->renderer);
+	  // redéfini le model de la map fixe dans array_map
+	  draw_all(data);
+	  // rebuild le model dans array_map
+	  rebuild_map(data);
+
+	  // fonction cheloue:
+	  // move_player_stop(data);
+
+	  // dessine les 'destroyables' pour l'instant les bombs
+	  // rempli le model dans map_destroyable
+	  draw_destroyable_model(data);
+	  // appel SDL_RenderCopy sur map_destroyable
+    if (game_info != NULL)
+    {
+      for (i = 0; i < 4; i++)
+	{
+	  if (game_info->players[i].connected && game_info->players[i].alive)
+	    draw_player(data, game_info->players[i]);
+	}
+    }
+	  build_destroyables(data);
+	  // dessine le contenu du renderer dans la window
+	  SDL_RenderPresent(data->renderer);
+	  SDL_SetRenderTarget(data->renderer, NULL);
+	}
+    }
   pthread_exit(NULL);
 }
 
