@@ -37,7 +37,6 @@ SRC 	= 	main.c 					\
 		client/bomber_sprites.c			\
 		server/server.c				\
 		server/thread.c				\
-		server/bomb_management.c		\
 		server/map_management.c			\
 		server/moving.c				\
 		server/request_handling.c		\
