@@ -16,9 +16,12 @@
 #include "constant.h"
 #include "sdl.h"
 #include "map.h"
-#include "client_receive.h"
 #include "client_request.h"
 #include "player_info.h"
+#include "server.h"
+#include "game_info.h"
+#include "client_receive.h"
+#include "client_request.h"
 #include "data.h"
 #include "thread.h"
 #include "base_map_manager.h"
@@ -44,7 +47,8 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   struct_thread->data = data;
   init_sprites_sheet((void *)data);
   initSprites();
-  draw_all((void *)data);
+  if (!draw_fixed_map((void *)data))
+    return (0);
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);

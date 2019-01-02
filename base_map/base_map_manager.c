@@ -22,8 +22,8 @@
 #include "map.h"
 #include "data.h"
 #include "draw_base_map.h"
-#include "draw_players.h"
 #include "game_info.h"
+#include "draw_players.h"
 #include "game_map.h"
 #include "base_map_manager.h"
 
@@ -52,27 +52,18 @@ t_map	init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
   return (map);
 }
 
-void		*draw_all(void *arg)
+int		draw_fixed_map(void *arg)
 {
-  int		i;
-  t_game_info	*game_info;
-  
-  game_info = get_game_info();
-  draw_map_model(arg);
-  draw_pannel(arg);
-  draw_timer(arg);
-  if (game_info != NULL)
-    {
-      for (i = 0; i < 4; i++)
-	{
-	  if (game_info->players[i].connected && game_info->players[i].alive)
-	    draw_player(arg, game_info->players[i]);
-	}
-    }
-  return (NULL);
+  if (draw_map_model(arg) == NULL)
+    return (0);
+  if (!draw_pannel(arg))
+    return (0);
+  if (!draw_timer(arg))
+    return (0);
+  return (1);
 }
 
-void		*rebuild_map(void *arg) {
+void		rebuild_map(void *arg) {
   t_data	*data = (t_data*)arg;
   int		i, j;
 
@@ -88,7 +79,6 @@ void		*rebuild_map(void *arg) {
 	    }
 	}
     }
-  return (NULL);
 }
 
 void		build_destroyables(void *arg)

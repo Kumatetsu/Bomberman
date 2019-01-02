@@ -83,43 +83,49 @@ void *draw_map_model(void *arg)
     return ((void *) data);
 }
 
-void	*draw_timer(void *arg)
+int		draw_timer(void *arg)
 {
-  int	error;
-  t_data *data = (t_data*) arg;
-  SDL_Rect timer_panel_rect = {413, 37, 32, 14};
-  SDL_Rect dest_rect_score = {0, 0, WINDOW_W , J_BEGIN * PIXEL_SIZE};
-  SDL_Rect dest_rect_timer = {(WINDOW_W / 2) - ((timer_panel_rect.w / 2) * 5),
-			      (dest_rect_score.h / 2) -
-			      ((timer_panel_rect.h / 2) * 5),
-			      timer_panel_rect.w * 5,
-			      timer_panel_rect.h * 5};
+  int		error;
+  t_data	*data = (t_data*) arg;
+  SDL_Rect	timer_panel_rect = {413, 37, 32, 14};
+  SDL_Rect	dest_rect_score = {0, 0, WINDOW_W , J_BEGIN * PIXEL_SIZE};
+  SDL_Rect	dest_rect_timer = {(WINDOW_W / 2) - ((timer_panel_rect.w / 2) * 5),
+				   (dest_rect_score.h / 2) -
+				   ((timer_panel_rect.h / 2) * 5),
+				   timer_panel_rect.w * 5,
+				   timer_panel_rect.h * 5};
 
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &timer_panel_rect, &dest_rect_timer);
   data->array_map[0][1] = init_t_map(timer_panel_rect, dest_rect_timer,
 				     timer);
   if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Timer Failed",
+    {
+      SDL_ShowSimpleMessageBox(0, "drawing Timer Failed",
 			     SDL_GetError(), data->window);
-  return (NULL);
+      return (0);
+    }
+  return (1);
 }
 
-void	*draw_pannel(void *arg)
+int		draw_pannel(void *arg)
 {
-  int	error;
-  t_data *data = (t_data*) arg;
-  SDL_Rect score_panel_rect = {414, 175, 256, 32};
-  SDL_Rect dest_rect_score = {0, 0, WINDOW_W , J_BEGIN * PIXEL_SIZE};
+  int		error;
+  t_data	*data = (t_data*) arg;
+  SDL_Rect	score_panel_rect = {414, 175, 256, 32};
+  SDL_Rect	dest_rect_score = {0, 0, WINDOW_W , J_BEGIN * PIXEL_SIZE};
 
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &score_panel_rect, &dest_rect_score);
   data->array_map[0][0] = init_t_map(score_panel_rect, dest_rect_score,
 				     pannel);
   if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Score Tab Failed",
+    {
+      SDL_ShowSimpleMessageBox(0, "drawing Score Tab Failed",
 			     SDL_GetError(), data->window);
-  return (NULL);
+      return (0);
+    }
+  return (1);
 }
 
 void			draw_destroyable_model(void *arg)
