@@ -19,10 +19,10 @@ static  SDL_Rect bomb_sprites[3][3];
 **/
 void initSprites()
 {
-    initBomberSprites(Y_BLUE_B);
-    initBomberSprites(Y_BLACK_B);
-    initBomberSprites(Y_RED_B);
     initBomberSprites(Y_WHITE_B);
+    initBomberSprites(Y_BLACK_B);
+    initBomberSprites(Y_BLUE_B);
+    initBomberSprites(Y_RED_B);
     initBombSprites();
 }
 
@@ -100,6 +100,10 @@ void initBomberSprites(int y)
             break;
     }
 
+    (*container)[bomber_u][move_r] = init_rect(255, y, 16, 24);
+    (*container)[bomber_u][not_move] = init_rect(237, y, 16, 24);
+    (*container)[bomber_u][transit_move] = init_rect(237, y, 16, 24);
+    (*container)[bomber_u][move_l] = init_rect(219, y, 16, 24);
     (*container)[bomber_d][not_move] = init_rect(70, y, 16, 24);
     (*container)[bomber_d][move_l] = init_rect(52, y, 16, 24);
     (*container)[bomber_d][transit_move] = init_rect(70, y, 16, 24);
@@ -107,15 +111,13 @@ void initBomberSprites(int y)
     (*container)[bomber_l][not_move] = init_rect(124, 38, 16, 24);
     (*container)[bomber_l][move_l] = init_rect(106, y, 16, 24);
     (*container)[bomber_l][transit_move] = init_rect(124, y, 16, 24);
-    (*container)[bomber_l][move_r] = init_rect(143, y, 16, 24);
+    (*container)[bomber_l][move_r] = init_rect(142, y, 16, 24);
     (*container)[bomber_r][not_move] = init_rect(179, y, 16, 24);
-    (*container)[bomber_r][move_l] = init_rect(160, y, 16, 24);
+    (*container)[bomber_r][move_l] = init_rect(161, y, 16, 24);
     (*container)[bomber_r][transit_move] = init_rect(179, y, 16, 24);
     (*container)[bomber_r][move_r] = init_rect(197, y, 16, 24);
-    (*container)[bomber_u][not_move] = init_rect(237, y, 16, 24);
     (*container)[bomber_u][move_l] = init_rect(219, y, 16, 24);
-    (*container)[bomber_u][transit_move] = init_rect(237, y, 16, 24);
-    (*container)[bomber_u][move_r] = init_rect(255, y, 16, 24);
+
     (*container)[die][0] = init_rect(345, y, 16, 24);
     (*container)[die][1] = init_rect(361, y, 16, 24);
     (*container)[die][2] = init_rect(395, y, 16, 24);

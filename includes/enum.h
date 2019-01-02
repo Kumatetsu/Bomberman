@@ -24,11 +24,15 @@ enum	bomber_sprite_dir
     bomber_l = 1,
     bomber_r = 2,
     bomber_u = 3,
-    die = 4,
-    not_move = 5,
-    move_r = 6,
-    transit_move = 7,
-    move_l = 8
+    die = 4
+  };
+
+enum bomber_sprite_action
+  {
+    not_move = 0,
+    move_r = 1,
+    transit_move = 2,
+    move_l = 3
   };
 
 enum		MAP_GRID

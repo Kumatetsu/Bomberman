@@ -77,28 +77,24 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
         case SDLK_UP:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_up((void *)data);
           cr->command = MOVE_UP;
           send_request(socket, cr);
           break;
         case SDLK_LEFT:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_left((void *)data);
           cr->command = MOVE_LEFT;
           send_request(socket, cr);
           break;
         case SDLK_RIGHT:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_right((void *)data);
           cr->command = MOVE_RIGHT;
           send_request(socket, cr);
           break;
         case SDLK_DOWN:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_down((void *)data);
           cr->command = MOVE_DOWN;
           send_request(socket, cr);
           break;

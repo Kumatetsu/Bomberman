@@ -20,7 +20,6 @@ SRC 	= 	main.c 					\
 		menu.c					\
 	 	start_map.c				\
 		sdl.c	 				\
-		move_player.c				\
 		common/game_info_serialization.c	\
 		common/request_serialization.c		\
 		common/my_putchar.c			\

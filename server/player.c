@@ -38,7 +38,8 @@ int             add_player(t_srv **srv, int fd)
   new_player.num_player = (*srv)->n_players;
   new_player.alive = 1;
   new_player.dying = 0;
-  new_player.current_dir = 0;
+  new_player.direction_sprite = bomber_d;
+  new_player.action_sprite = not_move;
   new_player.bomb_left = 1;
   new_player.fd = fd;
   define_player_init_pos(&new_player);
