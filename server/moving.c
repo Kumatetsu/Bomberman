@@ -204,18 +204,22 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
         if (!game_info->map_destroyable[i].exist && !game_info->map_destroyable[i].bomb)
           continue;
         const SDL_Rect element = {game_info->map_destroyable[i].x, game_info->map_destroyable[i].y, PIXEL_SIZE, PIXEL_SIZE};
-        if (SDL_HasIntersection(&player, &element))
+        if (SDL_HasIntersection(&player, &element)) {
+          printf("collision with destroyable\n\n");
           return 0;
+        }
+
      }
 
      // Loop over players
      for (y = 0; y < (int)(sizeof(game_info->players)/sizeof(game_info->players[0])); ++y) {
-        if (game_info->players->num_player != num_player && &game_info->players[y] != NULL)
+        if (game_info->players[y].num_player != num_player && &game_info->players[y] != NULL)
         {
           //printf("\nin players stuff\n");
           const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, PIXEL_SIZE, PIXEL_SIZE};
           if (SDL_HasIntersection(&player, &other_player))
-            return 0;
+           { printf("collision with player\n\n");
+            return 0;}
         }
       }
 
