@@ -158,7 +158,7 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
 
   // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
   // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
-  const SDL_Rect player = {requested_x - 1, requested_y - 6, PIXEL_SIZE - 6, PIXEL_SIZE - 6};
+  const SDL_Rect player = {requested_x, requested_y + 30, PIXEL_SIZE - 6, PIXEL_SIZE - 6};
   SDL_Rect *walls;
 
   walls = get_walls();
@@ -206,7 +206,7 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
 
     for (i = 0; i < 82; i++) {
       if (SDL_HasIntersection(&player, &walls[i])) {
-        printf("collision with destroyable\n\n");
+        printf("collision with WALL\n\n");
         return 0;
       }
     }
