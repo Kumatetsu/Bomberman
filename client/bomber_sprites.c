@@ -13,6 +13,7 @@ static  SDL_Rect black_sprites[5][4];
 static  SDL_Rect red_sprites[5][4];
 static  SDL_Rect white_sprites[5][4];
 static  SDL_Rect bomb_sprites[3][3];
+static	SDL_Rect explosion_sprites[4];
 
 /**
  * Init all statics by launching all init functions
@@ -24,6 +25,7 @@ void initSprites()
     initBomberSprites(Y_BLUE_B);
     initBomberSprites(Y_RED_B);
     initBombSprites();
+    initExplosionSprites();
 }
 
 /**
@@ -72,12 +74,17 @@ SDL_Rect getRedSprites(int dir, int action)
 
 SDL_Rect getWhiteSprites(int dir, int action)
 {
-    return white_sprites[dir][action];
+  return white_sprites[dir][action];
 }
 
 SDL_Rect getBombSprites(int type)
 {
-    return bomb_sprites[bomb][type];
+  return bomb_sprites[bomb][type];
+}
+
+SDL_Rect getExplosionSprite(int type)
+{
+  return explosion_sprites[type];
 }
 
 void initBomberSprites(int y)
@@ -128,4 +135,12 @@ void initBombSprites()
     bomb_sprites[bomb][bomb_s] = init_rect(17, Y_BOMB, 16, 17);
     bomb_sprites[bomb][bomb_m] = init_rect(33, Y_BOMB, 16, 17);
     bomb_sprites[bomb][bomb_l] = init_rect(50, Y_BOMB, 16, 17);
+}
+
+void initExplosionSprites()
+{
+    explosion_sprites[0] = init_rect(88, Y_BOMB, 80, 80);
+    explosion_sprites[1] = init_rect(168, Y_BOMB, 80, 80);
+    explosion_sprites[2] = init_rect(248, Y_BOMB, 80, 80);
+    explosion_sprites[3] = init_rect(328, Y_BOMB, 80, 80);
 }
