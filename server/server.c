@@ -21,6 +21,7 @@
 #include "thread.h"
 #include "game_info.h"
 #include "my_put.h"
+#include "static_wall_rect.h"
 
 // Initialise le server apres un click sur 'create server' dans menu.c
 void		*init_server()
@@ -50,6 +51,7 @@ void		*init_server()
     return (NULL);
   set_game_info(game_info);
 
+  init_wall_rect();
   // on set tout les player a 'non connecté'
   for (i = 0; i < 4; i++)
     {
