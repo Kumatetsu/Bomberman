@@ -3,7 +3,7 @@
 
 #include "sdl.h"
 
-SDL_Rect get_walls();
+SDL_Rect *get_walls();
 void init_wall_rect();
 
 #endif

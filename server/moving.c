@@ -20,7 +20,7 @@
 #include "moving.h"
 #include "map_management.h"
 #include "constant.h"
-#include "static_wall_rect"
+#include "static_wall_rect.h"
 
 void	move_player(
 		    t_game_info *game_info,
@@ -159,7 +159,9 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
   // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
   // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
   const SDL_Rect player = {requested_x - 1, requested_y - 6, PIXEL_SIZE - 6, PIXEL_SIZE - 6};
-  const SDL_Rect walls[82] = get_walls();
+  SDL_Rect *walls;
+
+  walls = get_walls();
 
   //  y_player_block = (int) (requested_y / PIXEL_SIZE);
   //  x_player_block = (int) (requested_x / PIXEL_SIZE);
@@ -202,18 +204,22 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
     //    }
     // }
 
+    for (i = 0; i < 82; i++) {
+      if (SDL_HasIntersection(&player, &walls[i])) {
+        printf("collision with destroyable\n\n");
+        return 0;
+      }
+    }
 
-
-     for (i = 0; i < INLINE_MATRIX; ++i) {
-        if (!game_info->map_destroyable[i].exist && !game_info->map_destroyable[i].bomb)
-          continue;
-        const SDL_Rect element = {game_info->map_destroyable[i].x, game_info->map_destroyable[i].y, PIXEL_SIZE, PIXEL_SIZE};
-        if (SDL_HasIntersection(&player, &element)) {
-          printf("collision with destroyable\n\n");
-          return 0;
-        }
-
-     }
+    for (i = 0; i < INLINE_MATRIX; ++i) {
+      if (!game_info->map_destroyable[i].exist && !game_info->map_destroyable[i].bomb)
+        continue;
+      const SDL_Rect element = {game_info->map_destroyable[i].x, game_info->map_destroyable[i].y, PIXEL_SIZE, PIXEL_SIZE};
+      if (SDL_HasIntersection(&player, &element)) {
+        printf("collision with destroyable\n\n");
+        return 0;
+      }
+    }
 
      // Loop over players
      for (y = 0; y < (int)(sizeof(game_info->players)/sizeof(game_info->players[0])); ++y) {

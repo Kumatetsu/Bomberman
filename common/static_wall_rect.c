@@ -4,8 +4,8 @@
 
 static  SDL_Rect static_wall_rect[82];
 
-SDL_Rect get_walls() {
-    return static_wall_rect;
+SDL_Rect *get_walls() {
+    return &static_wall_rect;
 }
 
 void init_wall_rect() {
