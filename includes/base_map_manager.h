@@ -15,8 +15,8 @@
 SDL_Rect	pixel_rect(int x, int y);
 SDL_Rect	init_rect(int x, int y, int w, int z);
 t_map		init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type);
-void		*draw_all(void *arg);
-void		*rebuild_map(void *arg);
+int		draw_fixed_map(void *arg);
+void		rebuild_map(void *arg);
 void		build_destroyables(void *arg);
 int		get_element_type(int i, int j);
 

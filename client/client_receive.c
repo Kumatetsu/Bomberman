@@ -24,6 +24,7 @@
 #include "data.h"
 #include "thread.h"
 #include "draw_base_map.h"
+#include "draw_players.h"
 #include "base_map_manager.h"
 #include "client_receive.h"
 
@@ -33,11 +34,25 @@ void            *listen_server(void *s)
   t_thread	*struct_thread;
   int           quit = 0;
   fd_set        fd_read;
-  t_game_info	*game_info;
+  // game info temporaire allouée
+  // et libérée à chaque tour de boucle
+  // indépendante de la game_info server
+  t_game_info	*client_game_info;
   t_data	*data;
 
   struct_thread= (t_thread *)(s);
   data = struct_thread->data;
+  if ((client_game_info = malloc(sizeof(t_game_info))) == NULL)
+    {
+      printf("\nGameInfo memory allocation failed\n");
+      return NULL;
+    }
+  // construit le model fixe et render copy une premiere fois
+  if (!draw_fixed_map(data))
+    {
+      printf("\nFailed to draw fixed map\n");
+      quit = 1;
+    }
   while (!quit)
     {
       FD_ZERO(&fd_read);
@@ -47,21 +62,32 @@ void            *listen_server(void *s)
 	quit = 1;
       if (FD_ISSET(struct_thread->socket, &fd_read))
         {
-	  if (get_message(struct_thread->socket) == 0)
-	    quit = 1;
-	  game_info = get_game_info();
+	  if (!get_message(struct_thread->socket, client_game_info))
+	    {
+	      quit = 1;
+	      continue;
+	    }
+	  printf("\nFreshly updated client_game_info, test on nb_client: %d\n", client_game_info->nb_client);
+	  for (i = 0; i < 4; i++)
+	    {
+	      printf("test on players n°%d: alive: %d, connected: %d\n", client_game_info->players[i].num_player, client_game_info->players[i].alive, client_game_info->players[i].connected);
+	    }
 	  for (i = 0; i < INLINE_MATRIX; i++)
-	    data->map_destroyable[i] = game_info->map_destroyable[i];
+	    data->map_destroyable[i] = client_game_info->map_destroyable[i];
 	  SDL_RenderClear(data->renderer);
-	  // redéfini le model de la map fixe dans array_map
-	  draw_all(data);
-	  // rebuild le model dans array_map
+	  // rappelle render_copy sur le model
 	  rebuild_map(data);
-
-    // redéfini le model de la map fixe dans array_map
-	  draw_all(data);
+	  // défini le model de placement des players
+	  // depuis les nouvelles informations du serveur
+	  // effectue le render_copy
+	  if (!draw_players(data, client_game_info))
+	    {
+	      printf("\nFailed to draw players\n");
+	      quit = 1;
+	      continue;
+	    }
 	  // fonction cheloue:
-	  // move_player_stop(data);
+	  // move_player_stop(data)
 
 	  // dessine les 'destroyables' pour l'instant les bombs
 	  // rempli le model dans map_destroyable
@@ -73,16 +99,15 @@ void            *listen_server(void *s)
 	  SDL_SetRenderTarget(data->renderer, NULL);
 	}
     }
+  free(client_game_info);
   pthread_exit(NULL);
 }
 
-int		get_message(int s)
+int		get_message(int s, t_game_info *client_game_info)
 {
   int		r;
   char		buff[sizeof(t_game_info) + 1];
-  t_game_info	*game_info;
 
-  game_info = NULL;
   r = recv(s, buff, sizeof(t_game_info) + 1, 0);
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
@@ -91,11 +116,10 @@ int		get_message(int s)
   // game_info serait le bienvenu, c'était la cause du bug de sérialisation
   if (r > 3000)
   {
-    game_info = (t_game_info*)buff;
-    // set_game_info(game_info);
-    printf("tick_time %d received %d bytes\n", game_info->tick_time, r);
-    return 1;
+    *client_game_info = (*(t_game_info*)buff);
+    printf("tick_time %d received %d bytes\n", client_game_info->tick_time, r);
+    return (1);
   }
   else
-    return 0;
+    return (0);
 }
