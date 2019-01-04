@@ -84,8 +84,9 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   switch (player.direction_sprite)
   {
     case bomber_d:
+      // on place en dessous des pieds
       bomb.x = player.x;
-      bomb.y = player.y + PIXEL_SIZE;
+      bomb.y = player.y + PIXEL_SIZE + 21;
       break;
 
     case bomber_l:
