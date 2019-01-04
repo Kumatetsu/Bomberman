@@ -158,7 +158,7 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
 
   // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
   // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
-  const SDL_Rect player = {requested_x, requested_y + 30, PIXEL_SIZE - 6, PIXEL_SIZE - 6};
+  const SDL_Rect player = {requested_x, requested_y + 46, PIXEL_SIZE - 12, 21};
   SDL_Rect *walls;
 
   walls = get_walls();
