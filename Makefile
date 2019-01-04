@@ -25,6 +25,7 @@ SRC 	= 	main.c 					\
 		common/my_putchar.c			\
 		common/my_putstr.c			\
 		common/game_info.c			\
+		common/static_wall_rect.c 	\
 		game_map/white_bomber.c			\
 		game_map/blue_bomber.c			\
 		game_map/red_bomber.c			\
