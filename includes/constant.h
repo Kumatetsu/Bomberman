@@ -8,7 +8,7 @@
 #define Y_BOMB 255
 // general
 static const int SLEEP = 500; // en millisecond
-static const int TICK_IN_SEC = 1000 / 500;
+static const int TICK_IN_SEC = 1000 / 60;
 
 // full map
 static const int WINDOW_W = 1024;

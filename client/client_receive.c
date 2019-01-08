@@ -80,6 +80,7 @@ void            *listen_server(void *s)
 	  // défini le model de placement des players
 	  // depuis les nouvelles informations du serveur
 	  // effectue le render_copy
+    draw_destroyable_model(data);
 	  if (!draw_players(data, client_game_info))
 	    {
 	      printf("\nFailed to draw players\n");
@@ -91,7 +92,7 @@ void            *listen_server(void *s)
 
 	  // dessine les 'destroyables' pour l'instant les bombs
 	  // rempli le model dans map_destroyable
-	  draw_destroyable_model(data);
+	  // draw_destroyable_model(data);
 	  // appel SDL_RenderCopy sur map_destroyable
 	  build_destroyables(data);
 	  // dessine le contenu du renderer dans la window
