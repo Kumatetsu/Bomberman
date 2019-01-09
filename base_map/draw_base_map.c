@@ -145,8 +145,24 @@ void			draw_destroyable_model(void *arg)
 	  data->destroyable_drawer[i] = init_t_map(bomb_sprite, dest_rect, bomb);
 	}
     }
-  SDL_Rect explosion_dest = init_rect(50, 50, 80, 80);
-  SDL_Rect explosion_sprite = getExplosionSprites(1);
-  data->destroyable_drawer[17] = init_t_map(explosion_sprite, explosion_dest, fire); 
+  SDL_Rect explosion_dest0 = init_rect(50, 50, 240, 240);
+  SDL_Rect explosion_dest1 = init_rect(290, 290, 240, 240);
+  SDL_Rect explosion_dest2 = init_rect(540, 50, 240, 240);
+  SDL_Rect explosion_dest3 = init_rect(780, 290, 240, 240);
+  SDL_Rect explosion_dest4 = init_rect(1020, 50, 240, 240);
+  SDL_Rect explosion_sprite0 = getExplosionSprites(0);
+  SDL_Rect explosion_sprite1 = getExplosionSprites(1);
+  SDL_Rect explosion_sprite2 = getExplosionSprites(2);
+  SDL_Rect explosion_sprite3 = getExplosionSprites(3);
+  SDL_Rect explosion_sprite4 = getExplosionSprites(4);
+  data->destroyable_drawer[17] = init_t_map(explosion_sprite0, explosion_dest0, fire); 
   data->map_destroyable[17].exist = 1;
+  data->destroyable_drawer[18] = init_t_map(explosion_sprite1, explosion_dest1, fire); 
+  data->map_destroyable[18].exist = 1;
+  data->destroyable_drawer[19] = init_t_map(explosion_sprite2, explosion_dest2, fire); 
+  data->map_destroyable[19].exist = 1;
+  data->destroyable_drawer[20] = init_t_map(explosion_sprite3, explosion_dest3, fire); 
+  data->map_destroyable[20].exist = 1;
+  data->destroyable_drawer[21] = init_t_map(explosion_sprite4, explosion_dest4, fire); 
+  data->map_destroyable[21].exist = 1;
 }

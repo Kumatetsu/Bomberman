@@ -13,7 +13,7 @@ static  SDL_Rect black_sprites[5][4];
 static  SDL_Rect red_sprites[5][4];
 static  SDL_Rect white_sprites[5][4];
 static  SDL_Rect bomb_sprites[3][3];
-static	SDL_Rect explosion_sprites[4];
+static	SDL_Rect explosion_sprites[5];
 
 /**
  * Init all statics by launching all init functions
@@ -139,8 +139,9 @@ void initBombSprites()
 
 void initExplosionSprites()
 {
-    explosion_sprites[0] = init_rect(88, Y_BOMB, 80, 80);
-    explosion_sprites[1] = init_rect(168, Y_BOMB, 80, 80);
-    explosion_sprites[2] = init_rect(248, Y_BOMB, 80, 80);
-    explosion_sprites[3] = init_rect(328, Y_BOMB, 80, 80);
+    explosion_sprites[0] = init_rect(153, Y_BOMB, 78, 80);
+    explosion_sprites[1] = init_rect(235, Y_BOMB, 80, 85);
+    explosion_sprites[2] = init_rect(318, Y_BOMB, 80, 85);
+    explosion_sprites[3] = init_rect(403, Y_BOMB, 80, 85);
+    explosion_sprites[4] = init_rect(487, Y_BOMB, 80, 85);
 }
