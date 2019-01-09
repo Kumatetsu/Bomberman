@@ -82,7 +82,7 @@ SDL_Rect getBombSprites(int type)
   return bomb_sprites[bomb][type];
 }
 
-SDL_Rect getExplosionSprite(int type)
+SDL_Rect getExplosionSprites(int type)
 {
   return explosion_sprites[type];
 }

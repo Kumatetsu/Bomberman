@@ -145,4 +145,8 @@ void			draw_destroyable_model(void *arg)
 	  data->destroyable_drawer[i] = init_t_map(bomb_sprite, dest_rect, bomb);
 	}
     }
+  SDL_Rect explosion_dest = init_rect(50, 50, 80, 80);
+  SDL_Rect explosion_sprite = getExplosionSprites(1);
+  data->destroyable_drawer[17] = init_t_map(explosion_sprite, explosion_dest, fire); 
+  data->map_destroyable[17].exist = 1;
 }
