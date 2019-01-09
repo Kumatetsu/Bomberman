@@ -64,18 +64,21 @@ int					bomb_kill_player(int x, int y) {
 	const SDL_Rect bomb = {x, y, PIXEL_SIZE, PIXEL_SIZE};
 	walls = get_walls();
 
+//	Check walls
 	for (i = 0; i < 82; i++) {
 		if (SDL_HasIntersection(&walls[i], &bomb)) {
-			printf("\nWALL at %d:%d\n", walls[i].x, walls[i].y);
+			printf("\nWALL at %d:%d i=%d\n", walls[i].x, walls[i].y, i);
 			printf("bomb explode on WALL\n\n");
 			return 1;
 		}
 	}
 
+//	Check destroyable map objects
 	for (i = 0; i < INLINE_MATRIX; ++i) {
 		if (!game_info->map_destroyable[i].exist && !game_info->map_destroyable[i].bomb)
 			continue;
-		const SDL_Rect element = {game_info->map_destroyable[i].x, game_info->map_destroyable[i].y, PIXEL_SIZE, PIXEL_SIZE};
+//		The x and y of the object are in fact their center, so we need to determine their real positions
+		const SDL_Rect element = {((int)(game_info->map_destroyable[i].x/48) + 1) * PIXEL_SIZE, ((int)(game_info->map_destroyable[i].y/48) + 1) * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE};
 		if (SDL_HasIntersection(&bomb, &element)) {
 			game_info->map_destroyable[i].dying = 1;
 			game_info->map_destroyable[i].exist = 0;
@@ -112,14 +115,15 @@ void					bomb_check_players(int i) {
 
 	game_info = get_game_info();
 	map_destroyable = game_info->map_destroyable;
-	bomb_x = map_destroyable[i].x;
-	bomb_y = map_destroyable[i].y;
+//		The x and y of the object are in fact their center, so we need to determine their real positions
+	bomb_x = ((int)(map_destroyable[i].x/48) + 1) * PIXEL_SIZE;
+	bomb_y = ((int)(map_destroyable[i].y/45) + 1) * PIXEL_SIZE;
 
 	printf("\nBOMB explode at: %d:%d\n", bomb_x,bomb_y);
 
 //	the kill zone is 3 pixel on the x and 3 on the y.
 	for (x = (bomb_x - PIXEL_SIZE); x > (bomb_x - (3 * PIXEL_SIZE)); x -= PIXEL_SIZE) {
-		printf("\nBOMB LOOP explode at: %d:%d\n", x, bomb_y);
+		printf("\nFIRST X BOMB LOOP explode at: %d:%d\n", x, bomb_y);
 		is_wall = bomb_kill_player(x, bomb_y);
 		if (is_wall) {
 			break;
@@ -127,7 +131,7 @@ void					bomb_check_players(int i) {
 	}
 
 	for (y = (bomb_y - PIXEL_SIZE); y > (bomb_y - (3 * PIXEL_SIZE)); y -= PIXEL_SIZE) {
-		printf("\nBOMB LOOP explode at: %d:%d\n", bomb_x, y);
+		printf("\nFIRST Y BOMB LOOP explode at: %d:%d\n", bomb_x, y);
 		is_wall = bomb_kill_player(bomb_x, y);
 		if (is_wall) {
 			break;
@@ -135,7 +139,7 @@ void					bomb_check_players(int i) {
 	}
 
 	for (x = (bomb_x + PIXEL_SIZE); x < (bomb_x + (3 * PIXEL_SIZE)); x += PIXEL_SIZE) {
-		printf("\nBOMB LOOP explode at: %d:%d\n", x, bomb_y);
+		printf("\nSECOND X BOMB LOOP explode at: %d:%d\n", x, bomb_y);
 		is_wall = bomb_kill_player(x, bomb_y);
 		if (is_wall) {
 			break;
@@ -143,7 +147,7 @@ void					bomb_check_players(int i) {
 	}
 
 	for (y = (bomb_y + PIXEL_SIZE); y < (bomb_y + (3 * PIXEL_SIZE)); y += PIXEL_SIZE) {
-		printf("\nBOMB LOOP explode at: %d:%d\n", bomb_x, y);
+		printf("\nSECOND Y BOMB LOOP explode at: %d:%d\n", bomb_x, y);
 		is_wall = bomb_kill_player(bomb_x, y);
 		if (is_wall) {
 			break;
