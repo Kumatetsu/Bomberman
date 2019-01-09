@@ -41,6 +41,23 @@ void			my_sleep(int sec, int milli)
   nanosleep(&req, NULL);
 }
 
+void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
+{
+  int i;
+
+  for (i = 0; i < INLINE_MATRIX; i++)
+  {
+    if(!map_destroyable[i].exist || !map_destroyable[i].bomb)
+      continue;
+
+    if (map_destroyable[i].start_explode < tk) {
+      map_destroyable[i].exist = 0;
+      map_destroyable[i].bomb = 0;
+      printf("BOMB DESTROYED \n\n\n\n\n\n\n\n");
+    }
+  }
+}
+
 // ticker
 void		*threaded_ticker(void *server)
 {
@@ -58,9 +75,10 @@ void		*threaded_ticker(void *server)
   while(1 && game_info != NULL)
     {
       printf("\nTick: %d", (*tk));
-      my_sleep(0, 500);
+      my_sleep(0, 440);
       for (i = 0; i < (*srv)->n_players; i++)
 	{
+    verify_bomb_explosion(game_info->map_destroyable, *tk);
 	  socket = (*srv)->players[i].fd;
 	  game_info->id_client = i;
 	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
