@@ -26,6 +26,7 @@
 #include "game_info_serialization.h"
 #include "main_loop.h"
 #include "thread.h"
+#include "map_management.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
@@ -51,6 +52,7 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
       continue;
 
     if (map_destroyable[i].start_explode < tk) {
+	  bomb_check_players(i);
       map_destroyable[i].exist = 0;
       map_destroyable[i].bomb = 0;
       printf("BOMB DESTROYED \n\n\n\n\n\n\n\n");

@@ -21,10 +21,10 @@
 // #include "bomb_management.h"
 #include "base_map_manager.h"
 
-void		        manage_bombs(t_game_info *game_info)
+void		        	manage_bombs(t_game_info *game_info)
 {
-  int			i;
-  t_map_destroyable	map_destroyable;
+  int					i;
+  t_map_destroyable		map_destroyable;
 
   printf("\nAdd_bomb_element iterate through map_destroyable\n");
   for (i = 1; i < INLINE_MATRIX; ++i) {
@@ -51,6 +51,53 @@ void		        manage_bombs(t_game_info *game_info)
       }
   }
   printf("\nmanage_bomb done\n");
+}
+
+void					bomb_kill_player(int x, int y) {
+	t_game_info 		*game_info;
+	int					z;
+
+	game_info = get_game_info();
+	const SDL_Rect bomb = {x, y, PIXEL_SIZE, PIXEL_SIZE};
+	// Loop over players
+	for (z = 0; z < (int)(sizeof(game_info->players)/sizeof(game_info->players[0])); ++z) {
+		if (&game_info->players[z] != NULL && &game_info->players[z].alive != 0)
+		{
+			//printf("\nin players stuff\n");
+			const SDL_Rect player = {game_info->players[z].x, game_info->players[z].y, PIXEL_SIZE, PIXEL_SIZE};
+			if (SDL_HasIntersection(&bomb, &player))
+			{
+				game_info->players[z].alive = 0;
+				game_info->players[z].dying++;
+			}
+		}
+	}
+}
+
+void					bomb_check_players(int i) {
+	t_game_info 		*game_info;
+	t_map_destroyable 	*map_destroyable;
+	int					y;
+	int					x;
+	int					bomb_x;
+	int					bomb_y;
+
+	game_info = get_game_info();
+	map_destroyable = game_info->map_destroyable;
+	bomb_x = map_destroyable[i].x;
+	bomb_y = map_destroyable[i].y;
+
+	for (x = (bomb_x - PIXEL_SIZE); x < (bomb_x + PIXEL_SIZE); x += PIXEL_SIZE) {
+		for (y = (bomb_y - PIXEL_SIZE); y < (bomb_y + PIXEL_SIZE); y += PIXEL_SIZE) {
+			bomb_kill_player(x, y);
+		}
+	}
+
+	for (y = (bomb_y - PIXEL_SIZE); y < (bomb_y + PIXEL_SIZE); y += PIXEL_SIZE) {
+		for (x = (bomb_x - PIXEL_SIZE); x < (bomb_x + PIXEL_SIZE); x += PIXEL_SIZE) {
+			bomb_kill_player(x, y);
+		}
+	}
 }
 
 int	is_wall(t_game_info *game_info, int x, int y)
