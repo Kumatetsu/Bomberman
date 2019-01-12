@@ -226,6 +226,8 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
         if (game_info->players[y].num_player != num_player && &game_info->players[y] != NULL)
         {
           //printf("\nin players stuff\n");
+          if(!game_info->players[y].alive)
+            continue;
           const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, PIXEL_SIZE, PIXEL_SIZE};
           if (SDL_HasIntersection(&player, &other_player))
            { printf("collision with player\n\n");
