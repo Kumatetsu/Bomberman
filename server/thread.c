@@ -60,6 +60,23 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
   }
 }
 
+void    verify_game_status(t_game_info *game_info)
+{
+  int died = 0;
+  int i             = 0;
+
+  for (i = 0; i < 4; i ++)
+  {
+    if (!game_info->players[i].alive && game_info->players[i].connected)
+      died ++;
+  }
+
+  if (3 == died) {
+    game_info->game_status = 0;
+    my_sleep(5, 0);
+  }
+}
+
 // ticker
 void		*threaded_ticker(void *server)
 {
@@ -81,6 +98,7 @@ void		*threaded_ticker(void *server)
       for (i = 0; i < (*srv)->n_players; i++)
 	{
     verify_bomb_explosion(game_info->map_destroyable, *tk);
+    verify_game_status(game_info);
 	  socket = (*srv)->players[i].fd;
 	  game_info->id_client = i;
 	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
