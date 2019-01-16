@@ -19,6 +19,7 @@ typedef struct	s_map_destroyable
   int		dying;
   int		start_explode;
   int		bomb;
+  int		fire;
   int		wall_destroyable;
   int		exist;
 }		t_map_destroyable;

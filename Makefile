@@ -42,6 +42,7 @@ SRC 	= 	main.c 					\
 		server/request_handling.c		\
                 server/player.c				\
 		server/main_loop.c			\
+		server/collision.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\

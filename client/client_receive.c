@@ -80,7 +80,7 @@ void            *listen_server(void *s)
 	  // défini le model de placement des players
 	  // depuis les nouvelles informations du serveur
 	  // effectue le render_copy
-    draw_destroyable_model(data);
+	  draw_destroyable_model(data);
 	  if (!draw_players(data, client_game_info))
 	    {
 	      printf("\nFailed to draw players\n");
