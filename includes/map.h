@@ -19,7 +19,9 @@ typedef struct	s_map_destroyable
   int		dying;
   int		start_explode;
   int		bomb;
-  int		fire;
+  // fire contient 4 int correspondant aux nombres
+  // de cases à mettre en feu de chaque côté de la case bombe
+  int		fire[4];
   int		wall_destroyable;
   int		exist;
 }		t_map_destroyable;

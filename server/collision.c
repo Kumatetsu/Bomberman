@@ -60,7 +60,8 @@ int		has_collision_with_player(const SDL_Rect zone, int num_player)
   // Loop over players
   for (y = 0; y < (int)(sizeof(game_info->players)/sizeof(game_info->players[0])); ++y)
     {
-      if (game_info->players[y].num_player != num_player && &game_info->players[y] != NULL)
+      // si on a pas passé -1 comme num_player, on ne check pas avec le player ayant sa propre id
+      if (-1 != num_player && game_info->players[y].num_player != num_player && &game_info->players[y] != NULL)
 	{
 	  //printf("\nin players stuff\n");
 	  const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, PIXEL_SIZE, PIXEL_SIZE};

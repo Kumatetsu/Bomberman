@@ -111,17 +111,17 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   }
 
   index = (bomb.x + bomb.y * COLUMNS) / PIXEL_SIZE;
-    if (game_info->map_destroyable[index].exist)
-      {
-	printf("\nYou can't place a bomb here, already one in that case\n");
-	return (0);
-      }
-    else
-      {
-	printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
-	game_info->map_destroyable[index] = bomb;
-	return (1);
-      }
+  if (game_info->map_destroyable[index].exist)
+    {
+      printf("\nYou can't place a bomb here, already one in that case\n");
+      return (0);
+    }
+  else
+    {
+      printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
+      game_info->map_destroyable[index] = bomb;
+      return (1);
+    }
 }
 
 void	add_request_to_server(t_srv **srv, t_player_request *player_request)
