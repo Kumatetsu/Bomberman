@@ -156,7 +156,7 @@ int			check_collision(
     return 0;
   if (has_collision_with_destructible(player))
     return 0;
-  if (has_collision_with_player(player, num_player))
+  if (has_collision_with_player(player, num_player) >= 0)
     return 0;
   printf("\nBoth iterations done, check_collision done\n");
   return 1;

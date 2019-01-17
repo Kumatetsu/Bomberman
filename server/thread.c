@@ -25,6 +25,7 @@
 #include "game_info.h"
 #include "game_info_serialization.h"
 #include "main_loop.h"
+#include "bomb_management.h"
 #include "thread.h"
 // pour sleep
 #include "unistd.h"
@@ -56,10 +57,14 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
       
       if (map_destroyable[i].start_explode < tk)
 	{
-	  
-	  map_destroyable[i].exist = 0;
-	  map_destroyable[i].bomb = 0;
-	  printf("BOMB DESTROYED \n\n\n\n\n\n\n\n");
+	  printf("\nBOOOOM");
+	  boom(map_destroyable, i);
+	  if (map_destroyable[i].start_explode + 5 < tk)
+	    {
+	      map_destroyable[i].exist = 0;
+	      map_destroyable[i].bomb = 0;
+	      printf("BOMB DESTROYED \n\n\n\n\n\n\n\n");
+	    }
 	}
     }
 }

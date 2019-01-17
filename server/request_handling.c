@@ -44,18 +44,25 @@ void	handle_requests(t_game_info *game_info,	t_player_request *player_request)
   int	num_player;
 
   num_player = player_request->num_player;
-  detail_player(game_info->players[player_request->num_player]);
+  // detail_player(game_info->players[player_request->num_player]);
   // Les commandes de mouvement étant assimilées à un int plus grand
   // On a juste à check si la commande est supérieur aà PLACE_BOMB
-  if (player_request->command > PLACE_BOMB )
+  if (game_info->players[num_player].alive && game_info->players[num_player].dying == 0)
     {
-      move_player(game_info, player_request, num_player);
-      printf("\nplayer moved\n");
+      if (player_request->command > PLACE_BOMB )
+	{
+	  move_player(game_info, player_request, num_player);
+	  printf("\nplayer moved\n");
+	}
+      if (player_request->command == PLACE_BOMB)
+	{
+	  place_bomb(game_info, player_request);
+	  printf("\nbomb placed\n");
+	}
     }
-  if (player_request->command == PLACE_BOMB)
+  else if (game_info->players[num_player].dying > 0)
     {
-      place_bomb(game_info, player_request);
-      printf("\nbomb placed\n");
+      game_info->players[num_player].dying--;
     }
 }
 
@@ -77,7 +84,7 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   bomb.exist = 1;
   player.bomb_left--;
   bomb.bomb = 1;
-  bomb.start_explode = game_info->tick_time + TICK_IN_SEC * 5; // TICK_IN_SEC == 1000 / SLEEP
+  bomb.start_explode = game_info->tick_time + TICK_IN_SEC * 2; // TICK_IN_SEC == 1000 / SLEEP
   bomb.bomb_owner = player_request->num_player;
   // cohabitation principe de cases et principe pixels
 
