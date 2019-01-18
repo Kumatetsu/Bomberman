@@ -27,6 +27,6 @@ void	my_bzero(void *s1, int n)
 
 int			send_request(int s, int command)
 {
-  write(s, command, sizeof(int));
+  write(s, &command, sizeof(int));
   return SUCCESS_SEND;
 }

@@ -44,7 +44,7 @@ int			main_loop(t_srv **srv)
   int			error;
   socklen_t		len;
   int			retval;
-  t_player_request	*player_request;
+  t_player_request	player_request = {0};
   t_game_info		*game_info;
   int			survivors;
 
@@ -126,12 +126,12 @@ int			main_loop(t_srv **srv)
 		  // On extrait le contenu
 		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) > 0)
 		    {
-				  player_request->command = request_deserialize(buffer);
-		      player_request->num_player = i;
+				  player_request.command = request_deserialize(buffer);
+		      player_request.num_player = i;
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
 		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);
 		      // on modifie la game_info
-		      handle_requests(game_info, player_request);
+		      handle_requests(game_info, &player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
 		      // On assure au serveur l'origine de la requête
 		      n = 0;
