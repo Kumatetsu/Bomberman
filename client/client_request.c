@@ -28,14 +28,11 @@ void	my_bzero(void *s1, int n)
 t_player_request*       create_player_request()
 {
   t_player_request*	client_request;
-  unsigned int		magic;
 
   srand(time(NULL));
-  magic = (rand() % INT_MAX);
   client_request = calloc(1, sizeof(t_player_request));
   if (client_request == NULL)
     return NULL;
-  client_request->magic = magic;
   return client_request;
 }
 
@@ -51,7 +48,6 @@ int			send_request(int s, t_player_request* client_request)
 {
   t_player_request	dumb_static;
   memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
-  memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));
   memcpy(&dumb_static.command, &client_request->command, sizeof(int));
   write(s, &dumb_static, sizeof(t_player_request));
   return SUCCESS_SEND;
