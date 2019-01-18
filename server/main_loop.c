@@ -121,15 +121,15 @@ int			main_loop(t_srv **srv)
 	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
 		{
 		  int n = 0;
-		  char buffer[sizeof(t_game_info)];
+		  char buffer[sizeof(int)];
 		  printf("\nHandling request for player %d\n", i);
 		  // On extrait le contenu
-		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) > 0)
+		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(int), 0)) > 0)
 		    {
 				  player_request.command = request_deserialize(buffer);
 		      player_request.num_player = i;
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
-		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);
+		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
 		      // on modifie la game_info
 		      handle_requests(game_info, &player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
