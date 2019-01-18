@@ -9,6 +9,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "client_request.h"
 #include "request_serialization.h"
 
@@ -35,6 +36,6 @@ int	request_deserialize(char* request_serialized)
 {
   int	command;
 
-  command = (int)request_serialized;
+  command = atoi(request_serialized);
   return command;
 }
