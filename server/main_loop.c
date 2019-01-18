@@ -126,8 +126,7 @@ int			main_loop(t_srv **srv)
 		  // On extrait le contenu
 		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) > 0)
 		    {
-		      // on désérialize
-		      player_request = request_deserialize(buffer);
+				  player_request->command = request_deserialize(buffer);
 		      player_request->num_player = i;
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
 		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);

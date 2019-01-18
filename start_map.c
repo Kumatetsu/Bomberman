@@ -28,7 +28,7 @@
 #include "start_map.h"
 #include "bomber_sprites.h"
 
-int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
+int		start_map(t_sdl *sdl, int socket)
 {
   int		quit;
   SDL_Event	event;
@@ -79,34 +79,21 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
         switch (event.key.keysym.sym)
         {
         case SDLK_UP:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_UP;
-          send_request(socket, cr);
+          send_request(socket, MOVE_UP);
           break;
         case SDLK_LEFT:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_LEFT;
-          send_request(socket, cr);
+          send_request(socket, MOVE_LEFT);
           break;
         case SDLK_RIGHT:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_RIGHT;
-          send_request(socket, cr);
+          send_request(socket, MOVE_RIGHT);
           break;
         case SDLK_DOWN:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_DOWN;
-          send_request(socket, cr);
+          send_request(socket, MOVE_DOWN);
           break;
         case SDLK_SPACE:
 	  printf("\nI WANT A BOMB\n");
-	  cr->command = PLACE_BOMB;
-	  printf("\nplayer request: %d\n", cr->command);
-	  send_request(socket, cr);
+	  printf("\nplayer request: %d\n", PLACE_BOMB);
+	  send_request(socket, PLACE_BOMB);
           break;
         }
       }

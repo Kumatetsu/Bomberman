@@ -25,30 +25,8 @@ void	my_bzero(void *s1, int n)
     }
 }
 
-t_player_request*       create_player_request()
+int			send_request(int s, int command)
 {
-  t_player_request*	client_request;
-
-  srand(time(NULL));
-  client_request = calloc(1, sizeof(t_player_request));
-  if (client_request == NULL)
-    return NULL;
-  return client_request;
-}
-
-int free_player_request(t_player_request* client_request)
-{
-  free(client_request);
-  if (client_request == NULL)
-    return SUCCESS_FREE;
-  return BAD_FREE;
-}
-
-int			send_request(int s, t_player_request* client_request)
-{
-  t_player_request	dumb_static;
-  memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
-  memcpy(&dumb_static.command, &client_request->command, sizeof(int));
-  write(s, &dumb_static, sizeof(t_player_request));
+  write(s, command, sizeof(int));
   return SUCCESS_SEND;
 }

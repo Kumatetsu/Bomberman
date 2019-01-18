@@ -31,10 +31,10 @@ char*	request_serialization(t_player_request* client_request)
   return request_string;
 }
 
-t_player_request*	request_deserialize(char* request_serialized)
+int	request_deserialize(char* request_serialized)
 {
-  t_player_request*	client_request;
+  int	command;
 
-  client_request = (t_player_request*)request_serialized;
-  return client_request;
+  command = (int)request_serialized;
+  return command;
 }
