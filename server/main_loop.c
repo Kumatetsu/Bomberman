@@ -47,7 +47,7 @@ int			main_loop(t_srv **srv)
   t_player_request	*player_request;
   t_game_info		*game_info;
   int			survivors;
-  
+
   printf("\nMAIN_LOOP\n");
   i = 0;
   // On initialise direct la game_info
@@ -135,11 +135,6 @@ int			main_loop(t_srv **srv)
 		      handle_requests(game_info, player_request);
 		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
 		      // On assure au serveur l'origine de la requête
-		      /* if (player_request->checksum != get_request_checksum(player_request))
-			 {
-			 close((*srv)->players[i].fd);
-			 (*srv)->players[i].connected = 0;
-			 }*/
 		      n = 0;
 		    }
 		  buffer[n] = 0;
@@ -151,7 +146,7 @@ int			main_loop(t_srv **srv)
 	}
       if (survivors <= 1)
 	{
-	  
+
 	  game_info->game_status = ENDGAME;
 	  (*srv)->running = ENDGAME;
 	  printf("\nENDGAME\n");

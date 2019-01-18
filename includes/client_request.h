@@ -37,6 +37,5 @@ void			my_bzero(void *s1, int n);
 t_player_request* 	create_player_request();
 int 			free_player_request(t_player_request* client_request);
 int			send_request(int s, t_player_request *client_request);
-int			get_request_checksum(t_player_request* client_request);
 
 #endif /* !_CLIENT_REQUEST_H_ */

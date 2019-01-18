@@ -21,7 +21,6 @@ char*	request_serialization(t_player_request* client_request)
   printf("\nAfter calloc\n");
   if (request_string == NULL)
     return NULL;
-  client_request->checksum = get_request_checksum(client_request);
   request_string = (char*) client_request;
   printf("\nBefore realloc\n");
   request_string = realloc(request_string,sizeof(t_player_request)+1);
