@@ -77,12 +77,16 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 	      boom(map_destroyable, i);
 	      printf("BOMB DESTROYED, explosion stage : %d \n", map_destroyable[i].explosion_stage);
 	    }
-	  else
-	    {
-	      map_destroyable[i].exist = 0;
-	      map_destroyable[i].start_explode = 0;
-	      map_destroyable[i].explosion_stage = 0;
-	    }	      
+	}
+      if (map_destroyable[i].explosion_stage >= 6)
+	{
+	  map_destroyable[i].explosion_stage++;
+	}
+      else if (map_destroyable[i].explosion_stage == 10)
+	{
+	  map_destroyable[i].exist = 0;
+	  map_destroyable[i].start_explode = 0;
+	  map_destroyable[i].explosion_stage = 0;
 	}
     }
 }

@@ -119,18 +119,18 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   }
 
   index = coord_to_index(bomb.x, bomb.y);
-  /*
   int new_x = index_to_x(index);
   int new_y = index_to_y(index);
   bomb.x = new_x;
   bomb.y = new_y;
-  */
-  const SDL_Rect zone = init_rect(bomb.x + 16, bomb.y + 16, 10, 10);
+  /*
+  const SDL_Rect zone = init_rect(bomb.x + 20, bomb.y + 20, 2, 2);
   if (has_collision_with_wall(zone))
     {
       printf("\nBOMB HAS COLLISION\n");
       return 0;
     }
+  */
   if (game_info->map_destroyable[index].exist)
     {
       printf("\nYou can't place a bomb here, already one in that case\n");

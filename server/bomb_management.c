@@ -24,17 +24,12 @@ int     get_target(t_map_destroyable bomb, int direction, int cases)
   printf("\nget_target, coord_to_index with x = %d, y = %d: index = %d", bomb.x, bomb.y, index);
   col = (index + 1) % COLUMNS;
   line = (index + 1) / COLUMNS;
-  if (col < COLUMNS)
-    line--;
+  if (col != 0)
+    line++;
   // retour par défaut constant OUTOFMAP
   next_index = OUTOFMAP;
   switch(direction)
     {
-    case BOMBER_U:
-      printf("\nget_target, direction: UP, cases: %d, col: %d, line: %d", cases, col, line);
-      if (line - cases > 0)
-	next_index = index - COLUMNS * cases;
-      break;
     case BOMBER_D:
       // pour uniformiser le retour on retourne -1 mais on aurait pu tester sur < 0 à la sortie
       printf("\nget_target, direction: DOWN, cases: %d, col: %d, line: %d", cases, col, line);
@@ -55,6 +50,11 @@ int     get_target(t_map_destroyable bomb, int direction, int cases)
       printf("\nget_target, direction: RIGHT, cases: %d, col: %d, line: %d", cases, col, line);
       if (col < COLUMNS - cases)
 	next_index = index + cases;
+      break;
+    case BOMBER_U:
+      printf("\nget_target, direction: UP, cases: %d, col: %d, line: %d", cases, col, line);
+      if (line - cases > 0)
+	next_index = index - COLUMNS * cases;
       break;
     }
   printf("\nget_target, next_index: %d, col:%d, line:%d", next_index, next_index%COLUMNS, next_index/COLUMNS);
@@ -136,10 +136,10 @@ void			boom(t_map_destroyable *map_destroyable, int i)
 		  boom_origin.fire[it] = iterator;
 		  /*
 		    UNCOMMENT TO DISPLAY FAKE FIRE ON CHECKED CASES
-		    map_destroyable[target].exist = 1;
-		    map_destroyable[target].explosion_stage = 6;
-		    map_destroyable[target].start_explode = 0;
 		  */
+		  map_destroyable[target].exist = 1;
+		  map_destroyable[target].explosion_stage = 6;
+		  map_destroyable[target].start_explode = 0;
 		}
 	    }
 	}

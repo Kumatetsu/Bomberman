@@ -199,7 +199,7 @@ void			draw_destroyable_model(void *arg)
 	      data->destroyable_drawer[i] = init_t_map(bomb_sprite, dest_rect, bomb);
 	    }
 	  // dev
-	  if (destroyable.explosion_stage == 6)
+	  if (destroyable.explosion_stage >= 6)
 	    {
 	      SDL_Rect explosion = getExplosionSprite((XFIRE1 + 32), (Y_FIRE + 36), 16, 16);
 	      // dest_rect = init_rect((96 + 3 * 30), (48 + 3 * 30), (240 - 3 * 30), (240 - 3 * 30));
@@ -208,6 +208,7 @@ void			draw_destroyable_model(void *arg)
 	      data->map_destroyable[i].exist = 1; 
 	      data->destroyable_drawer[i] = init_t_map(explosion, dest_rect, fire);
 	    }
+	  /*
 	  if (destroyable.explosion_stage > 0 && destroyable.explosion_stage < 6)
 	    {
 	      printf("\nCLIENTSIDE draw_destroyable model, draw explosion, explosion_stage: %d", destroyable.explosion_stage);
@@ -217,6 +218,7 @@ void			draw_destroyable_model(void *arg)
 		  printf("\nbomb fire %d = %d\n", j, destroyable.fire[j]);
 		}
 	    }
+	  */
 	}
     }
 }
