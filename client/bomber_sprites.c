@@ -166,6 +166,15 @@ int	getExplosionX(int index)
     }
 }
 
+SDL_Rect getCenterExplosion(int type)
+{
+  int	x;
+
+  x = getExplosionX(type);
+  explosion_sprite = init_rect(x + 32, Y_FIRE + 36, 16, 16);
+  return explosion_sprite;
+}
+
 SDL_Rect	getExplosionSprite(int x,
 				   int y,
 				   int width,

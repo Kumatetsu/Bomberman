@@ -199,13 +199,11 @@ void			draw_destroyable_model(void *arg)
 	      data->destroyable_drawer[i] = init_t_map(bomb_sprite, dest_rect, bomb);
 	    }
 	  // dev
-	  if (destroyable.explosion_stage >= 6)
+	  if (destroyable.explosion_stage > 0)
 	    {
-	      SDL_Rect explosion = getExplosionSprite((XFIRE1 + 32), (Y_FIRE + 36), 16, 16);
-	      // dest_rect = init_rect((96 + 3 * 30), (48 + 3 * 30), (240 - 3 * 30), (240 - 3 * 30));
+	      SDL_Rect explosion = getCenterExplosion(destroyable.explosion_stage);
 	      SDL_Rect dest_rect = init_rect(destroyable.x, destroyable.y, 48, 48);
-	      printf("\nL'explosion fake sera placée à l'index: %d, x=%d et y=%d\n", i, destroyable.x, destroyable.y);
-	      data->map_destroyable[i].exist = 1; 
+	      printf("\nL'explosion sera placée à l'index: %d, x=%d et y=%d\n", i, destroyable.x, destroyable.y);
 	      data->destroyable_drawer[i] = init_t_map(explosion, dest_rect, fire);
 	    }
 	  /*

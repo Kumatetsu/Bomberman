@@ -88,49 +88,50 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   bomb.start_explode = game_info->tick_time + TICK_IN_SEC * 2; // TICK_IN_SEC == 1000 / SLEEP
   bomb.bomb_owner = player_request->num_player;
   // cohabitation principe de cases et principe pixels
-
+  index = coord_to_index(player.x + 10, player.y + 40);
   switch (player.direction_sprite)
   {
     case bomber_d:
+      index = index + COLUMNS;
       // on place en dessous des pieds
-      bomb.x = player.x;
-      bomb.y = player.y + PIXEL_SIZE + 21;
       break;
 
     case bomber_l:
+      index--;
+      /*
       bomb.x = player.x - PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
+      */
       break;
 
     case bomber_r:
+      index++;
+      /*
       bomb.x = player.x + PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
+      */      
       break;
 
     case bomber_u:
+      index = index - COLUMNS;
+      /*
       bomb.x = player.x;
       bomb.y = player.y - PIXEL_SIZE;
+      */
       break;
-
     default:
       break;
   }
-
-  index = coord_to_index(bomb.x, bomb.y);
-  int new_x = index_to_x(index);
-  int new_y = index_to_y(index);
-  bomb.x = new_x;
-  bomb.y = new_y;
-  /*
+  bomb.x = index_to_x(index);
+  bomb.y = index_to_y(index);
   const SDL_Rect zone = init_rect(bomb.x + 20, bomb.y + 20, 2, 2);
   if (has_collision_with_wall(zone))
     {
       printf("\nBOMB HAS COLLISION\n");
       return 0;
     }
-  */
   if (game_info->map_destroyable[index].exist)
     {
       printf("\nYou can't place a bomb here, already one in that case\n");

@@ -57,36 +57,25 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
       if(!map_destroyable[i].exist)
 	continue;
       
-      if (map_destroyable[i].start_explode <= tk)
+      if (map_destroyable[i].bomb)
 	{
-	  printf("\nBOOOOM");
-	  map_destroyable[i].bomb = 0;
-	  // gestion de l'explosion, exemple:
-	  // si start_explode à tick 20 et tick == 20
-	  // 20 + 5 > 20 et 25 - 20, explosion stage == 6 - (25 - 20)
-	  // si start_explode à tick 20 et tick == 23
-	  // 20 + 5 > 23 et 25 - 23, explosion stage == 6 - (25 - 23)
-	  // dernier tour:
-	  // si start_explode à tick 20 et tick == 24
-	  // 20 + 5 > 24 et 25 - 24, explosion stage == 6 - (25 - 24)
-	  // si start_explode à tick 20 et tick == 25
-	  // 20 + 5 !> 25 et 25 - 20, explosion stage == 0
-	  if (map_destroyable[i].start_explode + 5 > tk)
+	  if (map_destroyable[i].start_explode <= tk)
 	    {
-	      map_destroyable[i].explosion_stage = 6 - ((map_destroyable[i].start_explode + 5) - tk);
 	      boom(map_destroyable, i);
-	      printf("BOMB DESTROYED, explosion stage : %d \n", map_destroyable[i].explosion_stage);
 	    }
 	}
-      if (map_destroyable[i].explosion_stage >= 6)
+      else
 	{
-	  map_destroyable[i].explosion_stage++;
-	}
-      else if (map_destroyable[i].explosion_stage == 10)
-	{
-	  map_destroyable[i].exist = 0;
-	  map_destroyable[i].start_explode = 0;
-	  map_destroyable[i].explosion_stage = 0;
+	  if (map_destroyable[i].explosion_stage <= 5 && map_destroyable[i].explosion_stage > 0)
+	    {
+	      map_destroyable[i].explosion_stage--;
+	    }
+	  else if (map_destroyable[i].explosion_stage == 0)
+	    {
+	      map_destroyable[i].exist = 0;
+	      map_destroyable[i].start_explode = 0;
+	      map_destroyable[i].explosion_stage = 0;
+	    }
 	}
     }
 }

@@ -134,11 +134,8 @@ void			boom(t_map_destroyable *map_destroyable, int i)
 		  && (effect = check_fire_effect(map_destroyable[target])) != -1)
 		{
 		  boom_origin.fire[it] = iterator;
-		  /*
-		    UNCOMMENT TO DISPLAY FAKE FIRE ON CHECKED CASES
-		  */
 		  map_destroyable[target].exist = 1;
-		  map_destroyable[target].explosion_stage = 6;
+		  map_destroyable[target].explosion_stage = 5;
 		  map_destroyable[target].start_explode = 0;
 		}
 	    }
@@ -149,6 +146,9 @@ void			boom(t_map_destroyable *map_destroyable, int i)
 	  printf("\nPour it = %d, boom_origin.fire[it] == %d\n", it, boom_origin.fire[it]);
 	}
       //
+      boom_origin.bomb = 0;
+      boom_origin.start_explode = 0;
+      boom_origin.explosion_stage = 5;
       map_destroyable[i] = boom_origin;
     }
 }
