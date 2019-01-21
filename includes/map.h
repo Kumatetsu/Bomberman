@@ -18,6 +18,8 @@ typedef struct	s_map_destroyable
   int		bomb_owner;
   int		dying;
   int		start_explode;
+  // de 1 au début de l'explosion à 5
+  int		explosion_stage;
   int		bomb;
   // fire contient 4 int correspondant aux nombres
   // de cases à mettre en feu de chaque côté de la case bombe

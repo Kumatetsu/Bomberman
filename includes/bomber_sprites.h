@@ -11,6 +11,8 @@ SDL_Rect getBlackSprites(int dir, int action);
 SDL_Rect getRedSprites(int dir, int action);
 SDL_Rect getWhiteSprites(int dir, int action);
 SDL_Rect getBombSprites(int type);
+int	 getExplosionX(int index);
+SDL_Rect getExplosionSprite(int x, int y, int width, int height);
 SDL_Rect getExplosionSprites(int type);
 
 /**

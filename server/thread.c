@@ -31,6 +31,8 @@
 #include "unistd.h"
 // pour usleep
 #include "time.h"
+// for dev
+#include "coord_index_swapper.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
@@ -52,19 +54,35 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 
   for (i = 0; i < INLINE_MATRIX; i++)
     {
-      if(!map_destroyable[i].exist || !map_destroyable[i].bomb)
+      if(!map_destroyable[i].exist)
 	continue;
       
-      if (map_destroyable[i].start_explode < tk)
+      if (map_destroyable[i].start_explode <= tk)
 	{
 	  printf("\nBOOOOM");
-	  boom(map_destroyable, i);
-	  if (map_destroyable[i].start_explode + 5 < tk)
+	  map_destroyable[i].bomb = 0;
+	  // gestion de l'explosion, exemple:
+	  // si start_explode à tick 20 et tick == 20
+	  // 20 + 5 > 20 et 25 - 20, explosion stage == 6 - (25 - 20)
+	  // si start_explode à tick 20 et tick == 23
+	  // 20 + 5 > 23 et 25 - 23, explosion stage == 6 - (25 - 23)
+	  // dernier tour:
+	  // si start_explode à tick 20 et tick == 24
+	  // 20 + 5 > 24 et 25 - 24, explosion stage == 6 - (25 - 24)
+	  // si start_explode à tick 20 et tick == 25
+	  // 20 + 5 !> 25 et 25 - 20, explosion stage == 0
+	  if (map_destroyable[i].start_explode + 5 > tk)
+	    {
+	      map_destroyable[i].explosion_stage = 6 - ((map_destroyable[i].start_explode + 5) - tk);
+	      boom(map_destroyable, i);
+	      printf("BOMB DESTROYED, explosion stage : %d \n", map_destroyable[i].explosion_stage);
+	    }
+	  else
 	    {
 	      map_destroyable[i].exist = 0;
-	      map_destroyable[i].bomb = 0;
-	      printf("BOMB DESTROYED \n\n\n\n\n\n\n\n");
-	    }
+	      map_destroyable[i].start_explode = 0;
+	      map_destroyable[i].explosion_stage = 0;
+	    }	      
 	}
     }
 }

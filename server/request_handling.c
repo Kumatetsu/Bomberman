@@ -19,6 +19,9 @@
 #include "map.h"
 #include "game_info.h"
 #include "moving.h"
+#include "coord_index_swapper.h"
+#include "collision.h"
+#include "base_map_manager.h"
 #include "request_handling.h"
 
 // dev
@@ -52,12 +55,10 @@ void	handle_requests(t_game_info *game_info,	t_player_request *player_request)
       if (player_request->command > PLACE_BOMB )
 	{
 	  move_player(game_info, player_request, num_player);
-	  printf("\nplayer moved\n");
 	}
       if (player_request->command == PLACE_BOMB)
 	{
 	  place_bomb(game_info, player_request);
-	  printf("\nbomb placed\n");
 	}
     }
   else if (game_info->players[num_player].dying > 0)
@@ -117,7 +118,19 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
       break;
   }
 
-  index = (bomb.x + bomb.y * COLUMNS) / PIXEL_SIZE;
+  index = coord_to_index(bomb.x, bomb.y);
+  /*
+  int new_x = index_to_x(index);
+  int new_y = index_to_y(index);
+  bomb.x = new_x;
+  bomb.y = new_y;
+  */
+  const SDL_Rect zone = init_rect(bomb.x + 16, bomb.y + 16, 10, 10);
+  if (has_collision_with_wall(zone))
+    {
+      printf("\nBOMB HAS COLLISION\n");
+      return 0;
+    }
   if (game_info->map_destroyable[index].exist)
     {
       printf("\nYou can't place a bomb here, already one in that case\n");
