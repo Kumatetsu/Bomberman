@@ -10,50 +10,51 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <pthread.h>
+// sur!
+#include "enum.h"
+#include "constant.h"
 #include "sdl.h"
-#include "client.h"
+#include "map.h"
+#include "client_request.h"
 #include "player_info.h"
-#include "player.h"
-#include "base_map.h"
+#include "server.h"
 #include "game_info.h"
+#include "client_receive.h"
+#include "client_request.h"
+#include "data.h"
 #include "thread.h"
-#include "game_info_serialization.h"
+#include "base_map_manager.h"
+#include "start_map.h"
+#include "bomber_sprites.h"
 
-void recalculate_all(void *data);
-
-int start_map(t_sdl *sdl, int socket, t_player_request *cr)
+int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
 {
-  int quit;
-  SDL_Event event;
-  t_data *data;
-  t_thread *struct_thread;
-  cr = cr;
-  pthread_t listen_server;
+  int		quit;
+  SDL_Event	event;
+  t_data	*data;
+  t_thread	*struct_thread;
+  pthread_t	listen_server_thread;
 
   quit = 0;
-  data = malloc(sizeof(*data));
+  if ((data = malloc(sizeof(*data))) == NULL)
+    return 0;
   data->renderer = sdl->renderer;
   data->window = sdl->window;
   if ((struct_thread = malloc(sizeof(t_thread))) == NULL)
     return 0;
-
   struct_thread->socket = socket;
   struct_thread->data = data;
-
   init_sprites_sheet((void *)data);
-  draw_all((void *)data);
+  initSprites();
+  if (!draw_fixed_map((void *)data))
+    return (0);
   SDL_SetRenderTarget(data->renderer, NULL);
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
   printf("\nbefore create thread\n");
-  if (pthread_create(&listen_server, NULL, thread_listen_serv, struct_thread))
-  {
+  if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
     quit = 1;
-  }
   printf("\nthread created\n");
   while (!quit)
   {
@@ -80,47 +81,52 @@ int start_map(t_sdl *sdl, int socket, t_player_request *cr)
         case SDLK_UP:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_up((void *)data);
+          cr->command = MOVE_UP;
           send_request(socket, cr);
           break;
         case SDLK_LEFT:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_left((void *)data);
+          cr->command = MOVE_LEFT;
           send_request(socket, cr);
           break;
         case SDLK_RIGHT:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_right((void *)data);
+          cr->command = MOVE_RIGHT;
           send_request(socket, cr);
           break;
         case SDLK_DOWN:
           //SDL_RenderClear(data->renderer);
           //rebuild_map((void *)data);
-          //move_player_down((void *)data);
+          cr->command = MOVE_DOWN;
           send_request(socket, cr);
+          break;
+        case SDLK_SPACE:
+	  printf("\nI WANT A BOMB\n");
+	  cr->command = PLACE_BOMB;
+	  printf("\nplayer request: %d\n", cr->command);
+	  send_request(socket, cr);
           break;
         }
       }
     }
   }
-  pthread_cancel(listen_server);
+  pthread_cancel(listen_server_thread);
   SDL_DestroyTexture(data->texture);
   free(data);
   return 0;
 }
 
-void *init_sprites_sheet(void *arg)
+void		*init_sprites_sheet(void *arg)
 {
-  SDL_Texture *sprite_texture;
-  SDL_Surface *sprites_img;
+  SDL_Texture	*sprite_texture;
+  SDL_Surface	*sprites_img;
+  t_data	*data = (t_data *)arg;
 
-  t_data *data = (t_data *)arg;
   sprites_img = NULL;
   sprite_texture = NULL;
   IMG_Init(IMG_INIT_PNG);
-
   sprites_img = IMG_Load("./ressources/bombermanSprite.PNG");
   if (!sprites_img)
   {
@@ -146,66 +152,3 @@ void *init_sprites_sheet(void *arg)
   SDL_SetRenderTarget(data->renderer, NULL);
   return (NULL);
 }
-
-void recalculate_all(void *data) {
-  draw_all(data);
-}
-
-/*
-void function_test(t_game_info game_info, t_base_map base_map) {
-  int i;
-  int convert_x;
-  int convert_y;
-
-  for (i = 0; i < 4; i++) {
-    if (game_info->players[i].alive) {
-      convert_x = walk_X_into_pixels(game_info->players[i].x_pos);
-      convert_y = walk_Y_into_pixels(game_info->players[i].y_pos);
-      if (convert_x == base_map->players[i].x && convert_y == base_map->players[i].y) {
-	continue;
-      } else if (convert_x != base_map->players[i].x) {
-	if (game_info->players[i].current_dir == bomb_d) {
-	  move_player_down(base_map,i);
-	} else {
-	  move_player_up(base_map,i);
-	}
-      } else if (convert_y != base_map->players[i].y) {
-	if (game_info->players[i].current_dir == bomb_l) {
-	  move_player_left(base_map, i);
-	} else {
-	  move_player_right(base_map, i);
-	}
-      }
-
-    } else if (game_info->players[i].dying) {
-      //what to do here ? anim the dying mother fucker
-    }
-  }
-}
-
-void	update_destroyable_stuffs(t_game_info game_info){
-  int	i;
-  int	j;
-
-  for (i = 0; i < 14; i++) {
-    for (j = 0; i < 15; i++) {
-      if (game_info->map_destroyable[i][j].wall_destroyable) {
-	draw_destroyable_wall(game_info);
-      }
-      }
-    }
-  }
-}
-
-int walk_Y_into_pixels(int value) {
-  int first_step_X =  (I_BEGIN + 1) * 48;
-  value *= first_step_X;
-  return (value);
-}
-
-int walk_X_into_pixels(int value) {
-  int first_step_Y = ((J_BEGIN + 1) * 48) - 36;
-  value *= first_step_Y;
-  return (value);
-}
-*/

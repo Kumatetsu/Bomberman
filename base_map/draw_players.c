@@ -7,93 +7,73 @@
 ** Started on  Wed Jul  4 09:30:48 2018 MASERA Mathieu
 ** Last update Wed Jul  4 09:30:50 2018 MASERA Mathieu
 */
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <pthread.h>
-#include "player.h"
-#include "sdl.h"
-#include "request.h"
-#include "base_map.h"
+#include "constant.h"
+#include "enum.h"
+#include "player_info.h"
+#include "map.h"
+#include "data.h"
+#include "bomber_sprites.h"
+#include "client_request.h"
+#include "server.h"
+#include "game_info.h"
+#include "draw_players.h"
 
-void	*draw_player_1(void *arg) {
-  int	error;
 
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 1) * 48) - 36 ,
-			16 * 3, 24 * 3};
+int		draw_players(void *arg, t_game_info *client_game_info)
+{
+  int		i;
+  t_player_info player;
 
-  data->players[0].x = (I_BEGIN + 1) * 48;
-  data->players[0].y = ((J_BEGIN + 1) * 48) - 36;
-  data->players[0].index_sprite = not_move;
-  error = SDL_RenderCopy(data->renderer, data->texture,
-			 &(data->players[0].bomber_sprites[bomber_d][not_move]),
-			 &dest_rect);
-  if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Player1 Failed",
-			     SDL_GetError(), data->window);
-  return (NULL);
+  if (client_game_info != NULL)
+    {
+      for (i = 0; i < 4; i++)
+	{
+	  player = client_game_info->players[i];
+	  if (player.connected && (player.alive || player.dying))
+	    {
+	      if (!draw_player(arg, player))
+		return (0);
+	    }
+	}
+    }
+  else
+    {
+      printf("\nclient_game_info is null and must not...\n");
+      return (0);
+    }
+  return (1);
 }
 
-//blue bomber
-void	*draw_player_2(void *arg) {
-  int	error;
+/*
+ * return 1 if success 0 if failure
+ */
+int		draw_player(void *arg, t_player_info player_info)
+{
+  int		error;
+  t_data	*data = (t_data*)arg;
+  SDL_Rect	sprite_container;
 
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 11) * 48) - 36 ,
-			16 * 3, 24 * 3};
-  data->players[1].x = (I_BEGIN + 13) * 48;
-  data->players[1].y = ((J_BEGIN + 11) * 48) - 36;
-  data->players[1].index_sprite = not_move;
+  sprite_container = getBomberSprites(player_info.num_player, player_info.direction_sprite, player_info.action_sprite);
+  if (player_info.dying > 0)
+    {
+      sprite_container = getBomberSprites(player_info.num_player, die, 3 - player_info.dying);
+      player_info.dying--;
+    }
+  SDL_Rect	dest_rect = {player_info.x, player_info.y, PIXEL_SIZE, 24 * 3};
   error = SDL_RenderCopy(data->renderer, data->texture,
-			 &(data->players[1].bomber_sprites[bomber_u][not_move]),
+			 &sprite_container,
 			 &dest_rect);
+
   if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Player2 Failed",
+    {
+      SDL_ShowSimpleMessageBox(0, "drawing Player Failed",
 			     SDL_GetError(), data->window);
-  return (NULL);
+      return (0);
+    }
+  return (1);
 }
-
-//black bomber
-void	*draw_player_3(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 1) * 48, ((J_BEGIN + 11) * 48) - 36 ,
-			16 * 3, 24 * 3};
-  data->players[2].x = (I_BEGIN + 1) * 48;
-  data->players[2].y = ((J_BEGIN + 11) * 48) - 36;
-  data->players[2].index_sprite = not_move;
-  error = SDL_RenderCopy(data->renderer, data->texture,
-			 &(data->players[2].bomber_sprites[bomber_u][not_move]),
-			 &dest_rect);
-  if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Player3 Failed",
-			     SDL_GetError(), data->window);
-  return (NULL);
-}
-
-//red bomber
-void	*draw_player_4(void *arg) {
-  int	error;
-
-  error = 0;
-  t_data *data = (t_data*)arg;
-  SDL_Rect dest_rect = {(I_BEGIN + 13) * 48, ((J_BEGIN + 1) * 48) - 36 ,
-			16 * 3, 24 * 3};
-  data->players[3].x = (I_BEGIN + 13) * 48;
-  data->players[3].y = ((J_BEGIN + 1) * 48) - 36;
-  data->players[3].index_sprite = not_move;
-  error = SDL_RenderCopy(data->renderer, data->texture,
-			 &(data->players[3].bomber_sprites[bomber_d][not_move]),
-			 &dest_rect);
-  if (error < 0)
-    SDL_ShowSimpleMessageBox(0, "drawing Player4 Failed",
-			     SDL_GetError(), data->window);
-  return (NULL);
-}
-
-

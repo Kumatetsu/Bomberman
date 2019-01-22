@@ -8,49 +8,64 @@
 ** Last update Wed Jul  4 09:30:35 2018 MASERA Mathieu
 */
 
-
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <pthread.h>
-#include "request.h"
-#include "player.h"
+#include "enum.h"
+#include "constant.h"
 #include "sdl.h"
-#include "base_map.h"
+#include "bomber_sprites.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "server.h"
+#include "player.h"
+#include "map.h"
+#include "data.h"
+#include "draw_base_map.h"
 #include "game_info.h"
+#include "draw_players.h"
+#include "game_map.h"
+#include "base_map_manager.h"
 
-void *draw_all(void *arg)
+// wrapper to init an SDL_Rect
+SDL_Rect	pixel_rect(int x, int y)
 {
-  t_game_info *gi;
-  gi = get_game_info();
+  SDL_Rect	tmp = {x, y, PIXEL_SIZE, PIXEL_SIZE};
 
-  gi = gi;
-  draw_map_model(arg);
-  draw_pannel(arg);
-  draw_timer(arg);
-  white_bomber_sprite(arg);
-  red_bomber_sprite(arg);
-  black_bomber_sprite(arg);
-  blue_bomber_sprite(arg);
-   if (gi != NULL) {
-    printf("\n\n\n\n\nNB CLIENT %d\n\n\n\n\n", gi->nb_client);
-    if (gi->nb_client >= 1)
-     draw_player_1(arg);
-    if (gi->nb_client >= 2)
-     draw_player_2(arg);
-    if (gi->nb_client >= 3)
-     draw_player_3(arg);
-    if (gi->nb_client >= 4)
-     draw_player_4(arg);
-  }
-  return (NULL);
+  return (tmp);
 }
 
-void *rebuild_map(void *arg) {
-  t_data *data = (t_data*)arg;
-  int i, j;
+SDL_Rect	init_rect(int x, int y, int w, int z)
+{
+  SDL_Rect	temp = {x, y, w, z};
+
+  return (temp);
+}
+
+t_map	init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
+{
+  t_map map;
+
+  map.src_rect = src;
+  map.dest_rect = dest;
+  map.texture_type = type;
+  return (map);
+}
+
+int		draw_fixed_map(void *arg)
+{
+  if (draw_map_model(arg) == NULL)
+    return (0);
+  if (!draw_pannel(arg))
+    return (0);
+  if (!draw_timer(arg))
+    return (0);
+  return (1);
+}
+
+void		rebuild_map(void *arg) {
+  t_data	*data = (t_data*)arg;
+  int		i, j;
 
   for (i = 0; i < 14; i++)
     {
@@ -64,5 +79,41 @@ void *rebuild_map(void *arg) {
 	    }
 	}
     }
-  return (NULL);
+}
+
+void		build_destroyables(void *arg)
+{
+  int		i, error;
+  t_data	*data = (t_data*)arg;
+
+  error = 0;
+  for (i = 0; i < INLINE_MATRIX; i++)
+    {
+      if (data->map_destroyable[i].exist)
+	{
+	  error = SDL_RenderCopy(data->renderer, data->texture,
+				 &(data->destroyable_drawer[i].src_rect),
+				 &(data->destroyable_drawer[i].dest_rect));
+	  printf("\nDestroyable place at %d:%d, texture: %d\n", data->map_destroyable[i].x, data->map_destroyable[i].y, data->destroyable_drawer[i].texture_type);
+	}
+    }
+  if (error > 0)
+    SDL_ShowSimpleMessageBox(0, "drawing destroyable failed", SDL_GetError(), data->window);
+}
+
+int get_element_type(int i, int j) {
+    int code;
+
+    if (j == J_BEGIN || j == J_BEGIN + 12 || i == I_BEGIN || i == I_BEGIN + 14) {
+        code = WALL;
+    } else if (j == J_BEGIN + 1 || (j % 2 != J_BEGIN % 2 && i % 2 == I_BEGIN % 2)) {
+        code = FREE_SLOT;
+    } else if (i % 2 != I_BEGIN % 2) {
+        code = FREE_SLOT;
+    } else if (i % 2 == I_BEGIN % 2) {
+        code = WALL;
+    } else {
+        code = 500;
+    }
+    return code;
 }

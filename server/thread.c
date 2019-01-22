@@ -13,15 +13,26 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include "constant.h"
 #include "my_put.h"
-#include "request.h"
-#include "player_info.h"
-#include "server.h"
 #include "sdl.h"
+#include "enum.h"
+#include "map.h"
+#include "client_request.h"
+#include "player_info.h"
+#include "data.h"
+#include "server.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 #include "main_loop.h"
+#include "bomb_management.h"
 #include "thread.h"
+// pour sleep
+#include "unistd.h"
+// pour usleep
+#include "time.h"
+// for dev
+#include "coord_index_swapper.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
@@ -31,64 +42,100 @@ void			my_sleep(int sec, int milli)
   int			nano;
   struct timespec	req = {0};
 
-  nano = milli * 1000000;
+  nano = milli * 10000000;
   req.tv_sec = sec;
   req.tv_nsec = nano;
   nanosleep(&req, NULL);
 }
 
+void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
+{
+  int i;
+
+  for (i = 0; i < INLINE_MATRIX; i++)
+    {
+      if(!map_destroyable[i].exist)
+	continue;
+      
+      if (map_destroyable[i].bomb)
+	{
+	  if (map_destroyable[i].start_explode <= tk)
+	    {
+	      boom(map_destroyable, i);
+	    }
+	}
+      else
+	{
+	  if (map_destroyable[i].explosion_stage <= 5 && map_destroyable[i].explosion_stage > 0)
+	    {
+	      map_destroyable[i].explosion_stage--;
+	    }
+	  else if (map_destroyable[i].explosion_stage == 0)
+	    {
+	      map_destroyable[i].exist = 0;
+	      map_destroyable[i].start_explode = 0;
+	      map_destroyable[i].explosion_stage = 0;
+	    }
+	}
+    }
+}
+
+// ticker
 void		*threaded_ticker(void *server)
 {
-  char		log[50];
-  t_srv		**srv;
+  int		i;
+  int		j;
   int		*tk;
   int		socket;
-  //char		*serialized_game_info;
+  t_srv		**srv;
   t_game_info	*game_info;
-  int		i;
-  int   j;
-  int   k;
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
   my_putstr("\nthreaded tick begin!\n");
   game_info = get_game_info();
-  while(1)
+  while(1 && game_info != NULL)
     {
-      sprintf(log, "\nTick: %d", (*tk));
-      my_putstr(log);
-      sprintf(log, "\n number of clients: %d\n", (*srv)->n_players);
-      my_putstr(log);
-      my_sleep(0, 5000);
-      for (i = 0; i < (*srv)->n_players; i++) {
-        socket = (*srv)->players[i].fd;
-        game_info->id_client = i;
-        set_game_info(game_info);
-        memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
-        memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
-        memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
-        memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
-        memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-        for (k=0; k<4; k++){
-          memcpy(&dumb_static.players[k], &game_info->players[k], sizeof(t_player_info));
-        }
-        for (k=0; k<14; k++){
-          for (j=0; j<15; j++){
-            memcpy(&dumb_static.map_destroyable[k][j], &game_info->map_destroyable[k][j], sizeof(t_map_destroyable));
-          }
-        }
-        printf("SOCKET SOCKET %d\n", socket);
-        write(socket, &dumb_static, sizeof(t_game_info) + 1);
-      }
+      printf("\nTick: %d", (*tk));
+      usleep(SLEEP * 1000);
+      for (i = 0; i < (*srv)->n_players; i++)
+	{
+	  verify_bomb_explosion(game_info->map_destroyable, *tk);
+	  socket = (*srv)->players[i].fd;
+	  game_info->id_client = i;
+	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
+	  memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
+	  memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
+	  memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
+	  memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
+	  for (j=0; j<4; j++)
+	    memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
+	  for (j=0; j<INLINE_MATRIX; j++)
+	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
+		   sizeof(t_map_destroyable));
+	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
+	}
       ++(*tk);
-      game_info->tick_time=(*tk);
+      game_info->tick_time = (*tk);
     }
+  printf("\nServer stopped to send game informations\n");
+  // probablement pas suffisant comme retour
+  return NULL;
 }
 
+// la main_loop du server tourne sur un thread
+// en l'état, on boucle indéfiniment sur la fonction main_loop
+// main_loop retourne
 void	*threaded_main_loop(void *server)
 {
   t_srv **srv;
+  int	check;
 
   srv = (t_srv **)server;
-  while (1) { main_loop(srv); }
+  while (1) {
+    // retourne 0 si erreur sur select ou accept_player
+    // retourne 1 si la boucle va au bout, traitement ou non
+    check = main_loop(srv);
+    printf("\nMain loop exit with code: %d", check);
+  }
 }

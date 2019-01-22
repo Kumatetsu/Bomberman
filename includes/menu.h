@@ -13,4 +13,4 @@
 
 void main_menu(t_sdl *sdl);
 
-#endif
+#endif /* !_MENU_H_ */

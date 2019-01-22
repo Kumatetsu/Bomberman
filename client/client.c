@@ -3,8 +3,7 @@
 **
 ** Made by BILLAUD Jean
 ** Login   <billau_j@etna-alternance.net>
-**
-** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
+**** Started on  Wed Jun 27 17:03:07 2018 BILLAUD Jean
 ** Last update Tue Jul  3 23:30:31 2018 MASERA Mathieu
 */
 
@@ -17,29 +16,40 @@
 #include <sys/select.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <SDL2/SDL.h>
+#include <netdb.h>
+#include <errno.h>
+#include "enum.h"
 #include "sdl.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "map.h"
+#include "server.h"
 #include "client.h"
-#include "player.h"
-#include "base_map.h"
+#include "start_map.h"
+#include "base_map_manager.h"
 
-//loop SDL du client.
+// loop SDL du client.
 // Pour le moment la socket n'est pas récupérée
 void			init_client(t_sdl *sdl)
 {
   int			cs;
   char			*addr;
   t_player_request 	*cr;
+
+  // on attend que l'adresse soit écrite par le user (ce fichier, client/client.c)
   addr = enter_addr(sdl);
+  // une fois l'adresse ip écrite, on tente de connecter (client/socket.c)
   cs = client_connect(addr);
-  printf("\nafterClientConnect\n");
+  // on crée l'objet player_request qui permettra de transporter les requetes du user (client/client_request.c)
   cr = create_player_request();
-  printf("\nrequestCreated\n");
+  printf("\nClient connected, player request created\nCALL START MAP FOR NEW CLIENT");
+  // on démarre la boucle cliente (start_map.c)
   start_map(sdl, cs, cr);
   free_player_request(cr);
 
 }
 
+// Fonction gérant l'écriture de l'ip dans le menu après un click sur 'join server'
 char		*enter_addr(t_sdl *sdl)
 {
   int		quit = 0;
@@ -100,6 +110,39 @@ char		*enter_addr(t_sdl *sdl)
     SDL_RenderPresent(sdl->renderer);
     SDL_SetRenderTarget(sdl->renderer, NULL);
   }
-
   return addr;
+}
+
+//init de la socket client + connection à une socket server.
+int			client_connect(char *serv_addr)
+{
+  struct protoent       *pe;
+  struct sockaddr_in    sin;
+  int			s;
+  int			port;
+
+  memset(&sin, 0, sizeof(struct sockaddr_in));
+  port = PORT;
+  pe = getprotobyname("TCP");
+  if (pe == NULL)
+    {
+      printf("error protocole for socket client");
+      return (-1);
+    }
+  s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
+  if (s == -1)
+    {
+      printf("error socket client");
+      return (-1);
+    }
+  sin.sin_family = AF_INET;
+  sin.sin_port = htons(port);
+  sin.sin_addr.s_addr = inet_addr(serv_addr);
+  if(connect(s, (const struct sockaddr *)&sin, sizeof (sin)) == -1)
+    {
+      printf("error connection\n");
+      exit(errno);
+    }
+  printf("connected\n");
+  return (s);
 }

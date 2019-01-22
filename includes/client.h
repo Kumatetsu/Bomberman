@@ -9,15 +9,10 @@
 */
 
 #ifndef _CLIENT_H_
-#define _CLIEN_H_
+#define _CLIENT_H_
 
-#include "request.h"
-#include "sdl.h"
-
-void 	client_loop(t_sdl *sdl, int fd, t_player_request *cr);
 void	init_client(t_sdl *sdl);
 char	*enter_addr(t_sdl *sdl);
-int	host_connect();
-int	client_connect();
-int	get_message(int s);
-#endif
+int	client_connect(char *serv_addr);
+
+#endif /* !_CLIENT_H_ */

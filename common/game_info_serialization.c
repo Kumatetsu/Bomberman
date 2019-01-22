@@ -1,4 +1,4 @@
-/*
+ /*
 ** game_info_serialization.c for  in /home/notwak42/Projects/C/Bomberman/BombGit/Bomberman/common
 **
 ** Made by MASERA Mathieu
@@ -8,10 +8,13 @@
 ** Last update Wed Jul  4 09:33:55 2018 MASERA Mathieu
 */
 
-#include "player.h"
-#include "request.h"
-#include "my_put.h"
+#include "enum.h"
 #include "sdl.h"
+#include "player_info.h"
+#include "client_request.h"
+#include "server.h"
+#include "my_put.h"
+#include "map.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
 
@@ -35,7 +38,6 @@ char		*serialize_game_info()
   memcpy(game_info_str + sizeof(int) * 3, &game_info->id_client, sizeof(int));
 
   for(i=0; i < 4 ; i ++) {
-    game_info->players[i].bomb_left = i;
     printf("server side bomb %d\n\n", game_info->players[i].bomb_left);
     if (i == 0)
       memcpy(game_info_str + (sizeof(int) * 4), &game_info->players[i], sizeof(t_player_info));
