@@ -23,6 +23,7 @@
 #include "my_put.h"
 #include "request_handling.h"
 #include "main_loop.h"
+#include "response_type_utils.h"
 
 void		restart_game(t_srv **srv)
 {
@@ -131,11 +132,10 @@ int			main_loop(t_srv **srv)
 		      player_request.num_player = i;
 		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
 		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
-		      // on modifie la game_info
 		      handle_requests(game_info, &player_request);
-		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
-		      // On assure au serveur l'origine de la requête
-		      // n = 0;
+
+
+
 		    }
 		  // buffer[n] = 0;
 		  printf("client send request\n");

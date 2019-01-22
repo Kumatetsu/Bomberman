@@ -71,4 +71,9 @@ enum Directions {
     BOMBER_U = 3,
 };
 
+enum Response_type {
+  BOMB,
+  MOVE
+};
+
 #endif /* !_ENUM_H_ */
