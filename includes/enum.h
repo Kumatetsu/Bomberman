@@ -9,6 +9,7 @@ typedef enum    texture_type
     ground_shadowed = 3,
     pannel = 4,
     timer = 5,
+    fire = 6,
   }             texture_type;
 
 typedef enum    bomb_texture_type

@@ -34,8 +34,7 @@ int		draw_players(void *arg, t_game_info *client_game_info)
       for (i = 0; i < 4; i++)
 	{
 	  player = client_game_info->players[i];
-	  printf("\nCheck if player %d is connected and alive: %d %d", player.num_player, player.connected, player.alive);
-	  if (player.connected && player.alive)
+	  if (player.connected && (player.alive || player.dying))
 	    {
 	      if (!draw_player(arg, player))
 		return (0);
@@ -60,6 +59,11 @@ int		draw_player(void *arg, t_player_info player_info)
   SDL_Rect	sprite_container;
 
   sprite_container = getBomberSprites(player_info.num_player, player_info.direction_sprite, player_info.action_sprite);
+  if (player_info.dying > 0)
+    {
+      sprite_container = getBomberSprites(player_info.num_player, die, 3 - player_info.dying);
+      player_info.dying--;
+    }
   SDL_Rect	dest_rect = {player_info.x, player_info.y, PIXEL_SIZE, 24 * 3};
   error = SDL_RenderCopy(data->renderer, data->texture,
 			 &sprite_container,

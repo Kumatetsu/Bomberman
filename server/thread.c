@@ -25,7 +25,14 @@
 #include "game_info.h"
 #include "game_info_serialization.h"
 #include "main_loop.h"
+#include "bomb_management.h"
 #include "thread.h"
+// pour sleep
+#include "unistd.h"
+// pour usleep
+#include "time.h"
+// for dev
+#include "coord_index_swapper.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
@@ -46,16 +53,31 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
   int i;
 
   for (i = 0; i < INLINE_MATRIX; i++)
-  {
-    if(!map_destroyable[i].exist || !map_destroyable[i].bomb)
-      continue;
-
-    if (map_destroyable[i].start_explode < tk) {
-      map_destroyable[i].exist = 0;
-      map_destroyable[i].bomb = 0;
-      printf("BOMB DESTROYED \n\n\n\n\n\n\n\n");
+    {
+      if(!map_destroyable[i].exist)
+	continue;
+      
+      if (map_destroyable[i].bomb)
+	{
+	  if (map_destroyable[i].start_explode <= tk)
+	    {
+	      boom(map_destroyable, i);
+	    }
+	}
+      else
+	{
+	  if (map_destroyable[i].explosion_stage <= 5 && map_destroyable[i].explosion_stage > 0)
+	    {
+	      map_destroyable[i].explosion_stage--;
+	    }
+	  else if (map_destroyable[i].explosion_stage == 0)
+	    {
+	      map_destroyable[i].exist = 0;
+	      map_destroyable[i].start_explode = 0;
+	      map_destroyable[i].explosion_stage = 0;
+	    }
+	}
     }
-  }
 }
 
 // ticker
@@ -75,10 +97,10 @@ void		*threaded_ticker(void *server)
   while(1 && game_info != NULL)
     {
       printf("\nTick: %d", (*tk));
-      my_sleep(0, 440);
+      usleep(SLEEP * 1000);
       for (i = 0; i < (*srv)->n_players; i++)
 	{
-    verify_bomb_explosion(game_info->map_destroyable, *tk);
+	  verify_bomb_explosion(game_info->map_destroyable, *tk);
 	  socket = (*srv)->players[i].fd;
 	  game_info->id_client = i;
 	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));

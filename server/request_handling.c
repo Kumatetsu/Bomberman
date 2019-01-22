@@ -19,6 +19,9 @@
 #include "map.h"
 #include "game_info.h"
 #include "moving.h"
+#include "coord_index_swapper.h"
+#include "collision.h"
+#include "base_map_manager.h"
 #include "request_handling.h"
 
 // dev
@@ -44,18 +47,23 @@ void	handle_requests(t_game_info *game_info,	t_player_request *player_request)
   int	num_player;
 
   num_player = player_request->num_player;
-  detail_player(game_info->players[player_request->num_player]);
+  // detail_player(game_info->players[player_request->num_player]);
   // Les commandes de mouvement étant assimilées à un int plus grand
   // On a juste à check si la commande est supérieur aà PLACE_BOMB
-  if (player_request->command > PLACE_BOMB )
+  if (game_info->players[num_player].alive && game_info->players[num_player].dying == 0)
     {
-      move_player(game_info, player_request, num_player);
-      printf("\nplayer moved\n");
+      if (player_request->command > PLACE_BOMB )
+	{
+	  move_player(game_info, player_request, num_player);
+	}
+      if (player_request->command == PLACE_BOMB)
+	{
+	  place_bomb(game_info, player_request);
+	}
     }
-  if (player_request->command == PLACE_BOMB)
+  else if (game_info->players[num_player].dying > 0)
     {
-      place_bomb(game_info, player_request);
-      printf("\nbomb placed\n");
+      game_info->players[num_player].dying--;
     }
 }
 
@@ -77,51 +85,64 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   bomb.exist = 1;
   player.bomb_left--;
   bomb.bomb = 1;
-  bomb.start_explode = game_info->tick_time + TICK_IN_SEC; // TICK_IN_SEC == 1000 / SLEEP
+  bomb.start_explode = game_info->tick_time + TICK_IN_SEC * 2; // TICK_IN_SEC == 1000 / SLEEP
   bomb.bomb_owner = player_request->num_player;
   // cohabitation principe de cases et principe pixels
-
+  index = coord_to_index(player.x + 10, player.y + 40);
   switch (player.direction_sprite)
   {
     case bomber_d:
+      index = index + COLUMNS;
       // on place en dessous des pieds
-      bomb.x = player.x;
-      bomb.y = player.y + PIXEL_SIZE + 21;
       break;
 
     case bomber_l:
+      index--;
+      /*
       bomb.x = player.x - PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
+      */
       break;
 
     case bomber_r:
+      index++;
+      /*
       bomb.x = player.x + PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
+      */      
       break;
 
     case bomber_u:
+      index = index - COLUMNS;
+      /*
       bomb.x = player.x;
       bomb.y = player.y - PIXEL_SIZE;
+      */
       break;
-
     default:
       break;
   }
-
-  index = (bomb.x + bomb.y * COLUMNS) / PIXEL_SIZE;
-    if (game_info->map_destroyable[index].exist)
-      {
-	printf("\nYou can't place a bomb here, already one in that case\n");
-	return (0);
-      }
-    else
-      {
-	printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
-	game_info->map_destroyable[index] = bomb;
-	return (1);
-      }
+  bomb.x = index_to_x(index);
+  bomb.y = index_to_y(index);
+  const SDL_Rect zone = init_rect(bomb.x + 20, bomb.y + 20, 2, 2);
+  if (has_collision_with_wall(zone))
+    {
+      printf("\nBOMB HAS COLLISION\n");
+      return 0;
+    }
+  if (game_info->map_destroyable[index].exist)
+    {
+      printf("\nYou can't place a bomb here, already one in that case\n");
+      return (0);
+    }
+  else
+    {
+      printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
+      game_info->map_destroyable[index] = bomb;
+      return (1);
+    }
 }
 
 void	add_request_to_server(t_srv **srv, t_player_request *player_request)

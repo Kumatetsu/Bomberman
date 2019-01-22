@@ -17,10 +17,10 @@
 #include "server.h"
 #include "map.h"
 #include "game_info.h"
-#include "moving.h"
 #include "map_management.h"
 #include "constant.h"
-#include "static_wall_rect.h"
+#include "collision.h"
+#include "moving.h"
 
 void	move_player(
 		    t_game_info *game_info,
@@ -92,10 +92,10 @@ void	move_player(
   }
 
   /*
-  * Pour le moment on check pas les collisions on veut juste bouger
-  */
+   * Pour le moment on check pas les collisions on veut juste bouger
+   */
   printf("\nmoveplayer check_collision call\n");
-  if (check_collision(game_info, new_x, new_y, num_player) == 0)
+  if (check_collision(new_x, new_y, num_player) == 0)
      return;
 
   if (game_info->players[num_player].alive)
@@ -144,95 +144,20 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
   return;
 }
 
- int	check_collision(
-      t_game_info *game_info,
- 			int requested_x,
-      int requested_y,
-      int num_player
- 			)
- {
-  int            y, i;
-  //  int  y_player_block, x_player_block;
-  //  int            max_x, max_y, min_x, min_y;
-  //  int            **map_pointer;
+int			check_collision(
+					int requested_x,
+					int requested_y,
+					int num_player
+					)
+{
+  const SDL_Rect	player = {requested_x, requested_y + 46, PIXEL_SIZE - 12, 21};
 
-  // We need to abstract the shadow and the head of the player of the collision process, that mean to take only the 42x42 pixels of the player
-  // To do that we remove a pixel on the left and 6 on the top so we have the foots and the center of the player! (The player initialy is 42x48)
-  const SDL_Rect player = {requested_x, requested_y + 46, PIXEL_SIZE - 12, 21};
-  SDL_Rect *walls;
-
-  walls = get_walls();
-
-  //  y_player_block = (int) (requested_y / PIXEL_SIZE);
-  //  x_player_block = (int) (requested_x / PIXEL_SIZE);
-
-  //  max_y = y_player_block + 3;
-  //  // min_y should always be greater than 1 because 0 is not playable
-  //  min_y = (y_player_block - 3) > 1 ? y_player_block - 3 : 1;
-
-  //  max_x = x_player_block + 3;
-  //  min_x = (x_player_block - 3) > 0 ? x_player_block - 3 : 0;
-
-   printf("\ncheck_collision first iteration throught players\n");
-
-    //  map_pointer = get_array_map();
-     // Loop over map_pointer
-    //  for (y = 1; y <= (int)(sizeof(map_pointer)/sizeof(map_pointer[0])); ++y) {
-    //     for (x = 1; x <= (int)(sizeof(map_pointer[y])/sizeof(map_pointer[y][0])); ++x) {
-    //         printf("\n%d : %d\n", x, y);
-    //       if (map_pointer[x][y] == WALL)
-    //       {
-    //         const SDL_Rect element = {x, y, PIXEL_SIZE, PIXEL_SIZE};
-    //         if (SDL_HasIntersection(&player, &element))
-    //           return 0;
-    //       }
-    //     }
-    //   }
-
-    // // Loop over map_desctructible
-    // for (y = min_y; y < max_y; ++y)
-    // {
-    //    for (x = min_x; x < max_x; ++x)
-    //    {
-    //      if (game_info->map_destroyable[x][y].exist || game_info->map_destroyable[x][y].bomb)
-    //      {
-    //        //printf("\nin destructible stuff\n");
-    //        const SDL_Rect element = {game_info->map_destroyable[x][y].x, game_info->map_destroyable[x][y].y, PIXEL_SIZE, PIXEL_SIZE};
-    //        if (SDL_HasIntersection(&player, &element))
-    //         return 0;
-    //      }
-    //    }
-    // }
-
-    for (i = 0; i < 82; i++) {
-      if (SDL_HasIntersection(&player, &walls[i])) {
-        printf("collision with WALL\n\n");
-        return 0;
-      }
-    }
-
-    for (i = 0; i < INLINE_MATRIX; ++i) {
-      if (!game_info->map_destroyable[i].exist && !game_info->map_destroyable[i].bomb)
-        continue;
-      const SDL_Rect element = {game_info->map_destroyable[i].x, game_info->map_destroyable[i].y, PIXEL_SIZE, PIXEL_SIZE};
-      if (SDL_HasIntersection(&player, &element)) {
-        printf("collision with destroyable\n\n");
-        return 0;
-      }
-    }
-
-     // Loop over players
-     for (y = 0; y < (int)(sizeof(game_info->players)/sizeof(game_info->players[0])); ++y) {
-        if (game_info->players[y].num_player != num_player && &game_info->players[y] != NULL)
-        {
-          //printf("\nin players stuff\n");
-          const SDL_Rect other_player = {game_info->players[y].x, game_info->players[y].y, PIXEL_SIZE, PIXEL_SIZE};
-          if (SDL_HasIntersection(&player, &other_player))
-           { printf("collision with player\n\n");
-            return 0;}
-        }
-      }
-
-   printf("\nBoth iterations done, check_collision done\n");
-   return 1;
+  if (has_collision_with_wall(player))
+    return 0;
+  if (has_collision_with_destructible(player))
+    return 0;
+  if (has_collision_with_player(player, num_player) >= 0)
+    return 0;
+  printf("\nBoth iterations done, check_collision done\n");
+  return 1;
  }

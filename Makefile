@@ -25,7 +25,8 @@ SRC 	= 	main.c 					\
 		common/my_putchar.c			\
 		common/my_putstr.c			\
 		common/game_info.c			\
-		common/static_wall_rect.c 	\
+		common/static_wall_rect.c 		\
+		common/coord_index_swapper.c		\
 		game_map/white_bomber.c			\
 		game_map/blue_bomber.c			\
 		game_map/red_bomber.c			\
@@ -42,6 +43,8 @@ SRC 	= 	main.c 					\
 		server/request_handling.c		\
                 server/player.c				\
 		server/main_loop.c			\
+		server/collision.c			\
+		server/bomb_management.c		\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\
