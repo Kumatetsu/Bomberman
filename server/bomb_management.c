@@ -66,9 +66,10 @@ void		kill_player(int id)
   t_game_info	*game_info;
   
   game_info = get_game_info();
-  game_info->players[id].dying = 3;
+  game_info->players[id].dying = 0;
   game_info->players[id].alive = 0;
-  game_info->players[id].bomb_left = 0;
+  game_info->players[id].x = -50;
+  game_info->players[id].bomb_left = -50;
 }
 
 // fire effect:

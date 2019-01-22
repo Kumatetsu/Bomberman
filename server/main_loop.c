@@ -70,7 +70,7 @@ int			main_loop(t_srv **srv)
   // FOR PROD
   //if (!is_running() && is_enought_players(srv))
   // FOR DEV
-  if (((*srv)->n_players && !is_running()))
+  if (is_enought_players(srv) && !is_running())
     {
       // server.h
       // set le game_status à 1
@@ -81,9 +81,7 @@ int			main_loop(t_srv **srv)
       start_game(srv);
       //
     }
-  if (is_running()
-      // FOR DEV
-      || (*srv)->n_players)
+  if (is_running())
     {
       // pour les joueurs... 0 à 3
       for (i = 0; i < 4; i++)
@@ -130,8 +128,6 @@ int			main_loop(t_srv **srv)
 		  printf("client send request\n");
 		}
 	    }
-	  else
-	    printf("\nnot connected\n");
 	}
     }
   return (1);
