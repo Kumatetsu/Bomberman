@@ -23,6 +23,17 @@
 #include "my_put.h"
 #include "player.h"
 #include "constant.h"
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+#ifdef linux
+typedef int SOCKET;
+typedef struct sockaddr_in client_sin;
+typedef struct sockaddr SOCKADDR;
+typedef struct in_addr IN_ADDR;
+typedef struct socklen_t client_sin_len;
+#endif
 
 // instanciation d'un player avec sa socket
 int             add_player(t_srv **srv, int fd)
@@ -59,6 +70,13 @@ int             add_player(t_srv **srv, int fd)
 // retourne l'index
 int			accept_players(t_srv **srv)
 {
+
+#ifdef _WIN32
+	WORD versionWanted = MAKEWORD(2, 2);
+	WSADATA wsaData;
+	WSAStartup(versionWanted, &wsaData);
+#endif
+
   int		        index;
   int			player_socket;
   struct sockaddr_in	client_sin;

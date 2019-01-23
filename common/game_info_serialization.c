@@ -17,10 +17,10 @@
 #include "map.h"
 #include "game_info.h"
 #include "game_info_serialization.h"
-
-
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
 
 char		*serialize_game_info()
 {

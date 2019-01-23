@@ -12,8 +12,13 @@
 #define _SERVER_H_
 
 // exceptional include
-#include <sys/select.h>
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
 
+#ifdef linux
+#include <sys/select.h>
+#endif
 
 # define FD_FREE 0
 # define FD_CLIENT 1

@@ -11,12 +11,18 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#ifdef unix
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/select.h>
+#include <netdb.h>
+#endif
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
 #include <sys/time.h>
 #include <sys/types.h>
-#include <netdb.h>
 #include <errno.h>
 #include "enum.h"
 #include "sdl.h"
