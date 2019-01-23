@@ -12,7 +12,6 @@
 #define _SERVER_H_
 
 // exceptional include
-#include <sys/select.h>
 #include "enum.h"
 #include "sdl.h"
 #include "map.h"
@@ -26,6 +25,13 @@
 #define MAX_FD 255
 #define BUFF_SIZE 1024
 #define PORT 4022
+#ifdef _WIN32
+#include <winsock2.h>
+#endif
+
+#ifdef linux
+#include <sys/select.h>
+#endif
 
 typedef struct s_srv
 {

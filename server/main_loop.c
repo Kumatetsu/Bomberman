@@ -27,6 +27,10 @@
 #include "server_request.h"
 #include "notify_client.h"
 #include "command_interpretor.h"
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
 
 void restart_game(t_srv **srv)
 {

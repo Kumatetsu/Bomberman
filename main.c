@@ -20,8 +20,10 @@
 #include "player.h"
 #include "base_map_manager.h"
 
-int main ()
+int main (int argc, char *argv[])
 {
+	argc = argc;
+	argv = argv;
   t_sdl *sdl;
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);

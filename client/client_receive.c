@@ -29,6 +29,7 @@
 #include "client_receive.h"
 #include "server_request.h"
 #include "command_interpretor.h"
+#include <stdio.h>
 
 void *listen_server(void *s)
 {
@@ -116,6 +117,7 @@ void *listen_server(void *s)
   }
   free(client_game_info);
   pthread_exit(NULL);
+  return (NULL);
 }
 
 int get_message(int s, t_game_info **client_game_info)

@@ -136,11 +136,13 @@ void *bomb_thread_func(void *struct_bomb_thread)
 // ticker
 void *threaded_ticker(void *server)
 {
-  int i;
-  int j;
-  // int socket;
-  t_srv **srv;
-  t_game_info *game_info;
+  int				i;
+  int				j;
+  int				*tk;
+  int				socket;
+  t_srv				**srv;
+  t_game_info		*game_info;
+  struct timespec	ts_sleep = { SLEEP, (SLEEP * 1000000L) };
 
   srv = (t_srv **)server;
   game_info = get_game_info();
@@ -149,22 +151,27 @@ void *threaded_ticker(void *server)
     usleep(SLEEP * 1000);
     for (i = 0; i < (*srv)->n_players; i++)
     {
-      // verify_bomb_explosion(game_info->map_destroyable, *tk);
-      // socket = (*srv)->players[i].fd;
-      game_info->id_client = i;
-      memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
-      memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
-      memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
-      memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-      for (j = 0; j < 4; j++)
-      {
-        memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
-        printf("x:%d, y:%d", game_info->players[j].x, game_info->players[j].y);
-      }
-      for (j = 0; j < INLINE_MATRIX; j++)
-        memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
-               sizeof(t_map_destroyable));
-      // write(socket, &dumb_static, sizeof(t_game_info) + 1);
+      printf("\nTick: %d", (*tk));
+      nanosleep(&ts_sleep, NULL);
+      for (i = 0; i < (*srv)->n_players; i++)
+	{
+	  verify_bomb_explosion(game_info->map_destroyable, *tk);
+	  socket = (*srv)->players[i].fd;
+	  game_info->id_client = i;
+	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
+	  memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
+	  memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
+	  memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
+	  memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
+	  for (j=0; j<4; j++)
+	    memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
+	  for (j=0; j<INLINE_MATRIX; j++)
+	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
+		   sizeof(t_map_destroyable));
+	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
+	}
+      ++(*tk);
+      game_info->tick_time = (*tk);
     }
   }
   printf("\nServer stopped to send game informations\n");
