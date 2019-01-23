@@ -8,6 +8,9 @@
 ** Last update Wed Jul  4 10:16:22 2018 MASERA Mathieu
 */
 
+#ifdef _WIN32
+#define HAVE_STRUCT_TIMESPEC
+#endif
 #include <pthread.h>
 #include "enum.h"
 #include "constant.h"

@@ -49,6 +49,7 @@ SRC 	= 	main.c 					\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\
 		devtools/detail_game_info.c		\
+		devtools/windows_nanosleep.c    \
 
 OBJ 	= ${SRC:%.c=%.o}
 
