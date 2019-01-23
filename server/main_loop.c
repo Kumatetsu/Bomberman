@@ -23,6 +23,10 @@
 #include "my_put.h"
 #include "request_handling.h"
 #include "main_loop.h"
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
 
 void		restart_game(t_srv **srv)
 {
@@ -111,7 +115,7 @@ int			main_loop(t_srv **srv)
 	      error = 0;
 	      len = sizeof (error);
 	      // interroge les options de la socket (player->fd) pour détecter une erreur
-	      retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+	      retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, (char*)error, &len);
 	      // Si erreur on déco le player, ca évite de réitérer dessus
 	      if (retval != 0 || error != 0) {
 		(*srv)->players[i].connected = 0;

@@ -83,12 +83,13 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 // ticker
 void		*threaded_ticker(void *server)
 {
-  int		i;
-  int		j;
-  int		*tk;
-  int		socket;
-  t_srv		**srv;
-  t_game_info	*game_info;
+  int				i;
+  int				j;
+  int				*tk;
+  int				socket;
+  t_srv				**srv;
+  t_game_info		*game_info;
+  struct timespec	ts_sleep = { SLEEP, (SLEEP * 1000000L) };
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
@@ -97,7 +98,7 @@ void		*threaded_ticker(void *server)
   while(1 && game_info != NULL)
     {
       printf("\nTick: %d", (*tk));
-      usleep(SLEEP * 1000);
+      nanosleep(&ts_sleep, NULL);
       for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  verify_bomb_explosion(game_info->map_destroyable, *tk);

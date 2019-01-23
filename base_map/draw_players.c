@@ -22,7 +22,7 @@
 #include "server.h"
 #include "game_info.h"
 #include "draw_players.h"
-
+#include <stdio.h>
 
 int		draw_players(void *arg, t_game_info *client_game_info)
 {

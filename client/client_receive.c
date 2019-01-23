@@ -27,6 +27,7 @@
 #include "draw_players.h"
 #include "base_map_manager.h"
 #include "client_receive.h"
+#include <stdio.h>
 
 void            *listen_server(void *s)
 {
@@ -99,6 +100,7 @@ void            *listen_server(void *s)
     }
   free(client_game_info);
   pthread_exit(NULL);
+  return (NULL);
 }
 
 int		get_message(int s, t_game_info *client_game_info)
