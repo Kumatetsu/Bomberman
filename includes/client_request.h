@@ -31,6 +31,12 @@ typedef struct s_player_request
   int		num_player;      /* num_player between 0 and 3 */
 }		t_player_request;
 
+typedef struct s_server_response
+{
+  int  response_type;
+  void *content;
+} t_server_reponse;
+
 void			my_bzero(void *s1, int n);
 int			send_request(int s, int command);
 
