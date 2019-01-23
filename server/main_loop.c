@@ -136,12 +136,12 @@ int			main_loop(t_srv **srv)
 		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
 		      handle_requests(game_info, &player_request);
 
-					// response_type = define_response_type(player_request.command);
-					// response_type = MOVE;
-					// memcpy(&response_server.response_type, &response_type, sizeof(int));
-					// memcpy(&response_server.content, &game_info->players[0], sizeof(t_player_info));
+					response_type = define_response_type(player_request.command);
+					response_type = MOVE;
+					memcpy(&response_server.response_type, &response_type, sizeof(int));
+					memcpy(&response_server.content, &game_info->players[0], sizeof(t_player_info));
 
-					// write((*srv)->players[i].fd, &response_server, sizeof(t_server_reponse) + 1);
+					write((*srv)->players[i].fd, &response_server, sizeof(t_server_reponse) + 1);
 		    }
 		  // buffer[n] = 0;
 		  printf("client send request\n");

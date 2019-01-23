@@ -113,7 +113,7 @@ void		*threaded_ticker(void *server)
 	  for (j=0; j<INLINE_MATRIX; j++)
 	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
 		   sizeof(t_map_destroyable));
-	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
+	  // write(socket, &dumb_static, sizeof(t_game_info) + 1);
 	}
       ++(*tk);
       game_info->tick_time = (*tk);
