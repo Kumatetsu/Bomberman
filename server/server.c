@@ -32,6 +32,7 @@ void *init_server()
   // pthread_t	tick_thread;
   t_game_info *game_info;
 
+    tick = 0;
   // initialisation de la structure server et de la socket du server
   if ((srv = malloc(sizeof (*srv))) == NULL)
     return (NULL);
@@ -63,16 +64,16 @@ void *init_server()
   init_wall_rect();
   // on set tout les player a 'non connecté'
   for (i = 0; i < 4; i++)
-  {
-    srv->players[i].connected = 0;
-    srv->players[i].num_player = i;
-    srv->players[i].fd = -1;
-  }
-
+    {
+      srv->players[i].connected = 0;
+      srv->players[i].num_player = i;
+      // mergé depuis la pr de kuma
+      srv->players[i].fd = -1;
+    }
+  // on initialise le bench de request à NULL
+  for (i = 0; i < 8; i++)
+    srv->requests[i] = NULL;
   // on lance les 2 threads: la main loop du serveur et le ticker
-  // if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
-  //   return (NULL);
-  // pthread_join(tick_thread, NULL);
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
     return (NULL);
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
@@ -125,12 +126,12 @@ void set_fd_max(t_srv **srv)
   int i;
 
   for (i = 0; i < 4; i++)
-  {
-    if ((*srv)->players[i].connected == 1)
     {
-      FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
-      if ((*srv)->players[i].fd > (*srv)->fd_max)
-        (*srv)->fd_max = (*srv)->players[i].fd;
+      if ((*srv)->players[i].connected == 1)
+        {
+          FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+          if ((*srv)->players[i].fd > (*srv)->fd_max)
+            (*srv)->fd_max = (*srv)->players[i].fd;
+        }
     }
-  }
 }

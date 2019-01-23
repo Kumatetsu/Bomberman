@@ -11,8 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
-#include <time.h>
 #include "constant.h"
 #include "my_put.h"
 #include "sdl.h"
@@ -31,14 +29,34 @@
 // pour sleep
 #include "unistd.h"
 // pour usleep
+#ifdef linux
 #include "time.h"
+#endif
+
+#ifdef _WIN32
+#include "windows_nanosleep.h"
+#define HAVE_STRUCT_TIMESPEC
+#endif
 // for dev
+
+#include <pthread.h>
 #include "coord_index_swapper.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
 
-void my_sleep(int sec, int milli)
+#ifdef _WIN32
+void            my_windows_sleep(int milli)
+{
+	int			nano;
+
+	nano = milli * 1000000;
+	nanosleep((LONGLONG)nano);
+}
+#endif
+
+#ifdef linux
+void			my_sleep(int sec, int milli)
 {
   int nano;
   struct timespec req = {0};
@@ -48,6 +66,7 @@ void my_sleep(int sec, int milli)
   req.tv_nsec = nano;
   nanosleep(&req, NULL);
 }
+#endif
 
 void verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 {
@@ -142,7 +161,6 @@ void *threaded_ticker(void *server)
   int				socket;
   t_srv				**srv;
   t_game_info		*game_info;
-  struct timespec	ts_sleep = { SLEEP, (SLEEP * 1000000L) };
 
   srv = (t_srv **)server;
   game_info = get_game_info();
@@ -152,8 +170,13 @@ void *threaded_ticker(void *server)
     for (i = 0; i < (*srv)->n_players; i++)
     {
       printf("\nTick: %d", (*tk));
-      nanosleep(&ts_sleep, NULL);
-      for (i = 0; i < (*srv)->n_players; i++)
+#ifdef _WIN32
+	  my_windows_sleep(SLEEP);
+#endif
+#ifdef linux
+	  my_sleep(0, SLEEP);
+#endif
+*      for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  verify_bomb_explosion(game_info->map_destroyable, *tk);
 	  socket = (*srv)->players[i].fd;
