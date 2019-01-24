@@ -32,5 +32,6 @@ static const int XFIRE4 = 403;
 static const int XFIRE5 = 487;
 
 static const int OUTOFMAP = 3333;
+static const int ENDGAME = 123431;
 
 #endif /* !_CONSTANT_H_ */

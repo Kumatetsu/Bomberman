@@ -129,56 +129,6 @@ int		draw_pannel(void *arg)
   return (1);
 }
 
-/*
- BOMBER_D == 0
- BOMBER_L == 1
- BOMBER_R == 2
- BOMBER_U == 3
- */
-void		draw_explosion(void *arg, t_map_destroyable bomb_origin, int bomb_origin_index)
-{
-  t_data	*data = (t_data*)arg;
-  int		x_cut, y_cut, width_cut, height_cut;
-  int		up_withdraw, left_withdraw;
-  int		x_origin, y_origin;
-  int		x_dest, y_dest, index_dest;
-  SDL_Rect	explosion;
-  SDL_Rect	dest_rect;
-  
-  // la largeur du sprite sera du nombre de cases à gauche et à droite plus la centrale
-  // le tout multiplié par PIXEL_SIZE puis ramener à la taille du fichier surface
-  width_cut = (2 + bomb_origin.fire[BOMBER_L] + bomb_origin.fire[BOMBER_R]) * 10; // max total == 80
-  height_cut = (2 + bomb_origin.fire[BOMBER_U] + bomb_origin.fire[BOMBER_D]) * 10; // max total == 80
-  printf("\nL'explosion découpé (sprite) %d largeur sur %d de hauteur\n", width_cut, height_cut);
-  printf("\nL'explosion rendue (game) %d largeur sur %d de hauteur\n", width_cut * 3, height_cut * 3);
-  // calculer le nombre de case non remplies depuis le haut du sprite (si une seule case
-  // flambe, je dois descendre la découpe du sprite.)
-  up_withdraw = (3 - bomb_origin.fire[BOMBER_U]) * 10; // pixels
-  y_cut = Y_FIRE + up_withdraw;
-  // même chose depuis la gauche
-  left_withdraw = (3 - bomb_origin.fire[BOMBER_L]) * 10; // pixels
-  x_cut = getExplosionX(bomb_origin.explosion_stage) + left_withdraw;
-  explosion = getExplosionSprite(x_cut, y_cut, width_cut, height_cut);
-
-
-  // calculer le point de départ du collage sur la map
-  // on ramène le x et y de la bomb au x et y de la case de la bomb
-  x_origin = index_to_x(bomb_origin_index);
-  y_origin = index_to_y(bomb_origin_index);
-  printf("\nL'explosion part de la bomb à l'index: %d - x_bomb: %d, y_bomb: %d, x from index: %d, y from index: %d", bomb_origin_index, bomb_origin.x, bomb_origin.y, x_origin, y_origin);
-  // de la, on fait l'opération inverse en se déplacan du nombre de case souhaitées
-  // en haut et à gauche. Le croisement entre le x de la case la plus à gauche et le y de la case la plus haute
-  // donne le point de départ de la sprite d'explosion sur la map.
-  // de là on extrait l'index de cette case
-  x_dest = x_origin - left_withdraw * 3;// + I_BEGIN;
-  y_dest = y_origin - up_withdraw * 3;// + J_BEGIN;
-  index_dest = coord_to_index(x_dest, y_dest);
-  printf("\nL'explosion sera placée à l'index: %d, x=%d et y=%d\n", index_dest, x_dest, y_dest);
-  dest_rect = init_rect(x_dest, y_dest, (width_cut * 3), (height_cut * 3));
-  // on génère le drawer
-  data->map_destroyable[index_dest].exist = 1; 
-  data->destroyable_drawer[index_dest] = init_t_map(explosion, dest_rect, fire);
-}
 
 void			draw_destroyable_model(void *arg)
 {
@@ -198,25 +148,12 @@ void			draw_destroyable_model(void *arg)
 	      SDL_Rect dest_rect = pixel_rect(destroyable.x, destroyable.y);
 	      data->destroyable_drawer[i] = init_t_map(bomb_sprite, dest_rect, bomb);
 	    }
-	  // dev
 	  if (destroyable.explosion_stage > 0)
 	    {
 	      SDL_Rect explosion = getCenterExplosion(destroyable.explosion_stage);
 	      SDL_Rect dest_rect = init_rect(destroyable.x, destroyable.y, 48, 48);
-	      printf("\nL'explosion sera placée à l'index: %d, x=%d et y=%d\n", i, destroyable.x, destroyable.y);
 	      data->destroyable_drawer[i] = init_t_map(explosion, dest_rect, fire);
 	    }
-	  /*
-	  if (destroyable.explosion_stage > 0 && destroyable.explosion_stage < 6)
-	    {
-	      printf("\nCLIENTSIDE draw_destroyable model, draw explosion, explosion_stage: %d", destroyable.explosion_stage);
-	      draw_explosion(arg, destroyable, i);
-	      for (int j = 0; j < 4; j++)
-		{
-		  printf("\nbomb fire %d = %d\n", j, destroyable.fire[j]);
-		}
-	    }
-	  */
 	}
     }
 }

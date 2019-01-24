@@ -94,7 +94,6 @@ void		build_destroyables(void *arg)
 	  error = SDL_RenderCopy(data->renderer, data->texture,
 				 &(data->destroyable_drawer[i].src_rect),
 				 &(data->destroyable_drawer[i].dest_rect));
-	  printf("\nDestroyable place at %d:%d, texture: %d\n", data->map_destroyable[i].x, data->map_destroyable[i].y, data->destroyable_drawer[i].texture_type);
 	}
     }
   if (error > 0)

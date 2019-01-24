@@ -30,28 +30,11 @@ void	move_player(
 {
   num_player = player_request->num_player;
 
-  printf("\nmoveplayer, check if player is in map\n");
-  // Commenté sinon on empêche le déplacement.
-  // if (player_request->x < 0 || player_request->y < 0
-  //     || player_request->x > 104 || player_request->y > 88)
-  //   return;
-
-  /*
-  * Pour le moment on check pas les collisions on veut juste bouger
-  */
-  // printf("\nmoveplayer check_collision call\n");
-  // if (check_collision(map_pointer, player_request) == 0)
-  //   return;
-
-  // x = width, y = height, sprite = visual to apply in the front
   int new_x, new_y;
   int sprite_direction;
 
-  printf("\ncheck if player is connected\n");
   if (game_info->players[num_player].connected == 0)
 	  return;
-
-  printf("\nmoveplayer, check if player is in map\n");
   if (player_request->x < 0 || player_request->y < 0
       || player_request->x > 15 * PIXEL_SIZE || player_request->y > 13 * PIXEL_SIZE)
     return;
@@ -62,28 +45,24 @@ void	move_player(
       new_y = game_info->players[num_player].y - 24;
       new_x = game_info->players[num_player].x;
       sprite_direction = bomber_u;
-      printf("\nPLAYER MOVED UP, command:%d, y_pos: %d", player_request->command, new_y);
       break;
 
     case MOVE_DOWN:
       new_y = game_info->players[num_player].y + 24;
       new_x = game_info->players[num_player].x;
       sprite_direction = bomber_d;
-      printf("\nPLAYER MOVED DOWN, command:%d, y_pos: %d", player_request->command, new_y);
       break;
 
     case MOVE_RIGHT:
       new_x = game_info->players[num_player].x + 24;
       new_y = game_info->players[num_player].y;
       sprite_direction = bomber_r;
-      printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, new_x);
       break;
 
     case MOVE_LEFT:
       new_x = game_info->players[num_player].x - 24;
       new_y = game_info->players[num_player].y;
       sprite_direction = bomber_l;
-      printf("\nPLAYER MOVED DOWN, command:%d, x_pos: %d", player_request->command, new_x);
       break;
 
     default:
@@ -91,10 +70,6 @@ void	move_player(
       break;
   }
 
-  /*
-   * Pour le moment on check pas les collisions on veut juste bouger
-   */
-  printf("\nmoveplayer check_collision call\n");
   if (check_collision(new_x, new_y, num_player) == 0)
      return;
 
@@ -158,6 +133,5 @@ int			check_collision(
     return 0;
   if (has_collision_with_player(player, num_player) >= 0)
     return 0;
-  printf("\nBoth iterations done, check_collision done\n");
   return 1;
  }

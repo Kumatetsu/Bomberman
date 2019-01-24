@@ -21,7 +21,6 @@ int     get_target(t_map_destroyable bomb, int direction, int cases)
 
   // on récupère l'index, la colonne et la ligne de la bombe
   index = coord_to_index(bomb.x, bomb.y);
-  printf("\nget_target, coord_to_index with x = %d, y = %d: index = %d", bomb.x, bomb.y, index);
   col = (index + 1) % COLUMNS;
   line = (index + 1) / COLUMNS;
   if (col != 0)
@@ -32,14 +31,12 @@ int     get_target(t_map_destroyable bomb, int direction, int cases)
     {
     case BOMBER_D:
       // pour uniformiser le retour on retourne -1 mais on aurait pu tester sur < 0 à la sortie
-      printf("\nget_target, direction: DOWN, cases: %d, col: %d, line: %d", cases, col, line);
       if (line + cases < LINES)
 	next_index = index + COLUMNS * cases;
       break;
     case BOMBER_L:
       // si la colonne actuelle est inférieure aux nombre de cases souhaitées
       // pas la place donc on soustrait le nombre de case si on peut sinon return -1
-      printf("\nget_target, direction: LEFT, cases: %d, col: %d, line: %d", cases, col, line);
       if (col >= cases)
 	next_index = index - cases; 
       break;
@@ -47,17 +44,14 @@ int     get_target(t_map_destroyable bomb, int direction, int cases)
       // si la colonne de la bombe est supérieure
       // au nombre total de colonnes moins le nombre de cases
       // il n'a pas la place , donc si col est inférieure on ajoute cases
-      printf("\nget_target, direction: RIGHT, cases: %d, col: %d, line: %d", cases, col, line);
       if (col < COLUMNS - cases)
 	next_index = index + cases;
       break;
     case BOMBER_U:
-      printf("\nget_target, direction: UP, cases: %d, col: %d, line: %d", cases, col, line);
       if (line - cases > 0)
 	next_index = index - COLUMNS * cases;
       break;
     }
-  printf("\nget_target, next_index: %d, col:%d, line:%d", next_index, next_index%COLUMNS, next_index/COLUMNS);
   return next_index;
 }
 
@@ -70,6 +64,7 @@ void		kill_player(int id)
   game_info->players[id].alive = 0;
   game_info->players[id].x = -50;
   game_info->players[id].bomb_left = -50;
+  printf("\nSERVER, bomb_management: player %d killed\n", id);
 }
 
 // fire effect:
@@ -85,12 +80,10 @@ int			check_fire_effect(t_map_destroyable case_in_fire)
 
   if (has_collision_with_wall(sdl_target))
     {
-      printf("\ncheck_fire_effect: COLLISION WITH WALL");
       return -1;
     }
   if ((player = has_collision_with_player(sdl_target, -1)) >= 0)
     {
-      printf("\ncheck_fire_effect: COLLISION WITH PLAYER: %d", player);
       kill_player(player);
       return player;
     }
@@ -110,7 +103,6 @@ void			boom(t_map_destroyable *map_destroyable, int i)
   boom_origin.fire[BOMBER_D] = 0;
   boom_origin.fire[BOMBER_L] = 0;
   boom_origin.fire[BOMBER_R] = 0;
-  printf("\nBOOM at index: %d, bomb x = %d, bomb y = %d\n", i , boom_origin.x, boom_origin.y);
   for (iterator = 1; iterator <= 3; iterator++)
     {
       // pour chaque direction on appelle une fonction capable de tester si
@@ -141,12 +133,6 @@ void			boom(t_map_destroyable *map_destroyable, int i)
 		}
 	    }
 	}
-      // DEV
-      for (it = 0; it < 4; it++)
-	{
-	  printf("\nPour it = %d, boom_origin.fire[it] == %d\n", it, boom_origin.fire[it]);
-	}
-      //
       boom_origin.bomb = 0;
       boom_origin.start_explode = 0;
       boom_origin.explosion_stage = 5;
