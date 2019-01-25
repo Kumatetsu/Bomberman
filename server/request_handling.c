@@ -111,7 +111,7 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
       bomb.x = player.x + PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
-      */      
+      */
       break;
 
     case bomber_u:

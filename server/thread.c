@@ -56,7 +56,7 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
     {
       if(!map_destroyable[i].exist)
 	continue;
-      
+
       if (map_destroyable[i].bomb)
 	{
 	  if (map_destroyable[i].start_explode <= tk)
@@ -92,11 +92,9 @@ void		*threaded_ticker(void *server)
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
-  my_putstr("\nthreaded tick begin!\n");
   game_info = get_game_info();
   while(1 && game_info != NULL)
     {
-      printf("\nTick: %d", (*tk));
       usleep(SLEEP * 1000);
       for (i = 0; i < (*srv)->n_players; i++)
 	{
@@ -108,8 +106,10 @@ void		*threaded_ticker(void *server)
 	  memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
 	  memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
 	  memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-	  for (j=0; j<4; j++)
+	  for (j=0; j<4; j++) {
 	    memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
+      printf("x:%d, y:%d", game_info->players[j].x, game_info->players[j].y);
+    }
 	  for (j=0; j<INLINE_MATRIX; j++)
 	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
 		   sizeof(t_map_destroyable));
