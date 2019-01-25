@@ -24,6 +24,24 @@
 #include "player.h"
 #include "constant.h"
 
+void		reset_players(t_srv **srv)
+{
+  t_player_info	p;
+  for (int i = 0; i < 4; i++)
+    {
+      if ((*srv)->players[i].connected)
+	{
+	  p = (*srv)->players[i];
+	  p.alive = 1;
+	  p.dying = 0;
+	  p.action_sprite = not_move;
+	  p.bomb_left = 3;
+	  define_player_init_pos(&((*srv)->players[i]));
+	  (*srv)->players[i] = p;
+	}
+    }
+}
+
 // instanciation d'un player avec sa socket
 int             add_player(t_srv **srv, int fd)
 {

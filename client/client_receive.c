@@ -67,11 +67,8 @@ void            *listen_server(void *s)
 	      quit = 1;
 	      continue;
 	    }
-	  //printf("\nFreshly updated client_game_info, test on nb_client: %d\n", client_game_info->nb_client);
-	  for (i = 0; i < 4; i++)
-	    {
-	      //	      printf("test on players n°%d: alive: %d, connected: %d\n", client_game_info->players[i].num_player, client_game_info->players[i].alive, client_game_info->players[i].connected);
-	    }
+	  if (client_game_info->game_status == ENDGAME)
+	    quit = 1;
 	  for (i = 0; i < INLINE_MATRIX; i++)
 	    data->map_destroyable[i] = client_game_info->map_destroyable[i];
 	  SDL_RenderClear(data->renderer);

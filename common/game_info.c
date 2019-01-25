@@ -32,7 +32,7 @@ void	set_game_info(t_game_info *new_game_info)
 
 int	is_running()
 {
-  return game_info->game_status;
+  return game_info->game_status == 1;
 }
 
 void    start_game(t_srv **srv)
@@ -40,7 +40,8 @@ void    start_game(t_srv **srv)
   int	i;
 
   game_info->game_status = 1;
-  for (i = 0; i < 4; ++i)
+  game_info->nb_client = (*srv)->n_players;
+  for (i = 0; i < game_info->nb_client; ++i)
     {
       game_info->players[i] = (*srv)->players[i];
     }

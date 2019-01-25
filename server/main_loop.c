@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "enum.h"
+#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"
@@ -23,6 +24,20 @@
 #include "request_handling.h"
 #include "main_loop.h"
 
+void		restart_game(t_srv **srv)
+{
+  t_game_info	*game_info;
+
+  game_info = get_game_info();
+  reset_players(srv);
+  for (int i = 0; i < 4; i++)
+    {
+      game_info->players[i] = (*srv)->players[i];
+    }
+  game_info->game_status = 1;
+  (*srv)->running = 1;
+}
+
 int			main_loop(t_srv **srv)
 {
   int			i;
@@ -31,6 +46,7 @@ int			main_loop(t_srv **srv)
   int			retval;
   t_player_request	*player_request;
   t_game_info		*game_info;
+  int			survivors;
   
   printf("\nMAIN_LOOP\n");
   i = 0;
@@ -65,6 +81,7 @@ int			main_loop(t_srv **srv)
 	    return 0;
 	  // on a bougé les players du srv, on refresh ceux de la game_info
 	  game_info->players[i] = (*srv)->players[i];
+	  game_info->nb_client = (*srv)->n_players;
 	}
     }
   // FOR PROD
@@ -83,6 +100,7 @@ int			main_loop(t_srv **srv)
     }
   if (is_running())
     {
+      survivors = 0;
       // pour les joueurs... 0 à 3
       for (i = 0; i < 4; i++)
 	{
@@ -128,7 +146,18 @@ int			main_loop(t_srv **srv)
 		  printf("client send request\n");
 		}
 	    }
+	  if (game_info->players[i].alive)
+	    survivors++;
+	}
+      if (survivors <= 1)
+	{
+	  
+	  game_info->game_status = ENDGAME;
+	  (*srv)->running = ENDGAME;
+	  printf("\nENDGAME\n");
+	  restart_game(srv);
 	}
     }
+  printf("\nGAME STATUS: %d\n", game_info->game_status);
   return (1);
 }
