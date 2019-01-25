@@ -37,59 +37,42 @@ void	move_player(
   new_x = 0;
   new_y = 0;
 
-  printf("\n player first pos x:%d, y:%d\n", game_info->players[num_player].x, game_info->players[num_player].y);
-
-  if (game_info->players[num_player].connected == 0) {
-    printf("\nplayer NOT CONNECTED\n");
+  if (game_info->players[num_player].connected == 0)
 	  return;
-  }
-
-  if ((player_request->x < 0) || (player_request->y < 0)
-      || (player_request->x > (15 * PIXEL_SIZE)) || (player_request->y > (13 * PIXEL_SIZE))) {
-    printf("player wtf is in wall");
-    return;
-  }
 
   switch (player_request->command)
   {
     case MOVE_UP:
-      printf("\nMOVE UP\n");
       new_y = game_info->players[num_player].y - 24;
       new_x = game_info->players[num_player].x;
       sprite_direction = bomber_u;
       break;
 
     case MOVE_DOWN:
-      printf("\nMOVE DOWN\n");
       new_y = game_info->players[num_player].y + 24;
       new_x = game_info->players[num_player].x;
       sprite_direction = bomber_d;
       break;
 
     case MOVE_RIGHT:
-      printf("\nMOVE RIGHT\n");
       new_x = game_info->players[num_player].x + 24;
       new_y = game_info->players[num_player].y;
       sprite_direction = bomber_r;
       break;
 
     case MOVE_LEFT:
-      printf("\nMOVE LEFT\n");
       new_x = game_info->players[num_player].x - 24;
       new_y = game_info->players[num_player].y;
       sprite_direction = bomber_l;
       break;
 
     default:
-      printf("\nDEFAULT\n");
       player_request->command = not_move;
       break;
   }
 
-  if (check_collision(new_x, new_y, num_player) == 0) {
-    printf("\nplayer had collision\n");
+  if (check_collision(new_x, new_y, num_player) == 0)
     return;
-  }
 
   if (game_info->players[num_player].alive)
   {
@@ -100,7 +83,6 @@ void	move_player(
   change_sprite(&game_info->players[num_player], sprite_direction, player_request->command);
 
   set_game_info(game_info);
-  printf("\n player pos updated x:%d, y:%d\n", game_info->players[num_player].x, game_info->players[num_player].y);
 }
 
 void change_sprite(t_player_info *player, int sprite_direction, int player_command)
