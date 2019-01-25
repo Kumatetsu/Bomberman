@@ -34,7 +34,7 @@ void initSprites()
 **/
 SDL_Rect getBomberSprites(int num_player, int dir, int action)
 {
-  SDL_Rect default_rect;
+  SDL_Rect default_rect = {0};
   /**
    * TODO: Get la game info pour envoyer les bonnes datas dans le get sprites
    **/
@@ -91,7 +91,7 @@ SDL_Rect getExplosionSprites(int type)
 void initBomberSprites(int y)
 {
   SDL_Rect (*container)[5][4];
-  
+
   switch(y)
     {
     case Y_BLUE_B:
@@ -107,7 +107,7 @@ void initBomberSprites(int y)
       container = &white_sprites;
       break;
     }
-  
+
   (*container)[bomber_u][move_r] = init_rect(255, y, 16, 24);
   (*container)[bomber_u][not_move] = init_rect(237, y, 16, 24);
   (*container)[bomber_u][transit_move] = init_rect(237, y, 16, 24);
@@ -125,7 +125,7 @@ void initBomberSprites(int y)
   (*container)[bomber_r][transit_move] = init_rect(179, y, 16, 24);
   (*container)[bomber_r][move_r] = init_rect(197, y, 16, 24);
   (*container)[bomber_u][move_l] = init_rect(219, y, 16, 24);
-  
+
   (*container)[die][0] = init_rect(345, y, 16, 24);
   (*container)[die][1] = init_rect(361, y, 16, 24);
   (*container)[die][2] = init_rect(395, y, 16, 24);

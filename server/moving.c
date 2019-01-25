@@ -30,9 +30,16 @@ void	move_player(
 {
   num_player = player_request->num_player;
 
+  printf("\nmoveplayer, check if player is in map\n");
+
+  // x = width, y = height, sprite = visual to apply in the front
   int new_x, new_y;
   int sprite_direction;
 
+  new_x = 0;
+  new_y = 0;
+
+  printf("\ncheck if player is connected\n");
   if (game_info->players[num_player].connected == 0)
 	  return;
   if (player_request->x < 0 || player_request->y < 0

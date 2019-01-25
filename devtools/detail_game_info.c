@@ -38,7 +38,7 @@ void			detail_game_info()
 	}
     }
   snprintf(total_detail, sizeof total_detail, "\nGAME INFO:\n%s\nPLAYERS:\n%s\nMAP:\n%s\n", details, players_detail, map_detail);
-  printf(total_detail);
+  printf("%s", total_detail);
   printf("\nopen file\n");
   FILE	*f = fopen("game_info.txt", "w");
   if (f == NULL)
@@ -48,7 +48,7 @@ void			detail_game_info()
     }
   printf("\nfile successfully opened\n");
   //  printf("\nserialized game_info: %s\n", gi);
-  fprintf(f, total_detail);
+  fprintf(f, "%s", total_detail);
 
   printf("\nwritten in file done\n");
   fclose(f);
