@@ -105,8 +105,8 @@ int		get_message(int s, t_game_info *client_game_info)
 {
   int		r;
   // char		buff[sizeof(t_game_info) + 1];
-  char		buff[sizeof(t_server_response) + 1];
-  t_server_response *repsonse;
+  char		buff[sizeof(t_server_reponse) + 1];
+  t_server_reponse *repsonse;
 
   r = recv(s, buff, sizeof(t_game_info) + 1, 0);
   // une t_game_info fait plus de 7000 bytes
@@ -116,9 +116,9 @@ int		get_message(int s, t_game_info *client_game_info)
   // game_info serait le bienvenu, c'était la cause du bug de sérialisation
   if (r > 3000)
   {
-    repsonse = (*(t_server_response*)buff);
+    repsonse = (*(t_server_reponse*)buff);
     *client_game_info = (*(t_game_info*)buff);
-    printf("response_type %d", t_server_response->response_type);
+    printf("response_type %d", repsonse->response_type);
     return (1);
   }
   else
