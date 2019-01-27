@@ -119,7 +119,7 @@ int			client_connect(char *serv_addr)
     {
       printf("error protocole for socket client");
       return (-1);
-    }
+    }	
   s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
   if (s == -1)
     {

@@ -93,13 +93,6 @@ int             add_player(t_srv **srv, int fd)
 // retourne l'index
 int			accept_players(t_srv **srv)
 {
-
-#ifdef _WIN32
-	WORD versionWanted = MAKEWORD(2, 2);
-	WSADATA wsaData;
-	WSAStartup(versionWanted, &wsaData);
-#endif
-
   int		        index;
   int			player_socket;
   struct sockaddr_in	client_sin;
@@ -109,10 +102,13 @@ int			accept_players(t_srv **srv)
   printf("\naccept_player, index: %d\n", index);
   memset(&client_sin, 0, sizeof (struct sockaddr_in));
   client_sin_len = sizeof (client_sin);
+  printf("before accept player accept()");
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
   printf("\naccept_player, player_socket: %d\n", player_socket);
-  if (player_socket == -1)
-    return (-1);
+  if (player_socket == -1) {
+	  printf("accept player_socket failed with error %d\n", WSAGetLastError());
+	  return (-1);
+  }
   if (!add_player(srv, player_socket))
     return (-1);
   if (index == ((*srv)->n_players) - 1)
