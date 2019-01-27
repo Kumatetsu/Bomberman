@@ -26,8 +26,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <time.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct s_player_request
 {
