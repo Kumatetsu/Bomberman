@@ -8,6 +8,11 @@
 ** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
 */
 
+#ifdef _WIN32
+#if !defined(HAVE_STRUCT_TIMESPEC)
+#define HAVE_STRUCT_TIMESPEC
+#endif
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,18 +34,11 @@
 // pour sleep
 #include "unistd.h"
 // pour usleep
-#ifdef linux
-#include "time.h"
-#endif
-
-#ifdef _WIN32
-#include "windows_nanosleep.h"
-#define HAVE_STRUCT_TIMESPEC
-#endif
 // for dev
 
 #include <pthread.h>
 #include "coord_index_swapper.h"
+#include "time.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
@@ -48,10 +46,11 @@ static t_game_info dumb_static;
 #ifdef _WIN32
 void            my_windows_sleep(int milli)
 {
-	int			nano;
+	struct		timespec req = { 0 };
 
-	nano = milli * 1000000;
-	nanosleep((LONGLONG)nano);
+	req.tv_sec = 0;
+	req.tv_nsec = milli * 1000000L;
+	nanosleep(&req, (struct timespec *)NULL);
 }
 #endif
 
@@ -176,7 +175,7 @@ void *threaded_ticker(void *server)
 #ifdef linux
 	  my_sleep(0, SLEEP);
 #endif
-*      for (i = 0; i < (*srv)->n_players; i++)
+      for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  verify_bomb_explosion(game_info->map_destroyable, *tk);
 	  socket = (*srv)->players[i].fd;
