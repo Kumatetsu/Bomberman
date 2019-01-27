@@ -12,7 +12,7 @@
 #ifndef _WINDOWS_NANOSLEEP_H_
 #define _WINDOWS_NANOSLEEP_H_
 
-BOOLEAN nanosleep(LONGLONG ns);
+int windowsNanoSleep(long ns);
 
 #endif
-#
+#endif

@@ -10,6 +10,7 @@
 
 #ifdef _WIN32
 #define HAVE_STRUCT_TIMESPEC
+#include <WinSock2.h>
 #endif
 #include <stdlib.h>
 #include <stdio.h>
@@ -39,10 +40,14 @@ void		*init_server()
 
   tick = 0;
   // initialisation de la structure server et de la socket du server
-  if ((srv = malloc(sizeof (*srv))) == NULL)
-    return (NULL);
-  if ((s = create_server_socket()) == -1)
-    return (NULL);
+  if ((srv = malloc(sizeof(*srv))) == NULL) {
+	  printf("error allocation memory serveur");
+	  return (NULL);
+  }
+  if ((s = create_server_socket()) == -1) {
+	  printf("error create server socket");
+	  return (NULL);
+  }
   srv->fd = s;
   srv->fd_max = s;
   printf("\nInitial server fd and fd_max: %d\n", s);
@@ -50,8 +55,10 @@ void		*init_server()
   srv->n_players = 0;
 
   game_info = calloc(1, sizeof(t_game_info));
-  if (game_info == NULL)
-    return (NULL);
+  if (game_info == NULL) {
+	  printf("error allocation memory game_info");
+	  return (NULL);
+  }
   set_game_info(game_info);
 
   init_wall_rect();
@@ -65,11 +72,17 @@ void		*init_server()
   for (i = 0; i < 8; i++)
     srv->requests[i] = NULL;
   // on lance les 2 threads: la main loop du serveur et le ticker
-  if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
-    return (NULL);
-  if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
-    return (NULL);
-  pthread_join(tick_thread, NULL);
+  if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) != 0 )
+  {
+	  printf("error thread ticker");
+	  return (NULL);
+  }
+  if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) != 0)
+  {
+	  printf("error thread main loop");
+	  return (NULL);
+  }
+	pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
 }
@@ -81,16 +94,23 @@ int			create_server_socket()
   int			port;
 
   memset(&sin, 0, sizeof (struct sockaddr_in));
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
-    return (-1);
+  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+	  printf("error server socket init");
+	  return (-1);
+  }
   port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s, (struct sockaddr *)&sin, sizeof (sin)) == -1)
-    return (-1);
-  if (listen(s, 42) == -1)
-    return (-1);
+  if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
+  {
+	  printf("error socket binding");
+	  return (-1);
+  }
+  if (listen(s, 42) == -1) {
+	  printf("error serveur listening");
+	  return (-1);
+  }
   return (s);
 }
 
