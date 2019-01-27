@@ -1,7 +1,7 @@
 #include <windows.h>    /* WinAPI */
 
 /* Windows sleep in 100ns units */
-int nanosleep(LONGLONG ns){
+int windowsNanoSleep(long ns){
     /* Declarations */
     HANDLE timer;    /* Timer handle */
     LARGE_INTEGER li;    /* Time defintion */

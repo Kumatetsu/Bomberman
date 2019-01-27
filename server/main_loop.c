@@ -31,6 +31,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #endif
+#include <time.h>
 
 void restart_game(t_srv **srv)
 {
@@ -62,13 +63,21 @@ int main_loop(t_srv **srv)
     // on utilise ensuite is_running() pour savoir si ca tourne
     // puis on récupère la static remplie
     FD_ZERO(&(*srv)->fd_read);
-    FD_SET((*srv)->fd, &(*srv)->fd_read);
+    #ifdef _WIN32
+        FD_SET((unsigned int)(*srv)->fd, &(*srv)->fd_read);
+    #else
+        FD_SET((*srv)->fd, &(*srv)->fd_read);
+    #endif
     // server.h définition du fd max pour le select, defaut dans init_server
     for (i = 0; i < 4; i++)
     {
         if ((*srv)->players[i].connected == 1)
         {
-            FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+            #ifdef _WIN32
+                FD_SET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read);
+            #else
+                FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+            #endif
             if ((*srv)->players[i].fd > (*srv)->fd_max)
                 (*srv)->fd_max = (*srv)->players[i].fd;
         }
@@ -82,7 +91,7 @@ int main_loop(t_srv **srv)
     if (!server_is_full(srv))
     {
         // ici on accepte les connections clientes
-        if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
+        if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read))
         {
             // player.h
             if ((i = accept_players(srv)) == -1)

@@ -75,7 +75,11 @@ void *listen_server(void *s)
   while (!quit)
   {
     FD_ZERO(&fd_read);
-    FD_SET(struct_thread->socket, &fd_read);
+    #ifdef _WIN32
+      FD_SET((unsigned int)struct_thread->socket, &fd_read);
+    #else
+	    FD_SET(struct_thread->socket, &fd_read);
+    #endif
     printf("\nbefore select\n");
     if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
       quit = 1;

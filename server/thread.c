@@ -12,6 +12,7 @@
 #if !defined(HAVE_STRUCT_TIMESPEC)
 #define HAVE_STRUCT_TIMESPEC
 #endif
+#include "windows_nanosleep.h"
 #endif
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +39,6 @@
 
 #include <pthread.h>
 #include "coord_index_swapper.h"
-#include "time.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
 static t_game_info dumb_static;
@@ -46,11 +46,10 @@ static t_game_info dumb_static;
 #ifdef _WIN32
 void            my_windows_sleep(int milli)
 {
-	struct		timespec req = { 0 };
+	int			nano;
 
-	req.tv_sec = 0;
-	req.tv_nsec = milli * 1000000L;
-	nanosleep(&req, (struct timespec *)NULL);
+	nano = milli * 1000000;
+	windowsNanoSleep(nano);
 }
 #endif
 
