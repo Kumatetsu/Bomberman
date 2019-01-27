@@ -8,9 +8,11 @@
 ** Last update Thu Jul  5 21:38:25 2018 hochar_n
 */
 
+#ifdef _WIN32
 #ifndef _WINDOWS_NANOSLEEP_H_
 #define _WINDOWS_NANOSLEEP_H_
 
 BOOLEAN nanosleep(LONGLONG ns);
 
 #endif
+#
