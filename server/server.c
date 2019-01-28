@@ -113,11 +113,11 @@ int			create_server_socket()
   sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
   {
-	  printf("error socket binding");
+	  printf("error socket binding\n");
 	  return (-1);
   }
   if (listen(s, 42) == -1) {
-	  printf("error serveur listening");
+	  printf("error serveur listening\n");
 	  return (-1);
   }
   return (s);
@@ -126,6 +126,8 @@ int			create_server_socket()
 // retourne 1 si il y a plus de 4 joueurs
 int server_is_full(t_srv **srv)
 {
+	//DEV PURPOSE:
+	fflush(stdout);
   if ((*srv)->n_players >= 4)
     return 1;
   return 0;

@@ -168,12 +168,12 @@ void *threaded_ticker(void *server)
     for (i = 0; i < (*srv)->n_players; i++)
     {
       printf("\nTick: %d", (*tk));
-#ifdef _WIN32
-	  my_windows_sleep(SLEEP);
-#endif
-#ifdef linux
-	  my_sleep(0, SLEEP);
-#endif
+      #ifdef _WIN32
+          my_windows_sleep(SLEEP);
+      #endif
+      #ifdef linux
+          my_sleep(0, SLEEP);
+      #endif
       for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  verify_bomb_explosion(game_info->map_destroyable, *tk);
@@ -184,9 +184,9 @@ void *threaded_ticker(void *server)
 	  memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
 	  memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
 	  memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-	  for (j=0; j<4; j++)
+	  for (j = 0; j < 4; j++)
 	    memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
-	  for (j=0; j<INLINE_MATRIX; j++)
+	  for (j = 0; j < INLINE_MATRIX; j++)
 	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
 		   sizeof(t_map_destroyable));
 	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
