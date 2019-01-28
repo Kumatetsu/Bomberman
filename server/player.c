@@ -38,7 +38,23 @@ typedef struct socklen_t client_sin_len;
 #include "player.h"
 #include "constant.h"
 
-
+void		reset_players(t_srv **srv)
+{
+	t_player_info	p;
+	for (int i = 0; i < 4; i++)
+	{
+		if ((*srv)->players[i].connected)
+		{
+			p = (*srv)->players[i];
+			p.alive = 1;
+			p.dying = 0;
+			p.action_sprite = not_move;
+			p.bomb_left = 3;
+			define_player_init_pos(&((*srv)->players[i]));
+			(*srv)->players[i] = p;
+		}
+	}
+}
 
 void		reset_players(t_srv **srv)
 {
@@ -102,7 +118,7 @@ int			accept_players(t_srv **srv)
   printf("\naccept_player, index: %d\n", index);
   memset(&client_sin, 0, sizeof (struct sockaddr_in));
   client_sin_len = sizeof (client_sin);
-  printf("before accept player accept()");
+  printf("before accept player accept()\n");
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
   printf("\naccept_player, player_socket: %d\n", player_socket);
   if (player_socket == -1) {
@@ -112,12 +128,12 @@ int			accept_players(t_srv **srv)
   if (!add_player(srv, player_socket))
     return (-1);
   if (index == ((*srv)->n_players) - 1)
-    my_putstr("\nPlayer successfully added");
+    printf("\nPlayer successfully added");
   else if ((*srv)->players[index].bomb_left == 1)
     // Check l'affectation mémoire immédiatement
     printf("\nPlayer have %d bomb.\n", (*srv)->players[index].bomb_left);
   else
-    my_putstr("\nServer failed to add client");
+    printf("\nServer failed to add client");
   // retourne 1 si joueur ajouté, 0 sinon
   return (index);
 }

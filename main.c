@@ -24,11 +24,12 @@ int main (int argc, char *argv[])
 {
 	argc = argc;
 	argv = argv;
+	int retWSADATA;
 #ifdef _WIN32
 	WSADATA WSAData;
 	if ((retWSADATA = WSAStartup(MAKEWORD(2, 2), &WSAData)) != 0) {
-		printf("WSAStartup() failed with error %d\n", retWSADATA);
-		WSACleanup();
+		printf("main.c : WSAStartup() failed with error %d\n", retWSADATA);
+	//	WSACleanup();
 		return (1);
 	}
 	if (LOBYTE(WSAData.wVersion) != 2 || HIBYTE(WSAData.wVersion) != 2) {
@@ -64,7 +65,9 @@ int main (int argc, char *argv[])
   IMG_Quit();
   SDL_Quit();
 #if _WIN32
+  printf("main.c : WSACleanup\n");
   WSACleanup();
 #endif
+  //FOR DEV PURPOSE ONLY
   return 0;
 }

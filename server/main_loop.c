@@ -110,7 +110,6 @@ int			main_loop(t_srv **srv)
   // FOR DEV
   if (is_enought_players(srv) && !is_running())
     {
-	  printf("hello there");
       // server.h
       // set le game_status à 1
       // copie les joueurs dans la game_info
