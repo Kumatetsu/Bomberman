@@ -25,7 +25,7 @@ void	my_bzero(void *s1, int n)
     }
 }
 
-int			send_request(int s, int command)
+int send_request(int s, int command)
 {
   int tmp;
 

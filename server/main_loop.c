@@ -24,141 +24,150 @@
 #include "request_handling.h"
 #include "main_loop.h"
 #include "response_type_utils.h"
+#include "server_request.h"
+#include "notify_client.h"
 
-void		restart_game(t_srv **srv)
+void restart_game(t_srv **srv)
 {
-  t_game_info	*game_info;
+    t_game_info *game_info;
 
-  game_info = get_game_info();
-  reset_players(srv);
-  for (int i = 0; i < 4; i++)
+    game_info = get_game_info();
+    reset_players(srv);
+    for (int i = 0; i < 4; i++)
     {
-      game_info->players[i] = (*srv)->players[i];
+        game_info->players[i] = (*srv)->players[i];
     }
-  game_info->game_status = 1;
-  (*srv)->running = 1;
+    game_info->game_status = 1;
+    (*srv)->running = 1;
 }
 
-int			main_loop(t_srv **srv)
+int main_loop(t_srv **srv)
 {
-  int			i;
-	// int     response_type;
-  int			error;
-  socklen_t		len;
-  int			retval;
-  t_player_request	player_request  = {0};
-	// t_server_reponse  response_server = {0};
-  t_game_info		*game_info;
-  int			survivors;
+    int i;
+    int error;
+    socklen_t len;
+    int retval;
+    // int			response_type;
+    t_player_request player_request = {0};
+    t_response_up_pos response_pos = {0};
+    t_game_info *game_info;
+    int survivors;
 
-  printf("\nMAIN_LOOP\n");
-  i = 0;
-  // On initialise direct la game_info
-  // on utilise ensuite is_running() pour savoir si ca tourne
-  if (NULL == get_game_info())
-    create_game_info();
-  // puis on récupère la static remplie
-  game_info = get_game_info();
-  FD_ZERO(&(*srv)->fd_read);
-  FD_SET((*srv)->fd, &(*srv)->fd_read);
-  // server.h définition du fd max pour le select, defaut dans init_server
-  for (i = 0; i < 4; i++)
+    printf("\nMAIN_LOOP\n");
+    i = 0;
+    // On initialise direct la game_info
+    // on utilise ensuite is_running() pour savoir si ca tourne
+    if (NULL == get_game_info())
+        create_game_info();
+    // puis on récupère la static remplie
+    game_info = get_game_info();
+    FD_ZERO(&(*srv)->fd_read);
+    FD_SET((*srv)->fd, &(*srv)->fd_read);
+    // server.h définition du fd max pour le select, defaut dans init_server
+    for (i = 0; i < 4; i++)
     {
-      if ((*srv)->players[i].connected == 1)
-	{
-	  FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
-	  if ((*srv)->players[i].fd > (*srv)->fd_max)
-	    (*srv)->fd_max = (*srv)->players[i].fd;
-	}
+        if ((*srv)->players[i].connected == 1)
+        {
+            FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+            if ((*srv)->players[i].fd > (*srv)->fd_max)
+                (*srv)->fd_max = (*srv)->players[i].fd;
+        }
     }
-  printf("\nselect\n");
-  if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
-    return (0);
-  if (!server_is_full(srv))
-    {
-      // ici on accepte les connections clientes
-      if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
-	{
-	  // player.h
-	  if ((i = accept_players(srv)) == -1)
-	    return 0;
-	  // on a bougé les players du srv, on refresh ceux de la game_info
-	  game_info->players[i] = (*srv)->players[i];
-	  game_info->nb_client = (*srv)->n_players;
-	}
-    }
-  // FOR PROD
-  //if (!is_running() && is_enought_players(srv))
-  // FOR DEV
-  if (is_enought_players(srv) && !is_running())
-    {
-      // server.h
-      // set le game_status à 1
-      // copie les joueurs dans la game_info
-      // passe le connected à 1 pour tous
-      // définis le placement
-      printf("\nStart Game\n");
-      start_game(srv);
-      //
-    }
-  if (is_running())
-    {
-      survivors = 0;
-      // pour les joueurs... 0 à 3
-      for (i = 0; i < 4; i++)
-	{
-	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
-	  if ((*srv)->players[i].connected == 1)
-	    {
-	      printf("\nPlayer %d command\n", i);
-	      error = 0;
-	      len = sizeof (error);
-	      // interroge les options de la socket (player->fd) pour détecter une erreur
-	      retval = getsockopt ((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
-	      // Si erreur on déco le player, ca évite de réitérer dessus
-	      if (retval != 0 || error != 0) {
-		(*srv)->players[i].connected = 0;
-		continue;
-	      }
-	      // Si la socket du player est set on traite...
-	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
-		{
-		  int n = 0;
-		  // char buffer[sizeof(int)];
-			int buffer;
-		  printf("\nHandling request for player %d\n", i);
-		  // On extrait le contenu
-		  if((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
-		    {
-				  player_request.command = ntohl(buffer);
-		      player_request.num_player = i;
-		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
-		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
-		      handle_requests(game_info, &player_request);
 
-					response_type = define_response_type(player_request.command);
-					response_type = MOVE;
-					memcpy(&response_server.response_type, &response_type, sizeof(int));
-					memcpy(&response_server.content, &game_info->players[0], sizeof(t_player_info));
-
-					write((*srv)->players[i].fd, &response_server, sizeof(t_server_reponse) + 1);
-		    }
-		  // buffer[n] = 0;
-		  printf("client send request\n");
-		}
-	    }
-	  if (game_info->players[i].alive)
-	    survivors++;
-	}
-      if (survivors <= 1)
-	{
-
-	  game_info->game_status = ENDGAME;
-	  (*srv)->running = ENDGAME;
-	  printf("\nENDGAME\n");
-	  restart_game(srv);
-	}
+    if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
+        return (0);
+    if (!server_is_full(srv))
+    {
+        // ici on accepte les connections clientes
+        if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
+        {
+            // player.h
+            if ((i = accept_players(srv)) == -1)
+                return 0;
+            // on a bougé les players du srv, on refresh ceux de la game_info
+            game_info->players[i] = (*srv)->players[i];
+            game_info->nb_client = (*srv)->n_players;
+        }
     }
-  printf("\nGAME STATUS: %d\n", game_info->game_status);
-  return (1);
+    // FOR PROD
+    //if (!is_running() && is_enought_players(srv))
+    // FOR DEV
+    if (is_enought_players(srv) && !is_running())
+    {
+        // server.h
+        // set le game_status à 1
+        // copie les joueurs dans la game_info
+        // passe le connected à 1 pour tous
+        // définis le placement
+        printf("\nStart Game\n");
+        start_game(srv);
+        //
+    }
+    if (is_running())
+    {
+        survivors = 0;
+        // pour les joueurs... 0 à 3
+        for (i = 0; i < 4; i++)
+        {
+            // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
+            if ((*srv)->players[i].connected == 1)
+            {
+                printf("\nPlayer %d command\n", i);
+                error = 0;
+                len = sizeof(error);
+                // interroge les options de la socket (player->fd) pour détecter une erreur
+                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+                // Si erreur on déco le player, ca évite de réitérer dessus
+                if (retval != 0 || error != 0)
+                {
+                    (*srv)->players[i].connected = 0;
+                    continue;
+                }
+                // Si la socket du player est set on traite...
+                if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+                {
+                    int n = 0;
+                    // char buffer[sizeof(int)];
+                    int buffer;
+                    printf("\nHandling request for player %d\n", i);
+                    // On extrait le contenu
+                    if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
+                    {
+                        player_request.command = ntohl(buffer);
+                        player_request.num_player = i;
+
+                        if (GIVE_PLAYERS == player_request.command)
+                            notify_actual_players((*srv)->players);
+                        else
+                        {
+                            printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
+                            printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
+                            handle_requests(game_info, &player_request);
+
+                            // response_type = define_response_type(player_request.command);
+                            response_pos.id = MOVE;
+                            response_pos.x = 0;
+                            response_pos.y = 0;
+
+                            write((*srv)->players[i].fd, &response_pos, sizeof(response_pos));
+                        }
+                    }
+                    // buffer[n] = 0;
+                    printf("client send request\n");
+                }
+            }
+            if (game_info->players[i].alive)
+                survivors++;
+        }
+        if (survivors <= 1)
+        {
+
+            game_info->game_status = ENDGAME;
+            (*srv)->running = ENDGAME;
+            printf("\nENDGAME\n");
+            restart_game(srv);
+        }
+    }
+    printf("\nGAME STATUS: %d\n", game_info->game_status);
+    return (1);
 }

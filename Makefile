@@ -45,6 +45,7 @@ SRC 	= 	main.c 					\
 		server/main_loop.c			\
 		server/collision.c			\
 		server/bomb_management.c		\
+		server/notify_client.c			\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\

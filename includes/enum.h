@@ -61,7 +61,8 @@ enum	COMMAND_REQUEST
     MOVE_UP = 3,
     MOVE_DOWN = 4,
     MOVE_LEFT = 5,
-    MOVE_RIGHT = 6
+    MOVE_RIGHT = 6,
+    GIVE_PLAYERS = 7
   };
 
 enum Directions {
@@ -73,7 +74,8 @@ enum Directions {
 
 enum Response_type {
   BOMB,
-  MOVE
+  MOVE,
+  PLAYERS
 };
 
 #endif /* !_ENUM_H_ */

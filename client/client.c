@@ -39,7 +39,6 @@ void			init_client(t_sdl *sdl)
   addr = enter_addr(sdl);
   // une fois l'adresse ip écrite, on tente de connecter (client/socket.c)
   cs = client_connect(addr);
-  printf("\nClient connected, player request created\nCALL START MAP FOR NEW CLIENT");
   // on démarre la boucle cliente (start_map.c)
   start_map(sdl, cs);
 

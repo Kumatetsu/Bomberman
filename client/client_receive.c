@@ -27,6 +27,7 @@
 #include "draw_players.h"
 #include "base_map_manager.h"
 #include "client_receive.h"
+#include "server_request.h"
 
 void            *listen_server(void *s)
 {
@@ -47,6 +48,7 @@ void            *listen_server(void *s)
       printf("\nGameInfo memory allocation failed\n");
       return NULL;
     }
+
   // construit le model fixe et render copy une premiere fois
   if (!draw_fixed_map(data))
     {
@@ -104,11 +106,12 @@ void            *listen_server(void *s)
 int		get_message(int s, t_game_info *client_game_info)
 {
   int		r;
-  // char		buff[sizeof(t_game_info) + 1];
-  char		buff[sizeof(t_server_reponse) + 1];
-  t_server_reponse *repsonse;
+  char		buff[sizeof(t_response_pool)];
+  t_response_pool response;
 
-  r = recv(s, buff, sizeof(t_game_info) + 1, 0);
+  r = recv(s, buff, sizeof(t_response_pool), 0);
+
+  printf("received smth on my phone\n");
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
   // quelques bytes qui seront traités et provoqueront une erreur
@@ -116,9 +119,9 @@ int		get_message(int s, t_game_info *client_game_info)
   // game_info serait le bienvenu, c'était la cause du bug de sérialisation
   if (r > 3000)
   {
-    repsonse = (*(t_server_reponse*)buff);
+    response = (*(t_response_pool*)buff);
     *client_game_info = (*(t_game_info*)buff);
-    printf("response_type %d", repsonse->response_type);
+    printf("response_type %d", response.id);
     return (1);
   }
   else

@@ -144,16 +144,3 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
       return (1);
     }
 }
-
-void	add_request_to_server(t_srv **srv, t_player_request *player_request)
-{
- int i;
-
- for (i = 0; i < 8; ++i)
-   {
-     if ((*srv)->requests[i] != NULL)
-         continue;
-
-     (*srv)->requests[i] = player_request;
-   }
-}

@@ -92,13 +92,7 @@ int			accept_players(t_srv **srv)
     return (-1);
   if (!add_player(srv, player_socket))
     return (-1);
-  if (index == ((*srv)->n_players) - 1)
-    my_putstr("\nPlayer successfully added");
-  else if ((*srv)->players[index].bomb_left == 1)
-    // Check l'affectation mémoire immédiatement
-    printf("\nPlayer have %d bomb.\n", (*srv)->players[index].bomb_left);
-  else
-    my_putstr("\nServer failed to add client");
+  printf("before notify");
   // retourne 1 si joueur ajouté, 0 sinon
   return (index);
 }

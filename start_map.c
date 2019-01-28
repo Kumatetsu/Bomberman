@@ -56,6 +56,7 @@ int		start_map(t_sdl *sdl, int socket)
   if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
     quit = 1;
   printf("\nthread created\n");
+
   while (!quit)
   {
     while (SDL_PollEvent(&event))
