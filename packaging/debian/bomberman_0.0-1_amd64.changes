@@ -1,0 +1,51 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Format: 1.8
+Date: Wed, 30 Jan 2019 14:16:29 +0100
+Source: bomberman
+Binary: bomberman
+Architecture: source amd64
+Version: 0.0-1
+Distribution: UNRELEASED
+Urgency: low
+Maintainer: Nicolas Hochart <hochar_n@etna-alternance.net>
+Changed-By: Nicolas Hochart <hochar_n@etna-alternance.net>
+Description:
+ bomberman  - auto-generated package by debmake
+Changes:
+ bomberman (0.0-1) UNRELEASED; urgency=low
+ .
+   [ Nicolas Hochart ]
+   * Initial release. Closes: #nnnn
+ .
+   [ Nicolas Hochart ]
+   * fix build
+Checksums-Sha1:
+ 87bc82fc0ae97ca22f59bb4bb74405d6c71600fe 1236 bomberman_0.0-1.dsc
+ 68b455ab8e842ac3b2e9204a2d08fe9e0779cbdd 152638 bomberman_0.0.orig.tar.gz
+ c5b87358839b805c2acddd22f618dbce402445da 2072 bomberman_0.0-1.debian.tar.xz
+ a3f91f8bc8fe2f715afc2658c1c7312334a7d4ed 5224 bomberman_0.0-1_amd64.buildinfo
+ db72cc04cc9f5d523c6091711d83eda11d61ccb1 2432 bomberman_0.0-1_amd64.deb
+Checksums-Sha256:
+ a623f0ae57d6ae62f3725edbb8a08bc505e8f6472974b9bd5bf926cbaf89b68f 1236 bomberman_0.0-1.dsc
+ 199c18a0559950ebca1a8b5a611d1d63bc1bb6979bf73f8d7860f864a3118261 152638 bomberman_0.0.orig.tar.gz
+ edb0456b2341f02d449657539b0cc492823db012c5284ea5d5ba2eb494397f25 2072 bomberman_0.0-1.debian.tar.xz
+ df6a9a85638313e2609e48f1da692ab793aac09f30edd720637988362629d8b3 5224 bomberman_0.0-1_amd64.buildinfo
+ 839bf88719228b1af775356121e266da56f154633486d7d455908300d5b6d929 2432 bomberman_0.0-1_amd64.deb
+Files:
+ 779a0eeec6a8f83e91162df35af9e081 1236 game extra bomberman_0.0-1.dsc
+ 02a114acf791f987b9e496217a8f8165 152638 game extra bomberman_0.0.orig.tar.gz
+ 741667fb3343060aadf2ac46c9f746a9 2072 game extra bomberman_0.0-1.debian.tar.xz
+ 0a80bd564bc339c8f2df77cc3c411bb1 5224 game extra bomberman_0.0-1_amd64.buildinfo
+ d28dbc7214fba48d227e280af42836ae 2432 game extra bomberman_0.0-1_amd64.deb
+
+-----BEGIN PGP SIGNATURE-----
+
+iNEEAQEIADsWIQRgtKMJMONxFsnutV/qzB/0hZna/AUCXFG6sR0caG9jaGFyX25A
+ZXRuYS1hbHRlcm5hbmNlLm5ldAAKCRDqzB/0hZna/ClCA/wMStWnPsBmVg8Rn9ba
+9BDFGEDOTD1s4m+3bPRR0M5yesxgC4qycl74Xd0HcbAcvSFWS6hkySUl8MkcbhM9
+ZByfU650wPu50xVHyf+Lk3afwELj/gJz7rJ5xGplzvVth6IC4OFqY3/sb/JXkP5r
+UWsyXMs1C38szvPaP+fhrxGSoA==
+=gci2
+-----END PGP SIGNATURE-----
