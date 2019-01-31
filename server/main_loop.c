@@ -70,10 +70,16 @@ int main_loop(t_srv **srv)
         }
     }
 
+    my_putstr("server: before select\n");
     if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
+    {
+        my_putstr("server: select error\n");
         return (0);
+    }
+    my_putstr("server: before server is full\n");
     if (!server_is_full(srv))
     {
+        printf("server: not full, looking for players\n");
         // ici on accepte les connections clientes
         if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
         {
@@ -82,9 +88,7 @@ int main_loop(t_srv **srv)
                 return 0;
         }
     }
-    // FOR PROD
-    //if (!is_running() && is_enought_players(srv))
-    // FOR DEV
+
     if (is_enought_players(srv) && (*srv)->game_status != 1)
     {
         // server.h
@@ -121,16 +125,16 @@ int main_loop(t_srv **srv)
                 int n = 0;
                 // char buffer[sizeof(int)];
                 int buffer;
-                printf("\nHandling request for player %d\n", i);
+                my_putstr("\nHandling request for player\n");
                 // On extrait le contenu
                 if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
                 {
-                    if ((*srv)->game_status != RUNNING)
-                        continue;
+                    // if ((*srv)->game_status != RUNNING)
+                    //     continue;
 
                     player_request.command = ntohl(buffer);
                     player_request.num_player = i;
-
+                    my_putstr("handling command");
                     command_interpretor(srv, player_request);
                     // else
                     // {

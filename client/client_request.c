@@ -13,22 +13,22 @@
 #include "client_request.h"
 #include "client.h"
 
-void	my_bzero(void *s1, int n)
+void my_bzero(void *s1, int n)
 {
-  char	*c;
+  char *c;
 
   c = (char *)s1;
   while (n > 0)
-    {
-      *c++ = 0;
-      n--;
-    }
+  {
+    *c++ = 0;
+    n--;
+  }
 }
 
 int send_request(int s, int command)
 {
   int tmp;
-
+  printf("command: %d", command);
   tmp = htonl(command);
   write(s, &tmp, sizeof(tmp));
   return SUCCESS_SEND;
