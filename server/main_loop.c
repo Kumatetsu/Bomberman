@@ -50,17 +50,13 @@ int main_loop(t_srv **srv)
     int retval;
     // int			response_type;
     t_player_request player_request = {0};
-    t_game_info *game_info;
     int survivors;
 
     printf("\nMAIN_LOOP\n");
     i = 0;
     // On initialise direct la game_info
     // on utilise ensuite is_running() pour savoir si ca tourne
-    if (NULL == get_game_info())
-        create_game_info();
     // puis on récupère la static remplie
-    game_info = get_game_info();
     FD_ZERO(&(*srv)->fd_read);
     FD_SET((*srv)->fd, &(*srv)->fd_read);
     // server.h définition du fd max pour le select, defaut dans init_server
@@ -84,9 +80,6 @@ int main_loop(t_srv **srv)
             // player.h
             if ((i = accept_players(srv)) == -1)
                 return 0;
-            // on a bougé les players du srv, on refresh ceux de la game_info
-            game_info->players[i] = (*srv)->players[i];
-            game_info->nb_client = (*srv)->n_players;
         }
     }
     // FOR PROD
@@ -101,7 +94,7 @@ int main_loop(t_srv **srv)
         // définis le placement
         printf("\nStart Game\n");
         (*srv)->game_status = 1;
-        start_game(srv);
+        // start_game(srv);
         //
     }
     survivors = 0;
@@ -155,17 +148,17 @@ int main_loop(t_srv **srv)
                 printf("client send request\n");
             }
         }
-        if (game_info->players[i].alive)
+        if ((*srv)->players[i].alive)
             survivors++;
     }
     if (survivors <= 1)
     {
 
-        game_info->game_status = ENDGAME;
+        (*srv)->game_status = ENDGAME;
         (*srv)->running = ENDGAME;
         printf("\nENDGAME\n");
         restart_game(srv);
     }
-    printf("\nGAME STATUS: %d\n", game_info->game_status);
+    printf("\nGAME STATUS: %d\n", (*srv)->game_status);
     return (1);
 }

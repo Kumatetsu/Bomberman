@@ -85,7 +85,7 @@ void *threaded_ticker(void *server)
 {
   int i;
   int j;
-  int socket;
+  // int socket;
   t_srv **srv;
   t_game_info *game_info;
 
@@ -97,7 +97,7 @@ void *threaded_ticker(void *server)
     for (i = 0; i < (*srv)->n_players; i++)
     {
       // verify_bomb_explosion(game_info->map_destroyable, *tk);
-      socket = (*srv)->players[i].fd;
+      // socket = (*srv)->players[i].fd;
       game_info->id_client = i;
       memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
       memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
