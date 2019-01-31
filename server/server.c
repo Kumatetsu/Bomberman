@@ -42,6 +42,7 @@ void *init_server()
   srv->fd_max = s;
   printf("\nInitial server fd and fd_max: %d\n", s);
   srv->n_players = 0;
+  srv->game_status = WAITING;
 
   game_info = calloc(1, sizeof(t_game_info));
   if (game_info == NULL)
@@ -54,7 +55,7 @@ void *init_server()
   {
     srv->players[i].connected = 0;
     srv->players[i].num_player = i;
-    srv->fd = 0;
+    srv->fd = -1;
   }
 
   // on lance les 2 threads: la main loop du serveur et le ticker

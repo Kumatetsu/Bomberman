@@ -9,6 +9,7 @@
 */
 
 #include <stdio.h>
+#include <sys/time.h>
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -49,6 +50,7 @@ int main_loop(t_srv **srv)
     socklen_t len;
     int retval;
     // int			response_type;
+    struct timeval it_value;
     t_player_request player_request = {0};
     int survivors;
 
@@ -71,7 +73,10 @@ int main_loop(t_srv **srv)
     }
 
     my_putstr("server: before select\n");
-    if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
+
+    it_value.tv_sec = 6;
+    it_value.tv_usec = 0;
+    if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, &it_value) == -1)
     {
         my_putstr("server: select error\n");
         return (0);
@@ -83,6 +88,7 @@ int main_loop(t_srv **srv)
         // ici on accepte les connections clientes
         if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
         {
+            printf("in FD_ISSET for connect\n");
             // player.h
             if ((i = accept_players(srv)) == -1)
                 return 0;
@@ -105,6 +111,7 @@ int main_loop(t_srv **srv)
     // pour les joueurs... 0 à 3
     for (i = 0; i < 4; i++)
     {
+        printf("%d\n", (*srv)->players[i].connected);
         // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
         if ((*srv)->players[i].connected == 1)
         {
@@ -155,7 +162,7 @@ int main_loop(t_srv **srv)
         if ((*srv)->players[i].alive)
             survivors++;
     }
-    if (survivors <= 1)
+    if ((*srv)->game_status == RUNNING && survivors <= 1)
     {
 
         (*srv)->game_status = ENDGAME;
@@ -163,6 +170,5 @@ int main_loop(t_srv **srv)
         printf("\nENDGAME\n");
         restart_game(srv);
     }
-    printf("\nGAME STATUS: %d\n", (*srv)->game_status);
     return (1);
 }

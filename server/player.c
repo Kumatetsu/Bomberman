@@ -24,26 +24,26 @@
 #include "player.h"
 #include "constant.h"
 
-void		reset_players(t_srv **srv)
+void reset_players(t_srv **srv)
 {
-  t_player_info	p;
+  t_player_info p;
   for (int i = 0; i < 4; i++)
+  {
+    if ((*srv)->players[i].connected)
     {
-      if ((*srv)->players[i].connected)
-	{
-	  p = (*srv)->players[i];
-	  p.alive = 1;
-	  p.dying = 0;
-	  p.action_sprite = not_move;
-	  p.bomb_left = 3;
-	  define_player_init_pos(&((*srv)->players[i]));
-	  (*srv)->players[i] = p;
-	}
+      p = (*srv)->players[i];
+      p.alive = 1;
+      p.dying = 0;
+      p.action_sprite = not_move;
+      p.bomb_left = 3;
+      define_player_init_pos(&((*srv)->players[i]));
+      (*srv)->players[i] = p;
     }
+  }
 }
 
 // instanciation d'un player avec sa socket
-int             add_player(t_srv **srv, int fd)
+int add_player(t_srv **srv, int fd)
 {
   t_player_info new_player;
 
@@ -75,28 +75,26 @@ int             add_player(t_srv **srv, int fd)
 // add le player (instanciation)
 // vérifie qu'on est bon niveau mallocage
 // retourne l'index
-int			accept_players(t_srv **srv)
+int accept_players(t_srv **srv)
 {
-  int		        index;
-  int			player_socket;
-  struct sockaddr_in	client_sin;
-  socklen_t		client_sin_len;
+  int index;
+  int player_socket;
+  struct sockaddr_in client_sin;
+  socklen_t client_sin_len;
 
   index = (*srv)->n_players;
   printf("\naccept_player, index: %d\n", index);
-  memset(&client_sin, 0, sizeof (struct sockaddr_in));
-  client_sin_len = sizeof (client_sin);
+  memset(&client_sin, 0, sizeof(struct sockaddr_in));
+  client_sin_len = sizeof(client_sin);
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
   printf("\naccept_player, player_socket: %d\n", player_socket);
   if (player_socket == -1)
     return (-1);
   if (!add_player(srv, player_socket))
     return (-1);
-  printf("before notify");
   // retourne 1 si joueur ajouté, 0 sinon
   return (index);
 }
-
 
 void define_player_init_pos(t_player_info *player)
 {
@@ -108,26 +106,26 @@ void define_player_init_pos(t_player_info *player)
   * exemple placement joueur 1 : 48 + 24 = 72 pour la case x = y = 2
   */
   switch (player->num_player)
-    {
-    case 0:
-      player->x = (I_BEGIN + 1) * 48; // = 200px
-      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156 px
-      player->current_dir = BOMBER_L;
-      break;
-    case 1:
-      player->x = (I_BEGIN + 13) * 48; // = 776px
-      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
-      player->current_dir = BOMBER_D;
-      break;
-    case 2:
-      player->x = (I_BEGIN + 1) * 48; // = 200px
-      player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
-      player->current_dir = BOMBER_U;
-      break;
-    case 3:
-      player->x = (I_BEGIN + 13) * 48; // = 776px
-      player->y = ((J_BEGIN + 1) * 48) - 36; // = 156px
-      player->current_dir = BOMBER_R;
-      break;
-    }
+  {
+  case 0:
+    player->x = (I_BEGIN + 1) * 48;        // = 200px
+    player->y = ((J_BEGIN + 1) * 48) - 36; // = 156 px
+    player->current_dir = BOMBER_L;
+    break;
+  case 1:
+    player->x = (I_BEGIN + 13) * 48;        // = 776px
+    player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
+    player->current_dir = BOMBER_D;
+    break;
+  case 2:
+    player->x = (I_BEGIN + 1) * 48;         // = 200px
+    player->y = ((J_BEGIN + 11) * 48) - 36; // = 636px
+    player->current_dir = BOMBER_U;
+    break;
+  case 3:
+    player->x = (I_BEGIN + 13) * 48;       // = 776px
+    player->y = ((J_BEGIN + 1) * 48) - 36; // = 156px
+    player->current_dir = BOMBER_R;
+    break;
+  }
 }

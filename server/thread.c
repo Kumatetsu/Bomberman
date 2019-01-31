@@ -133,6 +133,5 @@ void *threaded_main_loop(void *server)
     // retourne 0 si erreur sur select ou accept_player
     // retourne 1 si la boucle va au bout, traitement ou non
     check = main_loop(srv);
-    printf("\nMain loop exit with code: %d", check);
   }
 }
