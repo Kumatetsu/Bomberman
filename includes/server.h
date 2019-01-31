@@ -13,6 +13,10 @@
 
 // exceptional include
 #include <sys/select.h>
+#include "enum.h"
+#include "sdl.h"
+#include "map.h"
+#include "player_info.h"
 
 #define FD_FREE 0
 #define FD_CLIENT 1

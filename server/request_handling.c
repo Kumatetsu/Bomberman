@@ -27,7 +27,7 @@
 // dev
 #include "detail_game_info.h"
 
-void	detail_player(t_player_info p)
+void detail_player(t_player_info p)
 {
   printf("\nPlayer:");
   printf("\nnum_player: %d", p.num_player);
@@ -42,29 +42,29 @@ void	detail_player(t_player_info p)
 }
 
 // le map_pointer segfault
-void	handle_requests(t_game_info *game_info,	t_player_request *player_request)
+void handle_requests(t_game_info *game_info, t_player_request *player_request)
 {
-  int	num_player;
+  int num_player;
 
   num_player = player_request->num_player;
   // detail_player(game_info->players[player_request->num_player]);
   // Les commandes de mouvement étant assimilées à un int plus grand
   // On a juste à check si la commande est supérieur aà PLACE_BOMB
   if (game_info->players[num_player].alive && game_info->players[num_player].dying == 0)
+  {
+    if (player_request->command > PLACE_BOMB)
     {
-      if (player_request->command > PLACE_BOMB )
-	{
-	  move_player(game_info, player_request, num_player);
-	}
-      if (player_request->command == PLACE_BOMB)
-	{
-	  place_bomb(game_info, player_request);
-	}
+      // move_player(game_info, player_request, num_player);
     }
+    if (player_request->command == PLACE_BOMB)
+    {
+      place_bomb(game_info, player_request);
+    }
+  }
   else if (game_info->players[num_player].dying > 0)
-    {
-      game_info->players[num_player].dying--;
-    }
+  {
+    game_info->players[num_player].dying--;
+  }
 }
 
 /**
@@ -72,11 +72,11 @@ void	handle_requests(t_game_info *game_info,	t_player_request *player_request)
  * @params (*)t_player_request
  * @return 1 -> success 0 -> fail
 **/
-int			place_bomb(t_game_info *game_info, t_player_request *player_request)
+int place_bomb(t_game_info *game_info, t_player_request *player_request)
 {
-  t_player_info		player;
-  int 			index;
-  t_map_destroyable	bomb;
+  t_player_info player;
+  int index;
+  t_map_destroyable bomb;
 
   printf("\nPLACING BOMB\n");
   player = game_info->players[player_request->num_player];
@@ -91,56 +91,56 @@ int			place_bomb(t_game_info *game_info, t_player_request *player_request)
   index = coord_to_index(player.x + 10, player.y + 40);
   switch (player.direction_sprite)
   {
-    case bomber_d:
-      index = index + COLUMNS;
-      // on place en dessous des pieds
-      break;
+  case bomber_d:
+    index = index + COLUMNS;
+    // on place en dessous des pieds
+    break;
 
-    case bomber_l:
-      index--;
-      /*
+  case bomber_l:
+    index--;
+    /*
       bomb.x = player.x - PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
       */
-      break;
+    break;
 
-    case bomber_r:
-      index++;
-      /*
+  case bomber_r:
+    index++;
+    /*
       bomb.x = player.x + PIXEL_SIZE;
       // différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
       bomb.y = player.y + 21;
       */
-      break;
+    break;
 
-    case bomber_u:
-      index = index - COLUMNS;
-      /*
+  case bomber_u:
+    index = index - COLUMNS;
+    /*
       bomb.x = player.x;
       bomb.y = player.y - PIXEL_SIZE;
       */
-      break;
-    default:
-      break;
+    break;
+  default:
+    break;
   }
   bomb.x = index_to_x(index);
   bomb.y = index_to_y(index);
   const SDL_Rect zone = init_rect(bomb.x + 20, bomb.y + 20, 2, 2);
   if (has_collision_with_wall(zone))
-    {
-      printf("\nBOMB HAS COLLISION\n");
-      return 0;
-    }
+  {
+    printf("\nBOMB HAS COLLISION\n");
+    return 0;
+  }
   if (game_info->map_destroyable[index].exist)
-    {
-      printf("\nYou can't place a bomb here, already one in that case\n");
-      return (0);
-    }
+  {
+    printf("\nYou can't place a bomb here, already one in that case\n");
+    return (0);
+  }
   else
-    {
-      printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
-      game_info->map_destroyable[index] = bomb;
-      return (1);
-    }
+  {
+    printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb.x, bomb.y);
+    game_info->map_destroyable[index] = bomb;
+    return (1);
+  }
 }

@@ -26,6 +26,7 @@
 #include "response_type_utils.h"
 #include "server_request.h"
 #include "notify_client.h"
+#include "command_interpretor.h"
 
 void restart_game(t_srv **srv)
 {
@@ -49,7 +50,6 @@ int main_loop(t_srv **srv)
     int retval;
     // int			response_type;
     t_player_request player_request = {0};
-    t_response_up_pos response_pos = {0};
     t_game_info *game_info;
     int survivors;
 
@@ -92,7 +92,7 @@ int main_loop(t_srv **srv)
     // FOR PROD
     //if (!is_running() && is_enought_players(srv))
     // FOR DEV
-    if (is_enought_players(srv) && !is_running())
+    if (is_enought_players(srv) && (*srv)->game_status != 1)
     {
         // server.h
         // set le game_status à 1
@@ -100,73 +100,71 @@ int main_loop(t_srv **srv)
         // passe le connected à 1 pour tous
         // définis le placement
         printf("\nStart Game\n");
+        (*srv)->game_status = 1;
         start_game(srv);
         //
     }
-    if (is_running())
+    survivors = 0;
+    // pour les joueurs... 0 à 3
+    for (i = 0; i < 4; i++)
     {
-        survivors = 0;
-        // pour les joueurs... 0 à 3
-        for (i = 0; i < 4; i++)
+        // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
+        if ((*srv)->players[i].connected == 1)
         {
-            // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
-            if ((*srv)->players[i].connected == 1)
+            printf("\nPlayer %d command\n", i);
+            error = 0;
+            len = sizeof(error);
+            // interroge les options de la socket (player->fd) pour détecter une erreur
+            retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+            // Si erreur on déco le player, ca évite de réitérer dessus
+            if (retval != 0 || error != 0)
             {
-                printf("\nPlayer %d command\n", i);
-                error = 0;
-                len = sizeof(error);
-                // interroge les options de la socket (player->fd) pour détecter une erreur
-                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
-                // Si erreur on déco le player, ca évite de réitérer dessus
-                if (retval != 0 || error != 0)
-                {
-                    (*srv)->players[i].connected = 0;
-                    continue;
-                }
-                // Si la socket du player est set on traite...
-                if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
-                {
-                    int n = 0;
-                    // char buffer[sizeof(int)];
-                    int buffer;
-                    printf("\nHandling request for player %d\n", i);
-                    // On extrait le contenu
-                    if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
-                    {
-                        player_request.command = ntohl(buffer);
-                        player_request.num_player = i;
-
-                        if (GIVE_PLAYERS == player_request.command)
-                            notify_actual_players((*srv)->players);
-                        else
-                        {
-                            printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
-                            printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
-                            handle_requests(game_info, &player_request);
-
-                            // response_type = define_response_type(player_request.command);
-                            response_pos.id = MOVE;
-                            response_pos.x = 0;
-                            response_pos.y = 0;
-
-                            write((*srv)->players[i].fd, &response_pos, sizeof(response_pos));
-                        }
-                    }
-                    // buffer[n] = 0;
-                    printf("client send request\n");
-                }
+                (*srv)->players[i].connected = 0;
+                continue;
             }
-            if (game_info->players[i].alive)
-                survivors++;
-        }
-        if (survivors <= 1)
-        {
+            // Si la socket du player est set on traite...
+            if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+            {
+                int n = 0;
+                // char buffer[sizeof(int)];
+                int buffer;
+                printf("\nHandling request for player %d\n", i);
+                // On extrait le contenu
+                if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
+                {
+                    if ((*srv)->game_status != RUNNING)
+                        continue;
 
-            game_info->game_status = ENDGAME;
-            (*srv)->running = ENDGAME;
-            printf("\nENDGAME\n");
-            restart_game(srv);
+                    player_request.command = ntohl(buffer);
+                    player_request.num_player = i;
+
+                    command_interpretor(srv, player_request);
+                    // else
+                    // {
+                    //     printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
+                    //     // handle_requests(game_info, &player_request);
+
+                    //     // response_type = define_response_type(player_request.command);
+                    //     response_pos.id = MOVE;
+                    //     response_pos.x = 0;
+                    //     response_pos.y = 0;
+
+                    //     write((*srv)->players[i].fd, &response_pos, sizeof(response_pos));
+                    // }
+                }
+                printf("client send request\n");
+            }
         }
+        if (game_info->players[i].alive)
+            survivors++;
+    }
+    if (survivors <= 1)
+    {
+
+        game_info->game_status = ENDGAME;
+        (*srv)->running = ENDGAME;
+        printf("\nENDGAME\n");
+        restart_game(srv);
     }
     printf("\nGAME STATUS: %d\n", game_info->game_status);
     return (1);

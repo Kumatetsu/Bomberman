@@ -56,9 +56,7 @@ void *init_server()
     srv->players[i].num_player = i;
     srv->fd = 0;
   }
-  // on initialise le bench de request à NULL
-  for (i = 0; i < 8; i++)
-    srv->requests[i] = NULL;
+
   // on lance les 2 threads: la main loop du serveur et le ticker
   // if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
   //   return (NULL);
