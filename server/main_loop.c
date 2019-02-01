@@ -64,6 +64,7 @@ int main_loop(t_srv **srv)
     // server.h définition du fd max pour le select, defaut dans init_server
     for (i = 0; i < 4; i++)
     {
+        printf("in loop for fd_max\n");
         if ((*srv)->players[i].connected == 1)
         {
             FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
@@ -72,23 +73,16 @@ int main_loop(t_srv **srv)
         }
     }
 
-    my_putstr("server: before select\n");
-
     it_value.tv_sec = 6;
     it_value.tv_usec = 0;
     if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, &it_value) == -1)
-    {
-        my_putstr("server: select error\n");
         return (0);
-    }
-    my_putstr("server: before server is full\n");
+
     if (!server_is_full(srv))
     {
-        printf("server: not full, looking for players\n");
         // ici on accepte les connections clientes
         if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
         {
-            printf("in FD_ISSET for connect\n");
             // player.h
             if ((i = accept_players(srv)) == -1)
                 return 0;
@@ -111,11 +105,9 @@ int main_loop(t_srv **srv)
     // pour les joueurs... 0 à 3
     for (i = 0; i < 4; i++)
     {
-        printf("%d\n", (*srv)->players[i].connected);
         // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
         if ((*srv)->players[i].connected == 1)
         {
-            printf("\nPlayer %d command\n", i);
             error = 0;
             len = sizeof(error);
             // interroge les options de la socket (player->fd) pour détecter une erreur
@@ -141,7 +133,7 @@ int main_loop(t_srv **srv)
 
                     player_request.command = ntohl(buffer);
                     player_request.num_player = i;
-                    my_putstr("handling command");
+
                     command_interpretor(srv, player_request);
                     // else
                     // {

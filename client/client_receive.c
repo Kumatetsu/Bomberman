@@ -106,22 +106,20 @@ void *listen_server(void *s)
 int get_message(int s, t_game_info *client_game_info)
 {
   int r;
-  char buff[sizeof(t_response_pool)];
   t_response_pool response;
 
-  r = recv(s, buff, sizeof(t_response_pool), 0);
+  r = recv(s, &response, sizeof(t_response_pool), 0);
 
-  printf("received smth on my phone\n");
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
   // quelques bytes qui seront traités et provoqueront une erreur
   // ici, un système permettant de checké l'intégrité de la
   // game_info serait le bienvenu, c'était la cause du bug de sérialisation
-  if (r > 3000)
+  if (r != -1)
   {
-    response = (*(t_response_pool *)buff);
-    *client_game_info = (*(t_game_info *)buff);
+    printf("client: server response\n");
     printf("response_type %d", response.id);
+    client_game_info = NULL;
     return (1);
   }
   else

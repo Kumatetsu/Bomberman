@@ -55,7 +55,7 @@ void *init_server()
   {
     srv->players[i].connected = 0;
     srv->players[i].num_player = i;
-    srv->fd = -1;
+    srv->players[i].fd = -1;
   }
 
   // on lance les 2 threads: la main loop du serveur et le ticker

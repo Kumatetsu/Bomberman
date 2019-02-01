@@ -9,13 +9,16 @@
 
 void notify_actual_players(t_srv **server, int id_player)
 {
+    printf("sever: in notify actual players\n");
     t_response_players players_pool;
     int i;
 
     players_pool.id = PLAYERS;
     for (i = 0; i < 4; i++)
+    {
         printf("connected: %d\n\n\n", (*server)->players[i].connected);
-    players_pool.players[i] = (*server)->players[i];
+        players_pool.players[i] = (*server)->players[i];
+    }
 
     write((*server)->players[id_player].fd, &players_pool, sizeof(players_pool));
 }

@@ -13,10 +13,11 @@ static const t_command_interpretor commands[] =
 void command_interpretor(t_srv **server, t_player_request player_request)
 {
     int i;
-
+    printf("server:in command_interpretor\n");
     for (i = 0; i < 8; i++)
     {
-        if (player_request.command == commands->status)
+        printf("client command: %d, commands status: %d\n", player_request.command, commands[i].status);
+        if (player_request.command == commands[i].status)
             commands[i].f(server, player_request.num_player);
     }
 }
