@@ -1,0 +1,13 @@
+Package: bomberman-dbgsym
+Source: bomberman
+Version: 0.0-1
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: Nicolas Hochart <hochar_n@etna-alternance.net>
+Installed-Size: 85
+Depends: bomberman (= 0.0-1)
+Section: debug
+Priority: extra
+Homepage: <insert the upstream URL, if relevant>
+Description: Debug symbols for bomberman
+Build-Ids: 8bd1899b585c5d1acf9bdec81598ddf72e6b5703

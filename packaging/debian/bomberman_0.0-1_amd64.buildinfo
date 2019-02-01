@@ -7,17 +7,20 @@ Binary: bomberman
 Architecture: amd64 source
 Version: 0.0-1
 Checksums-Md5:
- 779a0eeec6a8f83e91162df35af9e081 1236 bomberman_0.0-1.dsc
- d28dbc7214fba48d227e280af42836ae 2432 bomberman_0.0-1_amd64.deb
+ 2ee6b3e1b5ed7e86f5f88f484d2c59ad 1757 bomberman_0.0-1.dsc
+ a0e1f411b1eb26c43e4487922e2f537f 52858 bomberman-dbgsym_0.0-1_amd64.deb
+ e0ceb3d87695df63582e81fd44a012f6 122516 bomberman_0.0-1_amd64.deb
 Checksums-Sha1:
- 87bc82fc0ae97ca22f59bb4bb74405d6c71600fe 1236 bomberman_0.0-1.dsc
- db72cc04cc9f5d523c6091711d83eda11d61ccb1 2432 bomberman_0.0-1_amd64.deb
+ cec22dfc083a67c87d5a4ec4d2c4be910aae1839 1757 bomberman_0.0-1.dsc
+ 9803eb5bdf077675dc4ea772905565f9b0632379 52858 bomberman-dbgsym_0.0-1_amd64.deb
+ 40b94fd1a8a760847c89609a5362b8ee5b49d909 122516 bomberman_0.0-1_amd64.deb
 Checksums-Sha256:
- a623f0ae57d6ae62f3725edbb8a08bc505e8f6472974b9bd5bf926cbaf89b68f 1236 bomberman_0.0-1.dsc
- 839bf88719228b1af775356121e266da56f154633486d7d455908300d5b6d929 2432 bomberman_0.0-1_amd64.deb
+ 0d677ed69bb711056fdedc94d0dc58f8dca88e8f54a4e0e9f3cfa84e47da3277 1757 bomberman_0.0-1.dsc
+ d810b53a974bf34502bf79ae48ad89862b4744a7329fd10abf6b38c1050837e4 52858 bomberman-dbgsym_0.0-1_amd64.deb
+ 63e7abf1f2aaf219710e30691700f811a8ad691685f7bdb1242216821c11bb9b 122516 bomberman_0.0-1_amd64.deb
 Build-Origin: Debian
 Build-Architecture: amd64
-Build-Date: Wed, 30 Jan 2019 15:54:30 +0100
+Build-Date: Wed, 06 Feb 2019 10:31:48 +0100
 Installed-Build-Depends:
  autoconf (= 2.69-10),
  automake (= 1:1.15-6),
@@ -49,6 +52,7 @@ Installed-Build-Depends:
  findutils (= 4.6.0+git+20161106-2),
  g++ (= 4:6.3.0-4),
  g++-6 (= 6.3.0-18+deb9u1),
+ gawk (= 1:4.1.4+dfsg-1),
  gcc (= 4:6.3.0-4),
  gcc-6 (= 6.3.0-18+deb9u1),
  gcc-6-base (= 6.3.0-18+deb9u1),
@@ -112,10 +116,11 @@ Installed-Build-Depends:
  libpam-modules-bin (= 1.1.8-3.6),
  libpam-runtime (= 1.1.8-3.6),
  libpam0g (= 1.1.8-3.6),
- libpcre3 (= 2:8.39-3),
+ libpcre3 (= 2:8.42-1+0~20190203125157.5+stretch~1.gbp79d75d),
  libperl5.24 (= 5.24.1-3+deb9u5),
  libpipeline1 (= 1.4.1-2),
  libquadmath0 (= 6.3.0-18+deb9u1),
+ libreadline7 (= 7.0-3),
  libselinux1 (= 2.6-3+b3),
  libsemanage-common (= 2.6-2),
  libsemanage1 (= 2.6-2),
@@ -143,7 +148,6 @@ Installed-Build-Depends:
  man-db (= 2.7.6.1-2),
  mawk (= 1.3.3-17+b3),
  mount (= 2.29.2-1+deb9u1),
- multiarch-support (= 2.24-11+deb9u3),
  ncurses-base (= 6.0+20161126-1+deb9u2),
  ncurses-bin (= 6.0+20161126-1+deb9u2),
  passwd (= 1:4.4-4.1),
@@ -152,6 +156,7 @@ Installed-Build-Depends:
  perl-base (= 5.24.1-3+deb9u5),
  perl-modules-5.24 (= 5.24.1-3+deb9u5),
  po-debconf (= 1.0.20),
+ readline-common (= 7.0-3),
  sed (= 4.4-1),
  sensible-utils (= 0.0.9+deb9u1),
  sysvinit-utils (= 2.88dsf-59.9),
@@ -160,16 +165,24 @@ Installed-Build-Depends:
  xz-utils (= 5.2.2-1.2+b1),
  zlib1g (= 1:1.2.8.dfsg-5)
 Environment:
- DEB_BUILD_OPTIONS="parallel=2"
- LANG="en_US.UTF-8"
- SOURCE_DATE_EPOCH="1548854189"
+ DEB_BUILD_OPTIONS="parallel=8"
+ LANG="fr_FR.UTF-8"
+ SOURCE_DATE_EPOCH="1549032534"
 
 -----BEGIN PGP SIGNATURE-----
 
-iNEEAQEIADsWIQRgtKMJMONxFsnutV/qzB/0hZna/AUCXFG6sB0caG9jaGFyX25A
-ZXRuYS1hbHRlcm5hbmNlLm5ldAAKCRDqzB/0hZna/GGHBACHufOEtFnaUaVIOw9Q
-phckV4RbkPZibtAgZkWM0ohJ54Z/cwpAYKs1KLLP9l6MTU+Mywq/6QYgmWRI47Re
-QU9Q2UWz+VekxegDEaIfm/FMTFEjaJrHxJheEddKrEcgsK9g0i/YFwpZYYVOILpU
-65t1aXR8VW6gQF87vMkqYuq7WQ==
-=UBKM
+iQJRBAEBCAA7FiEE0YBaM9NEWub2D4oW9bPdntkf6FcFAlxaqYYdHGhvY2hhcl9u
+QGV0bmEtYWx0ZXJuYW5jZS5uZXQACgkQ9bPdntkf6Fe0rg//cBrn6yqtQ4pQxySp
+Q7JZp148m6BALar1dz3DtdCglvrxMQEeyVt9GpIwKRdKEfJfYxNykrVIbrQQQKHu
+CqGfVKj6hJmFor3sMTTFAUzuVVWMptyjNUu7UZ9/mxWh38WrjI2jjBOGsSaH8wL3
+9RxBEtcV/nvjfM1gn+vbb7Y+YRMYH8etYa+m32IR9VbwNFAzsbMlmZEFM+W1SRir
+0didt/4aSzZHYcd2t9fF4yXrXHfGSGEpxfl0b+fsrOAdsaO4elYRyq2+uzYnssmQ
+SuesQ6scGUvZ+nZkrI223os2vrK/fCHBnYV5A9b8LuLqny2iiNuErEk6PZ+y27xr
+P9xeXu+QRPcidwM8MSN/BqkiX+SAV+/ZcCEu3F+Ac+l6o4WW72FAQb+s5n7XYCWz
+LvGlN/EocckMEq3Ub/Z8TYJBZbxc0yUGMEbMipD07LUYOXwKwiLFH6pMm9GO0pn6
+fYaxOeMXDhjaChgsUBY0zOpPp/rf3ubuToKW2BA2u2jSaeanqOzSbKGx/9pJcyER
+CvueGXBIQBew1GGBO4DsuivdwnCvJtC5NGtp/b7t1nBKLyC3UM75oBAMgBoMRBKb
+7jYbImsHafPAroBw+IFozDY8ZmMcd/WeBANqobEQVpeTx8ZRZ6dIsqe7T+jQnSRB
+38+nYnhl2wbMzGceYWiolL4IPqg=
+=qqHC
 -----END PGP SIGNATURE-----

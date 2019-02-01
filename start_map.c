@@ -113,7 +113,12 @@ void *init_sprites_sheet(void *arg)
   sprites_img = NULL;
   sprite_texture = NULL;
   IMG_Init(IMG_INIT_PNG);
-  sprites_img = IMG_Load("./ressources/bombermanSprite.PNG");
+
+  #ifdef linux
+    sprites_img = IMG_Load("/usr/share/bomberman/ressources/bombermanSprite.PNG");
+  #else
+    sprites_img = IMG_Load("./ressources/bombermanSprite.PNG");
+  #endif
   if (!sprites_img)
   {
     SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(),
