@@ -11,16 +11,17 @@ void notify_actual_players(t_srv **server, int id_player)
 {
     printf("sever: in notify actual players\n");
     t_response_players players_pool;
-    int i;
 
     players_pool.id = PLAYERS;
-    for (i = 0; i < 4; i++)
-    {
-        printf("connected: %d\n\n\n", (*server)->players[i].connected);
-        players_pool.players[i] = (*server)->players[i];
-    }
+    for (id_player = 0; id_player < 4; id_player++)
+        players_pool.players[id_player] = (*server)->players[id_player];
 
-    write((*server)->players[id_player].fd, &players_pool, sizeof(players_pool));
+    for (id_player = 0; id_player < 4; id_player++)
+    {
+        if (-1 == (*server)->players[id_player].fd)
+            continue;
+        write((*server)->players[id_player].fd, &players_pool, sizeof(players_pool));
+    }
 }
 
 void notify_move_up(t_srv **server, int id_player)
@@ -36,7 +37,7 @@ void notify_move_up(t_srv **server, int id_player)
     players_pool.y = (*server)->players[id_player].y;
     for (i = 0; i < 4; i++)
     {
-        if (0 == (*server)->players[i].fd)
+        if (-1 == (*server)->players[i].fd)
             continue;
         write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
     }
@@ -74,7 +75,7 @@ void notify_move_left(t_srv **server, int id_player)
     players_pool.y = (*server)->players[id_player].y;
     for (i = 0; i < 4; i++)
     {
-        if (0 == (*server)->players[i].fd)
+        if (-1 == (*server)->players[i].fd)
             continue;
         write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
     }
@@ -107,7 +108,7 @@ void notify_put_bomb(t_srv **server, int id_player)
     players_pool.id = BOMB;
     for (i = 0; i < 4; i++)
     {
-        if (0 == (*server)->players[i].fd)
+        if (-1 == (*server)->players[i].fd)
             continue;
         write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
     }
