@@ -27,17 +27,17 @@ void move_player(
     enum COMMAND_REQUEST command,
     int num_player)
 {
-
+  printf("server: in move_player\n");
   // x = width, y = height, sprite = visual to apply in the front
   int new_x, new_y;
   int sprite_direction;
 
   new_x = 0;
   new_y = 0;
-
+  printf("server: in move_player before check connected for: %d\n", num_player);
   if ((*srv)->players[num_player].connected == 0)
     return;
-
+  printf("server: init_client_pos: x:%d y:%d\n", (*srv)->players[num_player].x, (*srv)->players[num_player].y);
   switch (command)
   {
   case MOVE_UP:
@@ -79,6 +79,7 @@ void move_player(
   }
 
   change_sprite(&(*srv)->players[num_player], sprite_direction, command);
+  printf("server: updated_client_pos: x:%d y:%d\n", (*srv)->players[num_player].x, (*srv)->players[num_player].y);
 }
 
 void change_sprite(t_player_info *player, int sprite_direction, int player_command)

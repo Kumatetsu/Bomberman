@@ -31,6 +31,6 @@ typedef union u_response_pool {
 
     t_response_players response_players;
     t_response_up_pos response_up_pos;
-    t_response_bomb   response_bomb;
+    t_response_bomb response_bomb;
 } t_response_pool;
 #endif

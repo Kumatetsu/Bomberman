@@ -28,6 +28,7 @@
 #include "base_map_manager.h"
 #include "client_receive.h"
 #include "server_request.h"
+#include "command_interpretor.h"
 
 void *listen_server(void *s)
 {
@@ -64,7 +65,7 @@ void *listen_server(void *s)
       quit = 1;
     if (FD_ISSET(struct_thread->socket, &fd_read))
     {
-      if (!get_message(struct_thread->socket, client_game_info))
+      if (!get_message(struct_thread->socket, &client_game_info))
       {
         quit = 1;
         continue;
@@ -103,7 +104,7 @@ void *listen_server(void *s)
   pthread_exit(NULL);
 }
 
-int get_message(int s, t_game_info *client_game_info)
+int get_message(int s, t_game_info **client_game_info)
 {
   int r;
   t_response_pool response;
@@ -119,7 +120,7 @@ int get_message(int s, t_game_info *client_game_info)
   {
     printf("client: server response\n");
     printf("response_type %d", response.id);
-    client_game_info = NULL;
+    client_interpretor(client_game_info, &response);
     return (1);
   }
   else

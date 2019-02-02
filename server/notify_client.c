@@ -25,12 +25,15 @@ void notify_actual_players(t_srv **server, int id_player)
 
 void notify_move_up(t_srv **server, int id_player)
 {
-    t_response_players players_pool;
+    t_response_up_pos players_pool;
     int i;
-
+    printf("in move up player\n");
     move_player(server, MOVE_UP, id_player);
 
-    players_pool.id = MOVE;
+    players_pool.id = MOVE_U;
+    players_pool.player_id = id_player;
+    players_pool.x = (*server)->players[id_player].x;
+    players_pool.y = (*server)->players[id_player].y;
     for (i = 0; i < 4; i++)
     {
         if (0 == (*server)->players[i].fd)
@@ -41,12 +44,15 @@ void notify_move_up(t_srv **server, int id_player)
 
 void notify_move_down(t_srv **server, int id_player)
 {
-    t_response_players players_pool;
+    t_response_up_pos players_pool;
     int i;
-
+    printf("in move down player\n");
     move_player(server, MOVE_DOWN, id_player);
 
-    players_pool.id = MOVE;
+    players_pool.id = MOVE_D;
+    players_pool.player_id = id_player;
+    players_pool.x = (*server)->players[id_player].x;
+    players_pool.y = (*server)->players[id_player].y;
     for (i = 0; i < 4; i++)
     {
         if (0 == (*server)->players[i].fd)
@@ -57,12 +63,15 @@ void notify_move_down(t_srv **server, int id_player)
 
 void notify_move_left(t_srv **server, int id_player)
 {
-    t_response_players players_pool;
+    t_response_up_pos players_pool;
     int i;
-
+    printf("in move left player\n");
     move_player(server, MOVE_LEFT, id_player);
 
-    players_pool.id = MOVE;
+    players_pool.id = MOVE_L;
+    players_pool.player_id = id_player;
+    players_pool.x = (*server)->players[id_player].x;
+    players_pool.y = (*server)->players[id_player].y;
     for (i = 0; i < 4; i++)
     {
         if (0 == (*server)->players[i].fd)
@@ -73,15 +82,18 @@ void notify_move_left(t_srv **server, int id_player)
 
 void notify_move_right(t_srv **server, int id_player)
 {
-    t_response_players players_pool;
+    t_response_up_pos players_pool;
     int i;
-
+    printf("in move right player\n");
     move_player(server, MOVE_RIGHT, id_player);
 
-    players_pool.id = MOVE;
+    players_pool.id = MOVE_R;
+    players_pool.player_id = id_player;
+    players_pool.x = (*server)->players[id_player].x;
+    players_pool.y = (*server)->players[id_player].y;
     for (i = 0; i < 4; i++)
     {
-        if (0 == (*server)->players[i].fd)
+        if (-1 == (*server)->players[i].fd)
             continue;
         write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
     }
@@ -91,9 +103,7 @@ void notify_put_bomb(t_srv **server, int id_player)
 {
     t_response_players players_pool;
     int i;
-
-    move_player(server, MOVE_UP, id_player);
-
+    printf("server put_bomb for player: %d\n", id_player);
     players_pool.id = BOMB;
     for (i = 0; i < 4; i++)
     {

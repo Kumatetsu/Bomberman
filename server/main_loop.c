@@ -64,7 +64,6 @@ int main_loop(t_srv **srv)
     // server.h définition du fd max pour le select, defaut dans init_server
     for (i = 0; i < 4; i++)
     {
-        printf("in loop for fd_max\n");
         if ((*srv)->players[i].connected == 1)
         {
             FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
@@ -124,7 +123,7 @@ int main_loop(t_srv **srv)
                 int n = 0;
                 // char buffer[sizeof(int)];
                 int buffer;
-                my_putstr("\nHandling request for player\n");
+                printf("\nHandling request for player\n");
                 // On extrait le contenu
                 if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
                 {
@@ -133,7 +132,7 @@ int main_loop(t_srv **srv)
 
                     player_request.command = ntohl(buffer);
                     player_request.num_player = i;
-
+                    printf("server: num player %d and command %d", player_request.num_player, player_request.command);
                     command_interpretor(srv, player_request);
                     // else
                     // {

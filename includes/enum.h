@@ -77,7 +77,10 @@ enum Directions
 enum Response_type
 {
   BOMB,
-  MOVE,
+  MOVE_U,
+  MOVE_D,
+  MOVE_L,
+  MOVE_R,
   PLAYERS
 };
 
