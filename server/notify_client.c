@@ -35,6 +35,8 @@ void notify_move_up(t_srv **server, int id_player)
     players_pool.player_id = id_player;
     players_pool.x = (*server)->players[id_player].x;
     players_pool.y = (*server)->players[id_player].y;
+    players_pool.direction = (*server)->players[id_player].direction_sprite;
+    players_pool.action = (*server)->players[id_player].action_sprite;
     for (i = 0; i < 4; i++)
     {
         if (-1 == (*server)->players[i].fd)
@@ -54,6 +56,8 @@ void notify_move_down(t_srv **server, int id_player)
     players_pool.player_id = id_player;
     players_pool.x = (*server)->players[id_player].x;
     players_pool.y = (*server)->players[id_player].y;
+    players_pool.direction = (*server)->players[id_player].direction_sprite;
+    players_pool.action = (*server)->players[id_player].action_sprite;
     for (i = 0; i < 4; i++)
     {
         if (0 == (*server)->players[i].fd)
@@ -73,6 +77,8 @@ void notify_move_left(t_srv **server, int id_player)
     players_pool.player_id = id_player;
     players_pool.x = (*server)->players[id_player].x;
     players_pool.y = (*server)->players[id_player].y;
+    players_pool.direction = (*server)->players[id_player].direction_sprite;
+    players_pool.action = (*server)->players[id_player].action_sprite;
     for (i = 0; i < 4; i++)
     {
         if (-1 == (*server)->players[i].fd)
@@ -92,6 +98,8 @@ void notify_move_right(t_srv **server, int id_player)
     players_pool.player_id = id_player;
     players_pool.x = (*server)->players[id_player].x;
     players_pool.y = (*server)->players[id_player].y;
+    players_pool.direction = (*server)->players[id_player].direction_sprite;
+    players_pool.action = (*server)->players[id_player].action_sprite;
     for (i = 0; i < 4; i++)
     {
         if (-1 == (*server)->players[i].fd)

@@ -18,6 +18,8 @@ typedef struct s_response_up_pos
     enum Response_type id;
     int player_id;
     int x, y;
+    int direction;
+    int action;
 } t_response_up_pos;
 
 typedef struct s_response_bomb

@@ -13,6 +13,8 @@ void update_pos(t_game_info **game_info, t_response_pool *response_pool)
     printf("client from: x:%d y:%d to x:%d y:%d", (*game_info)->players[response_pool->response_up_pos.player_id].x, (*game_info)->players[response_pool->response_up_pos.player_id].y, response_pool->response_up_pos.x, response_pool->response_up_pos.y);
     (*game_info)->players[response_pool->response_up_pos.player_id].x = response_pool->response_up_pos.x;
     (*game_info)->players[response_pool->response_up_pos.player_id].y = response_pool->response_up_pos.y;
+    (*game_info)->players[response_pool->response_up_pos.player_id].direction_sprite = response_pool->response_up_pos.direction;
+    (*game_info)->players[response_pool->response_up_pos.player_id].action_sprite = response_pool->response_up_pos.action;
     printf("client: end update pos\n");
 }
 
