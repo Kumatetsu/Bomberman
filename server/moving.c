@@ -69,7 +69,7 @@ void move_player(
     break;
   }
 
-  if (check_collision(new_x, new_y, num_player) == 0)
+  if (check_collision(srv, new_x, new_y, num_player) == 0)
     return;
 
   if ((*srv)->players[num_player].alive)
@@ -118,6 +118,7 @@ void change_sprite(t_player_info *player, int sprite_direction, int player_comma
 }
 
 int check_collision(
+    t_srv **srv,
     int requested_x,
     int requested_y,
     int num_player)
@@ -126,9 +127,9 @@ int check_collision(
 
   if (has_collision_with_wall(player))
     return 0;
-  if (has_collision_with_destructible(player))
+  if (has_collision_with_destructible(srv, player))
     return 0;
-  if (has_collision_with_player(player, num_player) >= 0)
+  if (has_collision_with_player(srv, player, num_player) >= 0)
     return 0;
   return 1;
 }

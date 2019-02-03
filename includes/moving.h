@@ -3,6 +3,6 @@
 
 void move_player(t_srv **srv, enum COMMAND_REQUEST command, int num_player);
 void change_sprite(t_player_info *player, int sprite_direction, int player_command);
-int check_collision(int requested_x, int requested_y, int num_player);
+int check_collision(t_srv **srv, int requested_x, int requested_y, int num_player);
 
 #endif /* !_MOVING_H_ */

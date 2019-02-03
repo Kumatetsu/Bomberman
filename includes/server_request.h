@@ -25,7 +25,7 @@ typedef struct s_response_up_pos
 typedef struct s_response_bomb
 {
     enum Response_type id;
-    t_map_destroyable map_destroyable;
+    t_map_destroyable bomb;
 } t_response_bomb;
 
 typedef union u_response_pool {

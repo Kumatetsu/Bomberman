@@ -25,7 +25,7 @@ void update_bomb(t_game_info **game_info, t_response_pool *response_pool)
     {
         if ((*game_info)->map_destroyable[i].exist && (*game_info)->map_destroyable[i].bomb)
             continue;
-        (*game_info)->map_destroyable[i] = response_pool->response_bomb.map_destroyable;
+        (*game_info)->map_destroyable[i] = response_pool->response_bomb.bomb;
         return;
     }
 }

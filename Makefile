@@ -42,8 +42,8 @@ SRC 	= 	main.c 					\
 		server/thread.c				\
 		server/map_management.c			\
 		server/moving.c				\
-		server/request_handling.c		\
-                server/player.c				\
+		server/bomb.c		\
+        server/player.c				\
 		server/main_loop.c			\
 		server/collision.c			\
 		server/bomb_management.c		\

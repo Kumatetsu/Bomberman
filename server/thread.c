@@ -61,7 +61,7 @@ void verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
     {
       if (map_destroyable[i].start_explode <= tk)
       {
-        boom(map_destroyable, i);
+        // boom(map_destroyable, i);
       }
     }
     else

@@ -22,7 +22,6 @@
 #include "map.h"
 #include "game_info.h"
 #include "my_put.h"
-#include "request_handling.h"
 #include "main_loop.h"
 #include "response_type_utils.h"
 #include "server_request.h"

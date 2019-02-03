@@ -6,6 +6,7 @@
 #include "server.h"
 #include "server_request.h"
 #include "moving.h"
+#include "bomb.h"
 
 void notify_actual_players(t_srv **server, int id_player)
 {
@@ -110,10 +111,14 @@ void notify_move_right(t_srv **server, int id_player)
 
 void notify_put_bomb(t_srv **server, int id_player)
 {
-    t_response_players players_pool;
+    t_response_bomb players_pool;
+    t_map_destroyable *bomb;
     int i;
     printf("server put_bomb for player: %d\n", id_player);
+    if ((bomb = place_bomb(server, id_player)) == NULL)
+        return;
     players_pool.id = BOMB;
+    players_pool.bomb = (*bomb);
     for (i = 0; i < 4; i++)
     {
         if (-1 == (*server)->players[i].fd)
