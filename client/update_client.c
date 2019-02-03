@@ -1,5 +1,6 @@
 #include "sdl.h"
 #include "enum.h"
+#include "constant.h"
 #include "map.h"
 #include "server.h"
 #include "player_info.h"
@@ -39,4 +40,20 @@ void update_players(t_game_info **game_info, t_response_pool *response_pool)
         (*game_info)->players[i] = response_pool->response_players.players[i];
     }
     printf("client: end update players\n");
+}
+
+void update_explosion(t_game_info **game_info, t_response_pool *response_pool)
+{
+    int i;
+
+    for (i = 0; i < INLINE_MATRIX; i++)
+    {
+        if (response_pool->bomb_explosion.explosion.x == (*game_info)->map_destroyable[i].x &&
+            response_pool->bomb_explosion.explosion.y == (*game_info)->map_destroyable[i].y)
+            (*game_info)->map_destroyable[i] = response_pool->bomb_explosion.explosion;
+    }
+    for (i = 0; i < 4; i++)
+    {
+        (*game_info)->players[i] = response_pool->bomb_explosion.players[i];
+    }
 }

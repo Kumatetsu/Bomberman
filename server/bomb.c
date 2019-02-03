@@ -23,6 +23,8 @@
 #include "collision.h"
 #include "base_map_manager.h"
 #include "bomb.h"
+#include "thread.h"
+#include <pthread.h>
 
 /**
  * @params (*)t_game_info
@@ -34,7 +36,8 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player)
   t_player_info player;
   int index;
   t_map_destroyable *bomb = NULL;
-
+  pthread_t bomb_thread;
+  t_bomb_thread struct_bomb_thread;
   bomb = malloc(sizeof(t_map_destroyable));
 
   if (bomb == NULL) // Si l'allocation a échoué
@@ -107,6 +110,10 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player)
   {
     printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb->x, bomb->y);
     (*srv)->map_destroyable[index] = (*bomb);
+    struct_bomb_thread.srv = srv;
+    struct_bomb_thread.index = index;
+    // if (pthread_create(&bomb_thread, NULL, bomb_thread_func, &struct_bomb_thread) == -1)
+    //   return NULL;
     return bomb;
   }
 }

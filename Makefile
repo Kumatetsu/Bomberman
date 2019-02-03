@@ -11,8 +11,8 @@
 CC 	= gcc
 
 NAME 	= BomberMan
-
-CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
+## -W -Werror -Wextra -Wall
+CFLAGS 	= -g -Iincludes/ -Ilibmy
 
 LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
 

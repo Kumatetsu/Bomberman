@@ -27,6 +27,7 @@
 #include "main_loop.h"
 #include "bomb_management.h"
 #include "thread.h"
+#include "server_request.h"
 // pour sleep
 #include "unistd.h"
 // pour usleep
@@ -78,6 +79,28 @@ void verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
       }
     }
   }
+}
+
+void *bomb_thread_func(void *struct_bomb_thread)
+{
+  t_bomb_thread *bts;
+  t_response_bomb_explosion response;
+  bts = (t_bomb_thread *)struct_bomb_thread;
+  int i = 0;
+
+  usleep(SLEEP * 1000);
+  boom(bts->srv, bts->index);
+  for (i = 0; i < 4; i++)
+  {
+    response.players[i] = (*bts->srv)->players[i];
+  }
+  response.id = EXPLOSION;
+  response.explosion = (*bts->srv)->map_destroyable[bts->index];
+  for (i = 0; i < 4; i++)
+  {
+    write((*bts->srv)->players[i].fd, &response, sizeof(response));
+  }
+  return NULL;
 }
 
 // ticker

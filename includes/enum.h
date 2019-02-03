@@ -81,6 +81,7 @@ enum Response_type
   MOVE_D,
   MOVE_L,
   MOVE_R,
+  EXPLOSION,
   PLAYERS
 };
 

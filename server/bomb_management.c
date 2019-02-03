@@ -55,15 +55,12 @@ int get_target(t_map_destroyable bomb, int direction, int cases)
   return next_index;
 }
 
-void kill_player(int id)
+void kill_player(t_srv **srv, int id)
 {
-  t_game_info *game_info;
-
-  game_info = get_game_info();
-  game_info->players[id].dying = 0;
-  game_info->players[id].alive = 0;
-  game_info->players[id].x = -50;
-  game_info->players[id].bomb_left = -50;
+  (*srv)->players[id].dying = 0;
+  (*srv)->players[id].alive = 0;
+  (*srv)->players[id].x = -50;
+  (*srv)->players[id].bomb_left = -50;
   printf("\nSERVER, bomb_management: player %d killed\n", id);
 }
 
@@ -71,7 +68,7 @@ void kill_player(int id)
 // wall: -1
 // kill: index du joueur
 // nothing: enum texture_type fire
-int check_fire_effect(t_map_destroyable case_in_fire)
+int check_fire_effect(t_srv **srv, t_map_destroyable case_in_fire)
 {
   // on réduit le carré de controle des collisions pour éviter que ca collisionne à tout va
   // on vérifie avec un carré de 16x16 avec 16 de margin
@@ -82,16 +79,16 @@ int check_fire_effect(t_map_destroyable case_in_fire)
   {
     return -1;
   }
-  // if ((player = has_collision_with_player(sdl_target, -1)) >= 0)
-  //   {
+  if ((player = has_collision_with_player(srv, sdl_target, -1)) >= 0)
+  {
 
-  kill_player(player);
-  return player;
-  // }
+    kill_player(srv, player);
+    return player;
+  }
   return fire;
 }
 
-void boom(t_map_destroyable *map_destroyable, int i)
+void boom(t_srv **srv, int index)
 {
   t_map_destroyable boom_origin;
   int target, effect;
@@ -99,7 +96,7 @@ void boom(t_map_destroyable *map_destroyable, int i)
 
   effect = -1;
   target = -1;
-  boom_origin = map_destroyable[i];
+  boom_origin = (*srv)->map_destroyable[index];
   boom_origin.fire[BOMBER_U] = 0;
   boom_origin.fire[BOMBER_D] = 0;
   boom_origin.fire[BOMBER_L] = 0;
@@ -122,20 +119,20 @@ void boom(t_map_destroyable *map_destroyable, int i)
         // que le précédent effect était un wall. Dans ce cas, on ne souhaite pas appellé
         // check_fire_effect (car on ne veut pas tuer un joueur derrière un mur)
         // d'où l'ordre de la condition.
-        map_destroyable[target].x = index_to_x(target);
-        map_destroyable[target].y = index_to_y(target);
-        if (boom_origin.fire[it] == iterator - 1 && (effect = check_fire_effect(map_destroyable[target])) != -1)
+        (*srv)->map_destroyable[target].x = index_to_x(target);
+        (*srv)->map_destroyable[target].y = index_to_y(target);
+        if (boom_origin.fire[it] == iterator - 1 && (effect = check_fire_effect(srv, (*srv)->map_destroyable[target])) != -1)
         {
           boom_origin.fire[it] = iterator;
-          map_destroyable[target].exist = 1;
-          map_destroyable[target].explosion_stage = 5;
-          map_destroyable[target].start_explode = 0;
+          (*srv)->map_destroyable[target].exist = 1;
+          (*srv)->map_destroyable[target].explosion_stage = 5;
+          (*srv)->map_destroyable[target].start_explode = 0;
         }
       }
     }
     boom_origin.bomb = 0;
     boom_origin.start_explode = 0;
     boom_origin.explosion_stage = 5;
-    map_destroyable[i] = boom_origin;
+    (*srv)->map_destroyable[index] = boom_origin;
   }
 }
