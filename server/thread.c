@@ -85,21 +85,32 @@ void *bomb_thread_func(void *struct_bomb_thread)
 {
   t_bomb_thread *bts;
   t_response_bomb_explosion response;
-  bts = (t_bomb_thread *)struct_bomb_thread;
+  bts = (t_bomb_thread *)(struct_bomb_thread);
   int i = 0;
+  int indexes[5];
 
-  usleep(SLEEP * 1000);
-  boom(bts->srv, bts->index);
+  indexes[0] = bts->index;
+  printf("in bomb thread\n");
+  usleep(SLEEP * 10000);
+  printf("in bomb thread ind:%d\n", bts->index);
+  boom(bts->srv, indexes);
   for (i = 0; i < 4; i++)
   {
     response.players[i] = (*bts->srv)->players[i];
   }
   response.id = EXPLOSION;
-  response.explosion = (*bts->srv)->map_destroyable[bts->index];
+  for (i = 0; i < 5; i++)
+  {
+    printf("indexes :%d\n", indexes[i]);
+    printf("explosion? %d\n", (*bts->srv)->map_destroyable[indexes[i]].fire[0]);
+    response.explosion[i] = (*bts->srv)->map_destroyable[indexes[i]];
+  }
   for (i = 0; i < 4; i++)
   {
     write((*bts->srv)->players[i].fd, &response, sizeof(response));
   }
+  usleep(SLEEP * 10000);
+  free(bts);
   return NULL;
 }
 

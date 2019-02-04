@@ -70,6 +70,7 @@ void kill_player(t_srv **srv, int id)
 // nothing: enum texture_type fire
 int check_fire_effect(t_srv **srv, t_map_destroyable case_in_fire)
 {
+  printf("in check fire effect\n");
   // on réduit le carré de controle des collisions pour éviter que ca collisionne à tout va
   // on vérifie avec un carré de 16x16 avec 16 de margin
   const SDL_Rect sdl_target = init_rect(case_in_fire.x + 16, case_in_fire.y + 16, 16, 16);
@@ -81,22 +82,25 @@ int check_fire_effect(t_srv **srv, t_map_destroyable case_in_fire)
   }
   if ((player = has_collision_with_player(srv, sdl_target, -1)) >= 0)
   {
-
+    printf("server: kill player %d", player);
     kill_player(srv, player);
     return player;
   }
   return fire;
 }
 
-void boom(t_srv **srv, int index)
+void boom(t_srv **srv, int indexes[5])
 {
+  printf("in boom\n");
   t_map_destroyable boom_origin;
   int target, effect;
   int iterator, it;
 
   effect = -1;
   target = -1;
-  boom_origin = (*srv)->map_destroyable[index];
+  printf("before assign fire index:%d\n", indexes[0]);
+  boom_origin = (*srv)->map_destroyable[indexes[0]];
+  printf("after dfine boom_origin\n");
   boom_origin.fire[BOMBER_U] = 0;
   boom_origin.fire[BOMBER_D] = 0;
   boom_origin.fire[BOMBER_L] = 0;
@@ -109,8 +113,10 @@ void boom(t_srv **srv, int index)
     for (it = 0; it < 4; it++)
     {
       target = get_target(boom_origin, it, iterator);
+      indexes[it + 1] = -1;
       if (target != OUTOFMAP)
       {
+        indexes[it + 1] = target;
         // it = direction
         // iterator = cases souhaitées depuis le point d'origine
         // si le précédent tour pour cette direction à validé la présence
@@ -121,6 +127,7 @@ void boom(t_srv **srv, int index)
         // d'où l'ordre de la condition.
         (*srv)->map_destroyable[target].x = index_to_x(target);
         (*srv)->map_destroyable[target].y = index_to_y(target);
+        printf("before check_fire_effects\n");
         if (boom_origin.fire[it] == iterator - 1 && (effect = check_fire_effect(srv, (*srv)->map_destroyable[target])) != -1)
         {
           boom_origin.fire[it] = iterator;
@@ -133,6 +140,6 @@ void boom(t_srv **srv, int index)
     boom_origin.bomb = 0;
     boom_origin.start_explode = 0;
     boom_origin.explosion_stage = 5;
-    (*srv)->map_destroyable[index] = boom_origin;
+    (*srv)->map_destroyable[indexes[0]] = boom_origin;
   }
 }

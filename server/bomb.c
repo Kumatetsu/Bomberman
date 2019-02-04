@@ -37,7 +37,7 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player)
   int index;
   t_map_destroyable *bomb = NULL;
   pthread_t bomb_thread;
-  t_bomb_thread struct_bomb_thread;
+  t_bomb_thread *struct_bomb_thread;
   bomb = malloc(sizeof(t_map_destroyable));
 
   if (bomb == NULL) // Si l'allocation a échoué
@@ -45,17 +45,17 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player)
 
   printf("\nPLACING BOMB\n");
   player = (*srv)->players[id_player];
-  printf("segfault?\n");
+
   if (player.connected == 0)
     return (0);
-  printf("segfault?\n");
+
   bomb->exist = 1;
-  printf("segfault?\n");
+
   player.bomb_left--;
   bomb->bomb = 1;
-  printf("segfault?\n");
+
   bomb->bomb_owner = id_player;
-  printf("segfault?\n");
+
   // cohabitation principe de cases et principe pixels
   index = coord_to_index(player.x + 10, player.y + 40);
   switch (player.direction_sprite)
@@ -110,10 +110,13 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player)
   {
     printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb->x, bomb->y);
     (*srv)->map_destroyable[index] = (*bomb);
-    struct_bomb_thread.srv = srv;
-    struct_bomb_thread.index = index;
-    // if (pthread_create(&bomb_thread, NULL, bomb_thread_func, &struct_bomb_thread) == -1)
-    //   return NULL;
+    if ((struct_bomb_thread = malloc(sizeof(t_bomb_thread))) == NULL)
+      return NULL;
+    struct_bomb_thread->srv = srv;
+    struct_bomb_thread->index = index;
+    printf("index before thread: %d", struct_bomb_thread->index);
+    if (pthread_create(&bomb_thread, NULL, bomb_thread_func, struct_bomb_thread) == -1)
+      return NULL;
     return bomb;
   }
 }

@@ -32,7 +32,8 @@ typedef struct s_response_bomb_explosion
 {
     enum Response_type id;
     t_player_info players[4];
-    t_map_destroyable explosion;
+    int index[5];
+    t_map_destroyable explosion[5];
 } t_response_bomb_explosion;
 
 typedef union u_response_pool {

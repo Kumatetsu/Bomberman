@@ -46,11 +46,10 @@ void update_explosion(t_game_info **game_info, t_response_pool *response_pool)
 {
     int i;
 
-    for (i = 0; i < INLINE_MATRIX; i++)
+    for (i = 0; i < 5; i++)
     {
-        if (response_pool->bomb_explosion.explosion.x == (*game_info)->map_destroyable[i].x &&
-            response_pool->bomb_explosion.explosion.y == (*game_info)->map_destroyable[i].y)
-            (*game_info)->map_destroyable[i] = response_pool->bomb_explosion.explosion;
+        (*game_info)->map_destroyable[response_pool->bomb_explosion.index[i]] = response_pool->bomb_explosion.explosion[i];
+        printf("CLIENT RECEIVE explosion: status: %d\n", response_pool->bomb_explosion.explosion[i].explosion_stage);
     }
     for (i = 0; i < 4; i++)
     {
