@@ -37,7 +37,10 @@ int has_collision_with_destructible(t_srv **srv, const SDL_Rect zone)
       continue;
     const SDL_Rect element = {(*srv)->map_destroyable[i].x, (*srv)->map_destroyable[i].y, PIXEL_SIZE, PIXEL_SIZE};
     if (SDL_HasIntersection(&zone, &element))
+    {
+      printf("COLLISION WITH: index:%d exist:%d", i, (*srv)->map_destroyable[i].exist);
       return 1;
+    }
   }
   return 0;
 }

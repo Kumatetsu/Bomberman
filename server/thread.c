@@ -87,30 +87,43 @@ void *bomb_thread_func(void *struct_bomb_thread)
   t_response_bomb_explosion response;
   bts = (t_bomb_thread *)(struct_bomb_thread);
   int i = 0;
-  int indexes[5];
+  int k = 0;
+  int indexes[13];
+  t_srv **srv;
 
+  srv = bts->srv;
+  printf("server index 0 %d", bts->index);
   indexes[0] = bts->index;
-  printf("in bomb thread\n");
   usleep(SLEEP * 10000);
-  printf("in bomb thread ind:%d\n", bts->index);
-  boom(bts->srv, indexes);
+  boom(srv, indexes);
   for (i = 0; i < 4; i++)
   {
-    response.players[i] = (*bts->srv)->players[i];
+    response.players[i] = (*srv)->players[i];
   }
   response.id = EXPLOSION;
-  for (i = 0; i < 5; i++)
+  for (i = 0; i < 13; i++)
   {
-    printf("indexes :%d\n", indexes[i]);
-    printf("explosion? %d\n", (*bts->srv)->map_destroyable[indexes[i]].fire[0]);
-    response.explosion[i] = (*bts->srv)->map_destroyable[indexes[i]];
+    response.index[i] = indexes[i];
+    response.explosion[i] = (*srv)->map_destroyable[indexes[i]];
   }
   for (i = 0; i < 4; i++)
   {
-    write((*bts->srv)->players[i].fd, &response, sizeof(response));
+    write((*srv)->players[i].fd, &response, sizeof(response));
   }
   usleep(SLEEP * 10000);
-  free(bts);
+  for (k = 0; k < 13; k++)
+  {
+    printf("server indexe before send %d\n", indexes[k]);
+    (*srv)->map_destroyable[indexes[k]].exist = 0;
+    (*srv)->map_destroyable[indexes[k]].bomb = 0;
+    (*srv)->map_destroyable[indexes[k]].explosion_stage = 0;
+    response.explosion[k] = (*srv)->map_destroyable[indexes[k]];
+  }
+  for (i = 0; i < 4; i++)
+  {
+    write((*srv)->players[i].fd, &response, sizeof(response));
+  }
+  free(struct_bomb_thread);
   return NULL;
 }
 

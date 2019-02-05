@@ -31,7 +31,7 @@
  * @params (*)t_player_request
  * @return 1 -> success 0 -> fail
 **/
-t_map_destroyable *place_bomb(t_srv **srv, int id_player)
+t_map_destroyable *place_bomb(t_srv **srv, int id_player, int linked_index[1])
 {
   t_player_info player;
   int index;
@@ -114,6 +114,7 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player)
       return NULL;
     struct_bomb_thread->srv = srv;
     struct_bomb_thread->index = index;
+    linked_index[0] = index;
     printf("index before thread: %d", struct_bomb_thread->index);
     if (pthread_create(&bomb_thread, NULL, bomb_thread_func, struct_bomb_thread) == -1)
       return NULL;

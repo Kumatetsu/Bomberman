@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "enum.h"
+#include "constant.h"
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"
@@ -49,6 +50,17 @@ void *init_server()
     return (NULL);
   set_game_info(game_info);
 
+  for (i = 0; i < INLINE_MATRIX; ++i)
+  {
+    srv->map_destroyable[i].y = 0;
+    srv->map_destroyable[i].x = 0;
+    srv->map_destroyable[i].bomb = 0;
+    srv->map_destroyable[i].bomb_owner = -1;
+    srv->map_destroyable[i].dying = 0;
+    srv->map_destroyable[i].start_explode = 0;
+    srv->map_destroyable[i].wall_destroyable = 0;
+    srv->map_destroyable[i].exist = 0;
+  }
   init_wall_rect();
   // on set tout les player a 'non connecté'
   for (i = 0; i < 4; i++)

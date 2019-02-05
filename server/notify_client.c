@@ -113,12 +113,14 @@ void notify_put_bomb(t_srv **server, int id_player)
 {
     t_response_bomb players_pool;
     t_map_destroyable *bomb;
+    int index[1];
     int i;
     printf("server put_bomb for player: %d\n", id_player);
-    if ((bomb = place_bomb(server, id_player)) == NULL)
+    if ((bomb = place_bomb(server, id_player, index)) == NULL)
         return;
     players_pool.id = BOMB;
     players_pool.bomb = (*bomb);
+    players_pool.index = index[0];
     for (i = 0; i < 4; i++)
     {
         if (-1 == (*server)->players[i].fd)

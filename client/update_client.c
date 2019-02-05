@@ -21,14 +21,8 @@ void update_pos(t_game_info **game_info, t_response_pool *response_pool)
 
 void update_bomb(t_game_info **game_info, t_response_pool *response_pool)
 {
-    int i;
-    for (i = 0; i < 195; i++)
-    {
-        if ((*game_info)->map_destroyable[i].exist && (*game_info)->map_destroyable[i].bomb)
-            continue;
-        (*game_info)->map_destroyable[i] = response_pool->response_bomb.bomb;
-        return;
-    }
+    (*game_info)->map_destroyable[response_pool->response_bomb.index] = response_pool->response_bomb.bomb;
+    return;
 }
 
 void update_players(t_game_info **game_info, t_response_pool *response_pool)
@@ -46,10 +40,16 @@ void update_explosion(t_game_info **game_info, t_response_pool *response_pool)
 {
     int i;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 13; i++)
     {
+        printf("client receive index %d\n", response_pool->bomb_explosion.index[i]);
         (*game_info)->map_destroyable[response_pool->bomb_explosion.index[i]] = response_pool->bomb_explosion.explosion[i];
-        printf("CLIENT RECEIVE explosion: status: %d\n", response_pool->bomb_explosion.explosion[i].explosion_stage);
+    }
+
+    for (i = 0; i < INLINE_MATRIX; i++)
+    {
+        if ((*game_info)->map_destroyable[i].exist == 1)
+            printf("exist in all? %d index %d\n", (*game_info)->map_destroyable[i].exist, i);
     }
     for (i = 0; i < 4; i++)
     {

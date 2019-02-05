@@ -50,6 +50,18 @@ void *listen_server(void *s)
     return NULL;
   }
 
+  for (i = 0; i < INLINE_MATRIX; i++)
+  {
+    client_game_info->map_destroyable[i].y = 0;
+    client_game_info->map_destroyable[i].x = 0;
+    client_game_info->map_destroyable[i].bomb = 0;
+    client_game_info->map_destroyable[i].bomb_owner = -1;
+    client_game_info->map_destroyable[i].dying = 0;
+    client_game_info->map_destroyable[i].start_explode = 0;
+    client_game_info->map_destroyable[i].wall_destroyable = 0;
+    client_game_info->map_destroyable[i].exist = 0;
+  }
+
   // construit le model fixe et render copy une premiere fois
   if (!draw_fixed_map(data))
   {
@@ -73,7 +85,9 @@ void *listen_server(void *s)
       if (client_game_info->game_status == ENDGAME)
         quit = 1;
       for (i = 0; i < INLINE_MATRIX; i++)
+      {
         data->map_destroyable[i] = client_game_info->map_destroyable[i];
+      }
       SDL_RenderClear(data->renderer);
       // rappelle render_copy sur le model
       rebuild_map(data);
