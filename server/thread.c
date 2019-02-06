@@ -41,9 +41,9 @@ void            my_windows_sleep(int milli)
 	nano = milli * 1000;
 	windowsNanoSleep(nano);
 }
-#endif
 
-#ifdef linux
+#else
+
 void			my_sleep(int sec, int milli)
 {
   int nano;
@@ -179,11 +179,11 @@ void *threaded_ticker(void *server)
 	  for (j = 0; j < INLINE_MATRIX; j++)
 	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
 		   sizeof(t_map_destroyable));
-#ifdef _WIN32
-	  send(socket, (void*)&dumb_static, sizeof(dumb_static), 0);
-#else
-	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
-#endif
+    #ifdef _WIN32
+        send(socket, (void*)&dumb_static, sizeof(dumb_static), 0);
+    #else
+        write(socket, &dumb_static, sizeof(t_game_info) + 1);
+    #endif
 	  }
       ++(*tk);
       game_info->tick_time = (*tk);
