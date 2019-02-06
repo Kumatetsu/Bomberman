@@ -22,11 +22,13 @@
 
 int main (int argc, char *argv[])
 {
+	//made on purpose for windows errors on compilation
 	argc = argc;
 	argv = argv;
-	int retWSADATA;
 #ifdef _WIN32
+	int retWSADATA;
 	WSADATA WSAData;
+
 	if ((retWSADATA = WSAStartup(MAKEWORD(2, 2), &WSAData)) != 0) {
 		printf("main.c : WSAStartup() failed with error %d\n", retWSADATA);
 	//	WSACleanup();
