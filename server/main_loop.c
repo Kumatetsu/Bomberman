@@ -191,7 +191,7 @@ int main_loop(t_srv **srv)
 #ifdef _WIN32
 	      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
 #else
-		  retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, (char*)error, &len);
+	      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
 #endif
 		  // Si erreur on déco le player, ca évite de réitérer dessus
 	      if (retval != 0 || error != 0) {
