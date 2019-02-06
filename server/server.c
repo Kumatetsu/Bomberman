@@ -8,9 +8,7 @@
 ** Last update Wed Jul  4 09:28:54 2018 MASERA Mathieu
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+#include "system.h"
 #include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
@@ -70,6 +68,7 @@ void		*init_server()
   pthread_join(main_thread, NULL);
   return (NULL);
 }
+
 
 int			create_server_socket()
 {
