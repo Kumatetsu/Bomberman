@@ -8,15 +8,7 @@
 ** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
 */
 
-#ifdef _WIN32
-#if !defined(HAVE_STRUCT_TIMESPEC)
-#define HAVE_STRUCT_TIMESPEC
-#endif
-#include "windows_nanosleep.h"
-#endif
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "system.h"
 #include "constant.h"
 #include "my_put.h"
 #include "sdl.h"
@@ -36,8 +28,6 @@
 #include "unistd.h"
 // pour usleep
 // for dev
-
-#include <pthread.h>
 #include "coord_index_swapper.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
@@ -48,7 +38,7 @@ void            my_windows_sleep(int milli)
 {
 	int			nano;
 
-	nano = milli * 1000000;
+	nano = milli * 1000;
 	windowsNanoSleep(nano);
 }
 #endif
@@ -189,8 +179,12 @@ void *threaded_ticker(void *server)
 	  for (j = 0; j < INLINE_MATRIX; j++)
 	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
 		   sizeof(t_map_destroyable));
+#ifdef _WIN32
+	  send(socket, (void*)&dumb_static, sizeof(dumb_static), 0);
+#else
 	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
-	}
+#endif
+	  }
       ++(*tk);
       game_info->tick_time = (*tk);
     }
