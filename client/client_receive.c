@@ -119,6 +119,9 @@ int		get_message(int s, t_game_info *client_game_info)
   int		r;
   char		buff[sizeof(t_game_info) + 1];
 
+#ifdef _WIN32
+  r = recv(s, buff, sizeof(buff) + 1, 0);
+#endif
   r = recv(s, buff, sizeof(t_game_info) + 1, 0);
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester

@@ -8,7 +8,6 @@
 ** Last update Wed Jul  4 09:37:33 2018 MASERA Mathieu
 */
 
-#include <stdio.h>
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -23,11 +22,7 @@
 #include "my_put.h"
 #include "request_handling.h"
 #include "main_loop.h"
-#ifdef _WIN32
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#endif
-#include <time.h>
+#include "system.h"
 
 void		restart_game(t_srv **srv)
 {
@@ -150,7 +145,7 @@ int			main_loop(t_srv **srv)
 		  char buffer[sizeof(t_game_info)];
 		  printf("\nHandling request for player %d\n", i);
 		  // On extrait le contenu
-		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0)) > 0)
+		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(buffer), 0)) > 0)
 		    {
 		      // on désérialize
 		      player_request = request_deserialize(buffer);

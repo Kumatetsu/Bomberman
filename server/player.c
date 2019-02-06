@@ -8,23 +8,8 @@
 ** Last update Wed Jul  4 09:39:01 2018 MASERA Mathieu
 */
 
-#ifdef _WIN32
-#if !defined(HAVE_STRUCT_TIMESPEC)
-#define HAVE_STRUCT_TIMESPEC
-#endif
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#endif
-#ifdef linux
-typedef int SOCKET;
-typedef struct sockaddr_in client_sin;
-typedef struct sockaddr SOCKADDR;
-typedef struct in_addr IN_ADDR;
-typedef struct socklen_t client_sin_len;
-#endif
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+
+#include "system.h"
 #include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
@@ -41,7 +26,9 @@ typedef struct socklen_t client_sin_len;
 void		reset_players(t_srv **srv)
 {
 	t_player_info	p;
-	for (int i = 0; i < 4; i++)
+	int i;
+
+	for (i = 0; i < 4; i++)
 	{
 		if ((*srv)->players[i].connected)
 		{

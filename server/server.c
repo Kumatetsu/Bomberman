@@ -34,7 +34,7 @@ void		*init_server()
 
     tick = 0;
   // initialisation de la structure server et de la socket du server
-  if ((srv = malloc(sizeof(*srv))) == NULL) {
+  if ((srv = (t_srv*)malloc(sizeof(t_srv))) == NULL) {
 	  printf("error allocation memory serveur");
 	  return (NULL);
   }

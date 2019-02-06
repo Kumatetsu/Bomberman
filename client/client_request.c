@@ -12,6 +12,7 @@
 #include "enum.h"
 #include "client_request.h"
 #include "client.h"
+#include "system.h"
 
 void	my_bzero(void *s1, int n)
 {
@@ -30,7 +31,7 @@ t_player_request*       create_player_request()
   t_player_request*	client_request;
   unsigned int		magic;
 
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
   magic = (rand() % INT_MAX);
   client_request = calloc(1, sizeof(t_player_request));
   if (client_request == NULL)
@@ -55,7 +56,11 @@ int			send_request(int s, t_player_request* client_request)
   memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
   memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));
   memcpy(&dumb_static.command, &client_request->command, sizeof(int));
+#ifdef _WIN32
+  send(s, (void*)&dumb_static, sizeof(dumb_static), 0);
+#else
   write(s, &dumb_static, sizeof(t_player_request));
+#endif
   return SUCCESS_SEND;
 }
 
