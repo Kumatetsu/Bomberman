@@ -87,7 +87,7 @@ int main_loop(t_srv **srv)
         }
     }
 
-    if (is_enought_players(srv) && (*srv)->game_status != 1)
+    if (is_enought_players(srv) && (*srv)->game_status != RUNNING)
     {
         // server.h
         // set le game_status à 1
@@ -95,7 +95,7 @@ int main_loop(t_srv **srv)
         // passe le connected à 1 pour tous
         // définis le placement
         printf("\nStart Game\n");
-        (*srv)->game_status = 1;
+        (*srv)->game_status = RUNNING;
         // start_game(srv);
         //
     }
@@ -126,8 +126,8 @@ int main_loop(t_srv **srv)
                 // On extrait le contenu
                 if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
                 {
-                    // if ((*srv)->game_status != RUNNING)
-                    //     continue;
+                    if ((*srv)->game_status != RUNNING)
+                        continue;
 
                     player_request.command = ntohl(buffer);
                     player_request.num_player = i;
@@ -149,16 +149,24 @@ int main_loop(t_srv **srv)
                 printf("client send request\n");
             }
         }
-        if ((*srv)->players[i].alive)
+        if ((*srv)->players[i].alive && (*srv)->players[i].connected)
+        {
             survivors++;
+            printf("player alive: %d\n", i);
+        }
     }
+    printf("game status: %d\n survivors:%d\n", (*srv)->game_status, survivors);
     if ((*srv)->game_status == RUNNING && survivors <= 1)
     {
-
+        printf("endgame");
         (*srv)->game_status = ENDGAME;
         (*srv)->running = ENDGAME;
-        printf("\nENDGAME\n");
-        restart_game(srv);
+        reset_players(srv);
+        (*srv)->game_status = RUNNING;
+        (*srv)->running = RUNNING;
+        for (i = 0; i < 4; i++)
+            printf("player info: id:%d, alive:%d, dying:%d\n", i, (*srv)->players[i].alive, (*srv)->players[i].dying);
+        notify_actual_players(srv, 0);
     }
     return (1);
 }

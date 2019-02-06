@@ -87,8 +87,9 @@ enum Response_type
 
 typedef enum Server_status
 {
-  RUNNING,
-  WAITING
+  WAITING,
+  RUNNING
+
 } t_server_status;
 
 #endif /* !_ENUM_H_ */

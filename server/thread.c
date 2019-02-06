@@ -113,7 +113,6 @@ void *bomb_thread_func(void *struct_bomb_thread)
   usleep(SLEEP * 10000);
   for (k = 0; k < 13; k++)
   {
-    printf("server indexe before send %d\n", indexes[k]);
     (*srv)->map_destroyable[indexes[k]].exist = 0;
     (*srv)->map_destroyable[indexes[k]].bomb = 0;
     (*srv)->map_destroyable[indexes[k]].explosion_stage = 0;
