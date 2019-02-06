@@ -110,7 +110,9 @@ int accept_players(t_srv **srv)
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
   printf("\naccept_player, player_socket: %d\n", player_socket);
   if (player_socket == -1) {
+#ifdef _WIN32
 	  printf("accept player_socket failed with error %d\n", WSAGetLastError());
+#endif
 	  return (-1);
   }
   if (!add_player(srv, player_socket))
