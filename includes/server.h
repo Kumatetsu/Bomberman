@@ -14,9 +14,7 @@
 // exceptional include
 #ifdef _WIN32
 #include <winsock2.h>
-#endif
-
-#ifdef linux
+#else 
 #include <sys/select.h>
 #endif
 

@@ -37,9 +37,9 @@ void            my_windows_sleep(int milli)
 	nano = milli * 1000;
 	windowsNanoSleep(nano);
 }
-#endif
 
-#ifdef linux
+#else
+
 void			my_sleep(int sec, int milli)
 {
   int			nano;
@@ -103,8 +103,7 @@ void		*threaded_ticker(void *server)
       printf("\nTick: %d", (*tk));
 #ifdef _WIN32
 	  my_windows_sleep(SLEEP);
-#endif
-#ifdef linux
+#else
 	  my_sleep(0, SLEEP);
 #endif
       for (i = 0; i < (*srv)->n_players; i++)

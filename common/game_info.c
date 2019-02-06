@@ -67,10 +67,6 @@ void                    create_game_info()
     }
 }
 
-unsigned long random() {
-	return 0;
-}
-
 long random_at_most(long max)
 {
   unsigned long num_bins = (unsigned long) max + 1;
@@ -79,7 +75,11 @@ long random_at_most(long max)
   unsigned long defect = num_rand % num_bins;
   long x;
   do {
+#ifdef _WIN32
+	  x = rand();
+#else
     x = random();
+#endif
   } while (num_rand - defect <= (unsigned long) x);
   return x / bin_size;
 }
