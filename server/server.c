@@ -34,10 +34,17 @@ void		*init_server()
 
   tick = 0;
   // initialisation de la structure server et de la socket du server
+
+#ifdef _WIN32
   if ((srv = (t_srv*)malloc(sizeof(t_srv))) == NULL) {
     printf("error allocation memory serveur");
     return (NULL);
   }
+#else
+  if ((srv = malloc(sizeof (*srv))) == NULL)
+    return (NULL);
+#endif
+
   if ((s = create_server_socket()) == -1) {
     printf("error create server socket");
     return (NULL);
@@ -83,9 +90,9 @@ void		*init_server()
 
 int			create_server_socket()
 {
-  int					s;
+  int			s;
   struct sockaddr_in	sin;
-  int					port;
+  int			port;
 
   memset(&sin, 0, sizeof (struct sockaddr_in));
   if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
@@ -111,8 +118,6 @@ int			create_server_socket()
 // retourne 1 si il y a plus de 4 joueurs
 int     server_is_full(t_srv **srv)
 {
-  //DEV PURPOSE:
-  fflush(stdout);
   if ((*srv)->n_players >= 4)
     return 1;
   return 0;

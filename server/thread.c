@@ -19,7 +19,7 @@
 #include "data.h"
 #include "server.h"
 #include "game_info.h"
-#include "game_info_serialization.h"	
+#include "game_info_serialization.h"
 #include "main_loop.h"
 #include "bomb_management.h"
 #include "thread.h"
@@ -32,10 +32,10 @@ static t_game_info dumb_static;
 #ifdef _WIN32
 void            my_windows_sleep(int milli)
 {
-	int			nano;
+  int			nano;
 
-	nano = milli * 1000;
-	windowsNanoSleep(nano);
+  nano = milli * 1000;
+  windowsNanoSleep(nano);
 }
 
 #else
@@ -87,12 +87,12 @@ void    verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 // ticker
 void		*threaded_ticker(void *server)
 {
-  int				i;
-  int				j;
-  int				*tk;
-  int				socket;
-  t_srv				**srv;
-  t_game_info		*game_info;
+  int		i;
+  int		j;
+  int		*tk;
+  int		socket;
+  t_srv		**srv;
+  t_game_info	*game_info;
 
   srv = (t_srv**)server;
   tk = (*srv)->tick;
@@ -102,9 +102,9 @@ void		*threaded_ticker(void *server)
     {
       printf("\nTick: %d", (*tk));
 #ifdef _WIN32
-	  my_windows_sleep(SLEEP);
+      my_windows_sleep(SLEEP);
 #else
-	  my_sleep(0, SLEEP);
+      my_sleep(0, SLEEP);
 #endif
       for (i = 0; i < (*srv)->n_players; i++)
 	{
@@ -126,7 +126,7 @@ void		*threaded_ticker(void *server)
 #else
 	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
 #endif
-	  }
+	}
       ++(*tk);
       game_info->tick_time = (*tk);
     }

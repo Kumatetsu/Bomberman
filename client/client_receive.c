@@ -11,7 +11,7 @@
 #ifdef _WIN32
 #define HAVE_STRUCT_TIMESPEC
 #endif
-#include <pthread.h>
+#include "system.h"
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -61,17 +61,17 @@ void            *listen_server(void *s)
     {
       FD_ZERO(&fd_read);
 #ifdef _WIN32
-      FD_SET((unsigned int)struct_thread->socket, &fd_read);
+      FD_SET(struct_thread->socket, &fd_read);
 #else
-	  FD_SET(struct_thread->socket, &fd_read);
+      FD_SET(struct_thread->socket, &fd_read);
 #endif
 
-	  printf("\nbefore select\n");
-	  if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	  {
-		  printf("error select listen server");
-		  quit = 1;
-	  }
+      printf("\nbefore select\n");
+      if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+	{
+	  printf("error select listen server");
+	  quit = 1;
+	}
       if (FD_ISSET(struct_thread->socket, &fd_read))
         {
 	  if (!get_message(struct_thread->socket, client_game_info))
@@ -121,19 +121,20 @@ int		get_message(int s, t_game_info *client_game_info)
 
 #ifdef _WIN32
   r = recv(s, buff, sizeof(buff) + 1, 0);
-#endif
+#else
   r = recv(s, buff, sizeof(t_game_info) + 1, 0);
+#endif
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
   // quelques bytes qui seront traités et provoqueront une erreur
   // ici, un système permettant de checké l'intégrité de la
   // game_info serait le bienvenu, c'était la cause du bug de sérialisation
   if (r > 3000)
-  {
-    *client_game_info = (*(t_game_info*)buff);
-    printf("tick_time %d received %d bytes\n", client_game_info->tick_time, r);
-    return (1);
-  }
+    {
+      *client_game_info = (*(t_game_info*)buff);
+      printf("tick_time %d received %d bytes\n", client_game_info->tick_time, r);
+      return (1);
+    }
   else
     return (0);
 }

@@ -76,7 +76,7 @@ long random_at_most(long max)
   long x;
   do {
 #ifdef _WIN32
-	  x = rand();
+    x = rand();
 #else
     x = random();
 #endif

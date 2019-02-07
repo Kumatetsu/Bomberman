@@ -53,7 +53,7 @@ char		*serialize_game_info()
 void		deserialize_game_info(char *serialized_game_info)
 {
   t_game_info	*game_info;
-  int i = 0;
+  int		i = 0;
 
   game_info = malloc(sizeof(t_game_info));
   memcpy(&game_info->checksum, serialized_game_info, sizeof(int));
