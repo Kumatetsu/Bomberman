@@ -34,10 +34,8 @@ void move_player(
 
   new_x = 0;
   new_y = 0;
-  printf("server: in move_player before check connected for: %d\n", num_player);
   if ((*srv)->players[num_player].connected == 0)
     return;
-  printf("server: init_client_pos: x:%d y:%d\n", (*srv)->players[num_player].x, (*srv)->players[num_player].y);
   switch (command)
   {
   case MOVE_UP:

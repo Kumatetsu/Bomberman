@@ -8,6 +8,7 @@ static const t_client_interpretor client_commands[] =
         {MOVE_R, &update_pos},
         {MOVE_D, &update_pos},
         {BOMB, &update_bomb},
+        {ENDEXPLOSION, &update_explosion},
         {PLAYERS, &update_players},
         {EXPLOSION, &update_explosion}};
 

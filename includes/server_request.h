@@ -37,6 +37,13 @@ typedef struct s_response_bomb_explosion
     t_map_destroyable explosion[13];
 } t_response_bomb_explosion;
 
+typedef struct s_response_end_explosion
+{
+    enum Response_type id;
+    int index[13];
+    t_map_destroyable explosion[13];
+} t_response_end_explosion;
+
 typedef union u_response_pool {
     enum Response_type id;
 
@@ -44,5 +51,6 @@ typedef union u_response_pool {
     t_response_up_pos response_up_pos;
     t_response_bomb response_bomb;
     t_response_bomb_explosion bomb_explosion;
+    t_response_end_explosion end_explosion;
 } t_response_pool;
 #endif

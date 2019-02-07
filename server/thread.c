@@ -85,6 +85,7 @@ void *bomb_thread_func(void *struct_bomb_thread)
 {
   t_bomb_thread *bts;
   t_response_bomb_explosion response;
+  t_response_end_explosion reset_explosion;
   bts = (t_bomb_thread *)(struct_bomb_thread);
   int i = 0;
   int k = 0;
@@ -111,16 +112,18 @@ void *bomb_thread_func(void *struct_bomb_thread)
     write((*srv)->players[i].fd, &response, sizeof(response));
   }
   usleep(SLEEP * 10000);
+  reset_explosion.id = ENDEXPLOSION;
   for (k = 0; k < 13; k++)
   {
     (*srv)->map_destroyable[indexes[k]].exist = 0;
     (*srv)->map_destroyable[indexes[k]].bomb = 0;
     (*srv)->map_destroyable[indexes[k]].explosion_stage = 0;
-    response.explosion[k] = (*srv)->map_destroyable[indexes[k]];
+    reset_explosion.explosion[k] = (*srv)->map_destroyable[indexes[k]];
+    reset_explosion.index[k] = indexes[k];
   }
   for (i = 0; i < 4; i++)
   {
-    write((*srv)->players[i].fd, &response, sizeof(response));
+    write((*srv)->players[i].fd, &reset_explosion, sizeof(response));
   }
   free(struct_bomb_thread);
   return NULL;
@@ -171,13 +174,14 @@ void *threaded_ticker(void *server)
 void *threaded_main_loop(void *server)
 {
   t_srv **srv;
-  int check;
+  int check = 1;
 
   srv = (t_srv **)server;
-  while (1)
+  while (check)
   {
     // retourne 0 si erreur sur select ou accept_player
     // retourne 1 si la boucle va au bout, traitement ou non
     check = main_loop(srv);
   }
+  return NULL;
 }

@@ -53,7 +53,6 @@ int main_loop(t_srv **srv)
     t_player_request player_request = {0};
     int survivors;
 
-    printf("\nMAIN_LOOP\n");
     i = 0;
     // On initialise direct la game_info
     // on utilise ensuite is_running() pour savoir si ca tourne
@@ -71,8 +70,8 @@ int main_loop(t_srv **srv)
         }
     }
 
-    it_value.tv_sec = 6;
-    it_value.tv_usec = 0;
+    it_value.tv_sec = 0;
+    it_value.tv_usec = 10000;
     if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, &it_value) == -1)
         return (0);
 
@@ -152,21 +151,17 @@ int main_loop(t_srv **srv)
         if ((*srv)->players[i].alive && (*srv)->players[i].connected)
         {
             survivors++;
-            printf("player alive: %d\n", i);
         }
     }
-    printf("game status: %d\n survivors:%d\n", (*srv)->game_status, survivors);
     if ((*srv)->game_status == RUNNING && survivors <= 1)
     {
-        printf("endgame");
         (*srv)->game_status = ENDGAME;
         (*srv)->running = ENDGAME;
         reset_players(srv);
         (*srv)->game_status = RUNNING;
         (*srv)->running = RUNNING;
         for (i = 0; i < 4; i++)
-            printf("player info: id:%d, alive:%d, dying:%d\n", i, (*srv)->players[i].alive, (*srv)->players[i].dying);
-        notify_actual_players(srv, 0);
+            notify_actual_players(srv, 0);
     }
     return (1);
 }
