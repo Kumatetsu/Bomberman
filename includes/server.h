@@ -27,7 +27,7 @@
 #define PORT 4022
 #ifdef _WIN32
 #include <winsock2.h>
-#else 
+#else
 #include <sys/select.h>
 #endif
 

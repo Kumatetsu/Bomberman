@@ -9,7 +9,6 @@
 */
 
 #include <stdio.h>
-#include <sys/time.h>
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -31,7 +30,10 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #endif
+// ??
 #include <time.h>
+#include <sys/time.h>
+//
 #include "system.h"
 
 void restart_game(t_srv **srv)
@@ -92,7 +94,11 @@ int main_loop(t_srv **srv)
     if (!server_is_full(srv))
     {
         // ici on accepte les connections clientes
-        if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read))
+    #ifdef _WIN32
+        if (FD_ISSET((*srv)->fd, &(*srv)->fd_read) != 0)
+    #else
+        if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read) != 0)
+    #endif
         {
             // player.h
             if ((i = accept_players(srv)) == -1)
@@ -197,13 +203,18 @@ int main_loop(t_srv **srv)
 		continue;
 	      }
 	      // Si la socket du player est set on traite...
-	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read) != 0)
 		{
 		  int n = 0;
 		  char buffer[sizeof(t_game_info)];
 		  printf("\nHandling request for player %d\n", i);
 		  // On extrait le contenu
-		  if((n = recv((*srv)->players[i].fd, buffer, sizeof(buffer), 0)) > 0)
+#ifdef _WIN32
+		  n = recv((*srv)->players[i].fd, buffer, sizeof(buffer), 0);
+#else
+		  n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0);
+#endif
+		  if(n > 0)
 		    {
 		      // on désérialize
 		      player_request = request_deserialize(buffer);

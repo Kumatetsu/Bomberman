@@ -20,7 +20,6 @@
 #endif
 #include <pthread.h>
 
-
 /**
  * Init le menu permettant de choisir de se connecter à un server
  * ou de créer un server

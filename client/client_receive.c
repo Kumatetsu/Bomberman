@@ -11,7 +11,7 @@
 #ifdef _WIN32
 #define HAVE_STRUCT_TIMESPEC
 #endif
-#include <pthread.h>
+#include "system.h"
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"

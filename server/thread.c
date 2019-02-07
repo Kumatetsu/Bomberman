@@ -36,10 +36,10 @@ static t_game_info dumb_static;
 #ifdef _WIN32
 void            my_windows_sleep(int milli)
 {
-	int			nano;
+  int			nano;
 
-	nano = milli * 1000;
-	windowsNanoSleep(nano);
+  nano = milli * 1000;
+  windowsNanoSleep(nano);
 }
 
 #else
@@ -143,12 +143,12 @@ void *bomb_thread_func(void *struct_bomb_thread)
 // ticker
 void *threaded_ticker(void *server)
 {
-  int				i;
-  int				j;
-  int				*tk;
-  int				socket;
-  t_srv				**srv;
-  t_game_info		*game_info;
+  int		i;
+  int		j;
+  int		*tk;
+  int		socket;
+  t_srv		**srv;
+  t_game_info	*game_info;
 
   srv = (t_srv **)server;
   game_info = get_game_info();
