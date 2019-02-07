@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdio.h>
 
+
 char		*serialize_game_info()
 {
   char		*game_info_str;
@@ -30,7 +31,6 @@ char		*serialize_game_info()
   game_info = get_game_info();
   //game_info_str = malloc((sizeof(int) * 4) + sizeof(t_player_info) * 4 + sizeof(t_map_destroyable) * 14 * 15);
   game_info_str = malloc(sizeof(t_game_info));
-
   //maybe not good at all
   memcpy(game_info_str, &game_info->checksum, sizeof(int));
   memcpy(game_info_str + sizeof(int), &game_info->tick_time, sizeof(int));
@@ -54,8 +54,8 @@ void		deserialize_game_info(char *serialized_game_info)
 {
   t_game_info	*game_info;
   int i = 0;
-  game_info = malloc(sizeof(t_game_info));
 
+  game_info = malloc(sizeof(t_game_info));
   memcpy(&game_info->checksum, serialized_game_info, sizeof(int));
   memcpy(&game_info->tick_time, serialized_game_info + sizeof(int), sizeof(int));
   memcpy(&game_info->game_status, serialized_game_info + sizeof(int) * 2, sizeof(int));

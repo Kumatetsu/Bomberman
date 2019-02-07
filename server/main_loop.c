@@ -77,28 +77,27 @@ int			main_loop(t_srv **srv)
 	}
     }
   printf("\nselect\n");
-
   if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, NULL) == -1)
-  {
-	  printf("error select main loop\n");
-	  return (0);
-  }
+    {
+      printf("error select main loop\n");
+      return (0);
+    }
 
   if (!server_is_full(srv))
     {
       // ici on accepte les connections clientes
       if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read))
-		{
+	{
 	  // player.h
-		  if ((i = accept_players(srv)) == -1)
-			{	
-			  printf("error accept_players server from main loop");
-			  return 0;
-			}
+	  if ((i = accept_players(srv)) == -1)
+	    {	
+	      printf("error accept_players server from main loop");
+	      return 0;
+	    }
 	  // on a bougé les players du srv, on refresh ceux de la game_info
 	  game_info->players[i] = (*srv)->players[i];
 	  game_info->nb_client = (*srv)->n_players;
-		}
+	}
     }
   // FOR PROD
   //if (!is_running() && is_enought_players(srv))
@@ -117,7 +116,6 @@ int			main_loop(t_srv **srv)
   if (is_running())
     {
       survivors = 0;
-
       // pour les joueurs... 0 à 3
       for (i = 0; i < 4; i++)
 	{
@@ -133,10 +131,10 @@ int			main_loop(t_srv **srv)
 #else
 	      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
 #endif
-		  // Si erreur on déco le player, ca évite de réitérer dessus
+	      // Si erreur on déco le player, ca évite de réitérer dessus
 	      if (retval != 0 || error != 0) {
-			(*srv)->players[i].connected = 0;
-			continue;
+		(*srv)->players[i].connected = 0;
+		continue;
 	      }
 	      // Si la socket du player est set on traite...
 	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
