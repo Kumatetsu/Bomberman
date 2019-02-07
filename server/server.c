@@ -32,15 +32,15 @@ void *init_server()
   // pthread_t	tick_thread;
   t_game_info *game_info;
 
-    tick = 0;
+  tick = 0;
   // initialisation de la structure server et de la socket du server
   if ((srv = (t_srv*)malloc(sizeof(t_srv))) == NULL) {
-	  printf("error allocation memory serveur");
-	  return (NULL);
+    printf("error allocation memory serveur");
+    return (NULL);
   }
   if ((s = create_server_socket()) == -1) {
-	  printf("error create server socket");
-	  return (NULL);
+    printf("error create server socket");
+    return (NULL);
   }
   srv->fd = s;
   srv->fd_max = s;
@@ -51,8 +51,8 @@ void *init_server()
 
   game_info = calloc(1, sizeof(t_game_info));
   if (game_info == NULL) {
-	  printf("error allocation memory game_info");
-	  return (NULL);
+    printf("error allocation memory game_info");
+    return (NULL);
   }
   set_game_info(game_info);
 
@@ -81,16 +81,16 @@ void *init_server()
     srv->requests[i] = NULL;
   // on lance les 2 threads: la main loop du serveur et le ticker
   if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) != 0 )
-  {
-	  printf("error thread ticker");
-	  return (NULL);
-  }
+    {
+      printf("error thread ticker");
+      return (NULL);
+    }
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) != 0)
-  {
-	  printf("error thread main loop");
-	  return (NULL);
-  }
-	pthread_join(tick_thread, NULL);
+    {
+      printf("error thread main loop");
+      return (NULL);
+    }
+  pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
 }
@@ -104,21 +104,21 @@ int			create_server_socket()
 
   memset(&sin, 0, sizeof (struct sockaddr_in));
   if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
-	  printf("error server socket init");
-	  return (-1);
+    printf("error server socket init");
+    return (-1);
   }
   port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
-  {
-	  printf("error socket binding\n");
-	  return (-1);
-  }
+    {
+      printf("error socket binding\n");
+      return (-1);
+    }
   if (listen(s, 42) == -1) {
-	  printf("error serveur listening\n");
-	  return (-1);
+    printf("error serveur listening\n");
+    return (-1);
   }
   return (s);
 }
@@ -126,8 +126,8 @@ int			create_server_socket()
 // retourne 1 si il y a plus de 4 joueurs
 int server_is_full(t_srv **srv)
 {
-	//DEV PURPOSE:
-	fflush(stdout);
+  //DEV PURPOSE:
+  fflush(stdout);
   if ((*srv)->n_players >= 4)
     return 1;
   return 0;

@@ -142,7 +142,6 @@ int main_loop(t_srv **srv)
                     if ((*srv)->game_status != RUNNING)
                         continue;
 
-<<<<<<< f65cb831a429f751555caa98d4d6b92f519917e6
                     player_request.command = ntohl(buffer);
                     player_request.num_player = i;
                     printf("server: num player %d and command %d", player_request.num_player, player_request.command);
@@ -177,7 +176,6 @@ int main_loop(t_srv **srv)
         (*srv)->running = RUNNING;
         for (i = 0; i < 4; i++)
             notify_actual_players(srv, 0);
-=======
       // pour les joueurs... 0 à 3
       for (i = 0; i < 4; i++)
 	{
@@ -193,10 +191,10 @@ int main_loop(t_srv **srv)
 #else
 	      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
 #endif
-		  // Si erreur on déco le player, ca évite de réitérer dessus
+	      // Si erreur on déco le player, ca évite de réitérer dessus
 	      if (retval != 0 || error != 0) {
-			(*srv)->players[i].connected = 0;
-			continue;
+		(*srv)->players[i].connected = 0;
+		continue;
 	      }
 	      // Si la socket du player est set on traite...
 	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
@@ -231,14 +229,13 @@ int main_loop(t_srv **srv)
 	    survivors++;
 	}
       if (survivors <= 1)
-	{
+        {
 
-	  game_info->game_status = ENDGAME;
-	  (*srv)->running = ENDGAME;
-	  printf("\nENDGAME\n");
-	  restart_game(srv);
-	}
->>>>>>> less issues but still... second player does not appear... communication issue?
+        game_info->game_status = ENDGAME;
+        (*srv)->running = ENDGAME;
+        printf("\nENDGAME\n");
+        restart_game(srv);
+        }
     }
     return (1);
 }

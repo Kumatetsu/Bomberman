@@ -25,27 +25,7 @@
 
 void		reset_players(t_srv **srv)
 {
-	t_player_info	p;
-	int i;
-
-	for (i = 0; i < 4; i++)
-	{
-		if ((*srv)->players[i].connected)
-		{
-			p = (*srv)->players[i];
-			p.alive = 1;
-			p.dying = 0;
-			p.action_sprite = not_move;
-			p.bomb_left = 3;
-			define_player_init_pos(&((*srv)->players[i]));
-			(*srv)->players[i] = p;
-		}
-	}
-}
-
-void reset_players(t_srv **srv)
-{
-  t_player_info p;
+  t_player_info	p;
   for (int i = 0; i < 4; i++)
   {
     if ((*srv)->players[i].connected)
