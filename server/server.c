@@ -25,12 +25,22 @@
 // Initialise le server apres un click sur 'create server' dans menu.c
 void *init_server()
 {
+<<<<<<< 30d60ccef5824e01880a16b3f81af418212149a5
   int s;
   int i;
   t_srv *srv;
   pthread_t main_thread;
   // pthread_t	tick_thread;
   t_game_info *game_info;
+=======
+  int		s;
+  int		i;
+  t_srv		*srv;
+  int		tick;
+  pthread_t	main_thread;
+  pthread_t	tick_thread;
+  t_game_info	*game_info;
+>>>>>>> Update map_management.c, moving.c, and 3 more files...
 
   // initialisation de la structure server et de la socket du server
   if ((srv = malloc(sizeof(*srv))) == NULL)
