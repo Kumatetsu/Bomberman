@@ -26,7 +26,6 @@ void		*init_server()
 {
   int		s;
   int		i;
-  char		log[50];
   t_srv		*srv;
   int		tick;
   pthread_t	main_thread;
