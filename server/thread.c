@@ -104,7 +104,7 @@ void		*threaded_ticker(void *server)
 #ifdef _WIN32
       my_windows_sleep(SLEEP);
 #else
-      my_sleep(0, SLEEP);
+      usleep(SLEEP * 1000);
 #endif
       for (i = 0; i < (*srv)->n_players; i++)
 	{
