@@ -104,6 +104,8 @@ void *bomb_thread_func(void *struct_bomb_thread)
   response.id = EXPLOSION;
   for (i = 0; i < 13; i++)
   {
+    if (indexes[i] > 194)
+      continue;
     response.index[i] = indexes[i];
     response.explosion[i] = (*srv)->map_destroyable[indexes[i]];
   }
@@ -115,6 +117,8 @@ void *bomb_thread_func(void *struct_bomb_thread)
   reset_explosion.id = ENDEXPLOSION;
   for (k = 0; k < 13; k++)
   {
+    if (indexes[k] > 194)
+      continue;
     (*srv)->map_destroyable[indexes[k]].exist = 0;
     (*srv)->map_destroyable[indexes[k]].bomb = 0;
     (*srv)->map_destroyable[indexes[k]].explosion_stage = 0;
