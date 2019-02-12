@@ -29,10 +29,8 @@ void *init_server()
   int i;
   t_srv *srv;
   pthread_t main_thread;
-  // pthread_t	tick_thread;
   t_game_info *game_info;
 
-  tick = 0;
   // initialisation de la structure server et de la socket du server
 
 #ifdef _WIN32
@@ -52,7 +50,6 @@ void *init_server()
   srv->fd = s;
   srv->fd_max = s;
   printf("\nInitial server fd and fd_max: %d\n", s);
-  srv->tick = &tick;
   srv->n_players = 0;
   srv->game_status = WAITING;
 
@@ -83,21 +80,11 @@ void *init_server()
       // mergé depuis la pr de kuma
       srv->players[i].fd = -1;
     }
-  // on initialise le bench de request à NULL
-  for (i = 0; i < 8; i++)
-    srv->requests[i] = NULL;
-  // on lance les 2 threads: la main loop du serveur et le ticker
-  if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) != 0 )
-    {
-      printf("error thread ticker");
-      return (NULL);
-    }
   if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) != 0)
     {
       printf("error thread main loop");
       return (NULL);
     }
-  pthread_join(tick_thread, NULL);
   pthread_join(main_thread, NULL);
   return (NULL);
 }

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "sdl.h"
 #include "enum.h"
 #include "constant.h"

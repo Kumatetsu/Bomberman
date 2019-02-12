@@ -94,11 +94,11 @@ int main_loop(t_srv **srv)
     if (!server_is_full(srv))
     {
         // ici on accepte les connections clientes
-    #ifdef _WIN32
-        if (FD_ISSET((*srv)->fd, &(*srv)->fd_read) != 0)
-    #else
-        if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read) != 0)
-    #endif
+        #ifdef _WIN32
+            if (FD_ISSET((*srv)->fd, &(*srv)->fd_read) != 0)
+        #else
+            if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read) != 0)
+        #endif
         {
             // player.h
             if ((i = accept_players(srv)) == -1)
@@ -127,8 +127,12 @@ int main_loop(t_srv **srv)
         {
             error = 0;
             len = sizeof(error);
-            // interroge les options de la socket (player->fd) pour détecter une erreur
-            retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+// interroge les options de la socket (player->fd) pour détecter une erreur
+            #ifdef _WIN32
+                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
+            #else
+                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+            #endif
             // Si erreur on déco le player, ca évite de réitérer dessus
             if (retval != 0 || error != 0)
             {
@@ -136,14 +140,25 @@ int main_loop(t_srv **srv)
                 continue;
             }
             // Si la socket du player est set on traite...
-            if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+            #ifdef _WIN32
+                if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read) != 0)
+            #else
+                if (FD_ISSET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read) != 0)
+            #endif
             {
                 int n = 0;
                 // char buffer[sizeof(int)];
+                // ??? merge chelou
                 int buffer;
+                // char buffer[sizeof(t_game_info)];
                 printf("\nHandling request for player\n");
-                // On extrait le contenu
-                if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
+// On extrait le contenu
+                #ifdef _WIN32
+                    n = recv((*srv)->players[i].fd, (char*)&buffer, sizeof(int), 0);
+                #else
+                    n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0);
+                #endif
+                if (n > 0)
                 {
                     if ((*srv)->game_status != RUNNING)
                         continue;
@@ -182,71 +197,6 @@ int main_loop(t_srv **srv)
         (*srv)->running = RUNNING;
         for (i = 0; i < 4; i++)
             notify_actual_players(srv, 0);
-      // pour les joueurs... 0 à 3
-      for (i = 0; i < 4; i++)
-	{
-	  // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
-	  if ((*srv)->players[i].connected == 1)
-	    {
-	      printf("\nPlayer %d command\n", i);
-	      error = 0;
-	      len = sizeof (error);
-	      // interroge les options de la socket (player->fd) pour détecter une erreur
-#ifdef _WIN32
-	      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
-#else
-	      retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
-#endif
-	      // Si erreur on déco le player, ca évite de réitérer dessus
-	      if (retval != 0 || error != 0) {
-		(*srv)->players[i].connected = 0;
-		continue;
-	      }
-	      // Si la socket du player est set on traite...
-	      if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read) != 0)
-		{
-		  int n = 0;
-		  char buffer[sizeof(t_game_info)];
-		  printf("\nHandling request for player %d\n", i);
-		  // On extrait le contenu
-#ifdef _WIN32
-		  n = recv((*srv)->players[i].fd, buffer, sizeof(buffer), 0);
-#else
-		  n = recv((*srv)->players[i].fd, buffer, sizeof(t_game_info), 0);
-#endif
-		  if(n > 0)
-		    {
-		      // on désérialize
-		      player_request = request_deserialize(buffer);
-		      player_request->num_player = i;
-		      printf("\nGAMEINFO tick nb: %d\n", game_info->tick_time);
-		      printf("\nCLIENT REQUEST COMMAND: %d\n", player_request->command);
-		      // on modifie la game_info
-		      handle_requests(game_info, player_request);
-		      // printf("\nPLAYER REQUEST: %s\n", request_serialization(player_request));
-		      // On assure au serveur l'origine de la requête
-		      /* if (player_request->checksum != get_request_checksum(player_request))
-			 {
-			 close((*srv)->players[i].fd);
-			 (*srv)->players[i].connected = 0;
-			 }*/
-		      n = 0;
-		    }
-		  buffer[n] = 0;
-		  printf("client send request\n");
-		}
-	    }
-	  if (game_info->players[i].alive)
-	    survivors++;
-	}
-      if (survivors <= 1)
-        {
-
-        game_info->game_status = ENDGAME;
-        (*srv)->running = ENDGAME;
-        printf("\nENDGAME\n");
-        restart_game(srv);
-        }
     }
     return (1);
 }

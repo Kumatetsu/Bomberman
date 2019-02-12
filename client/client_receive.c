@@ -132,8 +132,11 @@ int get_message(int s, t_game_info **client_game_info)
   int r;
   t_response_pool response;
 
-  r = recv(s, &response, sizeof(t_response_pool), 0);
-
+  #ifdef _WIN32
+    r = recv(s, (char*)&response, sizeof(t_response_pool), 0);
+  #else
+    r = recv(s, &response, sizeof(t_response_pool), 0);
+  #endif
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
   // quelques bytes qui seront traités et provoqueront une erreur
