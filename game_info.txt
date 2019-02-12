@@ -1,0 +1,22 @@
+
+GAME INFO:
+
+checksum: 0
+tick_time: 475
+nb_client: 2
+game_status: 1
+id_client: 1
+PLAYERS:
+
+Players:
+connected: 0
+alive: 0
+dying: 0
+x: 0
+y: 0
+current_dir: 0
+bomb_left: 0
+fd: 0
+num_player: 0
+MAP:
+

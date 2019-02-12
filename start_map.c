@@ -28,13 +28,13 @@
 #include "start_map.h"
 #include "bomber_sprites.h"
 
-int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
+int start_map(t_sdl *sdl, int socket)
 {
-  int		quit;
-  SDL_Event	event;
-  t_data	*data;
-  t_thread	*struct_thread;
-  pthread_t	listen_server_thread;
+  int quit;
+  SDL_Event event;
+  t_data *data;
+  t_thread *struct_thread;
+  pthread_t listen_server_thread;
 
   quit = 0;
   if ((data = malloc(sizeof(*data))) == NULL)
@@ -56,6 +56,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
     quit = 1;
   printf("\nthread created\n");
+  send_request(socket, GIVE_PLAYERS);
   while (!quit)
   {
     while (SDL_PollEvent(&event))
@@ -79,34 +80,19 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
         switch (event.key.keysym.sym)
         {
         case SDLK_UP:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_UP;
-          send_request(socket, cr);
+          send_request(socket, MOVE_UP);
           break;
         case SDLK_LEFT:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_LEFT;
-          send_request(socket, cr);
+          send_request(socket, MOVE_LEFT);
           break;
         case SDLK_RIGHT:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_RIGHT;
-          send_request(socket, cr);
+          send_request(socket, MOVE_RIGHT);
           break;
         case SDLK_DOWN:
-          //SDL_RenderClear(data->renderer);
-          //rebuild_map((void *)data);
-          cr->command = MOVE_DOWN;
-          send_request(socket, cr);
+          send_request(socket, MOVE_DOWN);
           break;
         case SDLK_SPACE:
-	  printf("\nI WANT A BOMB\n");
-	  cr->command = PLACE_BOMB;
-	  printf("\nplayer request: %d\n", cr->command);
-	  send_request(socket, cr);
+          send_request(socket, PLACE_BOMB);
           break;
         }
       }
@@ -118,11 +104,11 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   return 0;
 }
 
-void		*init_sprites_sheet(void *arg)
+void *init_sprites_sheet(void *arg)
 {
-  SDL_Texture	*sprite_texture;
-  SDL_Surface	*sprites_img;
-  t_data	*data = (t_data *)arg;
+  SDL_Texture *sprite_texture;
+  SDL_Surface *sprites_img;
+  t_data *data = (t_data *)arg;
 
   sprites_img = NULL;
   sprite_texture = NULL;

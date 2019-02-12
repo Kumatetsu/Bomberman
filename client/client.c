@@ -34,18 +34,13 @@ void			init_client(t_sdl *sdl)
 {
   int			cs;
   char			*addr;
-  t_player_request 	*cr;
 
   // on attend que l'adresse soit écrite par le user (ce fichier, client/client.c)
   addr = enter_addr(sdl);
   // une fois l'adresse ip écrite, on tente de connecter (client/socket.c)
   cs = client_connect(addr);
-  // on crée l'objet player_request qui permettra de transporter les requetes du user (client/client_request.c)
-  cr = create_player_request();
-  printf("\nClient connected, player request created\nCALL START MAP FOR NEW CLIENT");
   // on démarre la boucle cliente (start_map.c)
-  start_map(sdl, cs, cr);
-  free_player_request(cr);
+  start_map(sdl, cs);
 
 }
 

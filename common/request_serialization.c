@@ -9,6 +9,7 @@
 */
 
 #include <stdio.h>
+#include <stdint.h>
 #include "client_request.h"
 #include "request_serialization.h"
 
@@ -21,7 +22,6 @@ char*	request_serialization(t_player_request* client_request)
   printf("\nAfter calloc\n");
   if (request_string == NULL)
     return NULL;
-  client_request->checksum = get_request_checksum(client_request);
   request_string = (char*) client_request;
   printf("\nBefore realloc\n");
   request_string = realloc(request_string,sizeof(t_player_request)+1);
@@ -32,10 +32,10 @@ char*	request_serialization(t_player_request* client_request)
   return request_string;
 }
 
-t_player_request*	request_deserialize(char* request_serialized)
-{
-  t_player_request*	client_request;
+// int	request_deserialize(char* request_serialized)
+// {
+//   int	command;
 
-  client_request = (t_player_request*)request_serialized;
-  return client_request;
-}
+//   command = (request_serialized);
+//   return command;
+// }

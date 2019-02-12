@@ -11,7 +11,7 @@
 CC 	= gcc
 
 NAME 	= BomberMan
-
+## -W -Werror -Wextra -Wall
 CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
 LDFLAGS =  -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy
@@ -20,7 +20,6 @@ SRC 	= 	main.c 					\
 		menu.c					\
 	 	start_map.c				\
 		sdl.c	 				\
-		common/game_info_serialization.c	\
 		common/request_serialization.c		\
 		common/my_putchar.c			\
 		common/my_putstr.c			\
@@ -36,15 +35,19 @@ SRC 	= 	main.c 					\
 		client/client_request.c			\
 		client/client_receive.c			\
 		client/bomber_sprites.c			\
+		client/client_interpretor.c 	\
+		client/update_client.c\
 		server/server.c				\
 		server/thread.c				\
 		server/map_management.c			\
 		server/moving.c				\
-		server/request_handling.c		\
-                server/player.c				\
+		server/bomb.c		\
+        server/player.c				\
 		server/main_loop.c			\
 		server/collision.c			\
 		server/bomb_management.c		\
+		server/notify_client.c			\
+		server/command_interpretor.c    \
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\
