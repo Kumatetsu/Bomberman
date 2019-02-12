@@ -24,7 +24,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <errno.h>
-#include <winsock2.h>
 #include <stdio.h>
 
 // Initialise le server apres un click sur 'create server' dans menu.c

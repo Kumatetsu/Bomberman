@@ -52,7 +52,9 @@ int free_player_request(t_player_request* client_request)
 int			send_request(SOCKET s, t_player_request* client_request)
 {
   t_player_request	dumb_static;
+ #ifdef _WIN32
   int error = 0;
+#endif
   // request_string = request_serialization(client_request);
   memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
   memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));

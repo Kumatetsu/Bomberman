@@ -115,7 +115,7 @@ void		*threaded_ticker(void *server)
   printf("send from server success of %d bytes \n ", error);
   }
 #else
-	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
+	  write(s, &dumb_static, sizeof(t_game_info) + 1);
 #endif
 	}
       ++(*tk);
