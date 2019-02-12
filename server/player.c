@@ -67,6 +67,7 @@ int             add_player(t_srv **srv, int fd)
   (*srv)->players[(*srv)->n_players] = new_player;
   (*srv)->n_players++;
   printf("player added number %d\n\n", (*srv)->n_players);
+  fflush(stdout);
   return (1);
 }
 
@@ -76,17 +77,17 @@ int             add_player(t_srv **srv, int fd)
 // retourne l'index
 int			accept_players(t_srv **srv)
 {
-  int		        index;
+  int		    index;
   int			player_socket;
-  struct sockaddr_in	client_sin;
+  SOCKADDR_IN	client_sin;
   socklen_t		client_sin_len;
 
   index = (*srv)->n_players;
   printf("\naccept_player, index: %d\n", index);
-  memset(&client_sin, 0, sizeof (struct sockaddr_in));
+  memset(&client_sin, 0, sizeof (SOCKADDR_IN));
   client_sin_len = sizeof (client_sin);
   printf("before accept player accept()\n");
-  player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
+  player_socket = accept((*srv)->fd, (SOCKADDR *)&client_sin, &client_sin_len);
   printf("\naccept_player, player_socket: %d\n", player_socket);
   if (player_socket == -1) {
 #ifdef _WIN32

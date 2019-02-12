@@ -42,9 +42,9 @@ void            *listen_server(void *s)
   // et libérée à chaque tour de boucle
   // indépendante de la game_info server
   t_game_info	*client_game_info;
-  t_data	*data;
+  t_data		*data;
 
-  struct_thread= (t_thread *)(s);
+  struct_thread = (t_thread *)(s);
   data = struct_thread->data;
   if ((client_game_info = malloc(sizeof(t_game_info))) == NULL)
     {
@@ -52,7 +52,7 @@ void            *listen_server(void *s)
       return NULL;
     }
   // construit le model fixe et render copy une premiere fois
-  if (!draw_fixed_map(data))
+   if (!draw_fixed_map(data))
     {
       printf("\nFailed to draw fixed map\n");
       quit = 1;
@@ -60,25 +60,21 @@ void            *listen_server(void *s)
   while (!quit)
     {
       FD_ZERO(&fd_read);
-#ifdef _WIN32
       FD_SET(struct_thread->socket, &fd_read);
-#else
-      FD_SET(struct_thread->socket, &fd_read);
-#endif
 
-      printf("\nbefore select\n");
+	  printf("\nbefore select\n");
       if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
-	{
-	  printf("error select listen server");
-	  quit = 1;
-	}
-      if (FD_ISSET(struct_thread->socket, &fd_read))
+	  {
+	    printf("error select listen server");
+	    quit = 1;
+	  }
+      if (FD_ISSET(struct_thread->socket, &fd_read) > 0)
         {
-	  if (!get_message(struct_thread->socket, client_game_info))
-	    {
-	      quit = 1;
-	      continue;
-	    }
+	    if (!get_message(struct_thread->socket, client_game_info))
+	      {
+	        quit = 1;
+	        continue;
+	      }
 	  if (client_game_info->game_status == ENDGAME)
 	    quit = 1;
 	  for (i = 0; i < INLINE_MATRIX; i++)
@@ -107,22 +103,48 @@ void            *listen_server(void *s)
 	  // dessine le contenu du renderer dans la window
 	  SDL_RenderPresent(data->renderer);
 	  SDL_SetRenderTarget(data->renderer, NULL);
-	}
+	  }
+	  else {
+		  printf("Socket server not set client_receive.c listen_server()\n");
+	  }
     }
   free(client_game_info);
   pthread_exit(NULL);
   return (NULL);
 }
 
-int		get_message(int s, t_game_info *client_game_info)
+int		get_message(SOCKET s, t_game_info *client_game_info)
 {
   int		r;
-  char		buff[sizeof(t_game_info) + 1];
+  int		r_temp;
+  char		buff[sizeof(t_game_info) + 1] = { '\0' };
+  char		temp[sizeof(t_game_info) + 1] = { '\0' };
 
-#ifdef _WIN32
-  r = recv(s, buff, sizeof(buff) + 1, 0);
-#else
   r = recv(s, buff, sizeof(t_game_info) + 1, 0);
+ 
+  r_temp = 0;
+
+  if (r >= 0) {
+	  while (r < 11617 && r_temp >= 0) {
+		  
+		  r_temp = recv(s, temp, sizeof(t_game_info) + 1, 0);
+		  if (r_temp >= 0) {
+			  r += r_temp;
+			  strcat(buff, temp);
+		  }
+#ifdef _WIN32
+		if (r_temp == SOCKET_ERROR) {
+				  printf("error from client recv n°%d \n", WSAGetLastError());
+			}
+#endif
+	  }
+  }
+  
+  printf("buffer message %s \n", buff);
+#ifdef _WIN32
+  if (r == SOCKET_ERROR || r_temp == SOCKET_ERROR) {
+	  printf("error from client recv n°%d \n", WSAGetLastError());
+  }
 #endif
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
@@ -133,6 +155,8 @@ int		get_message(int s, t_game_info *client_game_info)
     {
       *client_game_info = (*(t_game_info*)buff);
       printf("tick_time %d received %d bytes\n", client_game_info->tick_time, r);
+	  printf("where i should be placed: x:%d y:%d\n", client_game_info->players[client_game_info->id_client].x, client_game_info->players[client_game_info->id_client].y);
+	  fflush(stdout);
       return (1);
     }
   else

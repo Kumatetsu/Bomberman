@@ -49,18 +49,28 @@ int free_player_request(t_player_request* client_request)
   return BAD_FREE;
 }
 
-int			send_request(int s, t_player_request* client_request)
+int			send_request(SOCKET s, t_player_request* client_request)
 {
   t_player_request	dumb_static;
+  int error = 0;
   // request_string = request_serialization(client_request);
   memcpy(&dumb_static.checksum, &client_request->checksum, sizeof(int));
   memcpy(&dumb_static.magic, &client_request->magic, sizeof(int));
   memcpy(&dumb_static.command, &client_request->command, sizeof(int));
 #ifdef _WIN32
-  send(s, (void*)&dumb_static, sizeof(dumb_static), 0);
+  if ((error = send(s, (void*)&dumb_static, sizeof(t_player_request), 0)) < 0)
+  {
+    printf("error sending from client num %d \n", WSAGetLastError());
+  }
+  else
+  {
+	  printf("send success from cliend of %d bytes \n ", error);
+  }
 #else
   write(s, &dumb_static, sizeof(t_player_request));
 #endif
+  fflush(stdout);
+
   return SUCCESS_SEND;
 }
 

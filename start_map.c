@@ -57,8 +57,10 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
   printf("\nbefore create thread\n");
-  if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
-    quit = 1;
+  if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread) != 0) {
+	  printf("pthread_create listen_server from start_map.c start_map failed\n");
+	  quit = 1;
+  }
   printf("\nthread created\n");
   while (!quit)
   {
@@ -116,6 +118,7 @@ int		start_map(t_sdl *sdl, int socket, t_player_request *cr)
       }
     }
   }
+  printf("exit thread listen server and SDL_PollEvent\n");
   pthread_cancel(listen_server_thread);
   SDL_DestroyTexture(data->texture);
   free(data);

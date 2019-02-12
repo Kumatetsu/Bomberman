@@ -26,7 +26,7 @@ t_game_info		*get_game_info();
 void			set_game_info(t_game_info *new_game_info);
 void			create_game_info();
 long			random_at_most(long max);
-int			is_running();
+int				is_running();
 void			start_game(t_srv **srv);
 
 #endif /* !_GAME_INFO_H_ */

@@ -25,6 +25,10 @@
   // For windows: MinGW/include/pthread.h redefine timespec struc
   #include <sys/socket.h>
   #include <time.h>
+typedef int SOCKET;
+typedef struct sockaddr_in SOCKADDR_IN;
+typedef struct sockaddr SOCKADDR;
+typedef struct in_addr IN_ADDR;
 #endif
 #include <pthread.h>
 #include <SDL2/SDL.h>

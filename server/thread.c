@@ -32,23 +32,8 @@ static t_game_info dumb_static;
 #ifdef _WIN32
 void            my_windows_sleep(int milli)
 {
-  int			nano;
-
-  nano = milli * 1000;
-  windowsNanoSleep(nano);
-}
-
-#else
-
-void			my_sleep(int sec, int milli)
-{
-  int			nano;
-  struct timespec	req = {0};
-
-  nano = milli * 10000000;
-  req.tv_sec = sec;
-  req.tv_nsec = nano;
-  nanosleep(&req, NULL);
+	struct timespec req = { milli / 1000, milli % 1000 * 1000000L };
+	nanosleep(&req, NULL);
 }
 #endif
 
@@ -90,7 +75,7 @@ void		*threaded_ticker(void *server)
   int		i;
   int		j;
   int		*tk;
-  int		socket;
+  SOCKET	s;
   t_srv		**srv;
   t_game_info	*game_info;
 
@@ -100,7 +85,6 @@ void		*threaded_ticker(void *server)
   game_info = get_game_info();
   while(1 && game_info != NULL)
     {
-      printf("\nTick: %d", (*tk));
 #ifdef _WIN32
       my_windows_sleep(SLEEP);
 #else
@@ -109,7 +93,7 @@ void		*threaded_ticker(void *server)
       for (i = 0; i < (*srv)->n_players; i++)
 	{
 	  verify_bomb_explosion(game_info->map_destroyable, *tk);
-	  socket = (*srv)->players[i].fd;
+	  s = (*srv)->players[i].fd;
 	  game_info->id_client = i;
 	  memcpy(&dumb_static.checksum, &game_info->checksum, sizeof(int));
 	  memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
@@ -122,7 +106,14 @@ void		*threaded_ticker(void *server)
 	    memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
 		   sizeof(t_map_destroyable));
 #ifdef _WIN32
-	  send(socket, (void*)&dumb_static, sizeof(dumb_static), 0);
+	  int error = 0;
+	  if ((error = send(s, (void*)&dumb_static, sizeof(t_game_info) + 1, 0)) < 0)
+	  {
+		printf("error sending from server n°%d \n", WSAGetLastError());
+	}
+  else {
+  printf("send from server success of %d bytes \n ", error);
+  }
 #else
 	  write(socket, &dumb_static, sizeof(t_game_info) + 1);
 #endif

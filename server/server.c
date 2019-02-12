@@ -20,11 +20,17 @@
 #include "game_info.h"
 #include "my_put.h"
 #include "static_wall_rect.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+#include <errno.h>
+#include <winsock2.h>
+#include <stdio.h>
 
 // Initialise le server apres un click sur 'create server' dans menu.c
 void		*init_server()
 {
-  int		s;
+  SOCKET	s;
   int		i;
   t_srv		*srv;
   int		tick;
@@ -35,18 +41,14 @@ void		*init_server()
   tick = 0;
   // initialisation de la structure server et de la socket du server
 
-#ifdef _WIN32
-  if ((srv = (t_srv*)malloc(sizeof(t_srv))) == NULL) {
-    printf("error allocation memory serveur");
+  if ((srv = malloc(sizeof(*srv))) == NULL)
+  {
+	  printf("error allocation memory serveur");
     return (NULL);
   }
-#else
-  if ((srv = malloc(sizeof (*srv))) == NULL)
-    return (NULL);
-#endif
 
-  if ((s = create_server_socket()) == -1) {
-    printf("error create server socket");
+  if ((s = create_server_socket()) <= 0) {
+		printf("error create server socket");
     return (NULL);
   }
   srv->fd = s;
@@ -90,12 +92,12 @@ void		*init_server()
 
 int			create_server_socket()
 {
-  int			s;
-  struct sockaddr_in	sin;
+  SOCKET		s;
+  SOCKADDR_IN	sin;
   int			port;
 
-  memset(&sin, 0, sizeof (struct sockaddr_in));
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+  memset(&sin, 0, sizeof (SOCKADDR_IN));
+  if ((s = socket(PF_INET, SOCK_STREAM, 0)) <= 0) {
     printf("error server socket init");
     return (-1);
   }
@@ -103,11 +105,12 @@ int			create_server_socket()
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
+  if (bind(s, (SOCKADDR *)&sin, sizeof(sin)) == -1)
     {
       printf("error socket binding\n");
       return (-1);
     }
+
   if (listen(s, 42) == -1) {
     printf("error serveur listening\n");
     return (-1);
