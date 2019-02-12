@@ -8,6 +8,11 @@
 ** Last update Wed Jul  4 09:30:50 2018 MASERA Mathieu
 */
 
+#ifdef _WIN32
+#if !defined(HAVE_STRUCT_TIMESPEC)
+#define HAVE_STRUCT_TIMESPEC
+#endif
+#endif
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>

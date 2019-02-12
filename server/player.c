@@ -8,9 +8,8 @@
 ** Last update Wed Jul  4 09:39:01 2018 MASERA Mathieu
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+
+#include "system.h"
 #include "enum.h"
 #include "sdl.h"
 #include "player_info.h"
@@ -24,9 +23,9 @@
 #include "player.h"
 #include "constant.h"
 
-void reset_players(t_srv **srv)
+void		reset_players(t_srv **srv)
 {
-  t_player_info p;
+  t_player_info	p;
   for (int i = 0; i < 4; i++)
   {
     if ((*srv)->players[i].connected)
@@ -78,19 +77,24 @@ int add_player(t_srv **srv, int fd)
 // retourne l'index
 int accept_players(t_srv **srv)
 {
-  int index;
-  int player_socket;
-  struct sockaddr_in client_sin;
-  socklen_t client_sin_len;
+  int		        index;
+  int			player_socket;
+  struct sockaddr_in	client_sin;
+  socklen_t		client_sin_len;
 
   index = (*srv)->n_players;
   printf("\naccept_player, index: %d\n", index);
-  memset(&client_sin, 0, sizeof(struct sockaddr_in));
-  client_sin_len = sizeof(client_sin);
+  memset(&client_sin, 0, sizeof (struct sockaddr_in));
+  client_sin_len = sizeof (client_sin);
+  printf("before accept player accept()\n");
   player_socket = accept((*srv)->fd, (struct sockaddr *)&client_sin, &client_sin_len);
   printf("\naccept_player, player_socket: %d\n", player_socket);
-  if (player_socket == -1)
-    return (-1);
+  if (player_socket == -1) {
+#ifdef _WIN32
+	  printf("accept player_socket failed with error %d\n", WSAGetLastError());
+#endif
+	  return (-1);
+  }
   if (!add_player(srv, player_socket))
     return (-1);
   // retourne 1 si joueur ajouté, 0 sinon

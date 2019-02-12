@@ -15,6 +15,9 @@
 #include "player_info.h"
 #include "client_request.h"
 #include "server.h"
+#ifdef _WIN32
+#define HAVE_STRUCT_TIMESPEC
+#endif
 #include <pthread.h>
 
 /**

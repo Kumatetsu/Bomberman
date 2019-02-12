@@ -8,7 +8,10 @@
 ** Last update Wed Jul  4 10:16:22 2018 MASERA Mathieu
 */
 
-#include <pthread.h>
+#ifdef _WIN32
+#define HAVE_STRUCT_TIMESPEC
+#endif
+#include "system.h"
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -29,6 +32,7 @@
 #include "client_receive.h"
 #include "server_request.h"
 #include "command_interpretor.h"
+#include <stdio.h>
 
 void *listen_server(void *s)
 {
@@ -71,7 +75,11 @@ void *listen_server(void *s)
   while (!quit)
   {
     FD_ZERO(&fd_read);
-    FD_SET(struct_thread->socket, &fd_read);
+    #ifdef _WIN32
+      FD_SET((unsigned int)struct_thread->socket, &fd_read);
+    #else
+	    FD_SET(struct_thread->socket, &fd_read);
+    #endif
     printf("\nbefore select\n");
     if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
       quit = 1;
@@ -116,6 +124,7 @@ void *listen_server(void *s)
   }
   free(client_game_info);
   pthread_exit(NULL);
+  return (NULL);
 }
 
 int get_message(int s, t_game_info **client_game_info)
@@ -123,8 +132,11 @@ int get_message(int s, t_game_info **client_game_info)
   int r;
   t_response_pool response;
 
-  r = recv(s, &response, sizeof(t_response_pool), 0);
-
+  #ifdef _WIN32
+    r = recv(s, (char*)&response, sizeof(t_response_pool), 0);
+  #else
+    r = recv(s, &response, sizeof(t_response_pool), 0);
+  #endif
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
   // quelques bytes qui seront traités et provoqueront une erreur

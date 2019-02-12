@@ -9,7 +9,6 @@
 */
 
 #include <stdio.h>
-#include <sys/time.h>
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -27,6 +26,15 @@
 #include "server_request.h"
 #include "notify_client.h"
 #include "command_interpretor.h"
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
+// ??
+#include <time.h>
+#include <sys/time.h>
+//
+#include "system.h"
 
 void restart_game(t_srv **srv)
 {
@@ -58,13 +66,21 @@ int main_loop(t_srv **srv)
     // on utilise ensuite is_running() pour savoir si ca tourne
     // puis on récupère la static remplie
     FD_ZERO(&(*srv)->fd_read);
-    FD_SET((*srv)->fd, &(*srv)->fd_read);
+    #ifdef _WIN32
+        FD_SET((unsigned int)(*srv)->fd, &(*srv)->fd_read);
+    #else
+        FD_SET((*srv)->fd, &(*srv)->fd_read);
+    #endif
     // server.h définition du fd max pour le select, defaut dans init_server
     for (i = 0; i < 4; i++)
     {
         if ((*srv)->players[i].connected == 1)
         {
-            FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+            #ifdef _WIN32
+                FD_SET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read);
+            #else
+                FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+            #endif
             if ((*srv)->players[i].fd > (*srv)->fd_max)
                 (*srv)->fd_max = (*srv)->players[i].fd;
         }
@@ -78,7 +94,11 @@ int main_loop(t_srv **srv)
     if (!server_is_full(srv))
     {
         // ici on accepte les connections clientes
-        if (FD_ISSET((*srv)->fd, &(*srv)->fd_read))
+        #ifdef _WIN32
+            if (FD_ISSET((*srv)->fd, &(*srv)->fd_read) != 0)
+        #else
+            if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read) != 0)
+        #endif
         {
             // player.h
             if ((i = accept_players(srv)) == -1)
@@ -107,8 +127,12 @@ int main_loop(t_srv **srv)
         {
             error = 0;
             len = sizeof(error);
-            // interroge les options de la socket (player->fd) pour détecter une erreur
-            retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+// interroge les options de la socket (player->fd) pour détecter une erreur
+            #ifdef _WIN32
+                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
+            #else
+                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+            #endif
             // Si erreur on déco le player, ca évite de réitérer dessus
             if (retval != 0 || error != 0)
             {
@@ -116,14 +140,25 @@ int main_loop(t_srv **srv)
                 continue;
             }
             // Si la socket du player est set on traite...
-            if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read))
+            #ifdef _WIN32
+                if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read) != 0)
+            #else
+                if (FD_ISSET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read) != 0)
+            #endif
             {
                 int n = 0;
                 // char buffer[sizeof(int)];
+                // ??? merge chelou
                 int buffer;
+                // char buffer[sizeof(t_game_info)];
                 printf("\nHandling request for player\n");
-                // On extrait le contenu
-                if ((n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0)) > 0)
+// On extrait le contenu
+                #ifdef _WIN32
+                    n = recv((*srv)->players[i].fd, (char*)&buffer, sizeof(int), 0);
+                #else
+                    n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0);
+                #endif
+                if (n > 0)
                 {
                     if ((*srv)->game_status != RUNNING)
                         continue;

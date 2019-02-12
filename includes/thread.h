@@ -25,7 +25,7 @@ typedef struct s_bomb_thread
 
 void *thread_listen_serv(void *s_info);
 void *server_thread(void *s_info);
-void *threaded_ticker(void *tick);
+//void *threaded_ticker(void *tick);
 void *threaded_main_loop(void *server);
 void *bomb_thread_func(void *bomb_thread_struct);
 

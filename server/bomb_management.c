@@ -12,6 +12,7 @@
 #include "game_info.h"
 #include "coord_index_swapper.h"
 #include "bomb_management.h"
+#include <stdio.h>
 
 // retourne l'index de la matrice correspondant à un déplacement dans 'direction' de 'cases' cases
 // depuis 'bomb', si le 'next_index' est hors map, on retourne -1

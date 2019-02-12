@@ -8,9 +8,7 @@
 ** Last update Wed Jul  4 09:28:54 2018 MASERA Mathieu
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <pthread.h>
+#include "system.h"
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -31,14 +29,24 @@ void *init_server()
   int i;
   t_srv *srv;
   pthread_t main_thread;
-  // pthread_t	tick_thread;
   t_game_info *game_info;
 
   // initialisation de la structure server et de la socket du server
-  if ((srv = malloc(sizeof(*srv))) == NULL)
+
+#ifdef _WIN32
+  if ((srv = (t_srv*)malloc(sizeof(t_srv))) == NULL) {
+    printf("error allocation memory serveur");
     return (NULL);
-  if ((s = create_server_socket()) == -1)
+  }
+#else
+  if ((srv = malloc(sizeof (*srv))) == NULL)
     return (NULL);
+#endif
+
+  if ((s = create_server_socket()) == -1) {
+    printf("error create server socket");
+    return (NULL);
+  }
   srv->fd = s;
   srv->fd_max = s;
   printf("\nInitial server fd and fd_max: %d\n", s);
@@ -46,8 +54,10 @@ void *init_server()
   srv->game_status = WAITING;
 
   game_info = calloc(1, sizeof(t_game_info));
-  if (game_info == NULL)
+  if (game_info == NULL) {
+    printf("error allocation memory game_info");
     return (NULL);
+  }
   set_game_info(game_info);
 
   for (i = 0; i < INLINE_MATRIX; ++i)
@@ -64,39 +74,46 @@ void *init_server()
   init_wall_rect();
   // on set tout les player a 'non connecté'
   for (i = 0; i < 4; i++)
-  {
-    srv->players[i].connected = 0;
-    srv->players[i].num_player = i;
-    srv->players[i].fd = -1;
-  }
-
-  // on lance les 2 threads: la main loop du serveur et le ticker
-  // if (pthread_create(&tick_thread, NULL, threaded_ticker, &srv) == -1)
-  //   return (NULL);
-  if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) == -1)
-    return (NULL);
-  // pthread_join(tick_thread, NULL);
+    {
+      srv->players[i].connected = 0;
+      srv->players[i].num_player = i;
+      // mergé depuis la pr de kuma
+      srv->players[i].fd = -1;
+    }
+  if (pthread_create(&main_thread, NULL, threaded_main_loop, &srv) != 0)
+    {
+      printf("error thread main loop");
+      return (NULL);
+    }
   pthread_join(main_thread, NULL);
   return (NULL);
 }
 
-int create_server_socket()
+
+int			create_server_socket()
 {
   int s;
   struct sockaddr_in sin;
   int port;
 
-  memset(&sin, 0, sizeof(struct sockaddr_in));
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1)
+  memset(&sin, 0, sizeof (struct sockaddr_in));
+  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+    printf("error server socket init");
     return (-1);
+  }
   port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
+    {
+      printf("error socket binding\n");
+      return (-1);
+    }
+  if (listen(s, 42) == -1) {
+    printf("error serveur listening\n");
     return (-1);
-  if (listen(s, 42) == -1)
-    return (-1);
+  }
   return (s);
 }
 
@@ -122,12 +139,12 @@ void set_fd_max(t_srv **srv)
   int i;
 
   for (i = 0; i < 4; i++)
-  {
-    if ((*srv)->players[i].connected == 1)
     {
-      FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
-      if ((*srv)->players[i].fd > (*srv)->fd_max)
-        (*srv)->fd_max = (*srv)->players[i].fd;
+      if ((*srv)->players[i].connected == 1)
+        {
+          FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+          if ((*srv)->players[i].fd > (*srv)->fd_max)
+            (*srv)->fd_max = (*srv)->players[i].fd;
+        }
     }
-  }
 }
