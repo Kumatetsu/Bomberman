@@ -8,11 +8,7 @@
 ** Last update Wed Jul  4 09:39:25 2018 MASERA Mathieu
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <pthread.h>
-#include <time.h>
+#include "system.h"
 #include "constant.h"
 #include "my_put.h"
 #include "sdl.h"
@@ -31,14 +27,24 @@
 // pour sleep
 #include "unistd.h"
 // pour usleep
-#include "time.h"
 // for dev
 #include "coord_index_swapper.h"
 
 // 1 sec = 1 nano * 10^9 (1 000 000 000)
-static t_game_info dumb_static;
+//static t_game_info dumb_static;
 
-void my_sleep(int sec, int milli)
+#ifdef _WIN32
+void            my_windows_sleep(int milli)
+{
+  int			nano;
+
+  nano = milli * 1000;
+  windowsNanoSleep(nano);
+}
+
+#else
+
+void			my_sleep(int sec, int milli)
 {
   int nano;
   struct timespec req = {0};
@@ -48,6 +54,7 @@ void my_sleep(int sec, int milli)
   req.tv_nsec = nano;
   nanosleep(&req, NULL);
 }
+#endif
 
 void verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 {
@@ -95,7 +102,11 @@ void *bomb_thread_func(void *struct_bomb_thread)
   srv = bts->srv;
   printf("server index 0 %d", bts->index);
   indexes[0] = bts->index;
-  usleep(SLEEP * 10000);
+  #ifdef _WIN32
+    my_windows_sleep(SLEEP);
+  #else
+    usleep(SLEEP * 10000);
+  #endif
   boom(srv, indexes);
   for (i = 0; i < 4; i++)
   {
@@ -113,7 +124,11 @@ void *bomb_thread_func(void *struct_bomb_thread)
   {
     write((*srv)->players[i].fd, &response, sizeof(response));
   }
-  usleep(SLEEP * 10000);
+  #ifdef _WIN32
+    my_windows_sleep(SLEEP);
+  #else
+    usleep(SLEEP * 10000);
+  #endif
   reset_explosion.id = ENDEXPLOSION;
   for (k = 0; k < 13; k++)
   {
@@ -134,44 +149,53 @@ void *bomb_thread_func(void *struct_bomb_thread)
 }
 
 // ticker
+/*
 void *threaded_ticker(void *server)
 {
-  int i;
-  int j;
-  // int socket;
-  t_srv **srv;
-  t_game_info *game_info;
+  int		i;
+  int		j;
+  int		*tk;
+  int		socket;
+  t_srv		**srv;
+  t_game_info	*game_info;
 
   srv = (t_srv **)server;
   game_info = get_game_info();
   while (1 && game_info != NULL)
   {
-    usleep(SLEEP * 1000);
+    #ifdef _WIN32
+      my_windows_sleep(SLEEP);
+    #else
+      usleep(SLEEP * 1000);
+    #endif
     for (i = 0; i < (*srv)->n_players; i++)
     {
-      // verify_bomb_explosion(game_info->map_destroyable, *tk);
-      // socket = (*srv)->players[i].fd;
+      //verify_bomb_explosion(game_info->map_destroyable, *tk);
+      //socket = (*srv)->players[i].fd;
       game_info->id_client = i;
       memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
       memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
       memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
       memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
       for (j = 0; j < 4; j++)
-      {
         memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
-        printf("x:%d, y:%d", game_info->players[j].x, game_info->players[j].y);
-      }
       for (j = 0; j < INLINE_MATRIX; j++)
         memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
-               sizeof(t_map_destroyable));
-      // write(socket, &dumb_static, sizeof(t_game_info) + 1);
+        sizeof(t_map_destroyable));
+      #ifdef _WIN32
+          send(socket, (void*)&dumb_static, sizeof(dumb_static), 0);
+      #else
+          write(socket, &dumb_static, sizeof(t_game_info) + 1);
+      #endif
     }
+      ++(*tk);
+      game_info->tick_time = (*tk);
   }
   printf("\nServer stopped to send game informations\n");
   // probablement pas suffisant comme retour
   return NULL;
 }
-
+*/
 // la main_loop du server tourne sur un thread
 // en l'état, on boucle indéfiniment sur la fonction main_loop
 // main_loop retourne

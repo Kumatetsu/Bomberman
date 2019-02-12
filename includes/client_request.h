@@ -11,17 +11,11 @@
 #ifndef _CLIENT_REQUEST_H_
 #define _CLIENT_REQUEST_H_
 
-#include <sys/select.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "system.h"
 #include <limits.h>
-#include <time.h>
 #include <string.h>
 #include "enum.h"
+#include <time.h>
 
 typedef struct s_player_request
 {

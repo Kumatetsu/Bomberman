@@ -20,13 +20,13 @@ BomberMan
 *.pch
 
 # Libraries
-*.lib
-*.a
-*.la
+./*.lib
+./*.a
+./*.la
 *.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
+./*.dll
 *.so
 *.so.*
 *.dylib
@@ -53,3 +53,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.vscode/settings.json
+.vs/

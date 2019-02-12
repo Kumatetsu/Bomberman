@@ -8,6 +8,10 @@
 ** Last update Wed Jul  4 09:30:12 2018 MASERA Mathieu
 */
 
+#ifdef _WIN32
+#define HAVE_STRUCT_TIMESPEC
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
