@@ -96,7 +96,12 @@ void *bomb_thread_func(void *struct_bomb_thread)
   #else
     usleep(SLEEP * 10000);
   #endif
+		printf("before boom\n");
+		fflush(stdout);
   boom(srv, indexes);
+	printf("after boom\n");
+	fflush(stdout);
+
   for (i = 0; i < 4; i++)
   {
     response.players[i] = (*srv)->players[i];
@@ -104,16 +109,35 @@ void *bomb_thread_func(void *struct_bomb_thread)
   response.id = EXPLOSION;
   for (i = 0; i < 13; i++)
   {
-    if (indexes[i] > 194)
-      continue;
+		printf("LE i = %d\n", i);
+			fflush(stdout);
+		
+		printf("passed 1 de i : %d\n", i);
+		fflush(stdout);
     response.index[i] = indexes[i];
+		printf("passed 2 de i : %d\n", i);
+		fflush(stdout);
+		if (indexes[i] >= INLINE_MATRIX || indexes[i] < 0) {
+			printf("i exit : %d\n", i);
+			continue;
+		}
     response.explosion[i] = (*srv)->map_destroyable[indexes[i]];
+		printf("passed 3 de i : %d\n", i);
+		fflush(stdout);
+
   }
   for (i = 0; i < 4; i++)
   {
+		if ((*srv)->players[i].fd == -1)
+			continue;
 #ifdef _WIN32
 		nbBytesSent = 0;
-		if ((nbBytesSent = send((*srv)->players[i].fd, (void*)&response, sizeof(response), 0)) < 0)
+		printf("before sending explosion from server\n");
+		fflush(stdout);
+		nbBytesSent = send((*srv)->players[i].fd, (void*)&response, sizeof(response), 0);
+		printf("after sending explosion from server\n");
+		fflush(stdout);
+		if (nbBytesSent < 0)
 		{
 			printf("error sending from bomb_thread_func n°%d \n", WSAGetLastError());
 		}
@@ -134,16 +158,18 @@ void *bomb_thread_func(void *struct_bomb_thread)
 
   for (k = 0; k < 13; k++)
   {
-    if (indexes[k] > 194)
+		reset_explosion.index[k] = indexes[k];
+    if (indexes[k] >= INLINE_MATRIX || indexes[k] < 0)
       continue;
     (*srv)->map_destroyable[indexes[k]].exist = 0;
     (*srv)->map_destroyable[indexes[k]].bomb = 0;
     (*srv)->map_destroyable[indexes[k]].explosion_stage = 0;
     reset_explosion.explosion[k] = (*srv)->map_destroyable[indexes[k]];
-    reset_explosion.index[k] = indexes[k];
   }
   for (i = 0; i < 4; i++)
   {
+		if ((*srv)->players[i].fd == -1)
+			continue;
 #ifdef _WIN32
 		nbBytesSent = 0;
 		if ((nbBytesSent = send((*srv)->players[i].fd, (void*)&reset_explosion, sizeof(response), 0)) < 0)

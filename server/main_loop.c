@@ -146,7 +146,7 @@ int main_loop(t_srv **srv)
 	      n = recv((*srv)->players[i].fd, &buffer, sizeof(buffer), 0);
 #endif
 	      if (n > 0)
-                {
+				{
 		  if ((*srv)->game_status != RUNNING)
 		    continue;
 
@@ -190,7 +190,7 @@ int main_loop(t_srv **srv)
       (*srv)->game_status = RUNNING;
       (*srv)->running = RUNNING;
       for (i = 0; i < 4; i++)
-	notify_actual_players(srv, 0);
+				notify_actual_players(srv, 0);
     }
   return (1);
 }
