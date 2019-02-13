@@ -78,4 +78,3 @@ unistall:
 	-rm -f $(DESTDIR)$(prefix)/share/bomberman
 
 .PHONY: all install clean fclean unistall distclean
-
