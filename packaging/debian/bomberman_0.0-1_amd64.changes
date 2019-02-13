@@ -19,41 +19,41 @@ Changes:
    * Initial release. Closes: #nnnn
      <nnnn is the bug number of your ITP>
 Checksums-Sha1:
- cec22dfc083a67c87d5a4ec4d2c4be910aae1839 1757 bomberman_0.0-1.dsc
- ce55077f922769228003878faddb0fb473aa95dc 149499 bomberman_0.0.orig.tar.gz
+ 2733ea66f889520cc86434160f16fcef9c30b287 1757 bomberman_0.0-1.dsc
+ a2a57936abac63ab05de23616d466a3be1f03c74 150813 bomberman_0.0.orig.tar.gz
  63a0078c9479832ac381b3d39ba7313e2cc86a50 1972 bomberman_0.0-1.debian.tar.xz
- 9803eb5bdf077675dc4ea772905565f9b0632379 52858 bomberman-dbgsym_0.0-1_amd64.deb
- d2c07d27d551d6f65085ce3dd978ca5e35f9d201 6088 bomberman_0.0-1_amd64.buildinfo
- 40b94fd1a8a760847c89609a5362b8ee5b49d909 122516 bomberman_0.0-1_amd64.deb
+ ce5213cb06e82f095366826f3f81d187e6bd97f1 58302 bomberman-dbgsym_0.0-1_amd64.deb
+ 4dc895f494a201a04d6f1d7970da9199b1879e61 6088 bomberman_0.0-1_amd64.buildinfo
+ c4ba1dfcc1706ef31214600741be2c5907f2c05a 122248 bomberman_0.0-1_amd64.deb
 Checksums-Sha256:
- 0d677ed69bb711056fdedc94d0dc58f8dca88e8f54a4e0e9f3cfa84e47da3277 1757 bomberman_0.0-1.dsc
- b6941eca1afef9e92495c8c29f50b68818b04ca9f9acb1e626c415096b13df25 149499 bomberman_0.0.orig.tar.gz
+ 0f6b1247283e4073bece650bcf3dfc3c031c9a1c02430a8b80ceea1547280c5a 1757 bomberman_0.0-1.dsc
+ 98a73d72f87fad2703057cd29f542fbf3071fd5ce86bf7f7da050856ee563a20 150813 bomberman_0.0.orig.tar.gz
  5e30905b2db7622eb7548dcaa303dda900dfccb6392690066732031c1f63561c 1972 bomberman_0.0-1.debian.tar.xz
- d810b53a974bf34502bf79ae48ad89862b4744a7329fd10abf6b38c1050837e4 52858 bomberman-dbgsym_0.0-1_amd64.deb
- 025375cb9582c0ba2d2a15fd07ac343383be5abd75f5784d5117f7bf46ef04af 6088 bomberman_0.0-1_amd64.buildinfo
- 63e7abf1f2aaf219710e30691700f811a8ad691685f7bdb1242216821c11bb9b 122516 bomberman_0.0-1_amd64.deb
+ e5c6d46a8cc104d6ee7866a9fcab507a078fbbf65814b4e97405579f9d566ca2 58302 bomberman-dbgsym_0.0-1_amd64.deb
+ 08012472842634b25c11fd40f6e0454c331659c3b256ba89c33f8dd0f29dd83b 6088 bomberman_0.0-1_amd64.buildinfo
+ 8923dcfe2595f22fb0a086bf4b17604a8bd63820d96c7fdf8a5e6356260909d0 122248 bomberman_0.0-1_amd64.deb
 Files:
- 2ee6b3e1b5ed7e86f5f88f484d2c59ad 1757 games extra bomberman_0.0-1.dsc
- 1f1bed0875fed50c44328985597c2289 149499 games extra bomberman_0.0.orig.tar.gz
+ 45c4ee77bce2796b295b192d7040f748 1757 games extra bomberman_0.0-1.dsc
+ a0b07456a1e757011c3a1597227c5b74 150813 games extra bomberman_0.0.orig.tar.gz
  c8ad2e27a994524aa886c0909397bf21 1972 games extra bomberman_0.0-1.debian.tar.xz
- a0e1f411b1eb26c43e4487922e2f537f 52858 debug extra bomberman-dbgsym_0.0-1_amd64.deb
- b15bdd85e840b6a096cecf2f888d38fc 6088 games extra bomberman_0.0-1_amd64.buildinfo
- e0ceb3d87695df63582e81fd44a012f6 122516 games extra bomberman_0.0-1_amd64.deb
+ 240eafe64d4375ee41bc5ed47f8c904b 58302 debug extra bomberman-dbgsym_0.0-1_amd64.deb
+ 771a8fe5866b094e7e98a30d748e1eaf 6088 games extra bomberman_0.0-1_amd64.buildinfo
+ 855a2a5563d4f5fe5acd204358467cf1 122248 games extra bomberman_0.0-1_amd64.deb
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJRBAEBCAA7FiEE0YBaM9NEWub2D4oW9bPdntkf6FcFAlxaqYYdHGhvY2hhcl9u
-QGV0bmEtYWx0ZXJuYW5jZS5uZXQACgkQ9bPdntkf6FfS2g/+J0ZKFLz11zNnY9LB
-hteOUnOFyZ/eDKtaOiMtyvjpCqzEKiCd8DbIlH/BAxeQxZXRDSNlN1xq1BvOhKY+
-eIgtYy852UsAqE9KnF0HQE9RVr94inl2qtW+7cjq2fwtAAFGvHCtfQKUXtfu5thc
-euo3iiv0RFxm3MwAcwa7Qtnj1cl93+BvXowmNo3kHtsj6mawxnkrewfHu7yB2HW0
-Z/6N6EzMQUryApuBR41xa6i+qHOfhG8XzXOuOhve8vOQOfIFC7bpOV/jK/xcvtVX
-9oyk3l8y1fpvWbbVFuEMtbbo+nkAlvGk04JTX+KuNB68aB+9+WdZZ27LJRyuCuaZ
-FjJQjiQ9hGkpV/Npz/ByoIiXu+yA9g6GxDnm0hEfLrk+/m9xTDXyAA49+v6sglGe
-w2AMDekNbCfeN45zr4/dlHcLhcosmapyusUJmdh7IFsZDRaqxP/h4Uoe+Go2DkPT
-AmFR40uMffi4Pk/mvTkPh1ziGOMlVz9g15/QqlErFeqRlCsEWrwGUmLnZ+z6yXzB
-7BhWvQL+2QVNjiqUML1pneASFdAGHRMpn3A/1exqN+y+VKKVBnZ2oFaCoRTlZqZJ
-y2HQ01VpSNUTXS0JgU9emtc4RgMqlLmO6S/6F5212KzX450Xdbi1XtqocvJ6aBLh
-VDf9rvuMyne/NkmdObG3lQ6Uf2c=
-=fnvj
+iQJRBAEBCAA7FiEE0YBaM9NEWub2D4oW9bPdntkf6FcFAlxkEKIdHGhvY2hhcl9u
+QGV0bmEtYWx0ZXJuYW5jZS5uZXQACgkQ9bPdntkf6FePfQ//Rpzz8um8deQlaT/d
+KXxDDnKiTSDYaCoKFh0kZqRNA6Jvpm6jh5eDQxL1yxJDuCtlJjxR560KBdn4O94t
+wuZjw2JCYUze6mm+WOBA8cmIoxb4uX1AhUAIa/k03MKXFyToixDBwe5LNrp7PO50
+TBD2jTdggHxUmz+tKQwrjGRky7D0CHlUFJO12fyrn7Q4c5CIyGhrd6DWjyv3zGd2
+iiUjEhSPtqANFO2RU7UOmCWCBt84dWyXhY5IVro/RZ5+wxsOvNA2sHJvZGXmkwMq
+4mHSSDcn9HcYWBSmPN2Z7Tmv28GrH0vJJO2ryhJm4X7LM9SR9Jvlwkzp1fdHW0ku
+8OWKaUh5OEFhRFcHH6PV4e7nIzXZI5y0bA/9AkKQZ/lyL/6/8fFXwsxFr48xkH0a
+SGQJNvrhecYwYaGXbmJMWJTKX+kTuPv6Cq/Pp6SJxdRbyLwwG9OtA6j3kg7f2uqN
+03yt1+mu1AtSFqfyaW8UBa5bxlxRlRY/dH/341bzzHOlb1rTGsx3yGGt/meFFeGD
+dfS2/VSMM6SnnfXZfs+UjHJEu7swcWLWUcWpKJ0VUPgeX/dDVk+RN+UTuqHSIgjy
+huv7lnSEJbAIc8punWdw3MrqpmcS31XVDYbeMoe+R4FXmpi8DamjjHkdfh9yDaUJ
+2kFAnDboZIDQWRE4PeJUoQyBXDw=
+=Eq9a
 -----END PGP SIGNATURE-----
