@@ -31,7 +31,7 @@ int has_collision_with_destructible(t_srv **srv, const SDL_Rect zone)
 {
   int i;
 
-  for (i = 0; i < INLINE_MATRIX; ++i)
+  for (i = 0; i < INLINE_MATRIX; i++)
   {
     if (!(*srv)->map_destroyable[i].exist && !(*srv)->map_destroyable[i].bomb)
       continue;

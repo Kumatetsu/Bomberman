@@ -30,7 +30,7 @@ int main (int argc, char *argv[])
 
   if ((retWSADATA = WSAStartup(MAKEWORD(2, 2), &WSAData)) != 0) {
     printf("main.c : WSAStartup() failed with error %d\n", retWSADATA);
-    //	WSACleanup();
+    WSACleanup();
     return (1);
   }
   if (LOBYTE(WSAData.wVersion) != 2 || HIBYTE(WSAData.wVersion) != 2) {

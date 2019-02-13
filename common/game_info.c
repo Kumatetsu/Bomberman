@@ -53,7 +53,7 @@ void create_game_info()
   int i;
 
   game_info->game_status = WAITING;
-  for (i = 0; i < INLINE_MATRIX; ++i)
+  for (i = 0; i < INLINE_MATRIX; i++)
   {
     map_destroyable.y = 0;
     map_destroyable.x = 0;

@@ -36,24 +36,10 @@
 #ifdef _WIN32
 void            my_windows_sleep(int milli)
 {
-  int			nano;
-
-  nano = milli * 1000;
-  windowsNanoSleep(nano);
+	struct timespec req = { milli / 1000, milli % 1000 * 1000000L };
+	nanosleep(&req, NULL);
 }
 
-#else
-
-void			my_sleep(int sec, int milli)
-{
-  int nano;
-  struct timespec req = {0};
-
-  nano = milli * 10000000;
-  req.tv_sec = sec;
-  req.tv_nsec = nano;
-  nanosleep(&req, NULL);
-}
 #endif
 
 void verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
@@ -98,12 +84,15 @@ void *bomb_thread_func(void *struct_bomb_thread)
   int k = 0;
   int indexes[13];
   t_srv **srv;
+#ifdef _WIN32
+	int nbBytesSent;
+#endif
 
   srv = bts->srv;
   printf("server index 0 %d", bts->index);
   indexes[0] = bts->index;
   #ifdef _WIN32
-    my_windows_sleep(SLEEP);
+    my_windows_sleep(SLEEP * 8);
   #else
     usleep(SLEEP * 10000);
   #endif
@@ -122,14 +111,27 @@ void *bomb_thread_func(void *struct_bomb_thread)
   }
   for (i = 0; i < 4; i++)
   {
-    write((*srv)->players[i].fd, &response, sizeof(response));
+#ifdef _WIN32
+		nbBytesSent = 0;
+		if ((nbBytesSent = send((*srv)->players[i].fd, (void*)&response, sizeof(response), 0)) < 0)
+		{
+			printf("error sending from bomb_thread_func n°%d \n", WSAGetLastError());
+		}
+		else {
+			printf("send from bomb_thread_func success of %d bytes \n ", nbBytesSent);
+		}
+#else
+		write((*srv)->players[i].fd, &response, sizeof(response));
+#endif
   }
   #ifdef _WIN32
-    my_windows_sleep(SLEEP);
+    my_windows_sleep(SLEEP * 2);
   #else
     usleep(SLEEP * 10000);
   #endif
+
   reset_explosion.id = ENDEXPLOSION;
+
   for (k = 0; k < 13; k++)
   {
     if (indexes[k] > 194)
@@ -142,7 +144,18 @@ void *bomb_thread_func(void *struct_bomb_thread)
   }
   for (i = 0; i < 4; i++)
   {
-    write((*srv)->players[i].fd, &reset_explosion, sizeof(response));
+#ifdef _WIN32
+		nbBytesSent = 0;
+		if ((nbBytesSent = send((*srv)->players[i].fd, (void*)&reset_explosion, sizeof(response), 0)) < 0)
+		{
+			printf("error sending from bomb_thread_func reset_explosion n°%d \n", WSAGetLastError());
+		}
+		else {
+			printf("send from bomb_thread_func success of %d bytes \n ", nbBytesSent);
+		}
+#else
+		write((*srv)->players[i].fd, &reset_explosion, sizeof(response));
+#endif
   }
   free(struct_bomb_thread);
   return NULL;

@@ -26,11 +26,25 @@ void my_bzero(void *s1, int n)
   }
 }
 
-int send_request(int s, int command)
+int send_request(SOCKET s, int command)
 {
   int tmp;
   printf("command: %d", command);
   tmp = htonl(command);
-  write(s, &tmp, sizeof(tmp));
+
+#ifdef _WIN32
+	int nbrBytes = 0;
+	if ((nbrBytes = send(s , (void*)&tmp, sizeof(tmp), 0)) < 0)
+	{
+		printf("error %d sending from send_request to server socket: %d \n", WSAGetLastError(), s);
+	}
+	else
+	{
+		printf("send_request to server from socket: %d  : %d bytes \n ", s, nbrBytes);
+	}
+#else
+	write(s, &tmp, sizeof(tmp));
+#endif
+
   return SUCCESS_SEND;
 }

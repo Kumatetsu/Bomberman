@@ -8,7 +8,7 @@
 ** Last update Wed Jul  4 09:37:33 2018 MASERA Mathieu
 */
 
-#include <stdio.h>
+#include "system.h"
 #include "enum.h"
 #include "constant.h"
 #include "sdl.h"
@@ -26,15 +26,6 @@
 #include "server_request.h"
 #include "notify_client.h"
 #include "command_interpretor.h"
-#ifdef _WIN32
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#endif
-// ??
-#include <time.h>
-#include <sys/time.h>
-//
-#include "system.h"
 
 void restart_game(t_srv **srv)
 {
@@ -53,56 +44,51 @@ void restart_game(t_srv **srv)
 int main_loop(t_srv **srv)
 {
     int i;
-    int error;
-    socklen_t len;
+		int	error;
+		socklen_t len;
     int retval;
     // int			response_type;
     struct timeval it_value;
     t_player_request player_request = {0};
     int survivors;
-
     i = 0;
     // On initialise direct la game_info
     // on utilise ensuite is_running() pour savoir si ca tourne
     // puis on récupère la static remplie
     FD_ZERO(&(*srv)->fd_read);
-    #ifdef _WIN32
-        FD_SET((unsigned int)(*srv)->fd, &(*srv)->fd_read);
-    #else
-        FD_SET((*srv)->fd, &(*srv)->fd_read);
-    #endif
+    FD_SET((*srv)->fd, &(*srv)->fd_read);
+
     // server.h définition du fd max pour le select, defaut dans init_server
     for (i = 0; i < 4; i++)
     {
         if ((*srv)->players[i].connected == 1)
         {
-            #ifdef _WIN32
-                FD_SET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read);
-            #else
-                FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
-            #endif
-            if ((*srv)->players[i].fd > (*srv)->fd_max)
+					FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
+
+					if ((*srv)->players[i].fd > (*srv)->fd_max)
                 (*srv)->fd_max = (*srv)->players[i].fd;
         }
     }
 
     it_value.tv_sec = 0;
-    it_value.tv_usec = 10000;
-    if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, &it_value) == -1)
-        return (0);
+    it_value.tv_usec = 100000;
+		if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, &it_value) == -1) {
+#ifdef _WIN32
+			printf("select error: %d\n", WSAGetLastError());
+#else
+			printf("select error main_loop\n");
+#endif
+			return (0);
+		}
 
     if (!server_is_full(srv))
     {
         // ici on accepte les connections clientes
-        #ifdef _WIN32
-            if (FD_ISSET((*srv)->fd, &(*srv)->fd_read) != 0)
-        #else
-            if (FD_ISSET((unsigned int)(*srv)->fd, &(*srv)->fd_read) != 0)
-        #endif
+        if (FD_ISSET((*srv)->fd, &(*srv)->fd_read) != 0)
         {
-            // player.h
-            if ((i = accept_players(srv)) == -1)
-                return 0;
+          // player.h
+          if ((i = accept_players(srv)) == -1)
+            return 0;
         }
     }
 
@@ -125,28 +111,29 @@ int main_loop(t_srv **srv)
         // Si le joueur est connecté... (c'est set à 1 dans server/create_game.c::create_game_info)
         if ((*srv)->players[i].connected == 1)
         {
-            error = 0;
-            len = sizeof(error);
-// interroge les options de la socket (player->fd) pour détecter une erreur
-            #ifdef _WIN32
-                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
-            #else
-                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
-            #endif
-            // Si erreur on déco le player, ca évite de réitérer dessus
-            if (retval != 0 || error != 0)
-            {
-                (*srv)->players[i].connected = 0;
-                continue;
-            }
+					len = sizeof(error);
+						// interroge les options de la socket (player->fd) pour détecter une erreur
+						// Si erreur on déco le player, ca évite de réitérer dessus
+#ifdef _WIN32
+							retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, (char*)&error, &len);
+							if (retval != 0) {
+								printf("error getsockopt main_loop: WSACode: %d, error getsockopt: %d\n", WSAGetLastError(), error);
+								(*srv)->players[i].connected = 0;
+								continue;
+							}
+#else
+						error = 0;
+            retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
+						if (retval != 0 || error != 0) {
+							printf("error getsockopt main_loop: %s\n", error);
+							(*srv)->players[i].connected = 0;
+							continue;
+						}
+#endif
             // Si la socket du player est set on traite...
-            #ifdef _WIN32
-                if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read) != 0)
-            #else
-                if (FD_ISSET((unsigned int)(*srv)->players[i].fd, &(*srv)->fd_read) != 0)
-            #endif
-            {
-                int n = 0;
+            if (FD_ISSET((*srv)->players[i].fd, &(*srv)->fd_read) != 0)
+							{
+								int n = 0;
                 // char buffer[sizeof(int)];
                 // ??? merge chelou
                 int buffer;
@@ -154,9 +141,9 @@ int main_loop(t_srv **srv)
                 printf("\nHandling request for player\n");
 // On extrait le contenu
                 #ifdef _WIN32
-                    n = recv((*srv)->players[i].fd, (char*)&buffer, sizeof(int), 0);
+                    n = recv((*srv)->players[i].fd, (char*)&buffer, sizeof(buffer), 0);
                 #else
-                    n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0);
+                    n = recv((*srv)->players[i].fd, &buffer, sizeof(buffer), 0);
                 #endif
                 if (n > 0)
                 {
@@ -179,7 +166,14 @@ int main_loop(t_srv **srv)
 
                     //     write((*srv)->players[i].fd, &response_pos, sizeof(response_pos));
                     // }
-                }
+								}
+								else {
+#ifdef _WIN32
+									printf("recv from main_loop.c failed with error: %d\n", WSAGetLastError());
+#else
+									printf("recv from main_loop.c failed\n");
+#endif
+								}
                 printf("client send request\n");
             }
         }

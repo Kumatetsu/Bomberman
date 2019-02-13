@@ -27,7 +27,8 @@ void		        manage_bombs(t_game_info *game_info)
   t_map_destroyable	map_destroyable;
 
   printf("\nAdd_bomb_element iterate through map_destroyable\n");
-  for (i = 1; i < INLINE_MATRIX; ++i) {
+  for (i = 1; i < INLINE_MATRIX; i++)
+	{
     // On vérifie que l'élément peut supporter l'ajout d'une bomb
     printf("\ncheck if map_destroyable %d exist\n", i);
     if (game_info->map_destroyable[i].exist == 0)
@@ -36,19 +37,19 @@ void		        manage_bombs(t_game_info *game_info)
     map_destroyable = game_info->map_destroyable[i];
     printf("\nif its a bomb\n");
     if (map_destroyable.bomb == 1)
-      {
-	printf("\ncheck if start_explode == tick_time (?)\n");
+		{
+			printf("\ncheck if start_explode == tick_time (?)\n");
     	if (map_destroyable.start_explode == game_info->tick_time)
-	  {
-	    // c'est une bombe, il est temps qu'elle pète
-	    printf("\ncall destroy bomb\n");
-	    //	    destroy_bomb(game_info, map_destroyable);
-	    continue;
-	  }
-	printf("\ncall trigger_bomb\n");
-	//	trigger_bomb(game_info, map_pointer, map_destroyable);
-	printf("\ntrigger_bomb done\n");
-      }
+			{
+				// c'est une bombe, il est temps qu'elle pète
+				printf("\ncall destroy bomb\n");
+				// destroy_bomb(game_info, map_destroyable);
+				continue;
+			}
+			printf("\ncall trigger_bomb\n");
+			//	trigger_bomb(game_info, map_pointer, map_destroyable);
+			printf("\ntrigger_bomb done\n");
+    }
   }
   printf("\nmanage_bomb done\n");
 }

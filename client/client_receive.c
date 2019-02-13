@@ -8,9 +8,6 @@
 ** Last update Wed Jul  4 10:16:22 2018 MASERA Mathieu
 */
 
-#ifdef _WIN32
-#define HAVE_STRUCT_TIMESPEC
-#endif
 #include "system.h"
 #include "enum.h"
 #include "constant.h"
@@ -32,19 +29,18 @@
 #include "client_receive.h"
 #include "server_request.h"
 #include "command_interpretor.h"
-#include <stdio.h>
 
-void *listen_server(void *s)
+void				*listen_server(void *s)
 {
-  int i;
-  t_thread *struct_thread;
-  int quit = 0;
-  fd_set fd_read;
+  int					i;
+  t_thread		*struct_thread;
+  int					quit = 0;
+  fd_set			fd_read;
   // game info temporaire allouée
   // et libérée à chaque tour de boucle
   // indépendante de la game_info server
   t_game_info *client_game_info;
-  t_data *data;
+  t_data			*data;
 
   struct_thread = (t_thread *)(s);
   data = struct_thread->data;
@@ -75,15 +71,12 @@ void *listen_server(void *s)
   while (!quit)
   {
     FD_ZERO(&fd_read);
-    #ifdef _WIN32
-      FD_SET((unsigned int)struct_thread->socket, &fd_read);
-    #else
-	    FD_SET(struct_thread->socket, &fd_read);
-    #endif
+	  FD_SET(struct_thread->socket, &fd_read);
+
     printf("\nbefore select\n");
     if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
       quit = 1;
-    if (FD_ISSET(struct_thread->socket, &fd_read))
+    if (FD_ISSET(struct_thread->socket, &fd_read) != 0)
     {
       if (!get_message(struct_thread->socket, &client_game_info))
       {
@@ -127,7 +120,7 @@ void *listen_server(void *s)
   return (NULL);
 }
 
-int get_message(int s, t_game_info **client_game_info)
+int get_message(SOCKET s, t_game_info **client_game_info)
 {
   int r;
   t_response_pool response;
@@ -145,7 +138,8 @@ int get_message(int s, t_game_info **client_game_info)
   if (r != -1)
   {
     printf("client: server response\n");
-    printf("response_type %d", response.id);
+    printf("response_type %d\n", response.id);
+		printf("nb_bytes received : %d\n", r);
     client_interpretor(client_game_info, &response);
     return (1);
   }

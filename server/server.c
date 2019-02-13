@@ -23,30 +23,34 @@
 #include "static_wall_rect.h"
 
 // Initialise le server apres un click sur 'create server' dans menu.c
-void *init_server()
+void						*init_server()
 {
-  int s;
-  int i;
-  t_srv *srv;
-  pthread_t main_thread;
-  t_game_info *game_info;
+	SOCKET				s;
+	int						i;
+	t_srv					*srv;
+	pthread_t			main_thread;
+	t_game_info		*game_info;
 
-  // initialisation de la structure server et de la socket du server
+	// initialisation de la structure server et de la socket du server
+
+	if ((srv = malloc(sizeof(*srv))) == NULL) {
+		printf("error allocation memory serveur");
+		return (NULL);
+	}
+
 
 #ifdef _WIN32
-  if ((srv = (t_srv*)malloc(sizeof(t_srv))) == NULL) {
-    printf("error allocation memory serveur");
-    return (NULL);
-  }
+	if ((s = create_server_socket()) == INVALID_SOCKET) {
+		printf("error create server socket : %d\n", WSAGetLastError());
+		return (NULL);
+	}
 #else
-  if ((srv = malloc(sizeof (*srv))) == NULL)
-    return (NULL);
+	if ((s = create_server_socket()) == -1) {
+		printf("error socket init\n");
+		return (NULL);
+	}
 #endif
 
-  if ((s = create_server_socket()) == -1) {
-    printf("error create server socket");
-    return (NULL);
-  }
   srv->fd = s;
   srv->fd_max = s;
   printf("\nInitial server fd and fd_max: %d\n", s);
@@ -60,7 +64,7 @@ void *init_server()
   }
   set_game_info(game_info);
 
-  for (i = 0; i < INLINE_MATRIX; ++i)
+  for (i = 0; i < INLINE_MATRIX; i++)
   {
     srv->map_destroyable[i].y = 0;
     srv->map_destroyable[i].x = 0;
@@ -92,26 +96,44 @@ void *init_server()
 
 int			create_server_socket()
 {
-  int s;
-  struct sockaddr_in sin;
-  int port;
+  SOCKET s;
+	SOCKADDR_IN sin;
+  int	port;
 
-  memset(&sin, 0, sizeof (struct sockaddr_in));
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
-    printf("error server socket init");
-    return (-1);
-  }
+  memset(&sin, 0, sizeof (SOCKADDR_IN));
+	s = socket(PF_INET, SOCK_STREAM, 0);
+
+#ifdef _WIN32
+	if (s == INVALID_SOCKET) {
+		printf("error socket init : %d\n", WSAGetLastError());
+		return (-1);
+	}
+#else
+	if (s == -1) {
+		printf("error socket init\n");
+		return (-1);
+	}
+#endif
+
   port = PORT;
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s, (struct sockaddr *)&sin, sizeof(sin)) == -1)
+  if (bind(s, (SOCKADDR *)&sin, sizeof(sin)) != 0)
     {
+#ifdef _WIN32
+			printf("error socket binding : %d\n", WSAGetLastError());
+#else
       printf("error socket binding\n");
-      return (-1);
+#endif
+			return (-1);
     }
-  if (listen(s, 42) == -1) {
-    printf("error serveur listening\n");
+  if (listen(s, 42) != 0) {
+#ifdef _WIN32
+		printf("error serveur listening : %d\n", WSAGetLastError());
+#else
+		printf("error serveur listening\n");
+#endif
     return (-1);
   }
   return (s);

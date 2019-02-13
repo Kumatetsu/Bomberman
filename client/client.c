@@ -24,7 +24,7 @@
 void			init_client(t_sdl *sdl)
 {
   int			cs;
-  char			*addr;
+  char		*addr;
 
   // on attend que l'adresse soit écrite par le user (ce fichier, client/client.c)
   addr = enter_addr(sdl);
@@ -100,14 +100,14 @@ char		*enter_addr(t_sdl *sdl)
 }
 
 //init de la socket client + connection à une socket server.
-int			client_connect(char *serv_addr)
+int											client_connect(char *serv_addr)
 {
   struct protoent       *pe;
-  struct sockaddr_in    sin;
-  int			s;
-  int			port;
+	SOCKADDR_IN						sin;
+  SOCKET								s;
+  int										port;
 
-  memset(&sin, 0, sizeof(struct sockaddr_in));
+  memset(&sin, 0, sizeof(SOCKADDR_IN));
   port = PORT;
   pe = getprotobyname("TCP");
   if (pe == NULL)
@@ -115,18 +115,34 @@ int			client_connect(char *serv_addr)
       printf("error protocole for socket client");
       return (-1);
     }
-  s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
-  if (s == -1)
-    {
-      printf("error socket client");
-      return (-1);
-    }
+  
+	s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
+
+#ifdef _WIN32
+
+	if (s == INVALID_SOCKET)
+	{
+		printf("error socket client");
+		return (-1);
+	}
+#else
+	if (s == -1)
+	{
+		printf("error socket client");
+		return (-1);
+	}
+#endif
+	
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(serv_addr);
-  if(connect(s, (const struct sockaddr *)&sin, sizeof (sin)) == -1)
+  if(connect(s, (const SOCKADDR *)&sin, sizeof (sin)) != 0)
     {
-      printf("error connection\n");
+#ifdef _WIN32
+		printf("error connection connect client.c : %d\n", WSAGetLastError());
+#else
+		printf("error connection\n");
+#endif
       exit(errno);
     }
   printf("connected\n");

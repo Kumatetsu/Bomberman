@@ -57,7 +57,7 @@ int start_map(t_sdl *sdl, int socket)
   SDL_RenderPresent(data->renderer);
   SDL_RenderClear(data->renderer);
   printf("\nbefore create thread\n");
-  if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread))
+  if (pthread_create(&listen_server_thread, NULL, listen_server, struct_thread) != 0)
     quit = 1;
   printf("\nthread created\n");
   send_request(socket, GIVE_PLAYERS);

@@ -40,8 +40,10 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player, int linked_index[1])
   t_bomb_thread *struct_bomb_thread;
   bomb = malloc(sizeof(t_map_destroyable));
 
-  if (bomb == NULL) // Si l'allocation a échoué
-    return NULL;
+	if (bomb == NULL) { // Si l'allocation a échoué
+		printf("t_map_destroyable bomb allocation failed\n");
+		return NULL;
+	}
 
   printf("\nPLACING BOMB\n");
   player = (*srv)->players[id_player];
@@ -110,14 +112,19 @@ t_map_destroyable *place_bomb(t_srv **srv, int id_player, int linked_index[1])
   {
     printf("\nPlacing bomb at index: %d, position: %d/%d\n", index, bomb->x, bomb->y);
     (*srv)->map_destroyable[index] = (*bomb);
-    if ((struct_bomb_thread = malloc(sizeof(t_bomb_thread))) == NULL)
-      return NULL;
-    struct_bomb_thread->srv = srv;
+		if ((struct_bomb_thread = malloc(sizeof(t_bomb_thread))) == NULL)
+		{
+			printf("struct_bomb_thread allocation failed\n");
+			return NULL;
+		}
+		struct_bomb_thread->srv = srv;
     struct_bomb_thread->index = index;
     linked_index[0] = index;
     printf("index before thread: %d", struct_bomb_thread->index);
-    if (pthread_create(&bomb_thread, NULL, bomb_thread_func, struct_bomb_thread) == -1)
-      return NULL;
+		if (pthread_create(&bomb_thread, NULL, bomb_thread_func, struct_bomb_thread) != 0) {
+			printf("pthread_create bomb_thread_func failed\n");
+			return NULL;
+		}
     return bomb;
   }
 }

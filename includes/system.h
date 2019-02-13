@@ -6,16 +6,15 @@
   #ifndef OS_Windows
     #define OS_Windows
   #endif
+#ifndef HAVE_STRUCT_TIMESPEC
+#define HAVE_STRUCT_TIMESPEC
+#endif
   #include <winsock2.h>
   #include <Ws2tcpip.h>
   // For windows: MinGW/include/pthread.h redefine timespec struc
   // this instruction avoid redefinition
-  #include <time.h>
   #include <windows.h>
   #include "windows_nanosleep.h"
-#ifndef HAVE_STRUCT_TIMESPEC
-  #define HAVE_STRUCT_TIMESPEC
-#endif
 #else
   /* Assume that any non-Windows platform uses POSIX-style sockets instead. */
   #include <sys/select.h>
@@ -24,8 +23,12 @@
   #include <netdb.h>
   // For windows: MinGW/include/pthread.h redefine timespec struc
   #include <sys/socket.h>
-  #include <time.h>
+  typedef int SOCKET;
+  typedef struct sockaddr_in SOCKADDR_IN;
+  typedef struct sockaddr SOCKADDR;
+  typedef struct in_addr IN_ADDR;
 #endif
+#include <time.h>
 #include <pthread.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

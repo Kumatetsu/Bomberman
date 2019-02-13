@@ -92,43 +92,43 @@ void			destroy_bomb(
   is_blocked = 0;
   for (k = (bomb_to_destroy.y-3); k < (bomb_to_destroy.y+3); ++k) {
     if (k == 0 || is_blocked == 1)
-      {
-	is_blocked = (k == 0 ? 0 : 1);
-	continue;
-      }
+    {
+			is_blocked = (k == 0 ? 0 : 1);
+			continue;
+    }
     if (map_pointer[bomb_to_destroy.x][k] == WALL)
-      {
-	is_blocked = 1;
-	continue;
-      }
+    {
+			is_blocked = 1;
+			continue;
+    }
     for (i = 1; i < 14; ++i) {
       for (j = 1; j < 15; ++j) {
-	if (game_info->map_destroyable[i][j].exist == 0
-	    || game_info->map_destroyable[i][j].bomb == 1)
-	  continue;
-	is_blocked = 1;
-	game_info->map_destroyable[i][j].exist = 0;
+				if (game_info->map_destroyable[i][j].exist == 0
+				|| game_info->map_destroyable[i][j].bomb == 1)
+					continue;
+			is_blocked = 1;
+			game_info->map_destroyable[i][j].exist = 0;
       }
     }
   }
   is_blocked = 0;
   for (k = (bomb_to_destroy.x-3); k < (bomb_to_destroy.x+3); ++k) {
     if (k == 0 || is_blocked == 1)
-      {
-	is_blocked = (k == 0 ? 0 : 1);
-	continue;
-      }
+    {
+			is_blocked = (k == 0 ? 0 : 1);
+			continue;
+    }
     if (map_pointer[k][bomb_to_destroy.y] == WALL)
-      {
-	is_blocked = 1;
-	continue;
-      }
+    {
+			is_blocked = 1;
+			continue;
+    }
     for (i = 1; i < 14; ++i) {
       for (j = 1; j < 15; ++j) {
-	if (game_info->map_destroyable[i][j].exist == 0
-	    || game_info->map_destroyable[i][j].bomb == 1)
-	  continue;
-	game_info->map_destroyable[i][j].exist = 0;
+				if (game_info->map_destroyable[i][j].exist == 0
+				|| game_info->map_destroyable[i][j].bomb == 1)
+					continue;
+				game_info->map_destroyable[i][j].exist = 0;
       }
     }
   }
@@ -149,11 +149,11 @@ t_map_destroyable	get_element_at_pos(t_game_info *game_info, int x, int y)
   for (i = 1; i < 14; ++i) {
     for (j = 1; j < 15; ++j) {
       if (game_info->map_destroyable[i][j].exist == 0
-	  || game_info->map_destroyable[i][j].bomb == 1)
-	continue;
-      map_destroyable = game_info->map_destroyable[i][j];
+			|| game_info->map_destroyable[i][j].bomb == 1)
+				continue;
+			map_destroyable = game_info->map_destroyable[i][j];
       if (map_destroyable.y == y && map_destroyable.x == x)
-	return map_destroyable;
+				return map_destroyable;
     }
   }
   return map_destroyable;

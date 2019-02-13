@@ -56,7 +56,7 @@ void main_menu(t_sdl *sdl)
         if ((x > create_position.x) && (x < create_position.x + create_position.w) && (y > create_position.y) && (y < create_position.y + create_position.h))
         {
           printf("server button pressed");
-          if (pthread_create(&server_thread, NULL, init_server, NULL) == -1)
+          if (pthread_create(&server_thread, NULL, init_server, NULL) != 0)
             return;
         }
         break;

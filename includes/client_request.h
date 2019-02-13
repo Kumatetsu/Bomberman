@@ -33,6 +33,6 @@ typedef struct s_server_response
 } t_server_reponse;
 
 void my_bzero(void *s1, int n);
-int send_request(int s, int command);
+int send_request(SOCKET s, int command);
 
 #endif /* !_CLIENT_REQUEST_H_ */
