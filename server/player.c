@@ -28,9 +28,10 @@ void		reset_players(t_srv **srv)
   t_player_info	p;
   for (int i = 0; i < 4; i++)
   {
-    if ((*srv)->players[i].connected)
+    if ((*srv)->players[i].connected && (*srv)->players[i].fd != -1)
     {
-      p = (*srv)->players[i];
+			fflush(stdout);
+			p = (*srv)->players[i];
       p.alive = 1;
       p.dying = 0;
       p.action_sprite = not_move;
@@ -38,7 +39,7 @@ void		reset_players(t_srv **srv)
       define_player_init_pos(&(p));
       (*srv)->players[i] = p;
       printf("PLAYER RESET: id: %d alive:%d action:%d move%d\n", i, p.alive, p.action_sprite, p.direction_sprite);
-    }
+		}
   }
 }
 
