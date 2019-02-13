@@ -96,11 +96,7 @@ void *bomb_thread_func(void *struct_bomb_thread)
   #else
     usleep(SLEEP * 10000);
   #endif
-		printf("before boom\n");
-		fflush(stdout);
   boom(srv, indexes);
-	printf("after boom\n");
-	fflush(stdout);
 
   for (i = 0; i < 4; i++)
   {
@@ -109,21 +105,11 @@ void *bomb_thread_func(void *struct_bomb_thread)
   response.id = EXPLOSION;
   for (i = 0; i < 13; i++)
   {
-		printf("LE i = %d\n", i);
-			fflush(stdout);
-		
-		printf("passed 1 de i : %d\n", i);
-		fflush(stdout);
     response.index[i] = indexes[i];
-		printf("passed 2 de i : %d\n", i);
-		fflush(stdout);
 		if (indexes[i] >= INLINE_MATRIX || indexes[i] < 0) {
-			printf("i exit : %d\n", i);
 			continue;
 		}
     response.explosion[i] = (*srv)->map_destroyable[indexes[i]];
-		printf("passed 3 de i : %d\n", i);
-		fflush(stdout);
 
   }
   for (i = 0; i < 4; i++)
@@ -132,10 +118,7 @@ void *bomb_thread_func(void *struct_bomb_thread)
 			continue;
 #ifdef _WIN32
 		nbBytesSent = 0;
-		printf("before sending explosion from server\n");
-		fflush(stdout);
 		nbBytesSent = send((*srv)->players[i].fd, (void*)&response, sizeof(response), 0);
-		printf("after sending explosion from server\n");
 		fflush(stdout);
 		if (nbBytesSent < 0)
 		{

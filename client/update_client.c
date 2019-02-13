@@ -41,28 +41,19 @@ void update_explosion(t_game_info **game_info, t_response_pool *response_pool)
     {
 
 			for (i = 0; i < 13; i++) {
-				printf("response_pool->bomb_explosion.index[i] i ====== %d\n", i);
-				fflush(stdout);
 				if (response_pool->bomb_explosion.index[i] >= INLINE_MATRIX || response_pool->bomb_explosion.index[i] < 0)
 					continue;
 				(*game_info)->map_destroyable[response_pool->bomb_explosion.index[i]] = response_pool->bomb_explosion.explosion[i];
 			}
-			printf("\n\nSORTIE PREMIERE BOUCLE\n\n");
-			fflush(stdout);
         for (i = 0; i < 4; i++)
         {
 					if (!response_pool->bomb_explosion.players[i].alive) {
-						printf("*game_info)->players[i] i ====== %d\n", i);
-						fflush(stdout);
 						(*game_info)->players[i] = response_pool->bomb_explosion.players[i];
 					}
         }
-				printf("SORTIE DEUXIEME BOUCLE!! \n");
-				fflush(stdout);
     }
     else
 			for (i = 0; i < 13; i++) {
-				printf("\n!!!WTF IM DOING HERE!!!\n");
 				if (response_pool->end_explosion.index[i] >= INLINE_MATRIX || response_pool->end_explosion.index[i] < 0)
 					continue;
 				(*game_info)->map_destroyable[response_pool->end_explosion.index[i]] = response_pool->end_explosion.explosion[i];
