@@ -154,6 +154,7 @@ void draw_destroyable_model(void *arg)
     destroyable = data->map_destroyable[i];
     if (destroyable.exist)
     {
+      printf("\ndraw_destroyable_model exist at index %d with explosion stage: %d\n", i, destroyable.explosion_stage);
       if (destroyable.bomb)
       {
         SDL_Rect dest_rect = pixel_rect(destroyable.x, destroyable.y);

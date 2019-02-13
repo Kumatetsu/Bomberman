@@ -38,7 +38,7 @@ void            my_windows_sleep(int milli)
 {
   int			nano;
 
-  nano = milli * 1000;
+  nano = milli * 10000000;
   windowsNanoSleep(nano);
 }
 
@@ -90,6 +90,7 @@ void verify_bomb_explosion(t_map_destroyable *map_destroyable, int tk)
 
 void *bomb_thread_func(void *struct_bomb_thread)
 {
+  printf("\n\nbomb_thread_func\n\n");
   t_bomb_thread *bts;
   t_response_bomb_explosion response;
   t_response_end_explosion reset_explosion;
@@ -115,14 +116,20 @@ void *bomb_thread_func(void *struct_bomb_thread)
   response.id = EXPLOSION;
   for (i = 0; i < 13; i++)
   {
-    if (indexes[i] > 194)
+    if (indexes[i] >= INLINE_MATRIX || indexes[i] < 0)
+    {
       continue;
+    }
     response.index[i] = indexes[i];
     response.explosion[i] = (*srv)->map_destroyable[indexes[i]];
   }
   for (i = 0; i < 4; i++)
   {
-    write((*srv)->players[i].fd, &response, sizeof(response));
+    #ifdef _WIN32
+      send((*srv)->players[i].fd, (char*)&response, sizeof(response), 0);
+    #else
+      write((*srv)->players[i].fd, &response, sizeof(response));
+    #endif
   }
   #ifdef _WIN32
     my_windows_sleep(SLEEP);
@@ -132,8 +139,10 @@ void *bomb_thread_func(void *struct_bomb_thread)
   reset_explosion.id = ENDEXPLOSION;
   for (k = 0; k < 13; k++)
   {
-    if (indexes[k] > 194)
+    if (indexes[k] >= INLINE_MATRIX || indexes[k] < 0)
+    {
       continue;
+    }
     (*srv)->map_destroyable[indexes[k]].exist = 0;
     (*srv)->map_destroyable[indexes[k]].bomb = 0;
     (*srv)->map_destroyable[indexes[k]].explosion_stage = 0;
@@ -142,7 +151,11 @@ void *bomb_thread_func(void *struct_bomb_thread)
   }
   for (i = 0; i < 4; i++)
   {
-    write((*srv)->players[i].fd, &reset_explosion, sizeof(response));
+    #ifdef _WIN32
+      send((*srv)->players[i].fd, (char*)&reset_explosion, sizeof(response), 0);
+    #else
+      write((*srv)->players[i].fd, &reset_explosion, sizeof(response));
+    #endif
   }
   free(struct_bomb_thread);
   return NULL;

@@ -31,6 +31,11 @@ int send_request(int s, int command)
   int tmp;
   printf("command: %d", command);
   tmp = htonl(command);
+
+  #ifdef _WIN32
+  send(s, (char *)&tmp, sizeof(tmp), 0);
+  #else
   write(s, &tmp, sizeof(tmp));
+  #endif
   return SUCCESS_SEND;
 }

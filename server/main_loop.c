@@ -87,7 +87,7 @@ int main_loop(t_srv **srv)
     }
 
     it_value.tv_sec = 0;
-    it_value.tv_usec = 10000;
+    it_value.tv_usec = 1000;
     if (select((*srv)->fd_max + 1, &(*srv)->fd_read, NULL, NULL, &it_value) == -1)
         return (0);
 
@@ -129,13 +129,15 @@ int main_loop(t_srv **srv)
             len = sizeof(error);
 // interroge les options de la socket (player->fd) pour détecter une erreur
             #ifdef _WIN32
-                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, "error", &len);
+                retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_MAX_MSG_SIZE, (char*)&error, &len);
             #else
                 retval = getsockopt((*srv)->players[i].fd, SOL_SOCKET, SO_ERROR, &error, &len);
             #endif
             // Si erreur on déco le player, ca évite de réitérer dessus
-            if (retval != 0 || error != 0)
+            if (retval != 0 || error >= 0)
             {
+                int lastError = WSAGetLastError();
+                printf("\nMainLoop, retval: %d, lastError: %d error: %d", retval, lastError, error);
                 (*srv)->players[i].connected = 0;
                 continue;
             }
@@ -154,9 +156,9 @@ int main_loop(t_srv **srv)
                 printf("\nHandling request for player\n");
 // On extrait le contenu
                 #ifdef _WIN32
-                    n = recv((*srv)->players[i].fd, (char*)&buffer, sizeof(int), 0);
+                    n = recv((*srv)->players[i].fd, (char*)&buffer, sizeof(buffer), 0);
                 #else
-                    n = recv((*srv)->players[i].fd, &buffer, sizeof(int), 0);
+                    n = recv((*srv)->players[i].fd, &buffer, sizeof(buffer), 0);
                 #endif
                 if (n > 0)
                 {

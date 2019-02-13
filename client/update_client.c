@@ -39,6 +39,7 @@ void update_explosion(t_game_info **game_info, t_response_pool *response_pool)
 
     if (response_pool->id == EXPLOSION)
     {
+        printf("\nEXPLOSION\n");
         for (i = 0; i < 13; i++)
             (*game_info)->map_destroyable[response_pool->bomb_explosion.index[i]] = response_pool->bomb_explosion.explosion[i];
         for (i = 0; i < 4; i++)

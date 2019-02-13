@@ -21,7 +21,13 @@ void notify_actual_players(t_srv **server, int id_player)
     {
         if (-1 == (*server)->players[id_player].fd)
             continue;
-        write((*server)->players[id_player].fd, &players_pool, sizeof(players_pool));
+
+        #ifdef _WIN32
+            send((*server)->players[id_player].fd, (char *)&players_pool, sizeof(players_pool), 0);
+        #else
+            write((*server)->players[id_player].fd, &players_pool, sizeof(players_pool));
+        #endif
+
     }
 }
 
@@ -42,7 +48,13 @@ void notify_move_up(t_srv **server, int id_player)
     {
         if (-1 == (*server)->players[i].fd)
             continue;
-        write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+
+        #ifdef _WIN32
+            send((*server)->players[i].fd, (char *)&players_pool, sizeof(players_pool), 0);
+        #else
+            write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #endif
+
     }
 }
 
@@ -63,7 +75,11 @@ void notify_move_down(t_srv **server, int id_player)
     {
         if (0 == (*server)->players[i].fd)
             continue;
-        write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #ifdef _WIN32
+            send((*server)->players[i].fd, (char *)&players_pool, sizeof(players_pool), 0);
+        #else
+            write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #endif
     }
 }
 
@@ -84,7 +100,11 @@ void notify_move_left(t_srv **server, int id_player)
     {
         if (-1 == (*server)->players[i].fd)
             continue;
-        write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #ifdef _WIN32
+            send((*server)->players[i].fd, (char *)&players_pool, sizeof(players_pool), 0);
+        #else
+            write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #endif
     }
 }
 
@@ -105,7 +125,12 @@ void notify_move_right(t_srv **server, int id_player)
     {
         if (-1 == (*server)->players[i].fd)
             continue;
-        write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #ifdef _WIN32
+            send((*server)->players[i].fd, (char *)&players_pool, sizeof(players_pool), 0);
+        #else
+            write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #endif
+
     }
 }
 
@@ -125,6 +150,10 @@ void notify_put_bomb(t_srv **server, int id_player)
     {
         if (-1 == (*server)->players[i].fd)
             continue;
-        write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #ifdef _WIN32
+            send((*server)->players[i].fd, (char *)&players_pool, sizeof(players_pool), 0);
+        #else
+            write((*server)->players[i].fd, &players_pool, sizeof(players_pool));
+        #endif
     }
 }

@@ -19,6 +19,7 @@ void command_interpretor(t_srv **server, t_player_request player_request)
         printf("client command: %d, commands status: %d\n", player_request.command, commands[i].status);
         if (player_request.command == commands[i].status)
         {
+            printf("\nCALL command: %d\n", player_request.command);
             commands[i].f(server, player_request.num_player);
             return;
         }

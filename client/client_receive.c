@@ -33,6 +33,7 @@
 #include "server_request.h"
 #include "command_interpretor.h"
 #include <stdio.h>
+#include <sys/time.h>
 
 void *listen_server(void *s)
 {
@@ -40,6 +41,8 @@ void *listen_server(void *s)
   t_thread *struct_thread;
   int quit = 0;
   fd_set fd_read;
+  struct timeval tv;
+
   // game info temporaire allouée
   // et libérée à chaque tour de boucle
   // indépendante de la game_info server
@@ -80,8 +83,9 @@ void *listen_server(void *s)
     #else
 	    FD_SET(struct_thread->socket, &fd_read);
     #endif
-    printf("\nbefore select\n");
-    if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, NULL) == -1)
+    tv.tv_sec = 0;
+    tv.tv_usec = 1000;
+    if (select((struct_thread->socket + 1), &fd_read, NULL, NULL, &tv) == -1)
       quit = 1;
     if (FD_ISSET(struct_thread->socket, &fd_read))
     {
@@ -137,6 +141,7 @@ int get_message(int s, t_game_info **client_game_info)
   #else
     r = recv(s, &response, sizeof(t_response_pool), 0);
   #endif
+
   // une t_game_info fait plus de 7000 bytes
   // si l'ensemble n'est pas consommé, il peut rester
   // quelques bytes qui seront traités et provoqueront une erreur
