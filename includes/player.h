@@ -11,9 +11,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-int add_player(t_srv **srv, int fd);
-int accept_players(t_srv **srv);
-void define_player_init_pos(t_player_info *player);
-void reset_players(t_srv **srv);
+int	add_player(t_srv **srv, int fd);
+int	accept_players(t_srv **srv);
+void	define_player_init_pos(t_player_info *player);
+void	reset_players(t_srv **srv);
 
 #endif /* !_PLAYER_H_ */

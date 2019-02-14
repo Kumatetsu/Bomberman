@@ -11,7 +11,7 @@ int	index_to_y(int index)
   int	y;
 
   y = index / COLUMNS;
-  return (y * PIXEL_SIZE) + 96;
+  return ((y * PIXEL_SIZE) + 96);
 }
 
 int	coord_to_index(int x, int y)
@@ -19,23 +19,27 @@ int	coord_to_index(int x, int y)
   int	index;
   int	col, line;
 
-  // on trouve la colonne et la ligne, c'est tronqué
+  // we find the column and the line, that's truncated
   col = x / PIXEL_SIZE - I_BEGIN;
   line = y / PIXEL_SIZE - J_BEGIN;
-  // si c'est la première case
-  if (col == 0 && line == 0)
+  // if this is the first square
+  if (col == 0 && line == 0) {
     index = 0;
-  // si c'est la dernière colonne
-  else if (col == COLUMNS)
-    // l'index est le nombre de ligne par le nombre de colonnes par ligne - 1
+  }
+  // if this is the last column
+  else if (col == COLUMNS) {
+    //the index is the number of the line by the number muliplided by the number of column less 1
     index = line * COLUMNS - 1;
-  // Si c'est sur la première ligne
-  else if (line == 0)
-    // l'index est égal à la colonne
+  }
+  // if this is on the first line
+  else if (line == 0) {
+    //the index is equal to the column
     index = col;
-  // Ce n'est pas la première ligne, ni la première case, ni la dernière case d'une ligne
-  // ca peut être la première colonne
-  else
+  }
+  //if this is not the first line or first square or last square of a line
+  // it might be the first column
+  else {
     index = (line * COLUMNS + col);
-  return index;
+  }
+  return (index);
 }

@@ -1,32 +1,30 @@
 #ifdef _WIN32
-  /* See http://stackoverflow.com/questions/12765743/getaddrinfo-on-win32 */
-  #ifndef _WIN32_WINNT
-    #define _WIN32_WINNT 0x0A00  /* Windows 10 */
-  #endif
-  #ifndef OS_Windows
-    #define OS_Windows
-  #endif
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0A00  /* Windows 10 */
+#endif
+#ifndef OS_Windows
+#define OS_Windows
+#endif
+// For windows: MinGW/include/pthread.h redefine timespec struc
+// this instruction avoid redefinition
 #ifndef HAVE_STRUCT_TIMESPEC
 #define HAVE_STRUCT_TIMESPEC
 #endif
-  #include <winsock2.h>
-  #include <Ws2tcpip.h>
-  // For windows: MinGW/include/pthread.h redefine timespec struc
-  // this instruction avoid redefinition
-  #include <windows.h>
-  #include "windows_nanosleep.h"
+#include <winsock2.h>
+#include <Ws2tcpip.h>
+#include <windows.h>
+#include "windows_nanosleep.h"
 #else
-  /* Assume that any non-Windows platform uses POSIX-style sockets instead. */
-  #include <sys/select.h>
-  #include <arpa/inet.h>
-  #include <netinet/in.h>
-  #include <netdb.h>
-  // For windows: MinGW/include/pthread.h redefine timespec struc
-  #include <sys/socket.h>
-  typedef int SOCKET;
-  typedef struct sockaddr_in SOCKADDR_IN;
-  typedef struct sockaddr SOCKADDR;
-  typedef struct in_addr IN_ADDR;
+/* Assume that any non-Windows platform uses POSIX-style sockets instead. */
+#include <sys/select.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <sys/socket.h>
+typedef int SOCKET;
+typedef struct sockaddr_in SOCKADDR_IN;
+typedef struct sockaddr SOCKADDR;
+typedef struct in_addr IN_ADDR;
 #endif
 #include <time.h>
 #include <pthread.h>

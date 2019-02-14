@@ -8,52 +8,55 @@
 // pour game_info.h
 #include "client_request.h"
 #include "server.h"
-//
 #include "game_info.h"
 #include "coord_index_swapper.h"
 #include "bomb_management.h"
 #include <stdio.h>
 
-// retourne l'index de la matrice correspondant à un déplacement dans 'direction' de 'cases' cases
-// depuis 'bomb', si le 'next_index' est hors map, on retourne -1
-int get_target(t_map_destroyable bomb, int direction, int cases)
+// return the matrice index which correspond to a move in the direction of squares
+// from 'square', if the 'next index' is out of map we return -1
+int	get_target(t_map_destroyable bomb, int direction, int cases)
 {
-  int col, line, index, next_index;
+  int	col, line, index, next_index;
 
-  // on récupère l'index, la colonne et la ligne de la bombe
+  // we get back the index, the column and the bomb line
   index = coord_to_index(bomb.x, bomb.y);
   col = (index + 1) % COLUMNS;
   line = (index + 1) / COLUMNS;
-  if (col != 0)
+  if (col != 0) {
     line++;
-  // retour par défaut constant OUTOFMAP
+  }
+  // return by default constant OUTOFMAP
   next_index = OUTOFMAP;
   switch (direction)
-  {
-  case BOMBER_D:
-    // pour uniformiser le retour on retourne -1 mais on aurait pu tester sur < 0 à la sortie
-    if (line + cases < LINES)
-      next_index = index + COLUMNS * cases;
-    break;
-  case BOMBER_L:
-    // si la colonne actuelle est inférieure aux nombre de cases souhaitées
-    // pas la place donc on soustrait le nombre de case si on peut sinon return -1
-    if (col >= cases)
-      next_index = index - cases;
-    break;
-  case BOMBER_R:
-    // si la colonne de la bombe est supérieure
-    // au nombre total de colonnes moins le nombre de cases
-    // il n'a pas la place , donc si col est inférieure on ajoute cases
-    if (col < COLUMNS - cases)
-      next_index = index + cases;
-    break;
-  case BOMBER_U:
-    if (line - cases > 0)
-      next_index = index - COLUMNS * cases;
-    break;
-  }
-  return next_index;
+    {
+    case BOMBER_D:
+      //to uniformise the return we return -1
+      if (line + cases < LINES) {
+	next_index = index + COLUMNS * cases;
+      }
+      break;
+    case BOMBER_L:
+      // if the actual column is inferior to the number of square wished
+      // we don't have enough place so we substract the number of case if we can else we return -1
+      if (col >= cases) {
+	next_index = index - cases;
+      }
+      break;
+    case BOMBER_R:
+      // if the column is upper to the total number of column less the number of square
+      // there is not enought place, so if columns are less we add squares
+      if (col < COLUMNS - cases) {
+	next_index = index + cases;
+      }
+      break;
+    case BOMBER_U:
+      if (line - cases > 0) {
+	next_index = index - COLUMNS * cases;
+      }
+      break;
+    }
+  return (next_index);
 }
 
 void kill_player(t_srv **srv, int id)
@@ -67,34 +70,35 @@ void kill_player(t_srv **srv, int id)
 
 // fire effect:
 // wall: -1
-// kill: index du joueur
+// kill: index of the player
 // nothing: enum texture_type fire
-int check_fire_effect(t_srv **srv, t_map_destroyable case_in_fire)
+int			check_fire_effect(t_srv **srv, t_map_destroyable case_in_fire)
 {
-  // on réduit le carré de controle des collisions pour éviter que ca collisionne à tout va
+  // we reduce the square of collision control to be sure it does not impact with everything
   // on vérifie avec un carré de 16x16 avec 16 de margin
-  const SDL_Rect sdl_target = init_rect(case_in_fire.x + 16, case_in_fire.y + 16, 16, 16);
-  int player = 0;
+  const SDL_Rect	sdl_target = init_rect(case_in_fire.x + 16, case_in_fire.y + 16, 16, 16);
+  int			player = 0;
 
   if (has_collision_with_wall(sdl_target))
-  {
-    return -1;
-  }
+    {
+      return (-1);
+    }
   if ((player = has_collision_with_player(srv, sdl_target, -1)) >= 0)
-  {
-    kill_player(srv, player);
-    return player;
-  }
-  return fire;
+    {
+      kill_player(srv, player);
+      return (player);
+    }
+  return (fire);
 }
 
-void boom(t_srv **srv, int indexes[13])
+void			boom(t_srv **srv, int indexes[13])
 {
-  printf("in boom\n");
-  t_map_destroyable boom_origin;
-  int target, effect;
-  int iterator, it;
-  int k = 0;
+  t_map_destroyable	boom_origin;
+  int			target, effect;
+  int			iterator, it;
+  int			k;
+
+  k = 0;
   effect = -1;
   target = -1;
   boom_origin = (*srv)->map_destroyable[indexes[0]];
@@ -103,39 +107,36 @@ void boom(t_srv **srv, int indexes[13])
   boom_origin.fire[BOMBER_L] = 0;
   boom_origin.fire[BOMBER_R] = 0;
   for (iterator = 1; iterator <= 3; iterator++)
-  {
-    // pour chaque direction on appelle une fonction capable de tester si
-    // on peut avancer d'1, 2 ou 3
-    // on applique check_fire_effect qui gère les murs et les kills
-    for (it = 0; it < 4; it++)
     {
-      k += 1;
-      target = get_target(boom_origin, it, iterator);
-      indexes[k] = target;
-      if (target != OUTOFMAP)
-      {
-        // it = direction
-        // iterator = cases souhaitées depuis le point d'origine
-        // si le précédent tour pour cette direction à validé la présence
-        // d'une explosion sur la case 'target', le fire[it] correspondant
-        // DOIT être égal à iterator - 1, si ce n'est pas le cas, c'est
-        // que le précédent effect était un wall. Dans ce cas, on ne souhaite pas appellé
-        // check_fire_effect (car on ne veut pas tuer un joueur derrière un mur)
-        // d'où l'ordre de la condition.
-        (*srv)->map_destroyable[target].x = index_to_x(target);
-        (*srv)->map_destroyable[target].y = index_to_y(target);
-        if (boom_origin.fire[it] == iterator - 1 && (effect = check_fire_effect(srv, (*srv)->map_destroyable[target])) != -1)
-        {
-          boom_origin.fire[it] = iterator;
-          (*srv)->map_destroyable[target].exist = 1;
-          (*srv)->map_destroyable[target].explosion_stage = 5;
-          (*srv)->map_destroyable[target].start_explode = 0;
-        }
-      }
+      // foreach direction we call a function which can test if we can
+      // move on 1, 2 or 3. We apply check_fire_effect which manage walls and kills
+      for (it = 0; it < 4; it++)
+	{
+	  k += 1;
+	  target = get_target(boom_origin, it, iterator);
+	  indexes[k] = target;
+	  if (target != OUTOFMAP)
+	    {
+	      // it = direction
+	      // iterator = squares wished from the origin point
+	      // if the previous turn this direction validated that there is an explosion
+	      // on the square 'target', the corresponding fire[it] MUST
+	      // be equal to 'iterator' -1, if not, this means the previous effect was a wall.
+	      // In this case, we don't wish to call check_fire_effect because we don't want to 
+	      // kill a player which is behind a wall (which explain the order of the statements)
+	      (*srv)->map_destroyable[target].x = index_to_x(target);
+	      (*srv)->map_destroyable[target].y = index_to_y(target);
+	      if (boom_origin.fire[it] == iterator - 1 && (effect = check_fire_effect(srv, (*srv)->map_destroyable[target])) != -1) {
+		boom_origin.fire[it] = iterator;
+		(*srv)->map_destroyable[target].exist = 1;
+		(*srv)->map_destroyable[target].explosion_stage = 5;
+		(*srv)->map_destroyable[target].start_explode = 0;
+	      }
+	    }
+	}
+      boom_origin.bomb = 0;
+      boom_origin.start_explode = 0;
+      boom_origin.explosion_stage = 5;
+      (*srv)->map_destroyable[indexes[0]] = boom_origin;
     }
-    boom_origin.bomb = 0;
-    boom_origin.start_explode = 0;
-    boom_origin.explosion_stage = 5;
-    (*srv)->map_destroyable[indexes[0]] = boom_origin;
-  }
 }

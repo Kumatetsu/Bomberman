@@ -19,23 +19,22 @@
 #include "start_map.h"
 #include "base_map_manager.h"
 
-// loop SDL du client.
-// Pour le moment la socket n'est pas récupérée
-void			init_client(t_sdl *sdl)
+// SDL loop of the client.
+// The socket is not set yet
+void	init_client(t_sdl *sdl)
 {
-  int			cs;
-  char		*addr;
+  int	cs;
+  char	*addr;
 
-  // on attend que l'adresse soit écrite par le user (ce fichier, client/client.c)
+  // we wait the adresse get written by the user(this file, client/client.c)
   addr = enter_addr(sdl);
-  // une fois l'adresse ip écrite, on tente de connecter (client/socket.c)
+  // when the ip adress is written, we try to connect (client/socket.c)
   cs = client_connect(addr);
-  // on démarre la boucle cliente (start_map.c)
+  // we start the client loop
   start_map(sdl, cs);
-
 }
 
-// Fonction gérant l'écriture de l'ip dans le menu après un click sur 'join server'
+// This function manage the write of the ip after the click on 'join server' in the menu
 char		*enter_addr(t_sdl *sdl)
 {
   int		quit = 0;
@@ -55,96 +54,97 @@ char		*enter_addr(t_sdl *sdl)
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
   sdl->join_game = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, "Connect", black));
   SDL_StartTextInput();
-  while(!quit) {
-    while(SDL_PollEvent(&event_queue)) {
-      switch(event_queue.type){
-      case SDL_QUIT:
-	  quit = 1;
-	  addr = NULL;
-	  break;
-      case SDL_KEYDOWN:
-	switch(event_queue.key.keysym.sym ){
-	case SDLK_BACKSPACE:
-	  if (addr != NULL) {
-	    free(addr);
-	  }
-	  addr = malloc(sizeof(*addr));
-	  memset(addr, 0, sizeof(*addr));
-	  sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
-	  break;
-	}
-	break;
-      case SDL_TEXTINPUT:
-	foo = (char *)realloc(addr, (strlen(addr) + 2));
-	addr = foo;
-	strcat(addr, event_queue.text.text);
-	sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
-	break;
-    case SDL_MOUSEBUTTONDOWN:
-      x = event_queue.button.x;
-      y = event_queue.button.y;
+  while (!quit)
+    {
+      while (SDL_PollEvent(&event_queue))
+	{
+	  switch(event_queue.type)
+	    {
+	    case SDL_QUIT:
+	      quit = 1;
+	      addr = NULL;
+	      break;
+	    case SDL_KEYDOWN:
+	      switch (event_queue.key.keysym.sym)
+		{
+		case SDLK_BACKSPACE:
+		  if (addr != NULL) {
+		    free(addr);
+		  }
+		  addr = malloc(sizeof(*addr));
+		  memset(addr, 0, sizeof(*addr));
+		  sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
+		  break;
+		}
+	      break;
+	    case SDL_TEXTINPUT:
+	      foo = (char *)realloc(addr, (strlen(addr) + 2));
+	      addr = foo;
+	      strcat(addr, event_queue.text.text);
+	      sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
+	      break;
+	    case SDL_MOUSEBUTTONDOWN:
+	      x = event_queue.button.x;
+	      y = event_queue.button.y;
 
-      if (( x > connect.x ) && ( x < connect.x + connect.w ) && ( y > connect.y ) && ( y < connect.y + connect.h ) )
-	if (strlen(addr) >= 7 && strlen(addr) <= 15)
-	  quit = 1;
-      }
+	      if ((x > connect.x) && (x < connect.x + connect.w) && (y > connect.y) && (y < connect.y + connect.h)) {
+		if (strlen(addr) >= 7 && strlen(addr) <= 15) {
+		  quit = 1;
+		}
+	      }
+	    }
+	}
+      SDL_RenderClear(sdl->renderer);
+      SDL_RenderCopy(sdl->renderer, sdl->white_back, NULL, NULL);
+      SDL_RenderCopy(sdl->renderer, sdl->server_welcome, NULL, &join_position);
+      SDL_RenderCopy(sdl->renderer, sdl->join_game, NULL, &connect);
+      SDL_RenderPresent(sdl->renderer);
+      SDL_SetRenderTarget(sdl->renderer, NULL);
     }
-    SDL_RenderClear(sdl->renderer);
-    SDL_RenderCopy(sdl->renderer, sdl->white_back, NULL, NULL);
-    SDL_RenderCopy(sdl->renderer, sdl->server_welcome, NULL, &join_position);
-    SDL_RenderCopy(sdl->renderer, sdl->join_game, NULL, &connect);
-    SDL_RenderPresent(sdl->renderer);
-    SDL_SetRenderTarget(sdl->renderer, NULL);
-  }
-  return addr;
+  return (addr);
 }
 
-//init de la socket client + connection à une socket server.
-int											client_connect(char *serv_addr)
+//initialisation of the client socket and connection to a server socket
+int			client_connect(char *serv_addr)
 {
   struct protoent       *pe;
-	SOCKADDR_IN						sin;
-  SOCKET								s;
-  int										port;
+  SOCKADDR_IN		sin;
+  SOCKET		s;
+  int			port;
 
   memset(&sin, 0, sizeof(SOCKADDR_IN));
   port = PORT;
   pe = getprotobyname("TCP");
-  if (pe == NULL)
-    {
-      printf("error protocole for socket client");
-      return (-1);
-    }
+  if (pe == NULL) {
+    printf("error protocole for socket client");
+    return (-1);
+  }
   
-	s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
+  s = socket(AF_INET, SOCK_STREAM, pe->p_proto);
 
 #ifdef _WIN32
-
-	if (s == INVALID_SOCKET)
-	{
-		printf("error socket client");
-		return (-1);
-	}
+  if (s == INVALID_SOCKET) {
+    printf("error socket client");
+    return (-1);
+  }
 #else
-	if (s == -1)
-	{
-		printf("error socket client");
-		return (-1);
-	}
+  if (s == -1) {
+    printf("error socket client");
+    return (-1);
+  }
 #endif
 	
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(serv_addr);
-  if(connect(s, (const SOCKADDR *)&sin, sizeof (sin)) != 0)
-    {
+  if(connect(s, (const SOCKADDR *)&sin, sizeof (sin)) != 0) {
 #ifdef _WIN32
-		printf("error connection connect client.c : %d\n", WSAGetLastError());
+    printf("error connection connect client.c : %d\n", WSAGetLastError());
 #else
-		printf("error connection\n");
+    printf("error connection\n");
 #endif
-      exit(errno);
-    }
+    exit(errno);
+  }
   printf("connected\n");
   return (s);
 }

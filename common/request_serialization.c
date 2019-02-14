@@ -20,16 +20,18 @@ char*	request_serialization(t_player_request* client_request)
   printf("\nBefore calloc\n");
   request_string = calloc(1, sizeof(t_player_request));
   printf("\nAfter calloc\n");
-  if (request_string == NULL)
-    return NULL;
+  if (request_string == NULL) {
+    return (NULL);
+  }
   request_string = (char*) client_request;
   printf("\nBefore realloc\n");
-  request_string = realloc(request_string,sizeof(t_player_request)+1);
+  request_string = realloc(request_string, sizeof(t_player_request) + 1);
   printf("\nAfter realloc\n");
-  if (request_string == NULL)
-    return NULL;
+  if (request_string == NULL) {
+    return (NULL);
+  }
   request_string[sizeof(t_player_request)] = '\0';
-  return request_string;
+  return (request_string);
 }
 
 // int	request_deserialize(char* request_serialized)

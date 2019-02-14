@@ -90,7 +90,6 @@ typedef enum Server_status
 {
   WAITING,
   RUNNING
-
 } t_server_status;
 
 #endif /* !_ENUM_H_ */

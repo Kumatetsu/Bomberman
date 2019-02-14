@@ -1,13 +1,13 @@
 /*
-*
-** map_management.c for bomberman in /home/enach/CLionProjects/Bomberman/bm_test/server
-**
-** Made by hochar_n
-** Login   <hochar_n@etna-alternance.net>
-**
-** Started on  Sun Jul  1 17:37:50 2018
-** Last update Sun Jul  1 23:23:51 2018 hochar_n
-*/
+ *
+ ** map_management.c for bomberman in /home/enach/CLionProjects/Bomberman/bm_test/server
+ **
+ ** Made by hochar_n
+ ** Login   <hochar_n@etna-alternance.net>
+ **
+ ** Started on  Sun Jul  1 17:37:50 2018
+ ** Last update Sun Jul  1 23:23:51 2018 hochar_n
+ */
 
 #include <stdio.h>
 #include "sdl.h"
@@ -28,29 +28,28 @@ void		        manage_bombs(t_game_info *game_info)
 
   printf("\nAdd_bomb_element iterate through map_destroyable\n");
   for (i = 1; i < INLINE_MATRIX; i++)
-	{
-    // On vérifie que l'élément peut supporter l'ajout d'une bomb
-    printf("\ncheck if map_destroyable %d exist\n", i);
-    if (game_info->map_destroyable[i].exist == 0)
-      continue;
-    printf("\nset a variable with this gqme_info->map_destroyable\n");
-    map_destroyable = game_info->map_destroyable[i];
-    printf("\nif its a bomb\n");
-    if (map_destroyable.bomb == 1)
-		{
-			printf("\ncheck if start_explode == tick_time (?)\n");
-    	if (map_destroyable.start_explode == game_info->tick_time)
-			{
-				// c'est une bombe, il est temps qu'elle pète
-				printf("\ncall destroy bomb\n");
-				// destroy_bomb(game_info, map_destroyable);
-				continue;
-			}
-			printf("\ncall trigger_bomb\n");
-			//	trigger_bomb(game_info, map_pointer, map_destroyable);
-			printf("\ntrigger_bomb done\n");
+    {
+      // We check the element can support the bomb add
+      printf("\ncheck if map_destroyable %d exist\n", i);
+      if (game_info->map_destroyable[i].exist == 0) {
+	continue;
+      }
+      printf("\nset a variable with this gqme_info->map_destroyable\n");
+      map_destroyable = game_info->map_destroyable[i];
+      printf("\nif its a bomb\n");
+      if (map_destroyable.bomb == 1) {
+	printf("\ncheck if start_explode == tick_time (?)\n");
+	if (map_destroyable.start_explode == game_info->tick_time) {
+	  // this is a bomb, it's time for it to explode
+	  printf("\ncall destroy bomb\n");
+	  // destroy_bomb(game_info, map_destroyable);
+	  continue;
+	}
+	printf("\ncall trigger_bomb\n");
+	//	trigger_bomb(game_info, map_pointer, map_destroyable);
+	printf("\ntrigger_bomb done\n");
+      }
     }
-  }
   printf("\nmanage_bomb done\n");
 }
 
@@ -60,6 +59,6 @@ int	is_wall(t_game_info *game_info, int x, int y)
 
   i = x + (y * COLUMNS);
   if (game_info->map_destroyable[i].wall_destroyable == 1)
-    return 1;
-  return 0;
+    return (1);
+  return (0);
 }

@@ -17,22 +17,22 @@
 #include "enum.h"
 #include <time.h>
 
-typedef struct s_player_request
+typedef struct		s_player_request
 {
-  int y;                        /* La position y souhaitée par le client */
-  int x;                        /* La position x souhaitée par le client */
-  int dir;                      /* La direction souhaitée par le client */
-  enum COMMAND_REQUEST command; /* Une commande du client (0 : Ne rien faire / 1 : Poser une bombe) */
-  int num_player;               /* num_player between 0 and 3 */
+  int			y;          /* Position Y expected by the client */
+  int			x;          /* Position X expected by the client */
+  int			dir;        /* Direction exepected by the client */
+  enum COMMAND_REQUEST	command;    /* A command from the client (0 : do nothing / 1 : put a bomb) */
+  int			num_player; /* num_player between 0 and 3 */
 } t_player_request;
 
-typedef struct s_server_response
+typedef struct	s_server_response
 {
-  int response_type;
-  void *content;
+  int		response_type;
+  void		*content;
 } t_server_reponse;
 
-void my_bzero(void *s1, int n);
-int send_request(SOCKET s, int command);
+void	my_bzero(void *s1, int n);
+int	send_request(SOCKET s, int command);
 
 #endif /* !_CLIENT_REQUEST_H_ */

@@ -31,23 +31,23 @@
 #include <sys/select.h>
 #endif
 
-typedef struct s_srv
+typedef struct		s_srv
 {
-  int fd;
-  t_player_info players[4];
-  t_map_destroyable map_destroyable[195];
-  fd_set fd_read;
-  int fd_max;
-  int n_players;
-  int game_status;
-  int running;
+  int			fd;
+  t_player_info		players[4];
+  t_map_destroyable	map_destroyable[195];
+  fd_set		fd_read;
+  int			fd_max;
+  int			n_players;
+  int			game_status;
+  int			running;
 } t_srv;
 
-void *init_server();
-int create_server_socket();
-int server_is_full(t_srv **srv);
-int is_enought_players(t_srv **srv);
-void set_fd_max(t_srv **srv);
-void process_requests(t_srv **srv);
+void	*init_server();
+int	create_server_socket();
+int	server_is_full(t_srv **srv);
+int	is_enought_players(t_srv **srv);
+void	set_fd_max(t_srv **srv);
+void	process_requests(t_srv **srv);
 
 #endif /* !_SERVER_H_ */

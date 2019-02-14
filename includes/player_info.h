@@ -24,7 +24,7 @@ typedef struct  s_player_info
   int		fd;
   SDL_Rect	bomber_sprites[5][4];
   int		direction_sprite;
-  int   action_sprite;
+  int		action_sprite;
 }               t_player_info;
 
 #endif

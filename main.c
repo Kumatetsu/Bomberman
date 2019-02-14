@@ -20,13 +20,13 @@
 #include "player.h"
 #include "base_map_manager.h"
 
-int main (int argc, char *argv[])
+int		main (int argc, char *argv[])
 {
-  t_sdl *sdl;
+  t_sdl		*sdl;
 
 #ifdef _WIN32
-  int retWSADATA;
-  WSADATA WSAData;
+  int		retWSADATA;
+  WSADATA	WSAData;
 
   if ((retWSADATA = WSAStartup(MAKEWORD(2, 2), &WSAData)) != 0) {
     printf("main.c : WSAStartup() failed with error %d\n", retWSADATA);
@@ -38,7 +38,7 @@ int main (int argc, char *argv[])
     /* WinSock DLL.                                  */
     printf("Could not find a usable version of Winsock.dll\n");
     WSACleanup();
-    return 1;
+    return (1);
   }
 #endif // _WIN32
 
@@ -72,5 +72,5 @@ int main (int argc, char *argv[])
   WSACleanup();
 #endif
   //FOR DEV PURPOSE ONLY
-  return 0;
+  return (0);
 }

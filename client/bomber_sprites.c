@@ -7,7 +7,7 @@
 
 /**
  * Contain all sprites for bombers and bomb
-**/
+ **/
 static  SDL_Rect blue_sprites[5][4];
 static  SDL_Rect black_sprites[5][4];
 static  SDL_Rect red_sprites[5][4];
@@ -18,7 +18,7 @@ static	SDL_Rect explosion_sprite;
 
 /**
  * Init all statics by launching all init functions
-**/
+ **/
 void initSprites()
 {
   initBomberSprites(Y_WHITE_B);
@@ -31,13 +31,11 @@ void initSprites()
 
 /**
  * Get your bomber sprites (depend on num_player [0 -> 3])
-**/
+ **/
 SDL_Rect getBomberSprites(int num_player, int dir, int action)
 {
   SDL_Rect default_rect = {0};
-  /**
-   * TODO: Get la game info pour envoyer les bonnes datas dans le get sprites
-   **/
+
   switch (num_player)
     {
     case 0:
@@ -60,37 +58,37 @@ SDL_Rect getBomberSprites(int num_player, int dir, int action)
 
 SDL_Rect getBlueSprites(int dir, int action)
 {
-  return blue_sprites[dir][action];
+  return (blue_sprites[dir][action]);
 }
 
 SDL_Rect getBlackSprites(int dir, int action)
 {
-  return black_sprites[dir][action];
+  return (black_sprites[dir][action]);
 }
 
 SDL_Rect getRedSprites(int dir, int action)
 {
-  return red_sprites[dir][action];
+  return (red_sprites[dir][action]);
 }
 
 SDL_Rect getWhiteSprites(int dir, int action)
 {
-  return white_sprites[dir][action];
+  return (white_sprites[dir][action]);
 }
 
 SDL_Rect getBombSprites(int type)
 {
-  return bomb_sprites[bomb][type];
+  return (bomb_sprites[bomb][type]);
 }
 
 SDL_Rect getExplosionSprites(int type)
 {
-  return explosion_sprites[type];
+  return (explosion_sprites[type]);
 }
 
-void initBomberSprites(int y)
+void		initBomberSprites(int y)
 {
-  SDL_Rect (*container)[5][4];
+  SDL_Rect	(*container)[5][4];
 
   switch(y)
     {
@@ -152,27 +150,27 @@ int	getExplosionX(int index)
   switch(index)
     {
     case 1:
-      return XFIRE1;
+      return (XFIRE1);
     case 2:
-      return XFIRE2;
+      return (XFIRE2);
     case 3:
-      return XFIRE3;
+      return (XFIRE3);
     case 4:
-      return XFIRE4;
+      return (XFIRE4);
     case 5:
-      return XFIRE5;
+      return (XFIRE5);
     default:
-      return XFIRE1;
+      return (XFIRE1);
     }
 }
 
-SDL_Rect getCenterExplosion(int type)
+SDL_Rect	getCenterExplosion(int type)
 {
-  int	x;
+  int		x;
 
   x = getExplosionX(type);
   explosion_sprite = init_rect(x + 32, Y_FIRE + 36, 16, 16);
-  return explosion_sprite;
+  return (explosion_sprite);
 }
 
 SDL_Rect	getExplosionSprite(int x,
@@ -181,5 +179,5 @@ SDL_Rect	getExplosionSprite(int x,
 				   int height)
 {
   explosion_sprite = init_rect(x, y, width, height);
-  return explosion_sprite;
+  return (explosion_sprite);
 }

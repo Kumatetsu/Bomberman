@@ -58,14 +58,17 @@ t_map	init_t_map(SDL_Rect src, SDL_Rect dest, texture_type type)
   return (map);
 }
 
-int		draw_fixed_map(void *arg)
+int	draw_fixed_map(void *arg)
 {
-  if (draw_map_model(arg) == NULL)
+  if (draw_map_model(arg) == NULL) {
     return (0);
-  if (!draw_pannel(arg))
+  }
+  if (!draw_pannel(arg)) {
     return (0);
-  if (!draw_timer(arg))
+  }
+  if (!draw_timer(arg)) {
     return (0);
+  }
   return (1);
 }
 
@@ -77,8 +80,7 @@ void		rebuild_map(void *arg) {
     {
       for (j = 0; j < 15; j++)
 	{
-	  if (data->renderer != NULL)
-	    {
+	  if (data->renderer != NULL) {
 	      SDL_RenderCopy(data->renderer, data->texture,
 			     &(data->array_map[i][j].src_rect),
 			     &(data->array_map[i][j].dest_rect));
@@ -95,30 +97,30 @@ void		build_destroyables(void *arg)
   error = 0;
   for (i = 0; i < INLINE_MATRIX; i++)
     {
-      if (data->map_destroyable[i].exist)
-	{
-	  error = SDL_RenderCopy(data->renderer, data->texture,
-				 &(data->destroyable_drawer[i].src_rect),
-				 &(data->destroyable_drawer[i].dest_rect));
-	}
+      if (data->map_destroyable[i].exist) {
+	error = SDL_RenderCopy(data->renderer, data->texture,
+			       &(data->destroyable_drawer[i].src_rect),
+			       &(data->destroyable_drawer[i].dest_rect));
+      }
     }
-  if (error > 0)
+  if (error > 0) {
     SDL_ShowSimpleMessageBox(0, "drawing destroyable failed", SDL_GetError(), data->window);
+  }
 }
 
-int get_element_type(int i, int j) {
-    int code;
+int	get_element_type(int i, int j) {
+  int	code;
 
-    if (j == J_BEGIN || j == J_BEGIN + 12 || i == I_BEGIN || i == I_BEGIN + 14) {
-        code = WALL;
-    } else if (j == J_BEGIN + 1 || (j % 2 != J_BEGIN % 2 && i % 2 == I_BEGIN % 2)) {
-        code = FREE_SLOT;
-    } else if (i % 2 != I_BEGIN % 2) {
-        code = FREE_SLOT;
-    } else if (i % 2 == I_BEGIN % 2) {
-        code = WALL;
-    } else {
-        code = 500;
-    }
-    return code;
+  if (j == J_BEGIN || j == J_BEGIN + 12 || i == I_BEGIN || i == I_BEGIN + 14) {
+    code = WALL;
+  } else if (j == J_BEGIN + 1 || (j % 2 != J_BEGIN % 2 && i % 2 == I_BEGIN % 2)) {
+    code = FREE_SLOT;
+  } else if (i % 2 != I_BEGIN % 2) {
+    code = FREE_SLOT;
+  } else if (i % 2 == I_BEGIN % 2) {
+    code = WALL;
+  } else {
+    code = 500;
+  }
+  return (code);
 }

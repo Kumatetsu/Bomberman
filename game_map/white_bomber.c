@@ -18,9 +18,9 @@
 #include "base_map_manager.h"
 #include "game_map.h"
 
-void *white_bomber_sprite(void *arg)
+void		*white_bomber_sprite(void *arg)
 {
-  t_data *data = (t_data*)arg;
+  t_data	*data = (t_data*)arg;
   data->players[0].bomber_sprites[bomber_d][not_move] = init_rect(70, 38, 16, 24);
   data->players[0].bomber_sprites[bomber_d][move_l] = init_rect(52, 38, 16, 24);
   data->players[0].bomber_sprites[bomber_d][transit_move] = init_rect(70, 38, 16, 24);
@@ -40,5 +40,5 @@ void *white_bomber_sprite(void *arg)
   data->players[0].bomber_sprites[die][0] = init_rect(345, 38, 16, 24);
   data->players[0].bomber_sprites[die][1] = init_rect(361, 38, 16, 24);
   data->players[0].bomber_sprites[die][2] = init_rect(395, 38, 16, 24);
-  return NULL;
+  return (NULL);
 }
