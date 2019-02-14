@@ -163,54 +163,6 @@ void				*bomb_thread_func(void *struct_bomb_thread)
   return (NULL);
 }
 
-// ticker
-/*
-  void *threaded_ticker(void *server)
-  {
-  int		i;
-  int		j;
-  int		*tk;
-  int		socket;
-  t_srv		**srv;
-  t_game_info	*game_info;
-
-  srv = (t_srv **)server;
-  game_info = get_game_info();
-  while (1 && game_info != NULL)
-  {
-  #ifdef _WIN32
-  my_windows_sleep(SLEEP);
-  #else
-  usleep(SLEEP * 1000);
-  #endif
-  for (i = 0; i < (*srv)->n_players; i++)
-  {
-  //verify_bomb_explosion(game_info->map_destroyable, *tk);
-  //socket = (*srv)->players[i].fd;
-  game_info->id_client = i;
-  memcpy(&dumb_static.tick_time, &game_info->tick_time, sizeof(int));
-  memcpy(&dumb_static.game_status, &game_info->game_status, sizeof(int));
-  memcpy(&dumb_static.id_client, &game_info->id_client, sizeof(int));
-  memcpy(&dumb_static.nb_client, &(*srv)->n_players, sizeof(int));
-  for (j = 0; j < 4; j++)
-  memcpy(&dumb_static.players[j], &game_info->players[j], sizeof(t_player_info));
-  for (j = 0; j < INLINE_MATRIX; j++)
-  memcpy(&dumb_static.map_destroyable[j], &game_info->map_destroyable[j],
-  sizeof(t_map_destroyable));
-  #ifdef _WIN32
-  send(socket, (void*)&dumb_static, sizeof(dumb_static), 0);
-  #else
-  write(socket, &dumb_static, sizeof(t_game_info) + 1);
-  #endif
-  }
-  ++(*tk);
-  game_info->tick_time = (*tk);
-  }
-  printf("\nServer stopped to send game informations\n");
-  // probablement pas suffisant comme retour
-  return NULL;
-  }
-*/
 // The server main loop run on a thread
 // in this state, the loop work indefinitely on the main_loop function
 void *threaded_main_loop(void *server)

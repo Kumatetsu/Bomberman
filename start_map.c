@@ -77,15 +77,7 @@ int		start_map(t_sdl *sdl, int socket)
 	      quit = 1;
 	      break;
 	    case SDL_KEYUP:
-	      {
-		// SDL_RenderClear(data->renderer);
-		// rebuild_map((void *)data);
-		// move_player_stop((void *)data);
-		// draw_all(data);
-		// SDL_RenderPresent(data->renderer);
-		// SDL_SetRenderTarget(data->renderer, NULL);
 		break;
-	      }
 	    case SDL_KEYDOWN:
 	      switch (event.key.keysym.sym)
 		{

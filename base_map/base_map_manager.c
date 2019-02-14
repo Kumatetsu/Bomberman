@@ -30,7 +30,6 @@
 #include "draw_base_map.h"
 #include "game_info.h"
 #include "draw_players.h"
-#include "game_map.h"
 #include "base_map_manager.h"
 
 // wrapper to init an SDL_Rect

@@ -14,7 +14,6 @@
 #include "sdl.h"
 #include "player_info.h"
 #include "client_request.h"
-#include "request_serialization.h"
 #include "player_info.h"
 #include "server.h"
 #include "player.h"
@@ -59,15 +58,7 @@ int			main_loop(t_srv **srv)
   FD_SET((*srv)->fd, &(*srv)->fd_read);
 
   // server.h definition of the fd_max for the select, default in init_server
-  for (i = 0; i < 4; i++)
-    {
-      if ((*srv)->players[i].connected == 1) {
-	FD_SET((*srv)->players[i].fd, &(*srv)->fd_read);
-	if ((*srv)->players[i].fd > (*srv)->fd_max) {
-	  (*srv)->fd_max = (*srv)->players[i].fd;
-	}
-      }
-    }
+  set_fd_max(srv);
 
   it_value.tv_sec = 0;
   it_value.tv_usec = 100000;
@@ -144,18 +135,6 @@ int			main_loop(t_srv **srv)
 	    player_request.num_player = i;
 	    printf("server: num player %d and command %d", player_request.num_player, player_request.command);
 	    command_interpretor(srv, player_request);
-	    // else
-	    // {
-	    //     printf("\nCLIENT REQUEST COMMAND: %d\n", player_request.command);
-	    //     // handle_requests(game_info, &player_request);
-
-	    //     // response_type = define_response_type(player_request.command);
-	    //     response_pos.id = MOVE;
-	    //     response_pos.x = 0;
-	    //     response_pos.y = 0;
-
-	    //     write((*srv)->players[i].fd, &response_pos, sizeof(response_pos));
-	    // }
 	  } else {
 #ifdef _WIN32
 	    printf("recv from main_loop.c failed with error: %d\n", WSAGetLastError());

@@ -20,17 +20,11 @@ SRC 	= 	main.c 					\
 		menu.c					\
 	 	start_map.c				\
 		sdl.c	 				\
-		common/request_serialization.c		\
 		common/my_putchar.c			\
 		common/my_putstr.c			\
 		common/game_info.c			\
 		common/static_wall_rect.c 		\
 		common/coord_index_swapper.c		\
-		game_map/white_bomber.c			\
-		game_map/blue_bomber.c			\
-		game_map/red_bomber.c			\
-		game_map/black_bomber.c			\
-		game_map/bomb.c				\
 		client/client.c 			\
 		client/client_request.c			\
 		client/client_receive.c			\
@@ -39,7 +33,6 @@ SRC 	= 	main.c 					\
 		client/update_client.c			\
 		server/server.c				\
 		server/thread.c				\
-		server/map_management.c			\
 		server/moving.c				\
 		server/bomb.c				\
                 server/player.c				\
@@ -51,7 +44,6 @@ SRC 	= 	main.c 					\
 		base_map/base_map_manager.c		\
 		base_map/draw_base_map.c		\
 		base_map/draw_players.c			\
-		devtools/detail_game_info.c		\
 
 OBJ 	= ${SRC:%.c=%.o}
 

@@ -13,7 +13,6 @@
 #include <winsock2.h>
 #include <Ws2tcpip.h>
 #include <windows.h>
-#include "windows_nanosleep.h"
 #else
 /* Assume that any non-Windows platform uses POSIX-style sockets instead. */
 #include <sys/select.h>

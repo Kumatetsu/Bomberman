@@ -18,9 +18,8 @@
 #include "server.h"
 #include "menu.h"
 #include "player.h"
-#include "base_map_manager.h"
 
-int		main (int argc, char *argv[])
+int		main(int argc, char *argv[])
 {
   t_sdl		*sdl;
 
@@ -54,7 +53,6 @@ int		main (int argc, char *argv[])
   sdl = init_window(sdl);
   sdl = init_fronts(sdl);
 
-  //comment maiemacs n to see start_map working ;)
   main_menu(sdl);
   SDL_DestroyTexture(sdl->menu_background);
   SDL_DestroyTexture(sdl->white_back);

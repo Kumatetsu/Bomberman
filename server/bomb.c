@@ -67,31 +67,14 @@ t_map_destroyable	*place_bomb(t_srv **srv, int id_player, int linked_index[1])
       index = index + COLUMNS;
       // we place under the feet
       break;
-
     case bomber_l:
       index--;
-      /*
-	bomb.x = player.x - PIXEL_SIZE;
-	// différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
-	bomb.y = player.y + 21;
-      */
       break;
-
     case bomber_r:
       index++;
-      /*
-	bomb.x = player.x + PIXEL_SIZE;
-	// différence de taille entre le SDL_Rect des bombers et celui des bombes (7px * 3)
-	bomb.y = player.y + 21;
-      */
       break;
-
     case bomber_u:
       index = index - COLUMNS;
-      /*
-	bomb.x = player.x;
-	bomb.y = player.y - PIXEL_SIZE;
-      */
       break;
     default:
       break;
