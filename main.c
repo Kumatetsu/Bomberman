@@ -19,7 +19,7 @@
 #include "menu.h"
 #include "player.h"
 
-int main()
+int main(int argc, char *argv[])
 {
   t_sdl *sdl;
 
@@ -43,6 +43,9 @@ int main()
   }
 #endif // _WIN32
 
+  //made on purpose for windows errors on compilation
+  (void)argc;
+  (void)argv;
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
   IMG_Init(IMG_INIT_JPG);
