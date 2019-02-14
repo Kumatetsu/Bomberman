@@ -220,6 +220,8 @@ W: bomberman source: file-without-copyright-information server/command_interpret
 W: bomberman source: file-without-copyright-information server/notify_client.c
 W: bomberman source: file-without-copyright-information zlib1.dll
 W: bomberman source: missing-license-paragraph-in-dep5-copyright __no_copyright_nor_license__ (paragraph at line 7)
+W: bomberman-dbgsym: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
+W: bomberman-dbgsym: bad-homepage <insert the upstream URL, if relevant>
 W: bomberman: wrong-bug-number-in-closes l3:#nnnn
 W: bomberman: new-package-should-close-itp-bug
 E: bomberman: changelog-is-dh_make-template
@@ -229,8 +231,6 @@ W: bomberman: superfluous-clutter-in-homepage <insert the upstream URL, if relev
 W: bomberman: bad-homepage <insert the upstream URL, if relevant>
 E: bomberman: package-section-games-but-contains-no-game
 W: bomberman: binary-without-manpage usr/bin/bomberman
-W: bomberman-dbgsym: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
-W: bomberman-dbgsym: bad-homepage <insert the upstream URL, if relevant>
 Finished running lintian.
 Now signing changes and any dsc files...
  signfile dsc bomberman_0.0-1.dsc Nicolas Hochart <hochar_n@etna-alternance.net>
