@@ -2,7 +2,7 @@
 Hash: SHA256
 
 Format: 1.8
-Date: Wed, 30 Jan 2019 14:16:29 +0100
+Date: Fri, 01 Feb 2019 15:48:54 +0100
 Source: bomberman
 Binary: bomberman
 Architecture: source amd64
@@ -16,36 +16,43 @@ Description:
 Changes:
  bomberman (0.0-1) UNRELEASED; urgency=low
  .
-   [ Nicolas Hochart ]
    * Initial release. Closes: #nnnn
- .
-   [ Nicolas Hochart ]
-   * fix build
 Checksums-Sha1:
- 87bc82fc0ae97ca22f59bb4bb74405d6c71600fe 1236 bomberman_0.0-1.dsc
- 68b455ab8e842ac3b2e9204a2d08fe9e0779cbdd 152638 bomberman_0.0.orig.tar.gz
- c5b87358839b805c2acddd22f618dbce402445da 2072 bomberman_0.0-1.debian.tar.xz
- a3f91f8bc8fe2f715afc2658c1c7312334a7d4ed 5224 bomberman_0.0-1_amd64.buildinfo
- db72cc04cc9f5d523c6091711d83eda11d61ccb1 2432 bomberman_0.0-1_amd64.deb
+ 43e3dc0e9b57b7a5cf90121f5e5cea08ea6d4f09 1759 bomberman_0.0-1.dsc
+ 42848d345be97fa67954583eacfd0112d4563f93 2193997 bomberman_0.0.orig.tar.gz
+ add94e6c6673233fd9928cdd01ab256b5ff39033 2520 bomberman_0.0-1.debian.tar.xz
+ df45fa3681337cb1ae64b98fbad396dc07d941fa 53070 bomberman-dbgsym_0.0-1_amd64.deb
+ ff58bbb65b58ef8563d26b22d5ad68cbfc25cd48 5971 bomberman_0.0-1_amd64.buildinfo
+ c370bfafe9004ecb3c74227fa6b0c3c20800acd0 121264 bomberman_0.0-1_amd64.deb
 Checksums-Sha256:
- a623f0ae57d6ae62f3725edbb8a08bc505e8f6472974b9bd5bf926cbaf89b68f 1236 bomberman_0.0-1.dsc
- 199c18a0559950ebca1a8b5a611d1d63bc1bb6979bf73f8d7860f864a3118261 152638 bomberman_0.0.orig.tar.gz
- edb0456b2341f02d449657539b0cc492823db012c5284ea5d5ba2eb494397f25 2072 bomberman_0.0-1.debian.tar.xz
- df6a9a85638313e2609e48f1da692ab793aac09f30edd720637988362629d8b3 5224 bomberman_0.0-1_amd64.buildinfo
- 839bf88719228b1af775356121e266da56f154633486d7d455908300d5b6d929 2432 bomberman_0.0-1_amd64.deb
+ 2c06a8a26b06e0489c28aa258b76ece022da716f0e64047fd76e168720981412 1759 bomberman_0.0-1.dsc
+ afd63650c767f9d46ca6f62508ff8aa90e1f876c462ea17d430bba0cee823047 2193997 bomberman_0.0.orig.tar.gz
+ 9e7dc450d429a5b9f7877b2ea83bdecbd1c2f62228ede3189a48ebac32913ed3 2520 bomberman_0.0-1.debian.tar.xz
+ 89065055ce6510140b42fa8eb6655a1eebae215df728b79e6226415717dbd1b8 53070 bomberman-dbgsym_0.0-1_amd64.deb
+ 3bb5cfc8882956a5f49345ce1f3730b190b46a7ce7ed5f4a6be80ad82a814462 5971 bomberman_0.0-1_amd64.buildinfo
+ 27bd0a63ef10b0928b51ef880c07a0ebad7389840d06148f13be60a1713102fd 121264 bomberman_0.0-1_amd64.deb
 Files:
- 779a0eeec6a8f83e91162df35af9e081 1236 game extra bomberman_0.0-1.dsc
- 02a114acf791f987b9e496217a8f8165 152638 game extra bomberman_0.0.orig.tar.gz
- 741667fb3343060aadf2ac46c9f746a9 2072 game extra bomberman_0.0-1.debian.tar.xz
- 0a80bd564bc339c8f2df77cc3c411bb1 5224 game extra bomberman_0.0-1_amd64.buildinfo
- d28dbc7214fba48d227e280af42836ae 2432 game extra bomberman_0.0-1_amd64.deb
+ b4f57e77ccc9f3bf4f9ed495a3021f03 1759 main extra bomberman_0.0-1.dsc
+ b851782490bedacb7b68d30a48793971 2193997 main extra bomberman_0.0.orig.tar.gz
+ 9eed5e848d324d04228119a04a2628d5 2520 main extra bomberman_0.0-1.debian.tar.xz
+ 753e94e73621725772d7e2af367d7f15 53070 debug extra bomberman-dbgsym_0.0-1_amd64.deb
+ ef6da756fd156176de2f1cca29428016 5971 main extra bomberman_0.0-1_amd64.buildinfo
+ d347a1efd206112c7d66000bee38fc3f 121264 main extra bomberman_0.0-1_amd64.deb
 
 -----BEGIN PGP SIGNATURE-----
 
-iNEEAQEIADsWIQRgtKMJMONxFsnutV/qzB/0hZna/AUCXFG6sR0caG9jaGFyX25A
-ZXRuYS1hbHRlcm5hbmNlLm5ldAAKCRDqzB/0hZna/ClCA/wMStWnPsBmVg8Rn9ba
-9BDFGEDOTD1s4m+3bPRR0M5yesxgC4qycl74Xd0HcbAcvSFWS6hkySUl8MkcbhM9
-ZByfU650wPu50xVHyf+Lk3afwELj/gJz7rJ5xGplzvVth6IC4OFqY3/sb/JXkP5r
-UWsyXMs1C38szvPaP+fhrxGSoA==
-=gci2
+iQJRBAEBCAA7FiEES9aoEDS29qt9i6KI9TKaKKCws2EFAlxl8uEdHGhvY2hhcl9u
+QGV0bmEtYWx0ZXJuYW5jZS5uZXQACgkQ9TKaKKCws2GAKw//ctbypdvn3N/xy+VV
+IhlQIzXryqC8h/bu7Cr9+ZjoKHSii9vq8CiIVEmGi7xOuFu8NMWqq5QtaZ04e/Cp
+U6HbdmWE0yVpzQbTj52zK6lo5sRztPcaAP9s1/Euo8F56q+ywm9jBjtzJg+o9YEZ
+ZWY/J9GnNO4mQjwS8oe4KCOBxUeugqisAeWsrKb36gnEwySrjbI4kOG3ayhuPp37
+gjpMJp6lsERlOi5Ska+pe/lRl2Rp67xaWYoiMiuCtq0i3H5Fik+FMb9YN2+txuX0
+HI69/pFyS7rqCBgaooxZB0AHRNcoPkSvv9f7E4hjCfooxXAX16HU5TmazlGNJ6rQ
+rJgwtG50NV0moiEpIiQnGd8AEPV1ESZgLJt2+FhAqo3nbSynCVCm6hWD53deFL+3
+OHTY4f/x/aUdbJb6Ue6usf6eWXIuvnJlbCE2Vypdz0PBnAC8cp/rIFfugIjx5VGc
+Jg+O4bAE/uRe7/do3XU0gh3bJIqd5JrjncHt9tHD0OaAA2/ro5O61Zdxvcp2mQ0D
+fykKkupAGshPvwTSUHxZuRCL9u4eq1Hst+65nR9dPjIAY7kq+7TRjNBq9L218XFS
+lMA2rtSr+1gCMslNTP2U55tdulXQsRgoX48a6WWCzx6vEh0wSf0gXmS7ugQs4yPb
+NY/oczPEQEc24LbohDxF4LmV/dk=
+=8UEG
 -----END PGP SIGNATURE-----

@@ -115,11 +115,19 @@ void		*init_sprites_sheet(void *arg)
   sprites_img = NULL;
   sprite_texture = NULL;
   IMG_Init(IMG_INIT_PNG);
-  sprites_img = IMG_Load("./ressources/bombermanSprite.PNG");
-  if (!sprites_img) {
-      SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(),
-			       data->window);
-    }
+
+  #ifdef linux
+    sprites_img = IMG_Load("/usr/share/bomberman/ressources/bombermanSprite.PNG");
+  #else
+    sprites_img = IMG_Load("./ressources/bombermanSprite.PNG");
+  #endif
+
+  if (!sprites_img)
+  {
+    SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(),
+                             data->window);
+  }
+
   //we create the image as a texture to insert it in renderer
   sprite_texture = SDL_CreateTextureFromSurface(data->renderer,
                                                 sprites_img);

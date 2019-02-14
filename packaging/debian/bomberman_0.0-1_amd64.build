@@ -9,10 +9,10 @@ dpkg-buildpackage: info: host architecture amd64
 dh clean  
    dh_testdir
    dh_auto_clean
-	make -j1 clean
-make[1]: Entering directory '/home/enach/bomberman-0.0'
-rm -rf main.o menu.o start_map.o sdl.o common/game_info_serialization.o common/request_serialization.o common/my_putchar.o common/my_putstr.o common/game_info.o common/static_wall_rect.o common/coord_index_swapper.o game_map/white_bomber.o game_map/blue_bomber.o game_map/red_bomber.o game_map/black_bomber.o game_map/bomb.o client/client.o client/client_request.o client/client_receive.o client/bomber_sprites.o server/server.o server/thread.o server/map_management.o server/moving.o server/request_handling.o server/player.o server/main_loop.o server/collision.o server/bomb_management.o base_map/base_map_manager.o base_map/draw_base_map.o base_map/draw_players.o devtools/detail_game_info.o
-make[1]: Leaving directory '/home/enach/bomberman-0.0'
+	make -j1 distclean
+make[1]: Entering directory '/home/nhochart/bomberman/bomberman-0.0'
+rm -rf main.o menu.o start_map.o sdl.o common/my_putchar.o common/my_putstr.o common/game_info.o common/static_wall_rect.o common/coord_index_swapper.o client/client.o client/client_request.o client/client_receive.o client/bomber_sprites.o client/client_interpretor.o client/update_client.o server/server.o server/thread.o server/moving.o server/bomb.o server/player.o server/main_loop.o server/collision.o server/bomb_management.o server/notify_client.o server/command_interpretor.o base_map/base_map_manager.o base_map/draw_base_map.o base_map/draw_players.o
+make[1]: Leaving directory '/home/nhochart/bomberman/bomberman-0.0'
    dh_clean
 	rm -f debian/debhelper-build-stamp
 	rm -f debian/bomberman.substvars
@@ -33,7 +33,6 @@ make[1]: Leaving directory '/home/enach/bomberman-0.0'
  dpkg-source -b bomberman-0.0
 dpkg-source: info: using source format '3.0 (quilt)'
 dpkg-source: info: building bomberman using existing ./bomberman_0.0.orig.tar.gz
-dpkg-source: warning: ignoring deletion of file exec.log, use --include-removal to override
 dpkg-source: info: building bomberman in bomberman_0.0-1.debian.tar.xz
 dpkg-source: info: building bomberman in bomberman_0.0-1.dsc
  debian/rules build
@@ -43,42 +42,37 @@ dh build
    dh_auto_configure
    dh_auto_build
 	make -j1
-make[1]: Entering directory '/home/enach/bomberman-0.0'
+make[1]: Entering directory '/home/nhochart/bomberman/bomberman-0.0'
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o main.o main.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o menu.o menu.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o start_map.o start_map.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o sdl.o sdl.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/game_info_serialization.o common/game_info_serialization.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/request_serialization.o common/request_serialization.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/my_putchar.o common/my_putchar.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/my_putstr.o common/my_putstr.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/game_info.o common/game_info.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/static_wall_rect.o common/static_wall_rect.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o common/coord_index_swapper.o common/coord_index_swapper.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o game_map/white_bomber.o game_map/white_bomber.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o game_map/blue_bomber.o game_map/blue_bomber.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o game_map/red_bomber.o game_map/red_bomber.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o game_map/black_bomber.o game_map/black_bomber.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o game_map/bomb.o game_map/bomb.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o client/client.o client/client.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o client/client_request.o client/client_request.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o client/client_receive.o client/client_receive.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o client/bomber_sprites.o client/bomber_sprites.c
+gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o client/client_interpretor.o client/client_interpretor.c
+gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o client/update_client.o client/update_client.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/server.o server/server.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/thread.o server/thread.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/map_management.o server/map_management.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/moving.o server/moving.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/request_handling.o server/request_handling.c
+gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/bomb.o server/bomb.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/player.o server/player.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/main_loop.o server/main_loop.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/collision.o server/collision.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/bomb_management.o server/bomb_management.c
+gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/notify_client.o server/notify_client.c
+gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o server/command_interpretor.o server/command_interpretor.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o base_map/base_map_manager.o base_map/base_map_manager.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o base_map/draw_base_map.o base_map/draw_base_map.c
 gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o base_map/draw_players.o base_map/draw_players.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy -Wdate-time -D_FORTIFY_SOURCE=2  -c -o devtools/detail_game_info.o devtools/detail_game_info.c
-gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy main.o menu.o start_map.o sdl.o common/game_info_serialization.o common/request_serialization.o common/my_putchar.o common/my_putstr.o common/game_info.o common/static_wall_rect.o common/coord_index_swapper.o game_map/white_bomber.o game_map/blue_bomber.o game_map/red_bomber.o game_map/black_bomber.o game_map/bomb.o client/client.o client/client_request.o client/client_receive.o client/bomber_sprites.o server/server.o server/thread.o server/map_management.o server/moving.o server/request_handling.o server/player.o server/main_loop.o server/collision.o server/bomb_management.o base_map/base_map_manager.o base_map/draw_base_map.o base_map/draw_players.o devtools/detail_game_info.o -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy -o BomberMan
-make[1]: Leaving directory '/home/enach/bomberman-0.0'
+gcc -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy main.o menu.o start_map.o sdl.o common/my_putchar.o common/my_putstr.o common/game_info.o common/static_wall_rect.o common/coord_index_swapper.o client/client.o client/client_request.o client/client_receive.o client/bomber_sprites.o client/client_interpretor.o client/update_client.o server/server.o server/thread.o server/moving.o server/bomb.o server/player.o server/main_loop.o server/collision.o server/bomb_management.o server/notify_client.o server/command_interpretor.o base_map/base_map_manager.o base_map/draw_base_map.o base_map/draw_players.o -lSDL2 -lSDL2main -lSDL2_image -lSDL2_ttf -pthread -L ./libmy -o BomberMan
+make[1]: Leaving directory '/home/nhochart/bomberman/bomberman-0.0'
    dh_auto_test
    create-stamp debian/debhelper-build-stamp
  fakeroot debian/rules binary
@@ -90,10 +84,20 @@ dh binary
 	rm -f debian/bomberman.*.debhelper
 	rm -rf debian/bomberman/
    debian/rules override_dh_auto_install
-make[1]: Entering directory '/home/enach/bomberman-0.0'
+make[1]: Entering directory '/home/nhochart/bomberman/bomberman-0.0'
 dh_auto_install -- prefix=/usr
 	install -d debian/bomberman
-make[1]: Leaving directory '/home/enach/bomberman-0.0'
+	make -j1 install DESTDIR=/home/nhochart/bomberman/bomberman-0.0/debian/bomberman AM_UPDATE_INFO_DIR=no prefix=/usr
+make[2]: Entering directory '/home/nhochart/bomberman/bomberman-0.0'
+install -D BomberMan /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/bin/bomberman
+install -D -m644 ressources/Bomberman.jpg /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/share/bomberman/ressources/Bomberman.jpg
+install -D -m644 ressources/Bomberman.jpg /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/share/bomberman/ressources/Bomberman.jpg
+install -D -m644 ressources/ASMAN.TTF /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/share/bomberman/ressources/ASMAN.TTF
+install -D -m644 ressources/bm.ttf /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/share/bomberman/ressources/bm.ttf
+install -D -m644 ressources/bombermanSprite.PNG /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/share/bomberman/ressources/bombermanSprite.PNG
+install -D -m644 ressources/white.jpg /home/nhochart/bomberman/bomberman-0.0/debian/bomberman/usr/share/bomberman/ressources/white.jpg
+make[2]: Leaving directory '/home/nhochart/bomberman/bomberman-0.0'
+make[1]: Leaving directory '/home/nhochart/bomberman/bomberman-0.0'
    dh_installdocs
 	install -d debian/bomberman/usr/share/doc/bomberman
 	install -p -m0644 debian/README.Debian debian/bomberman/usr/share/doc/bomberman/README.Debian
@@ -107,7 +111,7 @@ make[1]: Leaving directory '/home/enach/bomberman-0.0'
 	cd debian/bomberman
 	chmod a-x usr/share/doc/bomberman/changelog.Debian
 	gzip -9nf usr/share/doc/bomberman/changelog.Debian
-	cd '/home/enach/bomberman-0.0'
+	cd '/home/nhochart/bomberman/bomberman-0.0'
    dh_fixperms
 	find debian/bomberman  -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
 	find debian/bomberman ! -type l  -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
@@ -118,25 +122,43 @@ make[1]: Leaving directory '/home/enach/bomberman-0.0'
 	find debian/bomberman/usr/share/applications -type f  -print0 2>/dev/null | xargs -0r chmod 0644
 	find debian/bomberman/usr/lib/x86_64-linux-gnu/perl5/5.24 debian/bomberman/usr/share/perl5 -type f -perm -5 -name '*.pm'  -print0 2>/dev/null | xargs -0r chmod a-X
 	find debian/bomberman -perm -5 -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \)  -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/bomberman/usr/bin -type f  -print0 2>/dev/null | xargs -0r chmod a+x
 	find debian/bomberman/usr/lib -type f -name '*.ali'  -print0 2>/dev/null | xargs -0r chmod uga-w
    dh_strip
+	install -d debian/.debhelper/bomberman/dbgsym-root/usr/lib/debug/.build-id/81
+	objcopy --only-keep-debug --compress-debug-sections debian/bomberman/usr/bin/bomberman debian/.debhelper/bomberman/dbgsym-root/usr/lib/debug/.build-id/81/a6ab292b6b65e5271096ab2614923b8c1e1b8c.debug
+	chmod 0644 -- debian/.debhelper/bomberman/dbgsym-root/usr/lib/debug/.build-id/81/a6ab292b6b65e5271096ab2614923b8c1e1b8c.debug
+	chown 0:0 -- debian/.debhelper/bomberman/dbgsym-root/usr/lib/debug/.build-id/81/a6ab292b6b65e5271096ab2614923b8c1e1b8c.debug
+	strip --remove-section=.comment --remove-section=.note debian/bomberman/usr/bin/bomberman
+	objcopy --add-gnu-debuglink debian/.debhelper/bomberman/dbgsym-root/usr/lib/debug/.build-id/81/a6ab292b6b65e5271096ab2614923b8c1e1b8c.debug debian/bomberman/usr/bin/bomberman
+	install -d debian/.debhelper/bomberman/dbgsym-root/usr/share/doc
+	ln -s bomberman debian/.debhelper/bomberman/dbgsym-root/usr/share/doc/bomberman-dbgsym
    dh_makeshlibs
 	rm -f debian/bomberman/DEBIAN/shlibs
    dh_shlibdeps
 	install -d debian/bomberman/DEBIAN
+	dpkg-shlibdeps -Tdebian/bomberman.substvars debian/bomberman/usr/bin/bomberman
    dh_installdeb
    dh_gencontrol
 	echo misc:Depends= >> debian/bomberman.substvars
 	echo misc:Pre-Depends= >> debian/bomberman.substvars
+	install -d debian/.debhelper/bomberman/dbgsym-root/DEBIAN
+	dpkg-gencontrol -pbomberman -ldebian/changelog -Tdebian/bomberman.substvars -Pdebian/.debhelper/bomberman/dbgsym-root -UPre-Depends -URecommends -USuggests -UEnhances -UProvides -UEssential -UConflicts -DPriority=extra -DAuto-Built-Package=debug-symbols -DPackage=bomberman-dbgsym "-DDepends=bomberman (= \${binary:Version})" "-DDescription=Debug symbols for bomberman" -DBuild-Ids=81a6ab292b6b65e5271096ab2614923b8c1e1b8c -DSection=debug -UMulti-Arch -UReplaces -UBreaks
+	chmod 0644 -- debian/.debhelper/bomberman/dbgsym-root/DEBIAN/control
+	chown 0:0 -- debian/.debhelper/bomberman/dbgsym-root/DEBIAN/control
 	dpkg-gencontrol -pbomberman -ldebian/changelog -Tdebian/bomberman.substvars -Pdebian/bomberman
-dpkg-gencontrol: warning: Depends field of package bomberman: unknown substitution variable ${shlibs:Depends}
 	chmod 0644 -- debian/bomberman/DEBIAN/control
 	chown 0:0 -- debian/bomberman/DEBIAN/control
    dh_md5sums
 	(cd debian/bomberman >/dev/null ; find . -type f  ! -regex './DEBIAN/.*' -printf '%P\0' | LC_ALL=C sort -z | xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums) >/dev/null
 	chmod 0644 -- debian/bomberman/DEBIAN/md5sums
 	chown 0:0 -- debian/bomberman/DEBIAN/md5sums
+	(cd debian/.debhelper/bomberman/dbgsym-root >/dev/null ; find . -type f ! -regex './DEBIAN/.*' -printf '%P\0' | LC_ALL=C sort -z | xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums) >/dev/null
+	chmod 0644 -- debian/.debhelper/bomberman/dbgsym-root/DEBIAN/md5sums
+	chown 0:0 -- debian/.debhelper/bomberman/dbgsym-root/DEBIAN/md5sums
    dh_builddeb
+	dpkg-deb -z1 -Zxz -Sextreme --build debian/.debhelper/bomberman/dbgsym-root ..
+dpkg-deb: building package 'bomberman-dbgsym' in '../bomberman-dbgsym_0.0-1_amd64.deb'.
 	dpkg-deb --build debian/bomberman ..
 dpkg-deb: building package 'bomberman' in '../bomberman_0.0-1_amd64.deb'.
  dpkg-genbuildinfo
@@ -147,24 +169,69 @@ dpkg-buildpackage: info: full upload (original source is included)
 Now running lintian...
 W: bomberman source: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
 W: bomberman source: bad-homepage <insert the upstream URL, if relevant>
+W: bomberman source: file-without-copyright-information Makefile.linux
+W: bomberman source: file-without-copyright-information Makefile.windows
+W: bomberman source: file-without-copyright-information SDL2.dll
+W: bomberman source: file-without-copyright-information SDL2_image.dll
+W: bomberman source: file-without-copyright-information SDL2_ttf.dll
+W: bomberman source: file-without-copyright-information client/client_interpretor.c
+W: bomberman source: file-without-copyright-information client/update_client.c
+W: bomberman source: file-without-copyright-information common/response_type_utils.c
 W: bomberman source: file-without-copyright-information debian/README.Debian
 W: bomberman source: file-without-copyright-information debian/changelog
 W: bomberman source: file-without-copyright-information debian/compat
 W: bomberman source: file-without-copyright-information debian/control
 W: bomberman source: file-without-copyright-information debian/copyright
+W: bomberman source: file-without-copyright-information debian/log.log
 W: bomberman source: file-without-copyright-information debian/patches/series
 W: bomberman source: file-without-copyright-information debian/rules
 W: bomberman source: file-without-copyright-information debian/source/format
 W: bomberman source: file-without-copyright-information debian/watch
-W: bomberman source: file-without-copyright-information exec.log
+W: bomberman source: file-without-copyright-information freetype262d.dll
+W: bomberman source: file-without-copyright-information game_info.txt
+W: bomberman source: file-without-copyright-information includes/bomb.h
+W: bomberman source: file-without-copyright-information includes/command_interpretor.h
+W: bomberman source: file-without-copyright-information includes/notify_client.h
+W: bomberman source: file-without-copyright-information includes/response_type_utils.h
+W: bomberman source: file-without-copyright-information includes/server_request.h
+W: bomberman source: file-without-copyright-information includes/system.h
+W: bomberman source: file-without-copyright-information includes/update_client.h
+W: bomberman source: file-without-copyright-information libfreetype-6.dll
+W: bomberman source: file-without-copyright-information libjpeg-9.dll
+W: bomberman source: file-without-copyright-information libpng16-16.dll
+W: bomberman source: file-without-copyright-information libtiff-5.dll
+W: bomberman source: file-without-copyright-information libwebp-7.dll
+W: bomberman source: file-without-copyright-information log.log
+W: bomberman source: file-without-copyright-information packaging/debian/DEBIAN/control
+W: bomberman source: file-without-copyright-information packaging/debian/DEBIAN/md5sums
+W: bomberman source: file-without-copyright-information packaging/debian/DEBIAN/rules
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman-dbgsym_0.0-1_amd64.deb
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman_0.0-1.debian.tar.xz
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman_0.0-1.dsc
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman_0.0-1_amd64.build
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman_0.0-1_amd64.buildinfo
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman_0.0-1_amd64.changes
+W: bomberman source: file-without-copyright-information packaging/debian/bomberman_0.0-1_amd64.deb
+W: bomberman source: file-without-copyright-information pthreadGC2.dll
+W: bomberman source: file-without-copyright-information pthreadGCE2.dll
+W: bomberman source: file-without-copyright-information pthreadVC2.dll
+W: bomberman source: file-without-copyright-information pthreadVCE2.dll
+W: bomberman source: file-without-copyright-information pthreadVSE2.dll
+W: bomberman source: file-without-copyright-information server/bomb.c
+W: bomberman source: file-without-copyright-information server/command_interpretor.c
+W: bomberman source: file-without-copyright-information server/notify_client.c
+W: bomberman source: file-without-copyright-information zlib1.dll
 W: bomberman source: missing-license-paragraph-in-dep5-copyright __no_copyright_nor_license__ (paragraph at line 7)
-W: bomberman: wrong-bug-number-in-closes l4:#nnnn
+W: bomberman-dbgsym: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
+W: bomberman-dbgsym: bad-homepage <insert the upstream URL, if relevant>
+W: bomberman: wrong-bug-number-in-closes l3:#nnnn
 W: bomberman: new-package-should-close-itp-bug
 W: bomberman: copyright-has-url-from-dh_make-boilerplate
 W: bomberman: copyright-without-copyright-notice
-W: bomberman: unknown-section game
+W: bomberman: unknown-section main
 W: bomberman: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
 W: bomberman: bad-homepage <insert the upstream URL, if relevant>
+W: bomberman: binary-without-manpage usr/bin/bomberman
 Finished running lintian.
 Now signing changes and any dsc files...
  signfile dsc bomberman_0.0-1.dsc Nicolas Hochart <hochar_n@etna-alternance.net>
