@@ -33,7 +33,6 @@ SRC 	= 	main.c 					\
 		client/update_client.c			\
 		server/server.c				\
 		server/thread.c				\
-		server/map_management.c			\
 		server/moving.c				\
 		server/bomb.c				\
 		server/player.c				\
