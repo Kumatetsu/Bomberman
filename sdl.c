@@ -26,8 +26,9 @@ t_sdl	*init_sdl()
 {
   t_sdl	*sdl;
 
-  if ((sdl = malloc(sizeof(t_sdl))) == NULL)
-    return NULL;
+  if ((sdl = malloc(sizeof(t_sdl))) == NULL) {
+    return (NULL);
+  }
   sdl->window = NULL;
   sdl->renderer = NULL;
   sdl->menu_background = NULL;
@@ -35,7 +36,7 @@ t_sdl	*init_sdl()
   sdl->create_game = NULL;
   sdl->server_welcome = NULL;
   sdl->white_back = NULL;
-  return sdl;
+  return (sdl);
 }
 
 //Init de la window et du renderer
@@ -51,35 +52,32 @@ t_sdl		*init_window(t_sdl *sdl)
 			    WINDOW_W,
 			    WINDOW_H,
 			    SDL_WINDOW_SHOWN);
-  if (!window)
-    {
+  if (!window) {
       printf("window init error");
       return NULL;
     }
   renderer = SDL_CreateRenderer(window, -1, 0);
-  if (!renderer)
-    {
+  if (!renderer) {
       SDL_ShowSimpleMessageBox(0, "renderer init error", SDL_GetError(), window);
-      return NULL;
+      return (NULL);
     }
   sdl->window = window;
   sdl->renderer = renderer;
-  return sdl;
+  return (sdl);
 }
 
-t_sdl *init_fronts(t_sdl *sdl)
+t_sdl		*init_fronts(t_sdl *sdl)
 {
 
-  SDL_Surface *img, *join_game_text, *create_server_text, *server_welcome_text, *white;
-  SDL_Texture *background_texture, *join_texture, *server_texture, *server_welcome, *white_back;
-  SDL_Color black = {0, 0, 0, 0};
-  TTF_Font *police;
+  SDL_Surface	*img, *join_game_text, *create_server_text, *server_welcome_text, *white;
+  SDL_Texture	*background_texture, *join_texture, *server_texture, *server_welcome, *white_back;
+  SDL_Color	black = {0, 0, 0, 0};
+  TTF_Font	*police;
 
   //SDL_IMAGE load an image
   img = IMG_Load("ressources/Bomberman.jpg");
   white = IMG_Load("ressources/white.jpg");
-  if (!img || !white)
-    {
+  if (!img || !white) {
       SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), sdl->window);
     }
 
@@ -95,8 +93,7 @@ t_sdl *init_fronts(t_sdl *sdl)
   server_texture = SDL_CreateTextureFromSurface(sdl->renderer, create_server_text);
   server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, server_welcome_text);
 
-  if (!background_texture || !join_texture || !server_texture )
-    {
+  if (!background_texture || !join_texture || !server_texture) {
       SDL_ShowSimpleMessageBox(0, "init texture error", SDL_GetError(), sdl->window);
     }
   //we clean surface as we converted them to texture so we don't need them anymore
@@ -112,5 +109,5 @@ t_sdl *init_fronts(t_sdl *sdl)
   sdl->create_game = server_texture;
   sdl->server_welcome = server_welcome;
 
-  return sdl;
+  return (sdl);
 }

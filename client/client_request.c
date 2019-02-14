@@ -12,24 +12,37 @@
 #include "enum.h"
 #include "client_request.h"
 #include "client.h"
+#include "system.h"
 
-void my_bzero(void *s1, int n)
+void	my_bzero(void *s1, int n)
 {
-  char *c;
+  char	*c;
 
   c = (char *)s1;
   while (n > 0)
-  {
-    *c++ = 0;
-    n--;
-  }
+    {
+      *c++ = 0;
+      n--;
+    }
 }
 
-int send_request(int s, int command)
+int	send_request(SOCKET s, int command)
 {
-  int tmp;
+  int	tmp;
+
   printf("command: %d", command);
   tmp = htonl(command);
+
+#ifdef _WIN32
+  int	nbrBytes = 0;
+  if ((nbrBytes = send(s , (void*)&tmp, sizeof(tmp), 0)) < 0) {
+    printf("error %d sending from send_request to server socket: %d \n", WSAGetLastError(), s);
+  } else {
+    printf("send_request to server from socket: %d  : %d bytes \n ", s, nbrBytes);
+  }
+#else
   write(s, &tmp, sizeof(tmp));
-  return SUCCESS_SEND;
+#endif
+
+  return (SUCCESS_SEND);
 }

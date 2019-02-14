@@ -8,10 +8,11 @@
 ** Last update Thu Jul  5 21:40:28 2018 hochar_n
 */
 
-#ifndef _GAME_INFO_SERIALIZATION_H_
-#define _GAME_INFO_SERIALIZATION_H_
+#ifndef  _GAME_INFO_SERIALIZATION_H_
+# define _GAME_INFO_SERIALIZATION_H_
 
-char *serialize_game_info();
-void deserialize_game_info(char *serialized_game_info);
+char	*serialize_game_info();
+void	deserialize_game_info(char *serialized_game_info);
+int	get_game_info_checksum();
 
-#endif /* !_GAME_INFO_SERIALIZATION_H_ */
+#endif  /* !_GAME_INFO_SERIALIZATION_H_ */
