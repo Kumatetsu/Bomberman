@@ -9,8 +9,8 @@
 */
 
 #ifndef _MAIN_LOOP_H_
-#define _MAIN_LOOP_H
+#define _MAIN_LOOP_H_
 
-int	main_loop(t_srv **srv);
+int main_loop(t_srv **srv);
 
 #endif /* !_MAIN_LOOP_H_ */

@@ -19,20 +19,22 @@
 #include "menu.h"
 #include "player.h"
 
-int		main(int argc, char *argv[])
+int main()
 {
-  t_sdl		*sdl;
+  t_sdl *sdl;
 
 #ifdef _WIN32
-  int		retWSADATA;
-  WSADATA	WSAData;
+  int retWSADATA;
+  WSADATA WSAData;
 
-  if ((retWSADATA = WSAStartup(MAKEWORD(2, 2), &WSAData)) != 0) {
+  if ((retWSADATA = WSAStartup(MAKEWORD(2, 2), &WSAData)) != 0)
+  {
     printf("main.c : WSAStartup() failed with error %d\n", retWSADATA);
     WSACleanup();
     return (1);
   }
-  if (LOBYTE(WSAData.wVersion) != 2 || HIBYTE(WSAData.wVersion) != 2) {
+  if (LOBYTE(WSAData.wVersion) != 2 || HIBYTE(WSAData.wVersion) != 2)
+  {
     /* Tell the user that we could not find a usable */
     /* WinSock DLL.                                  */
     printf("Could not find a usable version of Winsock.dll\n");
@@ -41,9 +43,6 @@ int		main(int argc, char *argv[])
   }
 #endif // _WIN32
 
-  //made on purpose for windows errors on compilation
-  argc = argc;
-  argv = argv;
   //init sdl
   SDL_Init(SDL_INIT_VIDEO);
   IMG_Init(IMG_INIT_JPG);
