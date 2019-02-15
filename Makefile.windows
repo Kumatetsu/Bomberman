@@ -8,7 +8,7 @@
 ## Last update Wed Jul  4 09:36:48 2018 MASERA Mathieu
 ##
 
-CC 	= gcc
+CC 	  = gcc
 
 NAME 	= BomberMan
 ## -W -Werror -Wextra -Wall
@@ -16,7 +16,8 @@ CFLAGS 	= -W -Werror -Wextra -Wall -g -Iincludes/ -Ilibmy
 
 LDFLAGS = -lmingw32 -mwindows -lpthread -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -pthread -lws2_32 -L ./libmy -L/opt/local/i686-w64-mingw32/lib
 
-SRC 	= 	main.c 					\
+
+SRC 	  = 	main.c 					\
 		menu.c					\
 	 	start_map.c				\
 		sdl.c	 				\
@@ -62,4 +63,22 @@ clean	:
 fclean 	: clean
 	  $(RM) $(NAME)
 
-.PHONY	: all clean fclean
+install: ${NAME}
+	install -D ${NAME} $(DESTDIR)$(prefix)/bin/bomberman
+	install -D -m644 ressources/Bomberman.jpg $(DESTDIR)$(prefix)/share/bomberman/ressources/Bomberman.jpg
+	install -D -m644 ressources/Bomberman.jpg $(DESTDIR)$(prefix)/share/bomberman/ressources/Bomberman.jpg
+	install -D -m644 ressources/ASMAN.TTF $(DESTDIR)$(prefix)/share/bomberman/ressources/ASMAN.TTF
+	install -D -m644 ressources/bm.ttf $(DESTDIR)$(prefix)/share/bomberman/ressources/bm.ttf
+	install -D -m644 ressources/bombermanSprite.PNG $(DESTDIR)$(prefix)/share/bomberman/ressources/bombermanSprite.PNG
+	install -D -m644 ressources/white.jpg $(DESTDIR)$(prefix)/share/bomberman/ressources/white.jpg
+
+distclean: clean
+
+unistall:
+	-rm -f $(DESTDIR)$(prefix)/bin/bomberman
+	-rm -f $(DESTDIR)$(prefix)/share/bomberman
+
+.PHONY: all install clean fclean unistall distclean
+
+
+

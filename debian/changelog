@@ -1,0 +1,6 @@
+bomberman (0.0-1) UNRELEASED; urgency=low
+
+  * Initial release. Closes: #nnnn
+    <nnnn is the bug number of your ITP>
+
+ -- Nicolas Hochart <hochar_n@etna-alternance.net>  Fri, 01 Feb 2019 15:48:54 +0100

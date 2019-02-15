@@ -75,13 +75,24 @@ t_sdl		*init_fronts(t_sdl *sdl)
   TTF_Font	*police;
 
   //SDL_IMAGE load an image
-  img = IMG_Load("ressources/Bomberman.jpg");
-  white = IMG_Load("ressources/white.jpg");
-  if (!img || !white) {
+  #ifdef linux
+    img = IMG_Load("/usr/share/bomberman/ressources/Bomberman.jpg");
+    white = IMG_Load("/usr/share/bomberman/ressources/white.jpg");
+  #else
+    img = IMG_Load("ressources/Bomberman.jpg");
+    white = IMG_Load("ressources/white.jpg");
+  #endif
+
+  if (!img || !white)
+    {
       SDL_ShowSimpleMessageBox(0, "img init error", SDL_GetError(), sdl->window);
     }
-
-  police = TTF_OpenFont("ressources/bm.ttf", 65);
+    
+  #ifdef linux
+    police = TTF_OpenFont("/usr/share/bomberman/ressources/bm.ttf", 65);
+  #else
+    police = TTF_OpenFont("ressources/bm.ttf", 65);
+  #endif
   join_game_text = TTF_RenderText_Blended(police, "join_game", black);
   create_server_text = TTF_RenderText_Blended(police, "create_server", black);
   server_welcome_text = TTF_RenderText_Blended(police, "WELCOME SERVER", black);

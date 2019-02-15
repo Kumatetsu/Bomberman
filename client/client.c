@@ -48,7 +48,11 @@ char		*enter_addr(t_sdl *sdl)
   int		x;
   int		y;
 
-  police = TTF_OpenFont("ressources/bm.ttf",60);
+  #ifdef linux
+    police = TTF_OpenFont("/usr/share/bomberman/ressources/bm.ttf",60);
+  #else
+    police = TTF_OpenFont("ressources/bm.ttf",60);
+  #endif
   addr = malloc(sizeof(*addr));
   memset(addr, 0, sizeof(*addr));
   sdl->server_welcome = SDL_CreateTextureFromSurface(sdl->renderer, TTF_RenderText_Blended(police, addr, black));
